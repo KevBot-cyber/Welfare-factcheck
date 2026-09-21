@@ -25,7 +25,7 @@ jobs:
           pip install feedparser requests
 
       - name: Run Fetch Script
-        run: python scripts/update_feed.py
+        run: python update_feed.py
 
       - name: Commit and Push Updated JSON
         run: |
