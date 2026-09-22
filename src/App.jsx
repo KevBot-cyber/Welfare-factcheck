@@ -530,6 +530,23 @@ const evaluatePipAndFinancialClaims = (rawInput) => {
   const ratioMatch = text.match(/\b(\d+\s*in\s*\d+|\d+%\s*|\d+\s*out of\s*\d+)\b/i);
   const ratioStr = ratioMatch ? ratioMatch[1] : null;
 
+  // Check for Incentive / Work Generalisations Rule
+  const incentivePhrases = ["incentive", "no reason to work", "better off on benefits"];
+  const hasIncentiveClaim = incentivePhrases.some(phrase => lower.includes(phrase));
+
+  if (hasIncentiveClaim) {
+    score = Math.max(55, score);
+    extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
+    flags.push(`Evaluates generalisations asserting a lack of work incentive or being 'better off on benefits'.`);
+    flags.push(`Addresses structural financial mechanisms: Universal Credit Taper Rate (55p reduction per £1 earned) and DWP Work Allowance rates (£404/mo with housing element, £673/mo without).`);
+    flags.push(`Evaluates legal payment ceilings set by UK Benefit Cap limits (£25,323/yr London, £22,020/yr Outside London).`);
+    flags.push(`Incorporate ONS health and disability inactivity reason breakdown showing the majority of inactive working-age adults face severe health or care constraints.`);
+
+    primaryRebuttal = `ANALYSIS OF STATEMENT: Evaluating claims that there is "no incentive to work" or that individuals are "better off on benefits": Universal Credit is structured with an explicit financial work incentive via DWP Work Allowance rates (£404/mo for claimants receiving housing support; £673/mo if no housing support is claimed) and a 55% UC taper rate, ensuring that net household income increases with every hour worked. Furthermore, total benefit entitlements are capped by statutory Benefit Cap limits (£25,323/yr in Greater London; £22,020/yr elsewhere). Official ONS health/disability inactivity reason breakdowns demonstrate that 84% of economically inactive working-age citizens remain out of work due to long-term chronic illness, NHS treatment delays, caring duties, or full-time study rather than financial disincentives.`;
+    sourceRef = "DWP Work Allowance & UC Taper Rules 2026/27, GOV.UK Benefit Cap Guidance & ONS Labour Market Statistics";
+    return { inputStatement: text, extractedQuotes, score, verdict: score > 75 ? "Extreme Misinformation / Misleading" : "Misleading Work Incentive Generalisation", flags, primaryRebuttal, sourceRef };
+  }
+
   // Check for Demographic / Population Statistics Claims
   const popStatKeywords = ['million', 'millions', 'population', 'demographic', 'people', 'adults', 'claimants', 'recipients', 'citizens', 'working age', 'working-age'];
   const hasPopStatKeywords = popStatKeywords.some(kw => lower.includes(kw));
@@ -1641,49 +1658,8 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
                 How the UK Welfare Truth Index maintains objective primary data accuracy under UK defamation law and Fair Dealing provisions.
               </p>
             </div>
-
-            <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3 text-xs text-slate-300 leading-relaxed">
-              <p>
-                All content published on the UK Welfare Truth Index is compiled strictly from published government statistical databases, including DWP Stat-Xplore, Ministry of Justice HMCTS Tribunal Bulletins, and ONS Labour Market Reviews.
-              </p>
-              <p>
-                Public statements by elected representatives and political organizations are evaluated under UK Public Interest Defamation Act 2013 s.4 provisions.
-              </p>
-            </div>
           </div>
         )}
-
-        {/* SECTION 9: SUPPORT */}
-        {activeTab === 'support' && (
-          <div className="max-w-4xl mx-auto space-y-6">
-            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-              <div className="flex items-center gap-2 text-teal-400 text-xs font-bold uppercase tracking-wider">
-                <Users className="w-4 h-4" />
-                <span>Immediate Help Directory</span>
-              </div>
-              <h2 className="text-2xl font-black text-slate-100">
-                Disability Help & Free Advice Helplines
-              </h2>
-              <p className="text-xs md:text-sm text-slate-300">
-                Independent national charities providing free, confidential welfare advice and appeal support.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              {SUPPORT_ORGANIZATIONS.map((org, idx) => (
-                <div key={idx} className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
-                  <div className="flex justify-between items-center">
-                    <h3 className="font-bold text-base text-slate-100">{org.name}</h3>
-                    <span className="text-xs font-mono text-teal-400 font-bold">{org.phone}</span>
-                  </div>
-                  <p className="text-xs text-slate-300">{org.desc}</p>
-                  <div className="text-[11px] font-mono text-purple-300">{org.web}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
       </main>
     </div>
   );
