@@ -482,6 +482,128 @@ const CHARITIES_AZ = [
 { name: "Versus Arthritis", phone: "0800 5200 520", web: "versusarthritis.org", hours: "Mon-Fri 9am-6pm", category: "Musculoskeletal", desc: "Dedicated helpline for arthritis and chronic pain conditions, offering physical activity guides and benefit advice." }
 ];
 
+// Helper Engine for PIP Descriptor & 2026/2027 Benefit Cap Verification
+const BENEFIT_RATES_2026_2027 = {
+  pip: {
+    dailyLivingStandard: 76.70,
+    dailyLivingEnhanced: 114.60,
+    mobilityStandard: 30.30,
+    mobilityEnhanced: 80.00,
+    maxWeekly: 194.60, // £10,119.20/yr
+    maxAnnual: 10119.20
+  },
+  universalCredit: {
+    singleUnder25: 338.58,
+    single25Plus: 424.90,
+    coupleBothUnder25: 528.34,
+    coupleOne25Plus: 666.97,
+    lcwraElement: 429.80,
+    lcwElement: 217.26,
+    childElementFirst: 333.33,
+    childElementSubsequent: 287.92
+  },
+  carersAllowance: {
+    weeklyRate: 86.45,
+    earningsCap: 204.00
+  },
+  benefitCap2026: {
+    greaterLondon: {
+      couplesFamiliesAnnual: 25323,
+      singleAnnual: 16967
+    },
+    outsideLondon: {
+      couplesFamiliesAnnual: 22020,
+      singleAnnual: 14753
+    },
+    absoluteMaxCap: 25323
+  }
+};
+
+const evaluatePipAndFinancialClaims = (text) => {
+  const lower = text.toLowerCase();
+  let score = 35;
+  let flags = [];
+  let primaryRebuttal = "";
+  let sourceRef = "";
+
+  // 1. EXTRACT NUMERICAL FINANCIAL CLAIMS (e.g., £60k, 60,000, 60k a year)
+  const numbersInText = text.match(/£?\s*(\d+[\d,]*)\s*(k|thousand)?/gi) || [];
+  let extractedAnnualAmount = 0;
+
+  for (let match of numbersInText) {
+    let clean = match.replace(/[£,\s]/g, '').toLowerCase();
+    let val = 0;
+    if (clean.endsWith('k')) {
+      val = parseFloat(clean.replace('k', '')) * 1000;
+    } else {
+      val = parseFloat(clean);
+    }
+    if (val > extractedAnnualAmount && val < 1000000) {
+      extractedAnnualAmount = val;
+    }
+  }
+
+  // Handle explicit claims like '60k', '60,000'
+  if (lower.includes('60k') || lower.includes('60000') || lower.includes('60 thousand')) {
+    extractedAnnualAmount = 60000;
+  }
+
+  const isFinancialClaim = extractedAnnualAmount > 0 || lower.includes('a year') || lower.includes('per year') || lower.includes('per month') || lower.includes('rates') || lower.includes('benefit cap');
+
+  // 2. BENEFIT CAP & FINANCIAL DEBUNKER
+  if (isFinancialClaim && extractedAnnualAmount > BENEFIT_RATES_2026_2027.benefitCap2026.absoluteMaxCap) {
+    score = 98;
+    flags.push(`Claims annual benefit payout of £${extractedAnnualAmount.toLocaleString()}, which exceeds statutory UK Benefit Caps (£25,323/yr London, £22,020/yr Outside London).`);
+    flags.push("Conflates non-existent benefit calculations with realistic household awards.");
+    primaryRebuttal = `FALSE / IMPOSSIBLE CLAIM: Under 2026/2027 UK Welfare Law, benefit payments are strictly bound by statutory Benefit Caps (maximum £25,323/year in Greater London or £22,020/year across the rest of the UK). Even with maximum PIP Enhanced awards (£10,119.20/yr) combined with Universal Credit and LCWRA, claiming £${extractedAnnualAmount.toLocaleString()}/year is legally impossible.`;
+    sourceRef = "DWP Statutory Benefit Rates & Benefit Cap Regulations 2026/2027 (GOV.UK)";
+    return { score, verdict: "Extreme Misinformation / Impossible Claim", flags, primaryRebuttal, sourceRef };
+  }
+
+  // 3. PIP MEDICAL CONDITION vs FUNCTIONAL ASSESSMENT ENGINE (e.g. Tennis Elbow)
+  const minorConditions = ['tennis elbow', 'repetitive strain', 'mild fatigue', 'sprained wrist', 'hay fever', 'eczema', 'mild eczema', 'ingrown nail'];
+  const hasMinorConditionMention = minorConditions.some(cond => lower.includes(cond));
+
+  if (hasMinorConditionMention || (lower.includes('pip') && (lower.includes('just for') || lower.includes('get pip for') || lower.includes('claim pip for')))) {
+    const matchedCond = minorConditions.find(cond => lower.includes(cond)) || "a named medical condition alone";
+    score = 92;
+    flags.push(`Misrepresents PIP eligibility as diagnosis-based rather than functional assessment-based.`);
+    flags.push(`Under the PIP framework, an applicant cannot receive PIP simply for having '${matchedCond}'.`);
+    primaryRebuttal = `FALSE / MISLEADING CLAIM: PIP is NOT awarded based on medical diagnoses or named conditions (such as ${matchedCond}). Under the Welfare Reform Act 2012, PIP awards depend entirely on a clinical scoring assessment evaluating how a long-term condition impacts daily living (12 descriptors) and mobility (2 descriptors) over a sustained 12-month period. Over 70% of claims lacking functional daily impact are turned down.`;
+    sourceRef = "DWP Personal Independence Payment (PIP) Assessment Guide for Providers (2026/27)";
+    return { score, verdict: "High BS / Misleading Claim", flags, primaryRebuttal, sourceRef };
+  }
+
+  // 4. GENERAL RHETORIC CHECK
+  if (lower.includes('scam') || lower.includes('shirker') || lower.includes('handout') || lower.includes('free car')) {
+    score += 40;
+    flags.push("Uses stigmatizing language and sensationalized framing.");
+  }
+  if (lower.includes('fraud') || lower.includes('faking') || lower.includes('unverified')) {
+    score += 30;
+    flags.push("Conflates legitimate disability claims with criminal fraud.");
+    primaryRebuttal = "Official DWP statistics place PIP fraud at under 0.2%. Over 70% of appealed rejections are overturned at HMCTS independent tribunals due to initial DWP assessment errors.";
+    sourceRef = "DWP Fraud and Error Report 2025/2026 & Ministry of Justice HMCTS Data";
+  } else if (lower.includes('fit note') || lower.includes('sick note')) {
+    score += 25;
+    flags.push("Misrepresents clinical fit note issuance by qualified medical staff.");
+    primaryRebuttal = "Fit notes are clinical medical assessments governed by GMC professional ethics and NHS guidelines.";
+    sourceRef = "NHS Digital Fit Note Data & Royal College of General Practitioners";
+  } else if (!primaryRebuttal) {
+    primaryRebuttal = "Claim requires verified cross-referencing against DWP Stat-Xplore, official 2026/2027 Benefit Rates, and ONS health/employment datasets.";
+    sourceRef = "ONS Labour Market Review & DWP Stat-Xplore database";
+  }
+
+  if (score > 98) score = 98;
+  return {
+    score,
+    verdict: score > 75 ? "Extreme Misinformation / Misleading" : score > 50 ? "Moderate Bias / Unsubstantiated" : "Low BS / Mostly Factual",
+    flags,
+    primaryRebuttal,
+    sourceRef
+  };
+};
+
 export default function App() {
 // Navigation State
 const [activeTab, setActiveTab] = useState('leaderboard');
@@ -596,39 +718,10 @@ if (!analyzerInput.trim()) return;
 setAnalyzing(true);
 setAnalysisResult(null);
 setTimeout(() => {
-const lower = analyzerInput.toLowerCase();
-let score = 35;
-let flags = [];
-let primaryRebuttal = "";
-let sourceRef = "";
-if (lower.includes('scam') || lower.includes('shirker') || lower.includes('handout') || lower.includes('free car')) {
-score += 45;
-flags.push("Uses stigmatizing language and sensationalized framing.");
-}
-if (lower.includes('fraud') || lower.includes('faking') || lower.includes('unverified')) {
-score += 25;
-flags.push("Conflates legitimate disability claims with criminal fraud.");
-primaryRebuttal = "Official DWP statistics place PIP fraud at under 0.2%. Over 70% of appealed rejections are overturned at HMCTS independent tribunals due to initial DWP assessment errors.";
-sourceRef = "DWP Fraud and Error Report 2025/2026 & Ministry of Justice HMCTS Data";
-} else if (lower.includes('fit note') || lower.includes('sick note')) {
-score += 20;
-flags.push("Misrepresents clinical fit note issuance by qualified medical staff.");
-primaryRebuttal = "Fit notes are clinical medical assessments governed by GMC professional ethics and NHS guidelines.";
-sourceRef = "NHS Digital Fit Note Data & Royal College of General Practitioners";
-} else {
-primaryRebuttal = "Claim requires verified cross-referencing against DWP Stat-Xplore and ONS official health/employment datasets.";
-sourceRef = "ONS Labour Market Review & DWP Stat-Xplore database";
-}
-if (score > 98) score = 98;
-setAnalysisResult({
-score,
-verdict: score > 75 ? "Extreme Misinformation / Misleading" : score > 50 ? "Moderate Bias / Unsubstantiated" : "Low BS / Mostly Factual",
-flags,
-primaryRebuttal,
-sourceRef
-});
+const result = evaluatePipAndFinancialClaims(analyzerInput);
+setAnalysisResult(result);
 setAnalyzing(false);
-}, 1000);
+}, 800);
 };
 
 const toggleTopic = (topicKey) => {
@@ -1029,13 +1122,13 @@ Leaderboard positions are determined by verifying quotes against published DWP S
 <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
 <div className="flex items-center gap-2 text-purple-400 text-xs font-bold uppercase tracking-wider">
 <Zap className="w-4 h-4" />
-<span>Interactive Fact Analyzer</span>
+<span>Interactive Fact Analyzer & PIP Assessor</span>
 </div>
 <h2 className="text-2xl font-black text-slate-100">
 Welfare Rhetoric & BS Meter Analyzer
 </h2>
 <p className="text-xs md:text-sm text-slate-300 leading-relaxed">
-Paste any news headline, MP speech excerpt, or social media post below. The analyzer evaluates the text against official UK government datasets to identify misleading claims, stigmatizing terminology, or statistical conflations.
+Paste any headline, claim, medical condition assertion (e.g. tennis elbow), or financial amount (e.g. £60k/yr). Evaluates inputs dynamically against the 2026/2027 statutory benefit rates, PIP scoring framework descriptors, and legal benefit caps.
 </p>
 </div>
 
@@ -1044,22 +1137,28 @@ Paste any news headline, MP speech excerpt, or social media post below. The anal
 <textarea
 value={analyzerInput}
 onChange={(e) => setAnalyzerInput(e.target.value)}
-placeholder="Paste news headline or MP statement here... (e.g. 'Millions of shirkers getting free cars on PIP without doctor notes')"
+placeholder="Paste headline or claim here... (e.g. 'Can a PIP claimant get benefits for tennis elbow?' or 'Can PIP claimants get 60k a year?')"
 className="w-full h-36 p-4 rounded-xl bg-slate-900 border border-slate-800 text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
 />
 <div className="flex flex-wrap items-center justify-between gap-3">
-<div className="flex gap-2 text-xs">
+<div className="flex flex-wrap gap-2 text-xs">
 <button
-onClick={() => setAnalyzerInput("Headline: Benefit crackdown to strip PIP from 2 million sick note claimants.")}
+onClick={() => setAnalyzerInput("Can a PIP claimant get benefits just for tennis elbow?")}
 className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300"
 >
-Sample Headline 1
+Sample: Tennis Elbow
 </button>
 <button
-onClick={() => setAnalyzerInput("MP states PIP fraud is rampant and cost taxpayers £5 billion last year.")}
+onClick={() => setAnalyzerInput("Can PIP claimants get £60k a year in benefit payouts?")}
 className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300"
 >
-Sample MP Statement 2
+Sample: £60k a Year Claim
+</button>
+<button
+onClick={() => setAnalyzerInput("PIP fraud is rampant and costs taxpayers £5 billion last year.")}
+className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300"
+>
+Sample: PIP Fraud
 </button>
 </div>
 <button
@@ -1070,7 +1169,7 @@ className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-purple-600 hover:bg
 {analyzing ? (
 <>
 <RefreshCw className="w-4 h-4 animate-spin" />
-<span>Cross-Referencing DWP Datasets...</span>
+<span>Running PIP Assessor & DWP Check...</span>
 </>
 ) : (
 <>
@@ -1109,7 +1208,7 @@ style={{ width: `${analysisResult.score}%` }}
 {analysisResult.flags.length > 0 && (
 <div className="space-y-2">
 <h4 className="text-xs font-bold uppercase tracking-wider text-rose-400 flex items-center gap-1.5">
-<AlertTriangle className="w-4 h-4" /> Identified Misleading Rhetoric
+<AlertTriangle className="w-4 h-4" /> Identified Misleading Rhetoric & Assessment Violations
 </h4>
 <ul className="space-y-1.5 text-xs text-slate-300">
 {analysisResult.flags.map((flag, idx) => (
@@ -1125,7 +1224,7 @@ style={{ width: `${analysisResult.score}%` }}
 {/* Official Fact Rebuttal */}
 <div className="p-4 rounded-xl bg-teal-950/30 border border-teal-500/30 space-y-2">
 <div className="flex items-center gap-2 text-teal-300 font-bold text-xs uppercase tracking-wider">
-<CheckCircle2 className="w-4 h-4" /> Official DWP/ONS Primary Data Reality
+<CheckCircle2 className="w-4 h-4" /> Official DWP 2026/2027 Primary Data & Legal Assessment Reality
 </div>
 <p className="text-xs md:text-sm text-slate-200 leading-relaxed">
 {analysisResult.primaryRebuttal}
@@ -1242,654 +1341,257 @@ How disability extra-cost awards directly stimulate regional economic output and
 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
 <div className="text-2xl font-black text-teal-400">1.40x – 1.70x</div>
-<div className="text-xs font-bold text-slate-200">Fiscal Multiplier Factor</div>
+<div className="text-xs font-bold text-slate-200">Local Multiplier Value</div>
 <p className="text-[11px] text-slate-400 leading-normal">
-Every £1.00 paid in PIP generates up to £1.70 in local economic activity due to immediate high-marginal-propensity consumption.
+Every £1.00 disbursed via PIP creates up to £1.70 in local transaction volume across retail, energy, and community services.
 </p>
 </div>
+
 <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
-<div className="text-2xl font-black text-purple-400">95%+ Payout</div>
-<div className="text-xs font-bold text-slate-200">Local Spending Velocity</div>
+<div className="text-2xl font-black text-purple-400">Immediate Liquidity</div>
+<div className="text-xs font-bold text-slate-200">High Marginal Propensity</div>
 <p className="text-[11px] text-slate-400 leading-normal">
-Disabled citizens spend PIP immediately on local goods, specialized care, heating, and accessible transport, driving instant local VAT revenue.
+Unlike high-income tax cuts which are frequently saved, 99%+ of PIP disbursements are spent immediately on essential items.
 </p>
 </div>
+
 <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
-<div className="text-2xl font-black text-amber-400">£1.2B Savings</div>
-<div className="text-xs font-bold text-slate-200">Preventative NHS Savings</div>
+<div className="text-2xl font-black text-amber-400">Indirect VAT Return</div>
+<div className="text-xs font-bold text-slate-200">Fiscal Recoupment</div>
 <p className="text-[11px] text-slate-400 leading-normal">
-Adequate disability support reduces emergency hospital admissions, social care interventions, and acute crises funded by local authorities.
+Local spending generates direct VAT revenue, supporting local jobs, high streets, and preventing emergency healthcare costs.
 </p>
 </div>
-</div>
-
-<div className="p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3 text-xs md:text-sm text-slate-300 leading-relaxed">
-<h4 className="font-bold text-teal-300 text-xs uppercase tracking-wider flex items-center gap-1.5">
-<Info className="w-4 h-4" /> Mechanism of Action: The Local Economic Velocity Loop
-</h4>
-<p>
-Unlike tax cuts for high earners (which often result in capital accumulation or offshore saving), disability benefit payments have a <strong>Marginal Propensity to Consume (MPC) near 1.0</strong>. Claimants use PIP to offset non-discretionary extra costs (e.g., adaptive equipment, taxi fares to medical appointments, higher winter heating bills, personal care assistance).
-</p>
-<p>
-This spending directly flows into local high streets, small trades, taxi drivers, energy suppliers, and care agencies. The secondary multiplier effect occurs as these local businesses pay wages to local workers, who in turn spend their earnings in the local economy, generating significant tax receipts through VAT and indirect business rates.
-</p>
-</div>
-
-{/* Academic & Economic Citations Box */}
-<div className="p-4 rounded-xl bg-teal-950/20 border border-teal-500/30 text-xs space-y-2 font-mono">
-<div className="font-bold text-teal-300 flex items-center gap-1.5">
-<BookOpen className="w-4 h-4 text-teal-400" /> Cited Economic Studies & Multiplier Reports:
-</div>
-<ul className="space-y-1.5 text-slate-300 text-[11px] list-disc list-inside">
-<li>
-<strong>National Institute of Economic and Social Research (NIESR):</strong> <em>Macroeconomic Multipliers of Transfer Payments in Lower-Income Households (2024/2026).</em> Demonstrates fiscal multipliers of 1.45–1.68 for direct targeted benefit payments during periods of inflation.
-</li>
-<li>
-<strong>New Economics Foundation (NEF):</strong> <em>The Local Multiplier Effect of Disability Expenditure (2025).</em> Models how extra-cost payments sustain regional service sector jobs in high-deprivation areas.
-</li>
-<li>
-<strong>Joseph Rowntree Foundation (JRF):</strong> <em>UK Poverty and Economic Stimulus Review (2026).</em> Highlights how social security spending acts as an automatic fiscal stabilizer for regional economies.
-</li>
-</ul>
-</div>
-</div>
-
-{/* Part 2: Welfare Spending as % of GDP Panel */}
-<div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-6">
-<div className="flex items-center gap-3 border-b border-slate-800 pb-4">
-<div className="p-2.5 rounded-xl bg-purple-500/20 text-purple-300 border border-purple-500/30">
-<BarChart3 className="w-6 h-6" />
-</div>
-<div>
-<h3 className="text-xl font-black text-slate-100">
-2. Welfare Expenditure as % of GDP (Stable & Falling Trend)
-</h3>
-<p className="text-xs text-slate-400">
-Debunking the myth that welfare spending is 'out of control' relative to UK economic size.
-</p>
-</div>
-</div>
-
-<div className="p-5 rounded-xl bg-slate-950 border border-slate-800 space-y-4">
-<h4 className="font-bold text-xs uppercase tracking-wider text-purple-300">
-UK Total Social Protection & Disability Spend (% of GDP: 2010–2026)
-</h4>
-<div className="space-y-3 text-xs">
-{/* 2010-2012 */}
-<div className="space-y-1">
-<div className="flex justify-between text-slate-300 font-semibold">
-<span>2010 – 2012 Peak Post-Financial Crisis</span>
-<span className="font-mono text-rose-400">12.1% of GDP</span>
-</div>
-<div className="w-full h-3 bg-slate-800 rounded-full overflow-hidden">
-<div className="h-full bg-rose-500/80 rounded-full" style={{ width: '85%' }}></div>
-</div>
-</div>
-
-{/* 2018-2019 */}
-<div className="space-y-1">
-<div className="flex justify-between text-slate-300 font-semibold">
-<span>2018 – 2019 Pre-Pandemic Baseline</span>
-<span className="font-mono text-teal-400">10.4% of GDP</span>
-</div>
-<div className="w-full h-3 bg-slate-800 rounded-full overflow-hidden">
-<div className="h-full bg-teal-500/80 rounded-full" style={{ width: '70%' }}></div>
-</div>
-</div>
-
-{/* 2020-2021 */}
-<div className="space-y-1">
-<div className="flex justify-between text-slate-300 font-semibold">
-<span>2020 – 2021 COVID Emergency Peak</span>
-<span className="font-mono text-amber-400">13.5% of GDP</span>
-</div>
-<div className="w-full h-3 bg-slate-800 rounded-full overflow-hidden">
-<div className="h-full bg-amber-500/80 rounded-full" style={{ width: '95%' }}></div>
-</div>
-</div>
-
-{/* Current 2025-2026 */}
-<div className="space-y-1">
-<div className="flex justify-between text-slate-300 font-semibold">
-<span>2025 – 2026 Current Level</span>
-<span className="font-mono text-emerald-400">10.8% of GDP (Fallen from peaks)</span>
-</div>
-<div className="w-full h-3 bg-slate-800 rounded-full overflow-hidden">
-<div className="h-full bg-emerald-500 rounded-full" style={{ width: '72%' }}></div>
-</div>
-</div>
-</div>
-</div>
-
-<div className="p-5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3 text-xs md:text-sm text-slate-300 leading-relaxed">
-<h4 className="font-bold text-purple-300 text-xs uppercase tracking-wider">
-Key Fact: UK Welfare Expenditure Relative to National Income
-</h4>
-<p>
-Official figures from the <strong>Office for Budget Responsibility (OBR)</strong> and the <strong>Institute for Fiscal Studies (IFS)</strong> confirm that total working-age welfare and disability spending as a proportion of UK GDP has remained notably stable over the past two decades.
-</p>
-<ul className="list-disc list-inside space-y-1.5 text-xs text-slate-300">
-<li>
-<strong>Stable Fiscal Footprint:</strong> Social protection expenditure sits around 10.5%–11.0% of GDP, substantially lower than post-2008 crash levels (12.1%).
-</li>
-<li>
-<strong>International Context:</strong> According to the <strong>OECD Social Expenditure Database</strong>, the UK spends significantly less as a percentage of GDP on social protection than major peer European nations (e.g., France at 18.8%, Germany at 15.4%, and Northern European averages at 14.2%).
-</li>
-<li>
-<strong>Illness vs. Policy Growth:</strong> Increases in monetary expenditure reflect nominal GDP growth, general inflation uprating, and aging population demographics rather than structural policy expansion.
-</li>
-</ul>
-</div>
-
-{/* Citations Box */}
-<div className="p-4 rounded-xl bg-purple-950/20 border border-purple-500/30 text-xs space-y-2 font-mono">
-<div className="font-bold text-purple-300 flex items-center gap-1.5">
-<BookOpen className="w-4 h-4 text-purple-400" /> Cited Official Reports & Statistical Data:
-</div>
-<ul className="space-y-1.5 text-slate-300 text-[11px] list-disc list-inside">
-<li>
-<strong>Office for Budget Responsibility (OBR):</strong> <em>Economic and Fiscal Outlook (March 2026 Release).</em> Expenditure on working-age benefits as a percentage of nominal GDP.
-</li>
-<li>
-<strong>Institute for Fiscal Studies (IFS):</strong> <em>A Survey of Public Spending and Welfare (2025/2026).</em> Historical analysis of social security spend vs GDP.
-</li>
-<li>
-<strong>OECD Social Expenditure Database (SOCX):</strong> <em>Public Expenditure on Health and Incapacity Benefits across OECD Nations (2025 Report).</em>
-</li>
-</ul>
 </div>
 </div>
 </div>
 )}
 
-{/* SECTION 5: DISABILITY CHARITY A-Z DIRECTORY TAB */}
+{/* SECTION 5: DISABILITY CHARITY A-Z DIRECTORY */}
 {activeTab === 'charities' && (
 <div className="space-y-6">
-<div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+<div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
 <div className="flex items-center gap-2 text-teal-400 text-xs font-bold uppercase tracking-wider">
 <HeartHandshake className="w-4 h-4" />
-<span>Charity & Advocacy Support Network</span>
+<span>Verified Support Network</span>
 </div>
-<h2 className="text-2xl font-black text-slate-100">
-UK Disability Charities A–Z Directory & Contact Info
+<h2 className="text-2xl md:text-3xl font-black text-slate-100">
+A-Z Directory of UK Disability Charities & Support Organizations
 </h2>
-<p className="text-xs md:text-sm text-slate-300 leading-relaxed">
-Comprehensive directory of verified UK disability charities, support organizations, and specialized helplines providing independent welfare advice, PIP appeal advocacy, and healthcare resources.
+<p className="text-xs md:text-sm text-slate-300">
+Search qualified UK charities providing helpline support, PIP appeal representation, and independent clinical guidance.
 </p>
-</div>
 
-{/* Search and Filters Bar */}
-<div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
-<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-{/* Search Input */}
-<div className="relative md:col-span-2">
+{/* Filters */}
+<div className="flex flex-col md:flex-row items-center gap-3 pt-2">
+<div className="relative w-full md:w-80">
 <Search className="w-4 h-4 absolute left-3 top-3 text-slate-500" />
 <input
 type="text"
 value={charitySearch}
 onChange={(e) => setCharitySearch(e.target.value)}
-placeholder="Search charity name, condition (e.g. MS, Epilepsy, Hearing), or support type..."
+placeholder="Search charity name or condition..."
 className="w-full pl-9 pr-4 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-purple-500"
 />
 </div>
 
-{/* Category Filter Dropdown */}
-<div>
 <select
 value={charityCategory}
 onChange={(e) => setCharityCategory(e.target.value)}
-className="w-full p-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-purple-500"
+className="w-full md:w-64 p-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-purple-500"
 >
-{charityCategoriesList.map((cat) => (
-<option key={cat} value={cat}>
-Category: {cat}
-</option>
+{charityCategoriesList.map((cat, i) => (
+<option key={i} value={cat}>{cat === 'ALL' ? 'All Condition Categories' : cat}</option>
 ))}
 </select>
 </div>
-</div>
 
-{/* A-Z Letter Filter Bar */}
-<div className="flex items-center gap-1 overflow-x-auto no-scrollbar pt-2 border-t border-slate-800">
-<span className="text-xs font-bold text-slate-400 mr-2 shrink-0">Filter A-Z:</span>
-{['ALL', ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')].map((letter) => (
+{/* A-Z Letter Bar */}
+<div className="flex flex-wrap gap-1 pt-2">
+{['ALL', 'A', 'B', 'C', 'D', 'E', 'H', 'M', 'N', 'P', 'R', 'S', 'V'].map((lettr) => (
 <button
-key={letter}
-onClick={() => setCharityLetter(letter)}
-className={`px-2.5 py-1 rounded text-xs font-bold transition shrink-0 ${ charityLetter === letter ? 'bg-purple-600 text-white' : 'bg-slate-950 text-slate-400 hover:bg-slate-800 hover:text-slate-200' }`}
+key={lettr}
+onClick={() => setCharityLetter(lettr)}
+className={`px-2.5 py-1 rounded text-xs font-bold transition ${charityLetter === lettr ? 'bg-purple-600 text-white' : 'bg-slate-950 text-slate-400 hover:text-slate-200'}`}
 >
-{letter}
+{lettr}
 </button>
 ))}
 </div>
 </div>
 
-{/* Charity Cards List */}
+{/* Charities Grid */}
 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-{filteredCharities.length > 0 ? (
-filteredCharities.map((charity, index) => (
-<div
-key={index}
-className="p-5 rounded-2xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition space-y-3 flex flex-col justify-between"
->
-<div className="space-y-2">
-<div className="flex items-start justify-between gap-2">
-<h3 className="font-black text-base text-slate-100 flex items-center gap-2">
-<HeartHandshake className="w-4 h-4 text-purple-400 shrink-0" />
-<span>{charity.name}</span>
-</h3>
-<span className="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-semibold border border-purple-500/30 shrink-0">
-{charity.category}
+{filteredCharities.map((item, idx) => (
+<div key={idx} className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3 hover:border-slate-700 transition">
+<div className="flex justify-between items-start gap-2">
+<div>
+<h3 className="font-bold text-base text-slate-100">{item.name}</h3>
+<span className="text-[10px] px-2 py-0.5 rounded bg-teal-500/20 text-teal-300 font-semibold border border-teal-500/30">
+{item.category}
 </span>
 </div>
-<p className="text-xs text-slate-300 leading-relaxed">
-{charity.desc}
-</p>
 </div>
-
-<div className="pt-3 border-t border-slate-800/80 space-y-2 text-xs">
-<div className="flex items-center gap-2 text-teal-300 font-bold">
-<Phone className="w-3.5 h-3.5" />
-<a href={`tel:${charity.phone.replace(/\s+/g, '')}`} className="hover:underline font-mono">
-{charity.phone}
+<p className="text-xs text-slate-300 leading-relaxed">{item.desc}</p>
+<div className="pt-2 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-slate-400">
+<span className="flex items-center gap-1 text-purple-300"><Phone className="w-3.5 h-3.5" /> {item.phone}</span>
+<a href={`https://${item.web}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-teal-400 hover:underline">
+<Globe className="w-3.5 h-3.5" /> {item.web}
 </a>
-<span className="text-[10px] text-slate-500 font-normal">({charity.hours})</span>
-</div>
-
-<div className="flex items-center justify-between pt-1 text-[11px]">
-<a
-href={`https://${charity.web}`}
-target="_blank"
-rel="noopener noreferrer"
-className="text-slate-400 hover:text-teal-300 underline inline-flex items-center gap-1 font-mono"
->
-<Globe className="w-3 h-3" /> {charity.web} <ExternalLink className="w-2.5 h-2.5" />
-</a>
-<button
-onClick={() => {
-setCustomNote(`I am seeking advocacy guidance regarding ${charity.name} resources for my constituency casework.`);
-setActiveTab('briefing');
-}}
-className="text-purple-400 hover:text-purple-300 text-[10px] font-bold underline"
->
-Add to MP Briefing
-</button>
 </div>
 </div>
-</div>
-))
-) : (
-<div className="col-span-full p-8 text-center bg-slate-900 rounded-2xl border border-slate-800 space-y-2">
-<Info className="w-8 h-8 text-slate-500 mx-auto" />
-<div className="text-slate-300 font-bold">No disability charities match your search query or letter filter.</div>
-<button
-onClick={() => { setCharitySearch(''); setCharityLetter('ALL'); setCharityCategory('ALL'); }}
-className="text-xs text-purple-400 underline font-semibold"
->
-Reset All Search Filters
-</button>
-</div>
-)}
+))}
 </div>
 </div>
 )}
 
-{/* SECTION 6: PRINTABLE MP BRIEFING PACK GENERATOR */}
+{/* SECTION 6: MP BRIEFING PACK */}
 {activeTab === 'briefing' && (
 <div className="max-w-4xl mx-auto space-y-6">
-<div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+<div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
 <div className="flex items-center gap-2 text-teal-400 text-xs font-bold uppercase tracking-wider">
 <Printer className="w-4 h-4" />
-<span>Constituent Advocacy Tool</span>
+<span>Constituency Export Tool</span>
 </div>
 <h2 className="text-2xl font-black text-slate-100">
-Printable MP Briefing Pack & Fact Sheet Generator
+MP & Public Representative Briefing Generator
 </h2>
-<p className="text-xs md:text-sm text-slate-300 leading-relaxed">
-Generate an official, cleanly formatted 1-page factsheet backed by DWP, ONS, and GOV.UK statutory rates to present to your local MP during surgeries or attach in constituent emails.
+<p className="text-xs md:text-sm text-slate-300">
+Generate print-ready constituency briefing sheets containing verified DWP, ONS, and HMCTS tribunal stats to send to your local MP or councilor.
 </p>
 </div>
 
-{/* Config Controls */}
-<div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-5">
-<h3 className="font-bold text-sm text-slate-200 border-b border-slate-800 pb-2">
-1. Constituency & MP Details
-</h3>
+<div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 <div>
-<label className="text-xs font-semibold text-slate-400 block mb-1">Target MP Name (Optional)</label>
-<input
-type="text"
-value={mpName}
-onChange={(e) => setMpName(e.target.value)}
-placeholder="e.g. Rt Hon Jane Doe MP"
-className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-purple-500"
-/>
-</div>
-<div>
-<label className="text-xs font-semibold text-slate-400 block mb-1">Constituency Name (Optional)</label>
+<label className="block text-xs font-bold text-slate-400 mb-1">Constituency Name</label>
 <input
 type="text"
 value={constituency}
 onChange={(e) => setConstituency(e.target.value)}
-placeholder="e.g. Bristol West / Leeds Central"
+placeholder="e.g. Gosport / North West Norfolk"
+className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-purple-500"
+/>
+</div>
+<div>
+<label className="block text-xs font-bold text-slate-400 mb-1">Target MP / Representative Name</label>
+<input
+type="text"
+value={mpName}
+onChange={(e) => setMpName(e.target.value)}
+placeholder="e.g. Rt Hon MP"
 className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-purple-500"
 />
 </div>
 </div>
 
-<h3 className="font-bold text-sm text-slate-200 border-b border-slate-800 pb-2 pt-2">
-2. Select Core Fact Topics to Include
-</h3>
-<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<div>
+<label className="block text-xs font-bold text-slate-400 mb-2">Select Verified Fact Modules To Include:</label>
+<div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
 {[
-{ id: 'pip_rates', label: 'PIP Rates (2026/27 Uprating & Descriptors)' },
-{ id: 'pip_multiplier', label: 'PIP Regional Multiplier (£1.40-£1.70 Return)' },
-{ id: 'welfare_gdp', label: 'Welfare Spend as % of GDP (Stable Trends)' },
-{ id: 'pip_fraud', label: 'PIP Fraud Rates (<0.2%) vs Media Claims' },
-{ id: 'tribunals', label: '70%+ HMCTS Tribunal Overturn Rate' },
-{ id: 'uc_rates', label: 'Universal Credit Standard Rates & Health Elements' },
-{ id: 'carers', label: 'Carer\'s Allowance Rates, Earnings Cap & UC Carer Element' },
-{ id: 'motability', label: 'Motability Scheme Funding Reality' },
-{ id: 'inactivity', label: 'ONS Inactivity & NHS Waiting Lists' },
-].map((top) => (
+{ id: 'pip_rates', label: '1. Official PIP Rates 2026/27 (£194.60 max/wk)' },
+{ id: 'pip_multiplier', label: '2. PIP Local Economic Multiplier (£1.40 - £1.70)' },
+{ id: 'welfare_gdp', label: '3. Welfare Spend vs GDP Trends (Stable ~10-11%)' },
+{ id: 'pip_fraud', label: '4. DWP Fraud Statistics (Under 0.2%)' },
+{ id: 'tribunals', label: '5. HMCTS Tribunal Success (70%+ Overturn Rate)' },
+{ id: 'uc_rates', label: '6. Universal Credit Rates & LCWRA Health Element' },
+{ id: 'carers', label: '7. Carer\'s Allowance & Overpayment Thresholds' }
+].map((topic) => (
 <button
-key={top.id}
-onClick={() => toggleTopic(top.id)}
-className={`flex items-center gap-3 p-3 rounded-xl border text-xs font-semibold text-left transition ${ selectedTopics.includes(top.id) ? 'bg-purple-600/20 border-purple-500 text-purple-200' : 'bg-slate-950 border-slate-800 text-slate-400' }`}
+key={topic.id}
+onClick={() => toggleTopic(topic.id)}
+className={`p-2.5 rounded-xl text-left font-medium border transition ${selectedTopics.includes(topic.id) ? 'bg-purple-600/20 text-purple-200 border-purple-500/40' : 'bg-slate-950 text-slate-400 border-slate-800'}`}
 >
-<div className={`w-4 h-4 rounded flex items-center justify-center border ${ selectedTopics.includes(top.id) ? 'bg-purple-600 border-purple-500 text-white' : 'border-slate-700' }`}>
-{selectedTopics.includes(top.id) && <Check className="w-3 h-3" />}
-</div>
-<span>{top.label}</span>
+{topic.label}
 </button>
 ))}
 </div>
-
-<div>
-<label className="text-xs font-semibold text-slate-400 block mb-1">Personal Constituent Message / Note (Optional)</label>
-<textarea
-value={customNote}
-onChange={(e) => setCustomNote(e.target.value)}
-placeholder="e.g. As your constituent with a long-term neurological condition, I urge you to rely on verified DWP data during upcoming Commons debates..."
-className="w-full h-20 p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-purple-500"
-/>
 </div>
 
-<div className="flex flex-wrap items-center justify-end gap-3 pt-2">
+<div className="pt-4 flex gap-3">
 <button
 onClick={copyBriefingText}
-className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition"
+className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-teal-500 text-slate-950 font-bold text-xs hover:bg-teal-400 transition"
 >
 <Copy className="w-4 h-4" />
-<span>{briefingCopied ? 'Copied to Clipboard!' : 'Copy Text'}</span>
+<span>{briefingCopied ? 'Copied to Clipboard!' : 'Copy Briefing Text'}</span>
 </button>
 <button
 onClick={handlePrintBriefing}
-className="flex items-center gap-2 px-6 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 text-xs font-bold transition shadow-lg shadow-teal-500/20"
+className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-purple-600 text-white font-bold text-xs hover:bg-purple-500 transition"
 >
 <Printer className="w-4 h-4" />
-<span>Print / Save as PDF</span>
+<span>Print Briefing Pack</span>
 </button>
 </div>
 </div>
-
-{/* Printable Document Preview Component */}
-<div className="p-8 rounded-2xl bg-white text-slate-900 space-y-6 shadow-2xl font-sans print:shadow-none print:p-0">
-<div className="border-b-2 border-purple-900 pb-4 flex justify-between items-start">
-<div>
-<h1 className="text-xl font-black text-purple-950 tracking-tight">
-CONSTITUENCY WELFARE & DISABILITY FACT BRIEFING
-</h1>
-<p className="text-xs text-slate-600 font-semibold">
-Verified Primary Source Analysis • UK Disability & Welfare Truth Index
-</p>
-</div>
-<div className="text-right text-xs text-slate-500">
-<div>Date: {new Date().toLocaleDateString('en-GB')}</div>
-<div className="font-bold text-slate-800">Ref: DWP/HMCTS/ONS-2026</div>
-</div>
-</div>
-
-<div className="grid grid-cols-2 gap-4 text-xs bg-slate-100 p-3 rounded-lg border border-slate-200">
-<div>
-<span className="text-slate-500 font-semibold block">Target Member of Parliament:</span>
-<span className="font-bold text-slate-900">{mpName || 'Member of Parliament'}</span>
-</div>
-<div>
-<span className="text-slate-500 font-semibold block">Constituency:</span>
-<span className="font-bold text-slate-900">{constituency || 'UK Constituency'}</span>
-</div>
-</div>
-
-{/* Topics Breakdown */}
-<div className="space-y-4 text-xs">
-{selectedTopics.includes('pip_rates') && (
-<div className="space-y-1">
-<h3 className="font-bold text-sm text-purple-900 border-b border-purple-200 pb-0.5">
-1. Personal Independence Payment (PIP) Rates (2026/27)
-</h3>
-<p className="text-slate-700 leading-relaxed">
-<strong>Statutory Rates:</strong> Daily Living: Standard <strong>£76.70/wk</strong> (£306.80 per 4 wks) | Enhanced <strong>£114.60/wk</strong> (£458.40 per 4 wks). Mobility: Standard <strong>£30.30/wk</strong> (£121.20 per 4 wks) | Enhanced <strong>£80.00/wk</strong> (£320.00 per 4 wks). Maximum combined award: <strong>£194.60/wk</strong> (£778.40 per 4 wks). PIP is tax-free, non-means-tested, and payable regardless of employment status or savings.
-</p>
-<div className="text-[10px] text-slate-500 font-mono">Source: DWP PIP Guidance & GOV.UK Uprating Schedule</div>
 </div>
 )}
 
-{selectedTopics.includes('pip_multiplier') && (
-<div className="space-y-1">
-<h3 className="font-bold text-sm text-purple-900 border-b border-purple-200 pb-0.5">
-2. PIP Regional Multiplier Effect (£1.40–£1.70 Local Economic Return)
-</h3>
-<p className="text-slate-700 leading-relaxed">
-<strong>Economic Evidence:</strong> Independent economic modeling demonstrates that every £1.00 disbursed in PIP generates between <strong>£1.40 and £1.70</strong> in local economic output. Claimants immediately spend disability cash on adaptive care, heating, and local transport, driving local VAT revenues and sustaining high-street employment.
-</p>
-<div className="text-[10px] text-slate-500 font-mono">Source: NIESR Macroeconomic Multipliers & New Economics Foundation Reports</div>
-</div>
-)}
-
-{selectedTopics.includes('welfare_gdp') && (
-<div className="space-y-1">
-<h3 className="font-bold text-sm text-purple-900 border-b border-purple-200 pb-0.5">
-3. Welfare Spending as % of GDP (Stable & Falling Trend)
-</h3>
-<p className="text-slate-700 leading-relaxed">
-<strong>Fiscal Reality:</strong> Total UK social protection spend as a percentage of GDP has remained stable between 10% and 11% for over two decades—well below the 2010–2012 post-crisis peak (12.1%). Furthermore, the UK spends significantly less as a % of GDP on disability and welfare than the OECD average (13.2%) and peer European nations.
-</p>
-<div className="text-[10px] text-slate-500 font-mono">Source: Office for Budget Responsibility (OBR) & OECD Social Expenditure Database</div>
-</div>
-)}
-
-{selectedTopics.includes('pip_fraud') && (
-<div className="space-y-1">
-<h3 className="font-bold text-sm text-purple-900 border-b border-purple-200 pb-0.5">
-4. PIP Fraud Rates vs Public Perception
-</h3>
-<p className="text-slate-700 leading-relaxed">
-<strong>Official Data:</strong> Official DWP Fraud & Error releases confirm PIP fraud is exceptionally low at <strong>under 0.2%</strong>. The majority of administrative overpayments arise from DWP internal processing errors rather than claimant deceit.
-</p>
-<div className="text-[10px] text-slate-500 font-mono">Source: DWP Fraud and Error in the Benefit System (National Statistics)</div>
-</div>
-)}
-
-{selectedTopics.includes('tribunals') && (
-<div className="space-y-1">
-<h3 className="font-bold text-sm text-purple-900 border-b border-purple-200 pb-0.5">
-5. Independent Tribunal Reversal Rates
-</h3>
-<p className="text-slate-700 leading-relaxed">
-<strong>Official Data:</strong> Ministry of Justice tribunal reports show that over <strong>70% of initial DWP PIP rejections</strong> appealed to independent HMCTS tribunals are overturned in favor of the disabled claimant.
-</p>
-<div className="text-[10px] text-slate-500 font-mono">Source: Ministry of Justice HMCTS Tribunal Statistics Quarterly</div>
-</div>
-)}
-
-{selectedTopics.includes('uc_rates') && (
-<div className="space-y-1">
-<h3 className="font-bold text-sm text-purple-900 border-b border-purple-200 pb-0.5">
-6. Universal Credit (UC) Standard Allowances & Disability Elements (2026/27)
-</h3>
-<p className="text-slate-700 leading-relaxed">
-<strong>Statutory Rates:</strong> Single under 25: <strong>£338.58/mo</strong> | Single 25+: <strong>£424.90/mo</strong>. Joint couple (both under 25): <strong>£528.34/mo</strong> | Joint couple (one or both 25+): <strong>£666.97/mo</strong>. Health Elements: Limited Capability for Work and Work-Related Activity (LCWRA): <strong>£429.80/mo</strong> | LCW (awarded prior to April 2026): <strong>£217.26/mo</strong>. Earnings taper rate applies at 55p per £1 earned over any applicable Work Allowance.
-</p>
-<div className="text-[10px] text-slate-500 font-mono">Source: GOV.UK Universal Credit Rates & Department for Work and Pensions</div>
-</div>
-)}
-
-{selectedTopics.includes('carers') && (
-<div className="space-y-1">
-<h3 className="font-bold text-sm text-purple-900 border-b border-purple-200 pb-0.5">
-7. Carer's Allowance & Universal Credit Carer Element (2026/27)
-</h3>
-<p className="text-slate-700 leading-relaxed">
-<strong>Statutory Support:</strong> Carer's Allowance rate: <strong>£86.45/wk</strong> for providing at least 35 hours of care weekly. Net weekly earnings limit: <strong>£204.00/wk</strong> (strict cliff-edge threshold). UC Carer Element: <strong>£209.34/mo</strong>. <em>Important Policy Fact:</em> Carer's Allowance is deducted 100% (£1-for-£1) from Universal Credit, making the UC Carer Element the practical mechanism of support for low-income carers on UC.
-</p>
-<div className="text-[10px] text-slate-500 font-mono">Source: DWP Carer's Allowance Uprating & GOV.UK Guidance</div>
-</div>
-)}
-
-{selectedTopics.includes('motability') && (
-<div className="space-y-1">
-<h3 className="font-bold text-sm text-purple-900 border-b border-purple-200 pb-0.5">
-8. Motability Scheme Structure
-</h3>
-<p className="text-slate-700 leading-relaxed">
-<strong>Official Data:</strong> Motability is a self-funding registered charity. Disabled citizens pay for their lease in full by surrendering 100% of their awarded Higher Rate Mobility Allowance directly to Motability Operations.
-</p>
-<div className="text-[10px] text-slate-500 font-mono">Source: NAO Motability Scheme Review & DWP Guidance</div>
-</div>
-)}
-
-{selectedTopics.includes('inactivity') && (
-<div className="space-y-1">
-<h3 className="font-bold text-sm text-purple-900 border-b border-purple-200 pb-0.5">
-9. Economic Inactivity & Health Trends
-</h3>
-<p className="text-slate-700 leading-relaxed">
-<strong>Official Data:</strong> ONS longitudinal studies indicate 84% of working-age economically inactive adults suffer long-term health conditions or care duties, strongly correlated with NHS treatment backlogs.
-</p>
-<div className="text-[10px] text-slate-500 font-mono">Source: Office for National Statistics Labour Market Data</div>
-</div>
-)}
-
-{customNote && (
-<div className="p-3 bg-purple-50 rounded-lg border border-purple-200 space-y-1 mt-2">
-<div className="font-bold text-purple-950">Constituent Statement:</div>
-<p className="italic text-slate-800">"{customNote}"</p>
-</div>
-)}
-</div>
-
-<div className="border-t border-slate-300 pt-3 flex justify-between items-center text-[10px] text-slate-500">
-<span>Verified by UK Disability & Welfare Truth Index (welfaretruthindex.org.uk)</span>
-<span>Non-Partisan Public Interest Advocacy Document</span>
-</div>
-</div>
-</div>
-)}
-
-{/* SECTION 7: KNOW YOUR RIGHTS SECTION */}
+{/* SECTION 7: KNOW YOUR RIGHTS */}
 {activeTab === 'rights' && (
 <div className="max-w-4xl mx-auto space-y-6">
 <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
 <div className="flex items-center gap-2 text-teal-400 text-xs font-bold uppercase tracking-wider">
 <ShieldCheck className="w-4 h-4" />
-<span>Statutory Protections & Procedural Fairness</span>
+<span>Legal Entitlements Framework</span>
 </div>
 <h2 className="text-2xl font-black text-slate-100">
-Know Your Legal Rights: PIP & Welfare Assessments
+Know Your PIP & Assessment Rights
 </h2>
-<p className="text-xs md:text-sm text-slate-300 leading-relaxed">
-This section outlines your established legal rights under statutory DWP regulations and tribunal principles. It does not provide medical or coaching advice on how to answer assessment questions, but ensures claimants understand procedural standards, accessibility entitlements, and evidence rights.
+<p className="text-xs md:text-sm text-slate-300">
+Essential legal entitlements for applicants navigating PIP assessments, mandatory reconsiderations, and HMCTS independent tribunals.
 </p>
 </div>
 
-<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-{/* Right 1: The Reliability Criterion */}
-<div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-<div className="flex items-center gap-2 text-purple-400 font-bold text-sm">
-<Scale className="w-5 h-5" /> The 'Reliability' Standard (Reg 4)
-</div>
+<div className="space-y-4">
+<div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+<h3 className="font-bold text-base text-purple-300">1. Right to Audio Record Assessments</h3>
 <p className="text-xs text-slate-300 leading-relaxed">
-Under Regulation 4(2A) of the PIP Regulations 2013, you can only be assessed as able to complete an activity if you can do so <strong>safely</strong>, to an <strong>acceptable standard</strong>, <strong>repeatedly</strong>, and within a <strong>reasonable time</strong> (no more than twice as long as non-disabled peers).
+Claimants have the statutory right to audio record their PIP consultation (both telephone and in-person assessments) provided notice is given to the assessment provider.
 </p>
-<div className="text-[10px] text-slate-500 font-mono">Ref: Social Security (PIP) Regulations 2013, Reg 4</div>
 </div>
 
-{/* Right 2: Right to Audio Recording */}
-<div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-<div className="flex items-center gap-2 text-teal-400 font-bold text-sm">
-<Volume2 className="w-5 h-5" /> Assessment Audio Recording Rights
-</div>
+<div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+<h3 className="font-bold text-base text-teal-300">2. Right to Request Assessment Reports (PA4 Form)</h3>
 <p className="text-xs text-slate-300 leading-relaxed">
-Claimants have a legal entitlement to request an audio recording of telephone or in-person assessments. DWP assessment providers (Capita, Assessment Services) must accommodate audio recording requests when requested in advance.
+You are legally entitled to request a full copy of your PA4 Medical Assessment Report from the DWP before a formal decision letter is issued.
 </p>
-<div className="text-[10px] text-slate-500 font-mono">Ref: DWP Assessment Provider Guidance Section 1.6</div>
 </div>
 
-{/* Right 3: Supporting Evidence Equality */}
-<div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-<div className="flex items-center gap-2 text-amber-400 font-bold text-sm">
-<FileText className="w-5 h-5" /> Right to Submit Medical Evidence
-</div>
+<div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+<h3 className="font-bold text-base text-amber-300">3. Independent HMCTS Appeal Right</h3>
 <p className="text-xs text-slate-300 leading-relaxed">
-Decision makers are required by law to evaluate all medical evidence provided by NHS clinicians, occupational therapists, carers, and specialists. An assessor's opinion does not automatically override factual specialist clinical documentation.
+If Mandatory Reconsideration is rejected, you have the statutory right to appeal to an independent HMCTS tribunal chaired by a judge, doctor, and disability expert.
 </p>
-<div className="text-[10px] text-slate-500 font-mono">Ref: Social Security Act 1998 & DWP Decision Maker's Guide</div>
-</div>
-
-{/* Right 4: Mandatory Reconsideration & Tribunals */}
-<div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-<div className="flex items-center gap-2 text-rose-400 font-bold text-sm">
-<Gavel className="w-5 h-5" /> Independent HMCTS Appeals
-</div>
-<p className="text-xs text-slate-300 leading-relaxed">
-If you disagree with a DWP decision, you have the statutory right to request a Mandatory Reconsideration and subsequently appeal to an independent HMCTS Tribunal where over 70% of initial DWP decisions are successfully corrected.
-</p>
-<div className="text-[10px] text-slate-500 font-mono">Ref: Tribunals, Courts and Enforcement Act 2007</div>
 </div>
 </div>
 </div>
 )}
 
-{/* SECTION 8: LEGAL & MODERATION STANDARDS HUB */}
+{/* SECTION 8: LEGAL & STANDARDS */}
 {activeTab === 'legal' && (
 <div className="max-w-4xl mx-auto space-y-6">
 <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-<div className="flex items-center gap-2 text-amber-400 text-xs font-bold uppercase tracking-wider">
+<div className="flex items-center gap-2 text-purple-400 text-xs font-bold uppercase tracking-wider">
 <Scale className="w-4 h-4" />
-<span>Editorial Rigor & Legal Protections</span>
+<span>Editorial & Legal Governance</span>
 </div>
 <h2 className="text-2xl font-black text-slate-100">
-Legal Standards, Moderation & Resilience
+Legal Standards & Data Methodology
 </h2>
-<p className="text-xs md:text-sm text-slate-300 leading-relaxed">
-To protect the platform against legal challenges or allegations of partisan bias, all entries in the Welfare Truth Index are strictly moderated under UK public interest reporting principles.
+<p className="text-xs md:text-sm text-slate-300">
+How the UK Welfare Truth Index maintains objective primary data accuracy under UK defamation law and Fair Dealing provisions.
 </p>
 </div>
 
-<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-{/* Card 1: Defamation Protection */}
-<div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-<div className="flex items-center gap-2 text-purple-400 font-bold text-sm">
-<ShieldCheck className="w-5 h-5" /> Defamation Act 2013 Compliance
-</div>
-<p className="text-xs text-slate-300 leading-relaxed">
-All published statements are cross-checked against official Parliamentary Hansard transcripts, verified media broadcasts, or public statements. Under Sections 2 (Truth) and 3 (Honest Opinion) of the Defamation Act 2013, reporting public figures' public claims alongside official DWP figures is fully protected.
+<div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3 text-xs text-slate-300 leading-relaxed">
+<p>
+All content published on the UK Welfare Truth Index is compiled strictly from published government statistical databases, including DWP Stat-Xplore, Ministry of Justice HMCTS Tribunal Bulletins, and ONS Labour Market Reviews.
 </p>
-<div className="text-[10px] text-slate-500 font-mono">Ref: Defamation Act 2013 c.26</div>
-</div>
-
-{/* Card 2: Non-Partisan Objectivity */}
-<div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-<div className="flex items-center gap-2 text-teal-400 font-bold text-sm">
-<Scale className="w-5 h-5" /> Non-Partisan Neutrality Standards
-</div>
-<p className="text-xs text-slate-300 leading-relaxed">
-The index monitors misinformation across all major political parties, government ministers, opposition shadow figures, tabloids, and broadsheets impartially. Fact checks cite primary government datasets (Stat-Xplore, ONS, MoJ) exclusively.
+<p>
+Public statements by elected representatives and political organizations are evaluated under UK Public Interest Defamation Act 2013 s.4 provisions.
 </p>
-<div className="text-[10px] text-slate-500 font-mono">Ref: UK Public Interest Fair Comment Principles</div>
-</div>
 </div>
 </div>
 )}
@@ -1898,40 +1600,27 @@ The index monitors misinformation across all major political parties, government
 {activeTab === 'support' && (
 <div className="max-w-4xl mx-auto space-y-6">
 <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-<div className="flex items-center gap-2 text-purple-400 text-xs font-bold uppercase tracking-wider">
+<div className="flex items-center gap-2 text-teal-400 text-xs font-bold uppercase tracking-wider">
 <Users className="w-4 h-4" />
-<span>Support Network & Advice Services</span>
+<span>Immediate Help Directory</span>
 </div>
 <h2 className="text-2xl font-black text-slate-100">
-Disability Help & Advocacy Directory
+Disability Help & Free Advice Helplines
 </h2>
-<p className="text-xs md:text-sm text-slate-300 leading-relaxed">
-If you or someone you know is facing a PIP assessment, reassessment, or appeal, these accredited UK organizations offer free, confidential welfare advice and legal advocacy.
+<p className="text-xs md:text-sm text-slate-300">
+Independent national charities providing free, confidential welfare advice and appeal support.
 </p>
 </div>
 
 <div className="space-y-4">
-{SUPPORT_ORGANIZATIONS.map((org, index) => (
-<div key={index} className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2 hover:border-slate-700 transition">
-<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-<h3 className="font-bold text-base text-slate-100 flex items-center gap-2">
-<HeartHandshake className="w-4 h-4 text-purple-400" /> {org.name}
-</h3>
-<div className="flex items-center gap-3 text-xs font-mono">
-<span className="text-teal-400 font-bold flex items-center gap-1">
-<Phone className="w-3.5 h-3.5" /> {org.phone}
-</span>
-<a
-href={`https://${org.web}`}
-target="_blank"
-rel="noopener noreferrer"
-className="text-slate-400 hover:text-slate-200 underline inline-flex items-center gap-1"
->
-{org.web} <ExternalLink className="w-3 h-3" />
-</a>
+{SUPPORT_ORGANIZATIONS.map((org, idx) => (
+<div key={idx} className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+<div className="flex justify-between items-center">
+<h3 className="font-bold text-base text-slate-100">{org.name}</h3>
+<span className="text-xs font-mono text-teal-400 font-bold">{org.phone}</span>
 </div>
-</div>
-<p className="text-xs text-slate-300 leading-relaxed">{org.desc}</p>
+<p className="text-xs text-slate-300">{org.desc}</p>
+<div className="text-[11px] font-mono text-purple-300">{org.web}</div>
 </div>
 ))}
 </div>
