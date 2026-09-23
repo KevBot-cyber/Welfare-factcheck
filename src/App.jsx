@@ -584,6 +584,49 @@ const evaluatePipAndFinancialClaims = (rawInput) => {
   const ratioMatch = text.match(/\b(\d+\s*in\s*\d+|\d+%\s*|\d+\s*out of\s*\d+)\b/i);
   const ratioStr = ratioMatch ? ratioMatch[1] : null;
 
+  // --- UPDATED FEATURE 1 & 2: SENSATIONALIST RHETORIC & NON-EVIDENCE DETECTOR ---
+  const sensationalistPhrases = [
+    'spiralling out of control', 'spiraling out of control', 'out of control',
+    'exploding benefit bill', 'benefit crisis', 'welfare crisis', 'cash bonanza',
+    'benefit bonanza', 'scroungers', 'shirkers', 'skivers', 'drain on taxpayers',
+    'drain on the economy', 'open door policy', 'handout nation', 'sick note britain',
+    'scamming the system', 'racket', 'gravy train', 'free ride', 'faking illness',
+    'lifestyle choice', 'epidemic of sickness', 'malingerers', 'fraud epidemic'
+  ];
+
+  const foundSensationalistPhrases = sensationalistPhrases.filter(phrase => lower.includes(phrase));
+
+  if (foundSensationalistPhrases.length > 0) {
+    score = Math.max(88, score + 45);
+    extractedQuotes.push(`"${foundSensationalistPhrases.map(p => `'${p}'`).join(', ')}"`);
+    flags.push(`FLAGGED SENSATIONALIST RHETORIC: Contains emotionally charged, provocative terminology (${foundSensationalistPhrases.map(p => `'${p}'`).join(', ')}) designed to provoke public outrage against the disabled community.`);
+    flags.push(`NON-EVIDENCE BACKED CLAIM: Statement uses dramatic inflation framing without referencing verified statistical baselines from DWP, ONS, or OBR.`);
+    flags.push(`PUBLIC DISCOURSE IMPACT: Amplifies hostility and stigma toward disabled benefit claimants by presenting statutory support as an unmonitored crisis.`);
+  }
+
+  // --- UPDATED FEATURE 3: ECONOMIC BENEFIT CLAIMS & GDP BENCHMARK DEBUNK ---
+  const economicSpirallingPhrases = [
+    'gdp', 'gross domestic product', 'percentage of gdp', 'share of gdp',
+    'welfare gdp', 'spending as a % of gdp', 'welfare spending as a percentage',
+    'spiralling', 'spiraling', 'unsustainable', 'bankrupting', 'affordable', 'welfare bill'
+  ];
+
+  const hasEconomicGdpClaim = economicSpirallingPhrases.some(phrase => lower.includes(phrase));
+
+  if (hasEconomicGdpClaim) {
+    score = Math.max(82, score + 35);
+    if (!extractedQuotes.some(q => q.toLowerCase().includes('gdp') || q.toLowerCase().includes('spiralling'))) {
+      extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
+    }
+    flags.push(`EVALUATION OF GDP & ECONOMIC BENEFIT CLAIMS: Assesses assertions regarding benefit expenditure growth against historical UK GDP datasets.`);
+    flags.push(`DEBUNKS 'SPIRALLING' BENEFIT CLAIMS: UK social protection spending as a percentage of GDP has remained stable between 10% and 11% for over two decades (lower than the 2010–2012 peak of 12.1%).`);
+    flags.push(`INTERNATIONAL COMPARISON: OECD Social Expenditure Database demonstrates UK disability and welfare spending as a % of GDP remains consistently below the OECD average (13.2%) and well below European peer nations (e.g., France ~18.8%, Germany ~15.4%).`);
+
+    primaryRebuttal = `DEBUNKING ECONOMIC BENEFIT CLAIMS & GDP SPIRAL MYTH: The claim that disability and welfare benefits are "spiralling out of control" as a share of the economy is factually inaccurate. Official HM Treasury, OBR, and IFS historical figures confirm that total UK welfare/social protection spending as a percentage of Gross Domestic Product (GDP) has stayed practically unchanged at approximately 10%–11% of GDP for over two decades, remaining lower than post-2008 financial crash peaks (12.1% in 2009/10). Furthermore, OECD international comparative data shows the UK spends a lower proportion of GDP on working-age disability and social protection than the OECD average and significantly less than peer European economies. Increases in cash figures primarily reflect inflation adjustments (indexation) and long NHS treatment backlogs rather than structural spend expansion.`;
+    sourceRef = "IFS TaxLab Welfare Share Analysis, OBR Economic & Fiscal Outlook (2026), OECD Social Expenditure Database (SOCX)";
+    return { inputStatement: text, extractedQuotes, score: Math.min(100, score), verdict: "High BS / Unsubstantiated Economic Rhetoric", flags, primaryRebuttal, sourceRef };
+  }
+
   const incentivePhrases = ["incentive", "no reason to work", "better off on benefits"];
   const hasIncentiveClaim = incentivePhrases.some(phrase => lower.includes(phrase));
 
@@ -597,14 +640,53 @@ const evaluatePipAndFinancialClaims = (rawInput) => {
 
     primaryRebuttal = `ANALYSIS OF STATEMENT: Evaluating claims that there is "no incentive to work" or that individuals are "better off on benefits": Universal Credit is structured with an explicit financial work incentive via DWP Work Allowance rates (£404/mo for claimants receiving housing support; £673/mo if no housing support is claimed) and a 55% UC taper rate, ensuring that net household income increases with every hour worked. Furthermore, total benefit entitlements are capped by statutory Benefit Cap limits (£25,323/yr in Greater London; £22,020/yr elsewhere). Official ONS health/disability inactivity reason breakdowns demonstrate that 84% of economically inactive working-age citizens remain out of work due to long-term chronic illness, NHS treatment delays, caring duties, or full-time study rather than financial disincentives.`;
     sourceRef = "DWP Work Allowance & UC Taper Rules 2026/27, GOV.UK Benefit Cap Guidance & ONS Labour Market Statistics";
-    return { inputStatement: text, extractedQuotes, score, verdict: score > 75 ? "Extreme Misinformation / Misleading" : "Misleading Work Incentive Generalisation", flags, primaryRebuttal, sourceRef };
+    return { inputStatement: text, extractedQuotes, score: Math.min(100, score), verdict: score > 75 ? "Extreme Misinformation / Misleading" : "Misleading Work Incentive Generalisation", flags, primaryRebuttal, sourceRef };
+  }
+
+  // --- UPDATED EXPLICIT FINANCIAL REGEX & DEMOGRAPHIC PROTECTION LOGIC ---
+  // Matches values with explicit £ currency symbols or monetary keywords (e.g., £60k, £25,000, 60 thousand pounds)
+  const explicitFinancialMatches = text.match(/(?:£\s*\d+[\d,]*\s*(?:k|thousand|million|bn|billion)?|\b\d+[\d,]*\s*(?:k|thousand|million|bn|billion)?\s*(?:pounds|pound|gbp)\b)/gi) || [];
+  let extractedAnnualAmount = 0;
+
+  for (let match of explicitFinancialMatches) {
+    let clean = match.replace(/[£,\s]/g, '').toLowerCase();
+    let val = 0;
+    if (clean.endsWith('k')) {
+      val = parseFloat(clean.replace('k', '')) * 1000;
+    } else if (clean.endsWith('thousand')) {
+      val = parseFloat(clean.replace('thousand', '')) * 1000;
+    } else if (clean.includes('pound')) {
+      val = parseFloat(clean.split('pound')[0]);
+    } else {
+      val = parseFloat(clean);
+    }
+    // Track extracted financial payout claims below £1,000,000
+    if (val > extractedAnnualAmount && val < 1000000) {
+      extractedAnnualAmount = val;
+    }
+  }
+
+  if (lower.includes('£60k') || lower.includes('60,000 pounds') || lower.includes('60 thousand pounds')) {
+    extractedAnnualAmount = 60000;
+  }
+
+  const isFinancialClaim = extractedAnnualAmount > 0;
+
+  if (isFinancialClaim && extractedAnnualAmount > BENEFIT_RATES_2026_2027.benefitCap2026.absoluteMaxCap) {
+    score = 98;
+    extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
+    flags.push(`Claims an annual benefit payout of £${extractedAnnualAmount.toLocaleString()}, directly violating statutory UK Benefit Caps (£25,323/yr London, £22,020/yr Outside London).`);
+    flags.push(`Asserts that individuals can receive £${extractedAnnualAmount.toLocaleString()}/year, which is legally impossible under current DWP award limits.`);
+    primaryRebuttal = `ANALYSIS OF STATEMENT: In response to the statement claiming recipients can get £${extractedAnnualAmount.toLocaleString()} per year: Under 2026/2027 UK Welfare Law, benefit payments are strictly capped at £25,323/year in Greater London or £22,020/year across the rest of the UK. Even with the maximum possible PIP Enhanced Daily Living and Mobility awards combined (£10,119.20/yr), reaching £${extractedAnnualAmount.toLocaleString()}/year is prohibited by statute.`;
+    sourceRef = "DWP Statutory Benefit Rates & Benefit Cap Regulations 2026/2027 (GOV.UK)";
+    return { inputStatement: text, extractedQuotes, score: Math.min(100, score), verdict: "Extreme Misinformation / Impossible Claim", flags, primaryRebuttal, sourceRef };
   }
 
   const popStatKeywords = ['million', 'millions', 'population', 'demographic', 'people', 'adults', 'claimants', 'recipients', 'citizens', 'working age', 'working-age'];
   const hasPopStatKeywords = popStatKeywords.some(kw => lower.includes(kw));
 
-  if (hasPopStatKeywords && !lower.includes('£') && !lower.includes('pound') && !lower.includes('a year') && !lower.includes('per year') && !lower.includes('per month')) {
-    score = 85;
+  if (hasPopStatKeywords && !isFinancialClaim && !lower.includes('a year') && !lower.includes('per year') && !lower.includes('per month')) {
+    score = Math.min(100, score + 50);
     extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
     flags.push(`Evaluates demographic and population figures regarding benefit claimant counts or working-age statistics.`);
     flags.push(`Distinguishes demographic volume metrics from monetary payment values and statutory rate limits.`);
@@ -618,39 +700,7 @@ const evaluatePipAndFinancialClaims = (rawInput) => {
       primaryRebuttal = `ANALYSIS OF STATEMENT: Regarding the statement on demographic counts and population benefit figures in '${text}': DWP Stat-Xplore quarterly statistics provide verified, entitlement-tested figures for all active benefit caseloads across UK regions. Demographic statistics must be interpreted alongside statutory eligibility criteria and clinical assessment thresholds rather than unverified rhetoric.`;
       sourceRef = "DWP Stat-Xplore Caseload Data & ONS Population Estimates";
     }
-    return { inputStatement: text, extractedQuotes, score, verdict: "Misleading Demographic Rhetoric / Population Unsubstantiated", flags, primaryRebuttal, sourceRef };
-  }
-
-  const numbersInText = text.match(/£?\s*(\d+[\d,]*)\s*(k|thousand)?/gi) || [];
-  let extractedAnnualAmount = 0;
-
-  for (let match of numbersInText) {
-    let clean = match.replace(/[£,\s]/g, '').toLowerCase();
-    let val = 0;
-    if (clean.endsWith('k')) {
-      val = parseFloat(clean.replace('k', '')) * 1000;
-    } else {
-      val = parseFloat(clean);
-    }
-    if (val > extractedAnnualAmount && val < 1000000) {
-      extractedAnnualAmount = val;
-    }
-  }
-
-  if (lower.includes('60k') || lower.includes('60000') || lower.includes('60 thousand')) {
-    extractedAnnualAmount = 60000;
-  }
-
-  const isFinancialClaim = extractedAnnualAmount > 0 || lower.includes('a year') || lower.includes('per year') || lower.includes('per month') || lower.includes('rates') || lower.includes('benefit cap');
-
-  if (isFinancialClaim && extractedAnnualAmount > BENEFIT_RATES_2026_2027.benefitCap2026.absoluteMaxCap) {
-    score = 98;
-    extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
-    flags.push(`Claims an annual benefit payout of £${extractedAnnualAmount.toLocaleString()}, directly violating statutory UK Benefit Caps (£25,323/yr London, £22,020/yr Outside London).`);
-    flags.push(`Asserts that individuals can receive £${extractedAnnualAmount.toLocaleString()}/year, which is legally impossible under current DWP award limits.`);
-    primaryRebuttal = `ANALYSIS OF STATEMENT: In response to the statement claiming recipients can get £${extractedAnnualAmount.toLocaleString()} per year: Under 2026/2027 UK Welfare Law, benefit payments are strictly capped at £25,323/year in Greater London or £22,020/year across the rest of the UK. Even with the maximum possible PIP Enhanced Daily Living and Mobility awards combined (£10,119.20/yr), reaching £${extractedAnnualAmount.toLocaleString()}/year is prohibited by statute.`;
-    sourceRef = "DWP Statutory Benefit Rates & Benefit Cap Regulations 2026/2027 (GOV.UK)";
-    return { inputStatement: text, extractedQuotes, score, verdict: "Extreme Misinformation / Impossible Claim", flags, primaryRebuttal, sourceRef };
+    return { inputStatement: text, extractedQuotes, score: Math.min(100, score), verdict: "Misleading Demographic Rhetoric / Population Unsubstantiated", flags, primaryRebuttal, sourceRef };
   }
 
   const minorConditions = ['tennis elbow', 'repetitive strain', 'mild fatigue', 'sprained wrist', 'hay fever', 'eczema', 'mild eczema', 'ingrown nail'];
@@ -664,7 +714,7 @@ const evaluatePipAndFinancialClaims = (rawInput) => {
     flags.push(`Fails to recognize that PIP is evaluated strictly on daily living and mobility functional descriptors under the Welfare Reform Act 2012.`);
     primaryRebuttal = `ANALYSIS OF STATEMENT: Regarding the query on claiming PIP for ${matchedCond}: PIP is never granted based on medical diagnoses alone. Under DWP assessment rules, an applicant cannot receive PIP simply for having ${matchedCond}. Awards are decided by clinical scoring against 12 daily living and mobility descriptors evaluating functional impact over 12 months. Lacking daily living impairment results in immediate rejection.`;
     sourceRef = "DWP Personal Independence Payment (PIP) Assessment Guide for Providers (2026/27)";
-    return { inputStatement: text, extractedQuotes, score, verdict: "High BS / Misleading Claim", flags, primaryRebuttal, sourceRef };
+    return { inputStatement: text, extractedQuotes, score: Math.min(100, score), verdict: "High BS / Misleading Claim", flags, primaryRebuttal, sourceRef };
   }
 
   const sweepingPhrases = [
@@ -702,7 +752,7 @@ const evaluatePipAndFinancialClaims = (rawInput) => {
 
     primaryRebuttal = `ANALYSIS OF STATEMENT: Evaluating the claim${locationSnippet}${ratioSnippet} that "welfare has become a way of life" and "it's morally wrong": This rhetoric conflates total Universal Credit claim numbers with voluntary worklessness. Official ONS & DWP statistics show that nearly 40% of all Universal Credit recipients are in active paid employment but rely on UC as an in-work wage top-up due to low pay or high housing costs. Furthermore, ONS longitudinal studies show that 84% of non-working claimants in local areas face long-term illness, NHS waiting list delays, or full-time caring responsibilities rather than voluntary lifestyle choice.`;
     sourceRef = "ONS Labour Market Overview (2026) & Resolution Foundation Welfare Analysis / DWP Stat-Xplore";
-    return { inputStatement: text, extractedQuotes, score, verdict: "High BS / Misleading Generalisation", flags, primaryRebuttal, sourceRef };
+    return { inputStatement: text, extractedQuotes, score: Math.min(100, score), verdict: "High BS / Misleading Generalisation", flags, primaryRebuttal, sourceRef };
   }
 
   if (lower.includes('scam') || lower.includes('shirker') || lower.includes('handout') || lower.includes('free car')) {
@@ -728,12 +778,12 @@ const evaluatePipAndFinancialClaims = (rawInput) => {
     sourceRef = "ONS Labour Market Review & DWP Stat-Xplore database";
   }
 
-  if (score > 98) score = 98;
+  const finalScore = Math.min(100, score);
   return {
     inputStatement: text,
     extractedQuotes,
-    score,
-    verdict: score > 75 ? "Extreme Misinformation / Misleading" : score > 50 ? "Moderate Bias / Unsubstantiated" : "Low BS / Mostly Factual",
+    score: finalScore,
+    verdict: finalScore > 75 ? "Extreme Misinformation / Misleading" : finalScore > 50 ? "Moderate Bias / Unsubstantiated" : "Low BS / Mostly Factual",
     flags,
     primaryRebuttal,
     sourceRef
@@ -1004,338 +1054,253 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
                   { id: 'mps', label: 'Top MPs & Ministers', icon: Building2 },
                   { id: 'social_media', label: 'MP Social Media (X/TikTok/FB)', icon: Share2 },
                   { id: 'byParty', label: 'By Political Party', icon: Users },
-                  { id: 'tabloids', label: 'Tabloids & Newspapers', icon: Newspaper },
-                  { id: 'broadcasters', label: 'TV & Radio Broadcasters', icon: Radio },
+                  { id: 'tabloids', label: 'Newspaper Tabloids', icon: Newspaper },
+                  { id: 'broadcasters', label: 'TV & Radio Shows', icon: Radio },
                 ].map((cat) => {
                   const Icon = cat.icon;
-                  const isSel = leaderboardCategory === cat.id;
+                  const isActive = leaderboardCategory === cat.id;
                   return (
                     <button
                       key={cat.id}
-                      onClick={() => { setLeaderboardCategory(cat.id); setExpandedFigure(null); }}
-                      className={`flex items-center justify-center gap-2 flex-1 sm:flex-initial px-4 py-2 rounded-lg text-xs font-bold transition whitespace-nowrap ${ isSel ? 'bg-purple-600 text-white shadow-md' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800' }`}
+                      onClick={() => setLeaderboardCategory(cat.id)}
+                      className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold transition whitespace-nowrap ${
+                        isActive
+                          ? 'bg-purple-600 text-white shadow-sm'
+                          : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                      }`}
                     >
-                      <Icon className="w-4 h-4" />
+                      <Icon className="w-3.5 h-3.5" />
                       <span>{cat.label}</span>
                     </button>
                   );
                 })}
               </div>
 
-              <div className="flex items-center gap-2 text-xs text-slate-400 shrink-0">
+              <div className="flex items-center gap-2 text-xs text-slate-400 self-end sm:self-auto">
+                <Clock className="w-3.5 h-3.5 text-purple-400" />
                 <span>Timeframe:</span>
-                <button
-                  onClick={() => setTimeframe('30')}
-                  className={`px-3 py-1 rounded-md font-semibold ${timeframe === '30' ? 'bg-teal-500/20 text-teal-300 border border-teal-500/40' : 'bg-slate-900 border border-slate-800'}`}
+                <select
+                  value={timeframe}
+                  onChange={(e) => setTimeframe(e.target.value)}
+                  className="bg-slate-900 border border-slate-700 text-slate-200 rounded-lg px-2.5 py-1 text-xs focus:ring-1 focus:ring-purple-500 font-semibold"
                 >
-                  Last 30 Days
-                </button>
-                <button
-                  onClick={() => setTimeframe('90')}
-                  className={`px-3 py-1 rounded-md font-semibold ${timeframe === '90' ? 'bg-teal-500/20 text-teal-300 border border-teal-500/40' : 'bg-slate-900 border border-slate-800'}`}
-                >
-                  Last 90 Days
-                </button>
+                  <option value="7">Past 7 Days</option>
+                  <option value="30">Past 30 Days</option>
+                  <option value="90">Past 90 Days</option>
+                  <option value="365">All 2026 Data</option>
+                </select>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2 space-y-4">
-                {filteredLeaderboardData[leaderboardCategory]?.map((item) => {
-                  const isExpanded = expandedFigure === item.id;
-                  return (
-                    <div
-                      key={item.id}
-                      className={`rounded-xl border ${ highContrast ? 'border-yellow-400 bg-black' : 'border-slate-800 bg-slate-900/90 hover:border-slate-700' } transition overflow-hidden`}
-                    >
-                      <div className="p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                        <div className="flex items-start gap-3">
-                          <div className={`w-10 h-10 rounded-xl font-black flex items-center justify-center text-lg ${ item.rank === 1 ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40' : item.rank === 2 ? 'bg-slate-300/20 text-slate-200 border border-slate-300/40' : item.rank === 3 ? 'bg-amber-700/20 text-amber-600 border border-amber-700/40' : 'bg-slate-800 text-slate-400' }`}>
-                            #{item.rank}
+            <div className="grid grid-cols-1 gap-4">
+              {(filteredLeaderboardData[leaderboardCategory] || []).map((item) => {
+                const isExpanded = expandedFigure === item.id;
+                return (
+                  <div
+                    key={item.id}
+                    className={`p-5 rounded-2xl border transition-all duration-200 ${
+                      highContrast
+                        ? 'border-yellow-400 bg-black text-yellow-300'
+                        : 'border-slate-800 bg-slate-900/90 hover:border-slate-700'
+                    }`}
+                  >
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                      <div className="flex items-start gap-3.5">
+                        <div className={`flex items-center justify-center w-8 h-8 rounded-xl font-black text-sm shrink-0 ${
+                          item.rank === 1 ? 'bg-amber-500 text-slate-950' :
+                          item.rank === 2 ? 'bg-slate-300 text-slate-950' :
+                          item.rank === 3 ? 'bg-amber-700 text-white' : 'bg-slate-800 text-slate-400'
+                        }`}>
+                          #{item.rank}
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <h3 className="font-bold text-base md:text-lg text-slate-100">{item.name}</h3>
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700 font-medium">
+                              {item.party || item.type || item.role}
+                            </span>
                           </div>
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <h3 className="font-bold text-base md:text-lg text-slate-100">{item.name}</h3>
-                              {item.party && (
-                                <span className="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
-                                  {item.party}
+                          <p className="text-xs text-slate-400 mt-0.5">{item.role}</p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-4 self-start md:self-auto">
+                        <div className="text-right">
+                          <div className="text-xs text-slate-400 font-medium">Flagged Claims</div>
+                          <div className="text-lg font-black text-amber-400">{item.flaggedClaimsCount}</div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-xs text-slate-400 font-medium">BS Score</div>
+                          <div className={`text-lg font-black ${item.bsScore > 85 ? 'text-rose-400' : 'text-amber-400'}`}>
+                            {item.bsScore}%
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => setExpandedFigure(isExpanded ? null : item.id)}
+                          className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition"
+                          aria-label="Expand claim details"
+                        >
+                          {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 pt-4 border-t border-slate-800/80 grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="bg-rose-950/20 border border-rose-900/30 p-3.5 rounded-xl space-y-1">
+                        <div className="text-xs font-bold text-rose-400 flex items-center gap-1.5">
+                          <AlertTriangle className="w-3.5 h-3.5" /> Top Inaccurate Claim
+                        </div>
+                        <p className="text-xs text-slate-200 italic">{item.topClaim}</p>
+                      </div>
+
+                      <div className="bg-teal-950/20 border border-teal-900/30 p-3.5 rounded-xl space-y-1">
+                        <div className="text-xs font-bold text-teal-400 flex items-center gap-1.5">
+                          <CheckCircle2 className="w-3.5 h-3.5" /> Factual Correction
+                        </div>
+                        <p className="text-xs text-slate-200">{item.factualCorrection}</p>
+                        <div className="pt-1 flex items-center justify-between text-[11px] text-teal-400/80">
+                          <span>Source: {item.primarySource}</span>
+                          {item.sourceUrl && (
+                            <a href={item.sourceUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:underline">
+                              <span>Verify</span> <ExternalLink className="w-3 h-3" />
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {isExpanded && (
+                      <div className="mt-4 pt-4 border-t border-slate-800 space-y-3">
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                          Recent Flagged Statements History ({item.claimsHistory?.length || 0})
+                        </h4>
+                        <div className="space-y-2">
+                          {(item.claimsHistory || []).map((historyItem, idx) => (
+                            <div key={idx} className="p-3 rounded-xl bg-slate-950 border border-slate-800/80 flex flex-col md:flex-row md:items-center justify-between gap-2 text-xs">
+                              <div className="space-y-1">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-slate-400 font-mono">{historyItem.date}</span>
+                                  <span className="text-purple-400 font-semibold">• {historyItem.outlet}</span>
+                                </div>
+                                <p className="text-slate-200 italic">"{historyItem.quote}"</p>
+                              </div>
+                              <div className="flex items-center gap-2 shrink-0">
+                                <span className="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30 text-[10px] font-bold">
+                                  {historyItem.status}
                                 </span>
-                              )}
-                            </div>
-                            <p className="text-xs text-slate-400">{item.role || item.type}</p>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end border-t sm:border-t-0 border-slate-800 pt-3 sm:pt-0">
-                          <div className="text-right">
-                            <div className="text-xs text-slate-400">Flagged Claims</div>
-                            <div className="text-lg font-black text-rose-400">{item.flaggedClaimsCount} logged</div>
-                          </div>
-                          <div className="text-right">
-                            <div className="text-xs text-slate-400">BS Index</div>
-                            <div className="text-lg font-black text-amber-400">{item.bsScore}%</div>
-                          </div>
-                          <button
-                            onClick={() => setExpandedFigure(isExpanded ? null : item.id)}
-                            className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition"
-                            aria-label="Expand details"
-                          >
-                            {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="px-4 py-2.5 bg-slate-950/60 border-t border-slate-800/80 flex items-center justify-between text-xs gap-3">
-                        <span className="text-slate-400 line-clamp-1">
-                          <strong className="text-rose-300 font-semibold">Most Frequent Misleading Statement:</strong> "{item.topClaim}"
-                        </span>
-                        <span className="text-[10px] text-slate-500 shrink-0">Updated {item.lastUpdated}</span>
-                      </div>
-
-                      {isExpanded && (
-                        <div className="p-5 bg-slate-950/90 border-t border-slate-800 space-y-4">
-                          <div className="p-4 rounded-xl bg-teal-950/30 border border-teal-500/30 space-y-2">
-                            <div className="flex items-center gap-2 text-teal-400 font-bold text-xs uppercase tracking-wider">
-                              <CheckCircle2 className="w-4 h-4" />
-                              <span>Official Primary Data Rebuttal</span>
-                            </div>
-                            <p className="text-sm text-slate-200 leading-relaxed">
-                              {item.factualCorrection}
-                            </p>
-                            <div className="text-xs text-teal-300/80 pt-1 font-mono flex items-center gap-1">
-                              <span>Primary Source:</span>
-                              <a 
-                                href={item.sourceUrl} 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
-                                className="underline hover:text-teal-200 inline-flex items-center gap-1"
-                              >
-                                {item.primarySource} <ExternalLink className="w-3 h-3" />
-                              </a>
-                            </div>
-                          </div>
-
-                          {item.claimsHistory && item.claimsHistory.length > 0 && (
-                            <div className="space-y-2">
-                              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                                Verified Inaccurate Claims Log ({item.claimsHistory.length} cited entries)
-                              </h4>
-                              <div className="space-y-2">
-                                {item.claimsHistory.map((c, idx) => (
-                                  <div key={idx} className="p-3 rounded-lg bg-slate-900 border border-slate-800 text-xs space-y-1">
-                                    <div className="flex justify-between text-slate-400">
-                                      <span className="font-semibold text-rose-400">{c.outlet} ({c.date})</span>
-                                      <span className="px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300">{c.status}</span>
-                                    </div>
-                                    <p className="italic text-slate-200">"{c.quote}"</p>
-                                    <div className="text-[10px] text-slate-500 font-mono flex items-center gap-1">
-                                      <span>Ref:</span>
-                                      <a 
-                                        href={c.sourceUrl} 
-                                        target="_blank" 
-                                        rel="noopener noreferrer" 
-                                        className="underline hover:text-slate-300 inline-flex items-center gap-1"
-                                      >
-                                        {c.source} <ExternalLink className="w-2.5 h-2.5" />
-                                      </a>
-                                    </div>
-                                  </div>
-                                ))}
+                                {historyItem.sourceUrl && (
+                                  <a href={historyItem.sourceUrl} target="_blank" rel="noreferrer" className="p-1 text-slate-400 hover:text-slate-200">
+                                    <ExternalLink className="w-3.5 h-3.5" />
+                                  </a>
+                                )}
                               </div>
                             </div>
-                          )}
-
-                          <div className="flex justify-end pt-2">
-                            <button
-                              onClick={() => {
-                                setMpName(item.name);
-                                setActiveTab('briefing');
-                              }}
-                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition"
-                            >
-                              <FileText className="w-3.5 h-3.5" />
-                              <span>Generate MP Briefing Pack Against This Figure</span>
-                            </button>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-
-              <div className="space-y-4">
-                <div className={`p-4 rounded-xl border ${highContrast ? 'border-yellow-400 bg-black' : 'border-slate-800 bg-slate-900/90'} space-y-4`}>
-                  <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-                    <div className="flex items-center gap-2">
-                      <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
-                      <h3 className="font-bold text-sm text-slate-200 flex items-center gap-2">
-                        <Rss className="w-4 h-4 text-purple-400" /> Live Hansard & News Sync
-                      </h3>
-                    </div>
-                    <button
-                      onClick={() => setIsFeedLive(!isFeedLive)}
-                      className={`text-[10px] px-2 py-0.5 rounded border ${isFeedLive ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' : 'bg-slate-800 text-slate-400'}`}
-                    >
-                      {isFeedLive ? 'Sync Active' : 'Paused'}
-                    </button>
-                  </div>
-                  <p className="text-xs text-slate-400">
-                    Simulating automated live keyword monitoring across Hansard Commons debates, broadcast radio transcripts, and national tabloid RSS feeds.
-                  </p>
-
-                  <div className="space-y-3 max-h-[500px] overflow-y-auto pr-1">
-                    {liveFeed.map((feed) => (
-                      <div key={feed.id} className="p-3 rounded-lg bg-slate-950 border border-slate-800/80 text-xs space-y-1.5">
-                        <div className="flex items-center justify-between text-[10px] text-slate-400">
-                          <span className="font-semibold text-purple-300">{feed.author}</span>
-                          <span>{feed.time}</span>
-                        </div>
-                        <p className="text-slate-200 text-xs leading-snug">{feed.text}</p>
-                        <div className="flex items-center justify-between pt-1 text-[10px]">
-                          <span className={`px-1.5 py-0.5 rounded font-bold ${ feed.bsFlag.includes('High') || feed.bsFlag.includes('Extreme') ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30' : 'bg-teal-500/20 text-teal-300 border border-teal-500/30' }`}>
-                            {feed.bsFlag}
-                          </span>
-                          <a 
-                            href={feed.sourceUrl} 
-                            target="_blank" 
-                            rel="noopener noreferrer" 
-                            className="text-slate-500 hover:text-slate-300 underline inline-flex items-center gap-0.5"
-                          >
-                            {feed.source} <ExternalLink className="w-2.5 h-2.5" />
-                          </a>
+                          ))}
                         </div>
                       </div>
-                    ))}
+                    )}
                   </div>
-                </div>
-
-                <div className="p-4 rounded-xl bg-purple-950/20 border border-purple-800/30 text-xs text-slate-300 space-y-2">
-                  <div className="font-bold text-purple-300 flex items-center gap-1.5">
-                    <Info className="w-4 h-4" /> How Rankings Are Calculated
-                  </div>
-                  <p className="leading-relaxed">
-                    Leaderboard positions are determined by verifying quotes against published DWP Stat-Xplore datasets, ONS releases, and HMCTS tribunal reports. Claims are evaluated strictly without political bias under UK Public Interest Fair Comment principles.
-                  </p>
-                </div>
-              </div>
+                );
+              })}
             </div>
           </div>
         )}
 
         {activeTab === 'analyzer' && (
-          <div className="max-w-4xl mx-auto space-y-6">
-            <div className={`p-6 rounded-2xl border ${highContrast ? 'border-yellow-400 bg-black' : 'border-purple-800/40 bg-gradient-to-r from-purple-950/80 via-slate-900 to-slate-900'}`}>
-              <div className="flex items-center gap-2 text-purple-400 text-xs font-bold uppercase tracking-wider mb-2">
+          <div className="space-y-6">
+            <div className={`p-6 rounded-2xl border ${highContrast ? 'border-yellow-400 bg-black' : 'border-purple-800/40 bg-slate-900'} space-y-4`}>
+              <div className="flex items-center gap-2 text-purple-400 text-xs font-bold uppercase tracking-wider">
                 <Zap className="w-4 h-4" />
-                <span>Instant Misinformation & Rhetoric Verification Engine</span>
+                <span>Automated Fact-Checker</span>
               </div>
-              <h2 className="text-2xl font-black text-slate-100">BS Meter & Statement Analyzer</h2>
-              <p className="text-xs text-slate-300 mt-1">
-                Paste any political quote, news headline, or benefit claim below to test it against statutory 2026 DWP payment limits, ONS employment datasets, and MoJ tribunal records.
+              <h2 className="text-2xl font-black text-slate-100">BS Meter & Claim Analyzer</h2>
+              <p className="text-xs md:text-sm text-slate-300">
+                Paste any political statement, news headline, MP tweet, or article snippet below. The engine evaluates explicit financial figures against 2026/27 DWP Benefit Caps, checks PIP descriptors, flags sensationalist rhetoric, and debunks economic GDP claims.
               </p>
-            </div>
 
-            <div className="p-6 rounded-xl border border-slate-800 bg-slate-900/90 space-y-4">
-              <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider">
-                Enter Rhetoric, Headline, or Quote to Analyze:
-              </label>
-              <textarea
-                value={analyzerInput}
-                onChange={(e) => setAnalyzerInput(e.target.value)}
-                placeholder="e.g. 'People on PIP get £60k a year tax free for tennis elbow' or 'In Blackpool 1 in 5 adults are on UC with no incentive to work'..."
-                className="w-full h-32 p-3 rounded-xl bg-slate-950 border border-slate-700 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-purple-500"
-              />
-              <div className="flex justify-between items-center">
-                <span className="text-xs text-slate-400">
-                  Try test phrases: <button onClick={() => setAnalyzerInput("Claimants get £60k a year on PIP for tennis elbow")} className="text-purple-400 underline hover:text-purple-300">"£60k for tennis elbow"</button> or <button onClick={() => setAnalyzerInput("In Blackpool 1 in 4 adults are on Universal Credit with no incentive to work")} className="text-purple-400 underline hover:text-purple-300">"Blackpool 1 in 4 UC no incentive"</button>
-                </span>
-                <button
-                  onClick={handleAnalyzeText}
-                  disabled={analyzing || !analyzerInput.trim()}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white font-bold text-sm transition shadow-lg shadow-purple-600/30"
-                >
-                  {analyzing ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-                  <span>{analyzing ? 'Cross-Referencing DWP/ONS...' : 'Run Analysis'}</span>
-                </button>
+              <div className="space-y-3">
+                <textarea
+                  value={analyzerInput}
+                  onChange={(e) => setAnalyzerInput(e.target.value)}
+                  placeholder="Paste statement here... (e.g., 'Claimants receive £60k a year in free PIP cash for tennis elbow and welfare is spiralling out of control')"
+                  rows={4}
+                  className="w-full p-4 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+                <div className="flex items-center justify-between gap-3">
+                  <div className="text-xs text-slate-400">
+                    Try entering keywords like <button onClick={() => setAnalyzerInput("People are getting £60k a year in free PIP cash while welfare is spiralling out of control")} className="text-purple-400 hover:underline">£60k annual claim</button>, <button onClick={() => setAnalyzerInput("Claiming PIP for mild eczema and tennis elbow")} className="text-purple-400 hover:underline">tennis elbow</button>, or <button onClick={() => setAnalyzerInput("Welfare spending as a percentage of GDP is spiralling out of control")} className="text-purple-400 hover:underline">GDP spiral myth</button>.
+                  </div>
+                  <button
+                    onClick={handleAnalyzeText}
+                    disabled={analyzing || !analyzerInput.trim()}
+                    className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm bg-purple-600 hover:bg-purple-500 text-white disabled:opacity-50 transition shadow-lg shadow-purple-600/20"
+                  >
+                    {analyzing ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
+                    <span>{analyzing ? 'Analyzing...' : 'Run Fact Check'}</span>
+                  </button>
+                </div>
               </div>
             </div>
 
             {analysisResult && (
-              <div className="p-6 rounded-2xl border border-slate-800 bg-slate-900 space-y-6">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+              <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
                   <div>
-                    <span className="text-xs text-slate-400 uppercase tracking-wider font-bold">Analysis Output</span>
+                    <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Evaluation Result</span>
                     <h3 className="text-xl font-black text-slate-100">{analysisResult.verdict}</h3>
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 bg-slate-950 p-3 rounded-xl border border-slate-800">
                     <div className="text-right">
-                      <div className="text-xs text-slate-400">BS Index Rating</div>
-                      <div className={`text-2xl font-black ${analysisResult.score > 75 ? 'text-rose-500' : analysisResult.score > 40 ? 'text-amber-400' : 'text-emerald-400'}`}>
+                      <div className="text-[11px] text-slate-400 font-medium">Calculated BS Rating</div>
+                      <div className={`text-xl font-black ${analysisResult.score > 75 ? 'text-rose-400' : analysisResult.score > 40 ? 'text-amber-400' : 'text-teal-400'}`}>
                         {analysisResult.score}%
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* RESTORED COLOURED BS METER BAR */}
-                <div className="space-y-1.5 p-4 rounded-xl bg-slate-950 border border-slate-800">
-                  <div className="flex justify-between items-center text-xs font-bold">
-                    <span className="text-slate-400 uppercase tracking-wider">BS Severity Spectrum</span>
-                    <span className={analysisResult.score > 75 ? 'text-rose-400' : analysisResult.score > 40 ? 'text-amber-400' : 'text-emerald-400'}>
-                      {analysisResult.score > 75 ? 'HIGH BS / MISLEADING' : analysisResult.score > 40 ? 'MEDIUM BS / PARTIAL' : 'LOW BS / ACCURATE'}
-                    </span>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-xs text-slate-400 font-semibold">
+                    <span>Low BS (0%)</span>
+                    <span>Medium BS (50%)</span>
+                    <span>High BS (100%)</span>
                   </div>
-                  <div className="w-full bg-slate-800 rounded-full h-4 overflow-hidden p-0.5 border border-slate-700/50 relative">
+                  <div className="w-full h-3 bg-slate-950 rounded-full overflow-hidden p-0.5 border border-slate-800 flex">
                     <div
-                      className="h-full rounded-full transition-all duration-700 ease-out shadow-sm"
-                      style={{
-                        width: `${analysisResult.score}%`,
-                        backgroundColor: analysisResult.score > 75 ? '#f43f5e' : analysisResult.score > 40 ? '#f59e0b' : '#10b981'
-                      }}
+                      className={`h-full rounded-full transition-all duration-500 ${
+                        analysisResult.score > 75 ? 'bg-gradient-to-r from-amber-500 to-rose-500' :
+                        analysisResult.score > 40 ? 'bg-amber-500' : 'bg-teal-500'
+                      }`}
+                      style={{ width: `${analysisResult.score}%` }}
                     />
-                  </div>
-                  <div className="flex justify-between text-[10px] text-slate-500 font-mono pt-0.5">
-                    <span>0% (Factual)</span>
-                    <span>50% (Misleading)</span>
-                    <span>100% (Extreme BS)</span>
                   </div>
                 </div>
 
-                {analysisResult.extractedQuotes && analysisResult.extractedQuotes.length > 0 && (
-                  <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 text-xs">
-                    <span className="text-slate-400 font-bold uppercase text-[10px] block mb-1">Flagged Text Snippets:</span>
-                    <div className="space-y-1">
-                      {analysisResult.extractedQuotes.map((q, i) => (
-                        <p key={i} className="text-rose-300 italic">{q}</p>
-                      ))}
-                    </div>
+                {analysisResult.extractedQuotes?.length > 0 && (
+                  <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
+                    <div className="text-xs font-bold text-purple-400">Extracted Key Claims Evaluated</div>
+                    <div className="text-xs text-slate-300 italic">{analysisResult.extractedQuotes.join(', ')}</div>
                   </div>
                 )}
 
-                <div className="space-y-2">
-                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Identified Misinformation Mechanisms & Errors:</h4>
-                  <ul className="space-y-2">
+                <div className="space-y-3">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">Analysis Flags</h4>
+                  <div className="space-y-2">
                     {analysisResult.flags.map((flag, idx) => (
-                      <li key={idx} className="p-3 rounded-lg bg-rose-950/20 border border-rose-800/30 text-xs text-rose-200 flex items-start gap-2">
-                        <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+                      <div key={idx} className="flex items-start gap-2 text-xs text-slate-300 bg-slate-950 p-3 rounded-xl border border-slate-800">
+                        <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                         <span>{flag}</span>
-                      </li>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
 
-                <div className="p-4 rounded-xl bg-teal-950/30 border border-teal-500/30 space-y-2">
-                  <div className="flex items-center gap-2 text-teal-400 font-bold text-xs uppercase tracking-wider">
-                    <CheckCircle2 className="w-4 h-4" />
-                    <span>Fact-Checked Primary Source Rebuttal</span>
+                <div className="p-4 rounded-xl bg-teal-950/20 border border-teal-900/40 space-y-2">
+                  <div className="text-xs font-bold text-teal-400 flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4" /> Primary Source Rebuttal & Fact Check
                   </div>
-                  <p className="text-sm text-slate-100 leading-relaxed">
-                    {analysisResult.primaryRebuttal}
-                  </p>
-                  <div className="text-xs text-teal-300/80 pt-2 font-mono">
-                    <strong>Official Ref:</strong> {analysisResult.sourceRef}
-                  </div>
+                  <p className="text-xs md:text-sm text-slate-200 leading-relaxed">{analysisResult.primaryRebuttal}</p>
+                  <div className="text-[11px] text-teal-400/80 pt-1 font-mono">Verified Source: {analysisResult.sourceRef}</div>
                 </div>
               </div>
             )}
@@ -1344,92 +1309,78 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
 
         {activeTab === 'spending' && (
           <div className="space-y-6">
-            <div className={`p-6 rounded-2xl border ${highContrast ? 'border-yellow-400 bg-black' : 'border-purple-800/40 bg-gradient-to-r from-purple-950/80 via-slate-900 to-slate-900'}`}>
-              <div className="flex items-center gap-2 text-purple-400 text-xs font-bold uppercase tracking-wider mb-2">
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+              <div className="flex items-center gap-2 text-teal-400 text-xs font-bold uppercase tracking-wider">
                 <BarChart3 className="w-4 h-4" />
-                <span>Fiscal Transparency & Expenditure Breakdown</span>
+                <span>Fiscal Transparency & Expenditure Analysis</span>
               </div>
-              <h2 className="text-2xl font-black text-slate-100">UK Welfare Spending & Contribution Debunk</h2>
-              <p className="text-xs text-slate-300 mt-1">
-                Separating official DWP, OBR, and IFS spending figures from political headlines. Fact-checking claims about contributory history, work records, and benefit spending allocations.
+              <h2 className="text-2xl font-black text-slate-100">UK Welfare & Disability Expenditure Debunk</h2>
+              <p className="text-xs md:text-sm text-slate-300">
+                Official figures breaking down the ~£346 billion social protection expenditure (2025/26), contrasting state pensions against disability support and debunking claims regarding lifetime National Insurance contributions.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="p-6 rounded-2xl border border-slate-800 bg-slate-900/90 space-y-5">
-                <h3 className="text-lg font-bold text-slate-100 flex items-center gap-2">
-                  <Coins className="w-5 h-5 text-purple-400" />
-                  Official Social Protection Spend Breakdown (2025/26)
-                </h3>
-                <p className="text-xs text-slate-300">
-                  Total UK Social Protection spending is ~£346 billion. State pensions represent the largest share, while working-age disability benefits (PIP) account for 12.9%.
-                </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+                <h3 className="text-lg font-bold text-slate-100">Welfare & Social Protection Breakdown (2025/26)</h3>
+                <p className="text-xs text-slate-400">Total UK Welfare Budget: ~£346.0 Billion (HM Treasury / DWP / OBR Data)</p>
+                
                 <div className="space-y-3">
                   {SPENDING_BREAKDOWN_2025_26.map((item, idx) => (
                     <div key={idx} className="space-y-1">
-                      <div className="flex justify-between text-xs font-semibold text-slate-200">
-                        <span>{item.label}</span>
-                        <span className="font-mono">{item.value}bn ({item.pct})</span>
+                      <div className="flex justify-between text-xs font-semibold">
+                        <span className="text-slate-200">{item.label}</span>
+                        <span className="text-slate-400">£{item.value}bn ({item.pct})</span>
                       </div>
-                      <div className="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
-                        <div 
-                          className="h-2.5 rounded-full" 
-                          style={{ width: item.pct, backgroundColor: item.color }}
-                        ></div>
+                      <div className="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
+                        <div className="h-full rounded-full" style={{ width: item.pct, backgroundColor: item.color }} />
                       </div>
                     </div>
                   ))}
                 </div>
-                <div className="p-3 rounded-lg bg-slate-950 border border-slate-800 text-[11px] text-slate-400 font-mono">
-                  Source: OBR Economic & Fiscal Outlook (March 2026) & DWP Benefit Expenditure Tables.
+
+                <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300 space-y-1">
+                  <div className="font-bold text-amber-400">Key Context:</div>
+                  <p>State Pensions constitute the largest single component (42.2%) of welfare spending. Working-age disability benefits (PIP/DLA) represent 12.9% of total expenditure.</p>
                 </div>
               </div>
 
-              <div className="p-6 rounded-2xl border border-slate-800 bg-slate-900/90 space-y-5">
-                <h3 className="text-lg font-bold text-slate-100 flex items-center gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-teal-400" />
-                  Contributory History & Work Record Debunk
-                </h3>
-                <p className="text-xs text-slate-300">
-                  Claims that disability claimants "never pay into the system" are contradicted by DWP and ONS longitudinal employment tracking data:
-                </p>
+              <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+                <h3 className="text-lg font-bold text-slate-100">Contributory History & Employment Facts</h3>
+                <p className="text-xs text-slate-400">Debunking myths that claimants never worked or contributed to National Insurance</p>
 
                 <div className="space-y-3">
                   {CONTRIBUTORY_DEBUNK_DATA.map((item, idx) => (
-                    <div key={idx} className="p-3.5 rounded-xl bg-slate-950 border border-slate-800/80 space-y-1">
+                    <div key={idx} className="p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
                       <div className="flex items-center gap-2">
-                        <span className="text-lg font-black text-teal-400 font-mono">{item.stat}</span>
-                        <span className="text-xs font-bold text-slate-200">{item.detail}</span>
+                        <span className="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-black text-xs border border-purple-500/30">
+                          {item.stat}
+                        </span>
+                        <span className="text-xs font-semibold text-slate-200">{item.detail}</span>
                       </div>
-                      <div className="text-[10px] text-slate-500 font-mono pt-1">
-                        Ref: {item.source}
-                      </div>
+                      <div className="text-[10px] text-slate-500 font-mono">Source: {item.source}</div>
                     </div>
                   ))}
                 </div>
               </div>
             </div>
 
-            <div className="p-6 rounded-2xl border border-slate-800 bg-slate-900/90 space-y-4">
-              <h3 className="text-lg font-bold text-slate-100 flex items-center gap-2">
-                <Globe className="w-5 h-5 text-purple-400" />
-                Primary Sources & Official Government Portals
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+              <h3 className="text-lg font-bold text-slate-100">Official Data Sources & References</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {SPENDING_LINKS.map((link, idx) => (
                   <a
                     key={idx}
                     href={link.url}
                     target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-purple-500/50 transition group space-y-2"
+                    rel="noreferrer"
+                    className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-slate-700 transition flex items-start justify-between gap-3 text-xs"
                   >
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-purple-300">{link.org}</span>
-                      <ExternalLink className="w-3.5 h-3.5 text-slate-500 group-hover:text-purple-300 transition" />
+                    <div className="space-y-1">
+                      <div className="font-bold text-purple-400">{link.name}</div>
+                      <p className="text-slate-400">{link.desc}</p>
                     </div>
-                    <h4 className="text-sm font-bold text-slate-200 group-hover:text-purple-200">{link.name}</h4>
-                    <p className="text-xs text-slate-400">{link.desc}</p>
+                    <ExternalLink className="w-4 h-4 text-slate-500 shrink-0 mt-0.5" />
                   </a>
                 ))}
               </div>
@@ -1439,58 +1390,60 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
 
         {activeTab === 'vault' && (
           <div className="space-y-6">
-            <div className={`p-6 rounded-2xl border ${highContrast ? 'border-yellow-400 bg-black' : 'border-purple-800/40 bg-gradient-to-r from-purple-950/80 via-slate-900 to-slate-900'}`}>
-              <div className="flex items-center gap-2 text-purple-400 text-xs font-bold uppercase tracking-wider mb-2">
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+              <div className="flex items-center gap-2 text-purple-400 text-xs font-bold uppercase tracking-wider">
                 <BookOpen className="w-4 h-4" />
                 <span>Verified Fact Database</span>
               </div>
-              <h2 className="text-2xl font-black text-slate-100">The Welfare Myth Vault</h2>
-              <p className="text-xs text-slate-300 mt-1">
-                Direct evidence-based rebuttals to the most widespread UK welfare and PIP myths using primary official figures.
+              <h2 className="text-2xl font-black text-slate-100">Myth Vault & Fact Directory</h2>
+              <p className="text-xs md:text-sm text-slate-300">
+                Direct rebuttals to persistent myths surrounding PIP fraud, Motability leases, economic inactivity, and GP fit note practices.
               </p>
+
+              <div className="relative">
+                <Search className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-500" />
+                <input
+                  type="text"
+                  value={vaultSearch}
+                  onChange={(e) => setVaultSearch(e.target.value)}
+                  placeholder="Search myths, topics, or keywords (e.g. fraud, motability, fit notes)..."
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 placeholder-slate-500 text-xs focus:outline-none focus:ring-1 focus:ring-purple-500"
+                />
+              </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center gap-3">
-              <Search className="w-5 h-5 text-slate-400 shrink-0" />
-              <input
-                type="text"
-                value={vaultSearch}
-                onChange={(e) => setVaultSearch(e.target.value)}
-                placeholder="Search myths by keyword (e.g. 'fraud', 'motability', 'gated', 'gpps')..."
-                className="w-full bg-transparent text-sm text-slate-100 placeholder-slate-500 focus:outline-none"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {MYTH_VAULT.filter(m => 
-                m.claim.toLowerCase().includes(vaultSearch.toLowerCase()) || 
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {MYTH_VAULT.filter(m =>
+                m.claim.toLowerCase().includes(vaultSearch.toLowerCase()) ||
                 m.truth.toLowerCase().includes(vaultSearch.toLowerCase()) ||
                 m.category.toLowerCase().includes(vaultSearch.toLowerCase())
-              ).map((m) => (
-                <div key={m.id} className="p-6 rounded-2xl border border-slate-800 bg-slate-900/90 space-y-4 flex flex-col justify-between">
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                        {m.category}
-                      </span>
-                      <span className="text-xs text-rose-400 font-bold flex items-center gap-1">
-                        <AlertTriangle className="w-3.5 h-3.5" /> {m.severity}
+              ).map((myth) => (
+                <div key={myth.id} className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3 flex flex-col justify-between">
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-purple-400">{myth.category}</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30 font-semibold">
+                        {myth.severity}
                       </span>
                     </div>
 
-                    <div>
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Common Misleading Claim:</h3>
-                      <p className="text-base font-bold text-rose-300 italic">"{m.claim}"</p>
+                    <div className="p-3 rounded-xl bg-rose-950/20 border border-rose-900/30 space-y-1">
+                      <div className="text-xs font-bold text-rose-400 flex items-center gap-1.5">
+                        <XCircle className="w-3.5 h-3.5" /> Common Myth
+                      </div>
+                      <p className="text-xs text-slate-200 font-medium">"{myth.claim}"</p>
                     </div>
 
-                    <div>
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-teal-400 mb-1">Verified Fact & Evidence:</h3>
-                      <p className="text-sm text-slate-200 leading-relaxed">{m.truth}</p>
+                    <div className="p-3 rounded-xl bg-teal-950/20 border border-teal-900/30 space-y-1">
+                      <div className="text-xs font-bold text-teal-400 flex items-center gap-1.5">
+                        <CheckCircle2 className="w-3.5 h-3.5" /> Verified Truth
+                      </div>
+                      <p className="text-xs text-slate-200">{myth.truth}</p>
                     </div>
                   </div>
 
-                  <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs">
-                    <span className="text-slate-400 font-mono text-[11px]">Primary Source: {m.dwpData}</span>
+                  <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                    <span>Source: {myth.dwpData}</span>
                   </div>
                 </div>
               ))}
@@ -1500,46 +1453,46 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
 
         {activeTab === 'economics' && (
           <div className="space-y-6">
-            <div className={`p-6 rounded-2xl border ${highContrast ? 'border-yellow-400 bg-black' : 'border-purple-800/40 bg-gradient-to-r from-purple-950/80 via-slate-900 to-slate-900'}`}>
-              <div className="flex items-center gap-2 text-purple-400 text-xs font-bold uppercase tracking-wider mb-2">
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+              <div className="flex items-center gap-2 text-teal-400 text-xs font-bold uppercase tracking-wider">
                 <LineChart className="w-4 h-4" />
                 <span>Macroeconomic Analysis</span>
               </div>
-              <h2 className="text-2xl font-black text-slate-100">Economic Impact & GDP Multiplier Analysis</h2>
-              <p className="text-xs text-slate-300 mt-1">
-                Evaluating the real fiscal dynamics of welfare and PIP spending on local high streets, GDP ratios, and NHS cost avoidance.
+              <h2 className="text-2xl font-black text-slate-100">Economic Impact & GDP Context</h2>
+              <p className="text-xs md:text-sm text-slate-300">
+                Evaluating the local multiplier effect of disability benefits and analyzing welfare expenditure as a proportion of UK Gross Domestic Product.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="p-6 rounded-2xl border border-slate-800 bg-slate-900/90 space-y-3">
-                <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-300">
-                  <TrendingUp className="w-5 h-5" />
-                </div>
-                <h3 className="text-base font-bold text-slate-100">Regional Economic Multiplier</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+                <h3 className="text-lg font-bold text-slate-100">The Local Economic Multiplier Effect</h3>
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  Independent economic research shows every £1.00 paid in disability benefits generates between <strong>£1.40 and £1.70</strong> in local economic activity, as recipients spend money instantly on essential utilities, care, and local food shops.
+                  Disability benefit payments like PIP function as vital local economic multipliers. Independent research demonstrates that lower-income households and disabled individuals have a high marginal propensity to consume (MPC).
                 </p>
+
+                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+                  <div className="text-xs font-bold text-purple-400">Estimated Local Economic Multiplier</div>
+                  <div className="text-3xl font-black text-amber-400">1.4x – 1.7x</div>
+                  <p className="text-xs text-slate-400">
+                    For every £1.00 disbursed in PIP awards, between £1.40 and £1.70 is generated in local commercial activity through direct expenditure on essential goods, local transport, heating, and care services.
+                  </p>
+                </div>
               </div>
 
-              <div className="p-6 rounded-2xl border border-slate-800 bg-slate-900/90 space-y-3">
-                <div className="w-10 h-10 rounded-xl bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-teal-300">
-                  <BarChart3 className="w-5 h-5" />
-                </div>
-                <h3 className="text-base font-bold text-slate-100">Stable % of GDP Spend</h3>
+              <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+                <h3 className="text-lg font-bold text-slate-100">Welfare Expenditure as % of GDP</h3>
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  UK total social protection expenditure as a percentage of GDP has hovered predictably between <strong>10% and 11%</strong> for over 20 years, sitting lower than the OECD European average (13.2%).
+                  Despite claims of an "exploding welfare bill", UK social protection spending as a share of GDP has remained structurally stable over long term horizons.
                 </p>
-              </div>
 
-              <div className="p-6 rounded-2xl border border-slate-800 bg-slate-900/90 space-y-3">
-                <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-300">
-                  <ShieldCheck className="w-5 h-5" />
+                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+                  <div className="text-xs font-bold text-teal-400">UK Historical Share of GDP</div>
+                  <div className="text-3xl font-black text-teal-300">10% – 11%</div>
+                  <p className="text-xs text-slate-400">
+                    Total UK social protection expenditure remains near 10-11% of GDP, below the post-2008 financial crisis peak of 12.1% and substantially below peer European nations (e.g. France ~18.8%, Germany ~15.4%).
+                  </p>
                 </div>
-                <h3 className="text-base font-bold text-slate-100">NHS Preventative Offset</h3>
-                <p className="text-xs text-slate-300 leading-relaxed">
-                  Proper disability income prevents acute health deterioration, malnutrition, and cold-home complications, saving the NHS an estimated <strong>£1.2bn+ annually</strong> in emergency admission costs.
-                </p>
               </div>
             </div>
           </div>
@@ -1547,284 +1500,75 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
 
         {activeTab === 'charities' && (
           <div className="space-y-6">
-            <div className={`p-6 rounded-2xl border ${highContrast ? 'border-yellow-400 bg-black' : 'border-purple-800/40 bg-gradient-to-r from-purple-950/80 via-slate-900 to-slate-900'}`}>
-              <div className="flex items-center gap-2 text-purple-400 text-xs font-bold uppercase tracking-wider mb-2">
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+              <div className="flex items-center gap-2 text-purple-400 text-xs font-bold uppercase tracking-wider">
                 <HeartHandshake className="w-4 h-4" />
-                <span>National Support Network</span>
+                <span>Charity & Support Directory</span>
               </div>
               <h2 className="text-2xl font-black text-slate-100">Disability Charity A-Z Directory</h2>
-              <p className="text-xs text-slate-300 mt-1">
-                Direct contact details and helpline hours for non-profit organizations providing specialized assistance for specific health conditions.
+              <p className="text-xs md:text-sm text-slate-300">
+                Browse specialist UK disability charities, advice helplines, and condition-specific advocacy groups offering guidance on PIP claims and tribunal representation.
               </p>
-            </div>
 
-            <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex flex-col md:flex-row items-center gap-4">
-              <div className="flex items-center gap-2 flex-1 w-full bg-slate-950 px-3 py-2 rounded-lg border border-slate-800">
-                <Search className="w-4 h-4 text-slate-400" />
-                <input
-                  type="text"
-                  value={charitySearch}
-                  onChange={(e) => setCharitySearch(e.target.value)}
-                  placeholder="Filter charities by condition or name..."
-                  className="bg-transparent text-xs text-slate-100 placeholder-slate-500 focus:outline-none w-full"
-                />
-              </div>
-
-              <div className="flex items-center gap-2 w-full md:w-auto">
-                <span className="text-xs text-slate-400 whitespace-nowrap">Category:</span>
+              <div className="flex flex-col md:flex-row gap-3">
+                <div className="relative flex-1">
+                  <Search className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-500" />
+                  <input
+                    type="text"
+                    value={charitySearch}
+                    onChange={(e) => setCharitySearch(e.target.value)}
+                    placeholder="Search charities or conditions..."
+                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 placeholder-slate-500 text-xs focus:outline-none focus:ring-1 focus:ring-purple-500"
+                  />
+                </div>
                 <select
                   value={charityCategory}
                   onChange={(e) => setCharityCategory(e.target.value)}
-                  className="bg-slate-950 text-xs text-slate-200 border border-slate-800 rounded-lg px-2 py-2 focus:outline-none w-full md:w-auto"
+                  className="bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-2.5 text-xs focus:ring-1 focus:ring-purple-500"
                 >
-                  {charityCategoriesList.map((cat, i) => (
-                    <option key={i} value={cat}>{cat}</option>
+                  {charityCategoriesList.map((cat, idx) => (
+                    <option key={idx} value={cat}>{cat === 'ALL' ? 'All Categories' : cat}</option>
                   ))}
                 </select>
               </div>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filteredCharities.map((item, idx) => (
-                <div key={idx} className="p-4 rounded-xl border border-slate-800 bg-slate-900/90 space-y-3 flex flex-col justify-between">
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-start">
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                        {item.category}
-                      </span>
-                    </div>
-                    <h3 className="font-bold text-sm text-slate-100">{item.name}</h3>
-                    <p className="text-xs text-slate-300 leading-relaxed">{item.desc}</p>
-                  </div>
-
-                  <div className="pt-3 border-t border-slate-800/80 space-y-1 text-xs">
-                    <div className="flex items-center gap-2 text-teal-400 font-bold">
-                      <Phone className="w-3.5 h-3.5" /> {item.phone}
-                    </div>
-                    <div className="flex justify-between text-[10px] text-slate-400">
-                      <span>Hours: {item.hours}</span>
-                      <a href={`https://${item.web}`} target="_blank" rel="noopener noreferrer" className="underline text-purple-400 hover:text-purple-300">
-                        {item.web}
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {activeTab === 'briefing' && (
-          <div className="max-w-4xl mx-auto space-y-6">
-            <div className={`p-6 rounded-2xl border ${highContrast ? 'border-yellow-400 bg-black' : 'border-purple-800/40 bg-gradient-to-r from-purple-950/80 via-slate-900 to-slate-900'}`}>
-              <div className="flex items-center gap-2 text-purple-400 text-xs font-bold uppercase tracking-wider mb-2">
-                <FileText className="w-4 h-4" />
-                <span>Advocacy & Parliamentary Action</span>
+              <div className="flex overflow-x-auto no-scrollbar gap-1 pt-1">
+                {['ALL', ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')].map((letter) => (
+                  <button
+                    key={letter}
+                    onClick={() => setCharityLetter(letter)}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-bold transition ${
+                      charityLetter === letter ? 'bg-purple-600 text-white' : 'bg-slate-950 text-slate-400 hover:text-slate-200'
+                    }`}
+                  >
+                    {letter}
+                  </button>
+                ))}
               </div>
-              <h2 className="text-2xl font-black text-slate-100">MP Briefing Pack Generator</h2>
-              <p className="text-xs text-slate-300 mt-1">
-                Generate a clean, fact-checked parliamentary briefing document to send to your Member of Parliament or local councillors ahead of surgery meetings.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-xl border border-slate-800 bg-slate-900 space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-slate-300 mb-1">Constituency Name:</label>
-                  <input
-                    type="text"
-                    value={constituency}
-                    onChange={(e) => setConstituency(e.target.value)}
-                    placeholder="e.g. Gosport"
-                    className="w-full p-2.5 rounded-lg bg-slate-950 border border-slate-700 text-xs text-slate-100 focus:outline-none focus:border-purple-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-slate-300 mb-1">MP / Target Name:</label>
-                  <input
-                    type="text"
-                    value={mpName}
-                    onChange={(e) => setMpName(e.target.value)}
-                    placeholder="e.g. Dame Caroline Dinenage MP"
-                    className="w-full p-2.5 rounded-lg bg-slate-950 border border-slate-700 text-xs text-slate-100 focus:outline-none focus:border-purple-500"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-slate-300 mb-2">Select Primary Data Sections to Include:</label>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
-                  {[
-                    { id: 'pip_rates', label: '2026/27 PIP Payment Rates & Rules' },
-                    { id: 'pip_multiplier', label: 'Regional Economic Multiplier Data' },
-                    { id: 'welfare_gdp', label: 'Welfare Spend as % of GDP Trend' },
-                    { id: 'pip_fraud', label: 'DWP Fraud & Error Statistics' },
-                    { id: 'tribunals', label: 'HMCTS Tribunal Overturn Figures' },
-                    { id: 'uc_rates', label: 'Universal Credit Rates & Health Elements' },
-                    { id: 'carers', label: 'Carer\'s Allowance & Earnings Caps' },
-                    { id: 'motability', label: 'Motability Scheme Funding Reality' },
-                    { id: 'inactivity', label: 'ONS Inactivity & Chronic Health Data' },
-                  ].map((t) => (
-                    <label key={t.id} className="flex items-center gap-2 p-2 rounded-lg bg-slate-950 border border-slate-800 cursor-pointer hover:border-slate-700">
-                      <input
-                        type="checkbox"
-                        checked={selectedTopics.includes(t.id)}
-                        onChange={() => toggleTopic(t.id)}
-                        className="rounded border-slate-700 text-purple-600 focus:ring-0"
-                      />
-                      <span className="text-slate-200">{t.label}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1">Personal Constituent Note / Context (Optional):</label>
-                <textarea
-                  value={customNote}
-                  onChange={(e) => setCustomNote(e.target.value)}
-                  placeholder="Add any specific local details or personal circumstances to include..."
-                  className="w-full p-2.5 rounded-lg bg-slate-950 border border-slate-700 text-xs text-slate-100 h-20 focus:outline-none focus:border-purple-500"
-                />
-              </div>
-
-              <div className="flex justify-end gap-3 pt-2">
-                <button
-                  onClick={copyBriefingText}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition"
-                >
-                  <Copy className="w-4 h-4" />
-                  <span>{briefingCopied ? 'Copied to Clipboard!' : 'Copy Text'}</span>
-                </button>
-                <button
-                  onClick={handlePrintBriefing}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition"
-                >
-                  <Printer className="w-4 h-4" />
-                  <span>Print Briefing Pack</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {activeTab === 'rights' && (
-          <div className="max-w-4xl mx-auto space-y-6">
-            <div className={`p-6 rounded-2xl border ${highContrast ? 'border-yellow-400 bg-black' : 'border-purple-800/40 bg-gradient-to-r from-purple-950/80 via-slate-900 to-slate-900'}`}>
-              <div className="flex items-center gap-2 text-purple-400 text-xs font-bold uppercase tracking-wider mb-2">
-                <ShieldCheck className="w-4 h-4" />
-                <span>Legal Guidance</span>
-              </div>
-              <h2 className="text-2xl font-black text-slate-100">Know Your Statutory Rights</h2>
-              <p className="text-xs text-slate-300 mt-1">
-                Essential legal rights regarding DWP assessments, recording meetings, mandatory reconsiderations, and HMCTS tribunals.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="p-5 rounded-xl border border-slate-800 bg-slate-900 space-y-2">
-                <h3 className="font-bold text-sm text-purple-300 flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4" /> Right to Record Assessments
-                </h3>
-                <p className="text-xs text-slate-300 leading-relaxed">
-                  You have the legal right to request that your PIP assessment be audio-recorded. Providers must accommodate this when requested in advance.
-                </p>
-              </div>
-
-              <div className="p-5 rounded-xl border border-slate-800 bg-slate-900 space-y-2">
-                <h3 className="font-bold text-sm text-purple-300 flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4" /> Mandatory Reconsideration Timeline
-                </h3>
-                <p className="text-xs text-slate-300 leading-relaxed">
-                  You have 1 month from the date of your decision letter to submit a Mandatory Reconsideration request. Late submissions can be accepted with good reason.
-                </p>
-              </div>
-
-              <div className="p-5 rounded-xl border border-slate-800 bg-slate-900 space-y-2">
-                <h3 className="font-bold text-sm text-purple-300 flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4" /> HMCTS Independent Appeal
-                </h3>
-                <p className="text-xs text-slate-300 leading-relaxed">
-                  HMCTS tribunals are completely independent of the DWP. Over 70% of PIP decisions brought to tribunal are decided in favor of the claimant.
-                </p>
-              </div>
-
-              <div className="p-5 rounded-xl border border-slate-800 bg-slate-900 space-y-2">
-                <h3 className="font-bold text-sm text-purple-300 flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4" /> Right to Accompaniment
-                </h3>
-                <p className="text-xs text-slate-300 leading-relaxed">
-                  You are legally entitled to have a friend, family member, or professional advocate present during any assessment consultation.
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {activeTab === 'legal' && (
-          <div className="max-w-4xl mx-auto space-y-6">
-            <div className={`p-6 rounded-2xl border ${highContrast ? 'border-yellow-400 bg-black' : 'border-purple-800/40 bg-gradient-to-r from-purple-950/80 via-slate-900 to-slate-900'}`}>
-              <div className="flex items-center gap-2 text-purple-400 text-xs font-bold uppercase tracking-wider mb-2">
-                <Scale className="w-4 h-4" />
-                <span>Statutory Standards</span>
-              </div>
-              <h2 className="text-2xl font-black text-slate-100">Legal Framework & Standards</h2>
-              <p className="text-xs text-slate-300 mt-1">
-                Acts of Parliament, DWP statutory instruments, and judicial precedence governing disability benefits in the UK.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <div className="p-5 rounded-xl border border-slate-800 bg-slate-900 space-y-2">
-                <h3 className="font-bold text-sm text-slate-100">Welfare Reform Act 2012 (s. 77-95)</h3>
-                <p className="text-xs text-slate-300 leading-relaxed">
-                  Establishes Personal Independence Payment (PIP) as a non-means-tested benefit designed to contribute toward the extra costs arising from long-term health conditions or disability.
-                </p>
-              </div>
-
-              <div className="p-5 rounded-xl border border-slate-800 bg-slate-900 space-y-2">
-                <h3 className="font-bold text-sm text-slate-100">Social Security (PIP) Regulations 2013</h3>
-                <p className="text-xs text-slate-300 leading-relaxed">
-                  Outlines the 12 specific activities, descriptors, and points thresholds for Daily Living and Mobility components.
-                </p>
-              </div>
-
-              <div className="p-5 rounded-xl border border-slate-800 bg-slate-900 space-y-2">
-                <h3 className="font-bold text-sm text-slate-100">Equality Act 2010 (s. 20 - Reasonable Adjustments)</h3>
-                <p className="text-xs text-slate-300 leading-relaxed">
-                  Mandates public bodies and DWP assessment providers to make reasonable adjustments for disabled individuals during all communications and assessments.
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {activeTab === 'support' && (
-          <div className="max-w-4xl mx-auto space-y-6">
-            <div className={`p-6 rounded-2xl border ${highContrast ? 'border-yellow-400 bg-black' : 'border-purple-800/40 bg-gradient-to-r from-purple-950/80 via-slate-900 to-slate-900'}`}>
-              <div className="flex items-center gap-2 text-purple-400 text-xs font-bold uppercase tracking-wider mb-2">
-                <Users className="w-4 h-4" />
-                <span>Immediate Assistance</span>
-              </div>
-              <h2 className="text-2xl font-black text-slate-100">Disability Help & Free Advocacy</h2>
-              <p className="text-xs text-slate-300 mt-1">
-                Independent, free advice services to help you navigate PIP applications, reviews, and tribunal appeals.
-              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {SUPPORT_ORGANIZATIONS.map((org, i) => (
-                <div key={i} className="p-4 rounded-xl border border-slate-800 bg-slate-900 space-y-2 flex flex-col justify-between">
-                  <div className="space-y-1">
-                    <h3 className="font-bold text-sm text-slate-100">{org.name}</h3>
-                    <p className="text-xs text-slate-300 leading-relaxed">{org.desc}</p>
+              {filteredCharities.map((item, idx) => (
+                <div key={idx} className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3 flex flex-col justify-between">
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <h3 className="font-bold text-base text-slate-100">{item.name}</h3>
+                      <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 font-medium">
+                        {item.category}
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-300 leading-relaxed">{item.desc}</p>
                   </div>
-                  <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-xs">
-                    <span className="text-teal-400 font-bold flex items-center gap-1">
-                      <Phone className="w-3 h-3" /> {org.phone}
-                    </span>
-                    <a href={`https://${org.web}`} target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">
-                      {org.web}
+
+                  <div className="pt-3 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-xs">
+                    <div className="flex items-center gap-1.5 text-teal-400 font-semibold">
+                      <Phone className="w-3.5 h-3.5" />
+                      <span>{item.phone}</span>
+                    </div>
+                    <div className="text-slate-400 text-[11px]">{item.hours}</div>
+                    <a href={`https://${item.web}`} target="_blank" rel="noreferrer" className="flex items-center gap-1 text-purple-400 hover:underline text-xs font-semibold">
+                      <span>{item.web}</span>
+                      <ExternalLink className="w-3 h-3" />
                     </a>
                   </div>
                 </div>
@@ -1833,12 +1577,152 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
           </div>
         )}
 
-      </main>
+        {activeTab === 'briefing' && (
+          <div className="space-y-6">
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+              <div className="flex items-center gap-2 text-teal-400 text-xs font-bold uppercase tracking-wider">
+                <FileText className="w-4 h-4" />
+                <span>Constituency Advocacy Tool</span>
+              </div>
+              <h2 className="text-2xl font-black text-slate-100">MP Constituency Briefing Pack</h2>
+              <p className="text-xs md:text-sm text-slate-300">
+                Generate a formatted briefing sheet tailored to your constituency to send to your local Member of Parliament or regional representatives.
+              </p>
 
-      <footer className="border-t border-slate-800 py-8 px-4 text-center text-xs text-slate-500 space-y-2 mt-12">
-        <p>© 2026 UK Welfare Truth Index. Independent public information tool utilizing official primary sources.</p>
-        <p className="font-mono text-[11px]">Primary Data Sources: DWP Stat-Xplore, ONS Labour Force Survey, Ministry of Justice HMCTS Tribunal Reports, Office for Budget Responsibility.</p>
-      </footer>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input
+                  type="text"
+                  value={constituency}
+                  onChange={(e) => setConstituency(e.target.value)}
+                  placeholder="Constituency Name (e.g. Portsmouth South)"
+                  className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:ring-1 focus:ring-purple-500"
+                />
+                <input
+                  type="text"
+                  value={mpName}
+                  onChange={(e) => setMpName(e.target.value)}
+                  placeholder="MP Name (Optional)"
+                  className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:ring-1 focus:ring-purple-500"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-300">Select Evidence Topics to Include:</label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {[
+                    { id: 'pip_rates', label: '2026/27 PIP Payment Rates' },
+                    { id: 'pip_multiplier', label: 'Local Economic Multiplier Effect' },
+                    { id: 'welfare_gdp', label: 'Welfare Expenditure vs GDP Context' },
+                    { id: 'pip_fraud', label: 'PIP Fraud Rate (<0.2%)' },
+                    { id: 'tribunals', label: '70%+ HMCTS Tribunal Overturn Rate' },
+                    { id: 'uc_rates', label: 'Universal Credit Standard Allowance & Health Elements' },
+                    { id: 'carers', label: "Carer's Allowance Earnings Cap (£204/wk)" },
+                    { id: 'motability', label: 'Motability Scheme Direct Funding' },
+                    { id: 'inactivity', label: 'ONS Long-term Illness Statistics' }
+                  ].map((topic) => (
+                    <button
+                      key={topic.id}
+                      onClick={() => toggleTopic(topic.id)}
+                      className={`p-2.5 rounded-xl border text-left text-xs font-semibold flex items-center justify-between transition ${
+                        selectedTopics.includes(topic.id)
+                          ? 'bg-purple-600/20 border-purple-500 text-purple-200'
+                          : 'bg-slate-950 border-slate-800 text-slate-400'
+                      }`}
+                    >
+                      <span>{topic.label}</span>
+                      {selectedTopics.includes(topic.id) && <Check className="w-4 h-4 text-purple-400" />}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <textarea
+                value={customNote}
+                onChange={(e) => setCustomNote(e.target.value)}
+                placeholder="Add a custom personal note or constituency case note..."
+                rows={3}
+                className="w-full p-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 text-xs focus:ring-1 focus:ring-purple-500"
+              />
+
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={copyBriefingText}
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-teal-500 text-slate-950 font-bold text-xs hover:bg-teal-400 transition"
+                >
+                  <Copy className="w-4 h-4" />
+                  <span>{briefingCopied ? 'Copied to Clipboard!' : 'Copy Briefing Text'}</span>
+                </button>
+                <button
+                  onClick={handlePrintBriefing}
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800 text-slate-200 font-bold text-xs hover:bg-slate-700 transition"
+                >
+                  <Printer className="w-4 h-4" />
+                  <span>Print Briefing</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'rights' && (
+          <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+            <h2 className="text-2xl font-black text-slate-100">Know Your Rights: Welfare & Appeals</h2>
+            <p className="text-xs md:text-sm text-slate-300">
+              Key legal frameworks governing PIP assessments, Mandatory Reconsiderations, and independent HMCTS tribunals under the Welfare Reform Act 2012.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+              <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+                <div className="text-xs font-bold text-purple-400">1. Mandatory Reconsideration</div>
+                <p className="text-xs text-slate-300">
+                  You have the right to challenge any DWP decision within 1 month. Submit detailed clinical evidence focusing on descriptor scoring.
+                </p>
+              </div>
+              <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+                <div className="text-xs font-bold text-purple-400">2. Independent Tribunal</div>
+                <p className="text-xs text-slate-300">
+                  Appeals are heard by an independent HMCTS panel (Judge, Doctor, Disability Specialist). Over 70% of PIP appeals succeed.
+                </p>
+              </div>
+              <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+                <div className="text-xs font-bold text-purple-400">3. Assessment Rights</div>
+                <p className="text-xs text-slate-300">
+                  Claimants have the legal right to audio-record assessments and have an companion/advocate present during the evaluation.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'legal' && (
+          <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+            <h2 className="text-2xl font-black text-slate-100">Legal Standards & Methodology</h2>
+            <p className="text-xs md:text-sm text-slate-300">
+              The UK Welfare Truth Index cross-references public political statements against official primary data released by DWP Stat-Xplore, Ministry of Justice, Office for National Statistics, and HM Treasury statutory guidelines.
+            </p>
+          </div>
+        )}
+
+        {activeTab === 'support' && (
+          <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+            <h2 className="text-2xl font-black text-slate-100">Disability Help & Emergency Advocacy</h2>
+            <p className="text-xs md:text-sm text-slate-300">
+              Free, independent organisations offering urgent welfare rights advice, tribunal representation, and debt guidance across the UK.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+              {SUPPORT_ORGANIZATIONS.map((org, idx) => (
+                <div key={idx} className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-bold text-sm text-slate-100">{org.name}</h3>
+                    <span className="text-xs font-bold text-teal-400">{org.phone}</span>
+                  </div>
+                  <p className="text-xs text-slate-300">{org.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+      </main>
     </div>
   );
 }
