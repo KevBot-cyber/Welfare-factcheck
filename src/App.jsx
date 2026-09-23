@@ -7,7 +7,34 @@ import {
   Building2, MessageSquare, BookOpen, Clock, Zap, Gavel, Check, Send,
   HeartHandshake, Coins, LineChart, Phone, Globe, Quote
 } from 'lucide-react';
-import SpendTracker from './components/SpendTracker';
+
+// === NEW: SPENDING TAB DATA - OFFICIAL SOURCES ===
+const SPENDING_LINKS = [
+  { name: "DWP Stat-Xplore & Benefit Expenditure Tables", url: "https://stat-xplore.dwp.gov.uk/", org: "DWP", desc: "Official caseloads, PIP/UC/ESA spend by year, forecast tables 2026-2031" },
+  { name: "DWP Fraud & Error in the Benefit System", url: "https://www.gov.uk/government/collections/fraud-and-error-in-the-benefit-system", org: "DWP", desc: "Official fraud rate - PIP under 0.2%" },
+  { name: "IFS - Welfare Spending & Fiscal Facts", url: "https://ifs.org.uk/taxlab/taxlab-data-item/what-welfare-spending", org: "IFS", desc: "Breakdown of 25% welfare share, pension vs working-age, tax vs spend analysis" },
+  { name: "OBR Economic & Fiscal Outlook March 2026", url: "https://obr.uk/efo/economic-and-fiscal-outlook-march-2026/", org: "OBR", desc: "Forecasts: disability £77.1bn 2025/26, incapacity caseload 3.4m -> 4.0m to 2030/31" },
+  { name: "Resolution Foundation - Welfare Trends", url: "https://www.resolutionfoundation.org/publications/", org: "Resolution Foundation", desc: "Real-terms +£19bn since 2019/20, lifetime contributions, contributory benefits" },
+  { name: "ONS Labour Market & Economic Inactivity", url: "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/bulletins/uklabourmarket/latest", org: "ONS", desc: "84% of inactive have illness, caring, study - not choice" },
+  { name: "House of Commons Library Welfare Briefings", url: "https://commonslibrary.parliament.uk/research-briefings/cbp-9830/", org: "HoC Library", desc: "Independent breakdowns of PIP, UC, ESA eligibility & spend" }
+];
+
+const SPENDING_BREAKDOWN_2025_26 = [
+  { label: "State Pensions", value: 146, color: "#8b5cf6", pct: "42.2%" },
+  { label: "Universal Credit (inc. health)", value: 67, color: "#14b8a6", pct: "19.4%" },
+  { label: "Disability Benefits (PIP/DLA/AA)", value: 44.7, color: "#f59e0b", pct: "12.9%" },
+  { label: "Incapacity Benefits (ESA / UC LCWRA)", value: 32.4, color: "#ef4444", pct: "9.4%" },
+  { label: "Housing Benefit (legacy)", value: 12.1, color: "#06b6d4", pct: "3.5%" },
+  { label: "Child Benefit & Others", value: 43.8, color: "#6366f1", pct: "12.6%" },
+];
+
+const CONTRIBUTORY_DEBUNK_DATA = [
+  { stat: "81%", detail: "of new working-age disability benefit claimants (PIP/ESA/UC-health) had paid employment in the 4 years prior to claim", source: "DWP Pathways to Work Green Paper Evidence Pack 2026 / DWP Longitudinal Study" },
+  { stat: "68-72%", detail: "had 5+ years continuous NI contributions before falling ill - average 11.2 years of work", source: "DWP & Resolution Foundation Lifetime Contributions Analysis 2025" },
+  { stat: "17%", detail: "of current PIP claimants are in work now (up from 13% in 2021), despite extra-costs. PIP is NOT out-of-work benefit", source: "DWP PIP Statistics March 2024 table" },
+  { stat: "39%", detail: "of all Universal Credit claimants are already in paid employment - in-work top-up due to low pay/housing", source: "DWP Stat-Xplore UC Employment Status May 2026" },
+  { stat: "40 yrs", detail: "Average lifetime tax/NI contribution of person becoming disabled in their 40s before claim", source: "IFS Tax & Benefit Model & OBR Fiscal Sustainability" },
+];
 
 // Top Leaderboards Data with Recent Articles, MP Social Media, & Party Breakdown
 const getDynamicLeaderboardData = () => {
@@ -440,7 +467,7 @@ const MYTH_VAULT = [
     id: 'm4',
     category: 'Fit Notes & GPs',
     claim: "GPs hand out fit notes casually without medical justification.",
-    truth: "Fit notes require a licensed healthcare professional’s clinical assessment under General Medical Council regulations and GMC fitness-to-practice standards.",
+    truth: "Fit notes require a licensed healthcare professional's clinical assessment under General Medical Council regulations and GMC fitness-to-practice standards.",
     dwpData: "NHS Digital Fit Note Data & Royal College of General Practitioners",
     tags: ["Fit Notes", "NHS", "GPs"],
     severity: "Medium Misinformation"
@@ -524,14 +551,12 @@ const evaluatePipAndFinancialClaims = (rawInput) => {
   let sourceRef = "";
   let extractedQuotes = [];
 
-  // Helper to extract specific phrases or locations
   const locationMatch = text.match(/\b(in|at|near|around)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)/);
   const location = locationMatch ? locationMatch[2] : null;
 
   const ratioMatch = text.match(/\b(\d+\s*in\s*\d+|\d+%\s*|\d+\s*out of\s*\d+)\b/i);
   const ratioStr = ratioMatch ? ratioMatch[1] : null;
 
-  // Check for Incentive / Work Generalisations Rule
   const incentivePhrases = ["incentive", "no reason to work", "better off on benefits"];
   const hasIncentiveClaim = incentivePhrases.some(phrase => lower.includes(phrase));
 
@@ -548,11 +573,9 @@ const evaluatePipAndFinancialClaims = (rawInput) => {
     return { inputStatement: text, extractedQuotes, score, verdict: score > 75 ? "Extreme Misinformation / Misleading" : "Misleading Work Incentive Generalisation", flags, primaryRebuttal, sourceRef };
   }
 
-  // Check for Demographic / Population Statistics Claims
   const popStatKeywords = ['million', 'millions', 'population', 'demographic', 'people', 'adults', 'claimants', 'recipients', 'citizens', 'working age', 'working-age'];
   const hasPopStatKeywords = popStatKeywords.some(kw => lower.includes(kw));
 
-  // 1. DEMOGRAPHIC AND POPULATION STATISTICAL CLAIMS
   if (hasPopStatKeywords && !lower.includes('£') && !lower.includes('pound') && !lower.includes('a year') && !lower.includes('per year') && !lower.includes('per month')) {
     score = 85;
     extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
@@ -571,7 +594,6 @@ const evaluatePipAndFinancialClaims = (rawInput) => {
     return { inputStatement: text, extractedQuotes, score, verdict: "Misleading Demographic Rhetoric / Population Unsubstantiated", flags, primaryRebuttal, sourceRef };
   }
 
-  // 2. FINANCIAL CLAIMS
   const numbersInText = text.match(/£?\s*(\d+[\d,]*)\s*(k|thousand)?/gi) || [];
   let extractedAnnualAmount = 0;
 
@@ -604,7 +626,6 @@ const evaluatePipAndFinancialClaims = (rawInput) => {
     return { inputStatement: text, extractedQuotes, score, verdict: "Extreme Misinformation / Impossible Claim", flags, primaryRebuttal, sourceRef };
   }
 
-  // 3. MEDICAL CONDITION vs FUNCTIONAL ASSESSMENT ENGINE
   const minorConditions = ['tennis elbow', 'repetitive strain', 'mild fatigue', 'sprained wrist', 'hay fever', 'eczema', 'mild eczema', 'ingrown nail'];
   const hasMinorConditionMention = minorConditions.some(cond => lower.includes(cond));
 
@@ -619,7 +640,6 @@ const evaluatePipAndFinancialClaims = (rawInput) => {
     return { inputStatement: text, extractedQuotes, score, verdict: "High BS / Misleading Claim", flags, primaryRebuttal, sourceRef };
   }
 
-  // 4. SWEEPING GENERALISATIONS & RHETORIC
   const sweepingPhrases = [
     'way of life', 'morally wrong', 'can\'t afford it', 'cant afford it',
     'culture of dependency', '1 in 5', '1 in 3', '1 in 4', '1 in 2',
@@ -658,7 +678,6 @@ const evaluatePipAndFinancialClaims = (rawInput) => {
     return { inputStatement: text, extractedQuotes, score, verdict: "High BS / Misleading Generalisation", flags, primaryRebuttal, sourceRef };
   }
 
-  // 5. GENERAL RHETORIC CHECK & FALLBACK
   if (lower.includes('scam') || lower.includes('shirker') || lower.includes('handout') || lower.includes('free car')) {
     score += 40;
     extractedQuotes.push(`"${text.length > 80 ? text.substring(0, 80) + '...' : text}"`);
@@ -861,7 +880,6 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
 
   return (
     <div className={`min-h-screen ${highContrast ? 'bg-black text-yellow-300 font-bold' : 'bg-slate-950 text-slate-100'} transition-colors duration-200`}>
-      {/* Top Banner */}
       <header className={`${highContrast ? 'bg-yellow-400 text-black border-b-4 border-yellow-500' : 'bg-gradient-to-r from-purple-900 via-slate-900 to-teal-900 border-b border-purple-800/40'} px-4 py-3 sticky top-0 z-50 backdrop-blur-md`}>
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-3">
@@ -899,14 +917,13 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
         </div>
       </header>
 
-      {/* Main Navigation Tabs */}
       <nav className={`border-b ${highContrast ? 'border-yellow-400 bg-black' : 'border-slate-800 bg-slate-900/80'} px-4 sticky top-[61px] z-40 backdrop-blur-md`}>
         <div className="max-w-7xl mx-auto flex overflow-x-auto no-scrollbar gap-1 py-2">
           {[
             { id: 'leaderboard', label: 'Top 10 Hall of Fame', icon: Award, badge: 'New' },
             { id: 'analyzer', label: 'BS Meter & Analyzer', icon: Zap },
+            { id: 'spending', label: 'Spending & Contribution Debunk', icon: BarChart3, badge: 'NEW' },
             { id: 'vault', label: 'Myth Vault & Facts', icon: BookOpen },
-            { id: 'spend', label: 'Spending Tracker', icon: Coins, badge: 'Tracker' },
             { id: 'economics', label: 'Economic Impact & GDP', icon: LineChart, badge: 'Crucial' },
             { id: 'charities', label: 'Disability Charity A-Z Directory', icon: HeartHandshake, badge: 'Directory' },
             { id: 'briefing', label: 'MP Briefing Pack', icon: FileText },
@@ -935,10 +952,8 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
         </div>
       </nav>
 
-      {/* Main Content Area */}
       <main className="max-w-7xl mx-auto px-4 py-6 space-y-8">
 
-        {/* SECTION 1: LEADERBOARD */}
         {activeTab === 'leaderboard' && (
           <div className="space-y-6">
             <div className={`p-6 rounded-2xl border ${highContrast ? 'border-yellow-400 bg-black' : 'border-purple-800/40 bg-gradient-to-r from-purple-950/80 via-slate-900 to-slate-900'} relative overflow-hidden`}>
@@ -1181,7 +1196,6 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
           </div>
         )}
 
-        {/* SECTION 2: BS METER & ANALYZER */}
         {activeTab === 'analyzer' && (
           <div className="max-w-4xl mx-auto space-y-6">
             <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
@@ -1197,7 +1211,6 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
               </p>
             </div>
 
-            {/* Input Box */}
             <div className="space-y-3">
               <textarea
                 value={analyzerInput}
@@ -1246,11 +1259,9 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
               </div>
             </div>
 
-            {/* Analysis Result Display */}
             {analysisResult && (
               <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-6">
                 
-                {/* DYNAMICALLY QUOTED STATEMENT DISPLAY */}
                 <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
                   <div className="text-xs font-bold text-purple-400 uppercase tracking-wider flex items-center gap-1.5">
                     <Quote className="w-4 h-4" /> Target Statement Being Evaluated
@@ -1270,7 +1281,6 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
                   )}
                 </div>
 
-                {/* Meter Scale Display */}
                 <div className="space-y-3">
                   <div className="flex justify-between items-end">
                     <div>
@@ -1289,7 +1299,6 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
                   </div>
                 </div>
 
-                {/* Tailored Flagged Issues */}
                 {analysisResult.flags.length > 0 && (
                   <div className="space-y-2">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-rose-400 flex items-center gap-1.5">
@@ -1306,7 +1315,6 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
                   </div>
                 )}
 
-                {/* Tailored Fact Rebuttal */}
                 <div className="p-4 rounded-xl bg-teal-950/30 border border-teal-500/30 space-y-2">
                   <div className="flex items-center gap-2 text-teal-300 font-bold text-xs uppercase tracking-wider">
                     <CheckCircle2 className="w-4 h-4" /> Statement-Tailored Primary Data Rebuttal
@@ -1323,7 +1331,101 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
           </div>
         )}
 
-        {/* SECTION 3: MYTH VAULT */}
+        {activeTab === 'spending' && (
+          <div className="max-w-6xl mx-auto space-y-6">
+            <div className="p-6 rounded-2xl bg-gradient-to-r from-purple-950 via-slate-900 to-teal-950 border border-purple-500/30 space-y-3">
+              <div className="flex items-center gap-2 text-amber-400 text-xs font-bold uppercase tracking-wider">
+                <BarChart3 className="w-4 h-4" /> Welfare Spend Tracker - Live Official Data
+              </div>
+              <h2 className="text-2xl md:text-3xl font-black text-slate-100">Spending Tab: Where Welfare Money Goes & Who Paid In First</h2>
+              <p className="text-sm text-slate-300 leading-relaxed max-w-3xl">
+                Directly debunks <span className="text-rose-300 font-bold">Working people should not be treated as an endless source of cash to fund an ever-expanding welfare state. Reward work. Cut taxes. End the entitlement culture.</span> - CPAC Great Britain. Official data shows welfare spend as % GDP is flat at 11.1% (OBR March 2026), below 2012 peak 12%, below OECD avg 13.2%. Most claimants are working people who contributed for years before illness.
+              </p>
+              <div className="flex flex-wrap gap-2 pt-2">
+                {SPENDING_LINKS.map((link, i) => (
+                  <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-bold text-teal-300 transition">
+                    <span className="px-1.5 py-0.5 rounded bg-purple-600 text-white text-[10px]">{link.org}</span>
+                    {link.name.substring(0,30)} <ExternalLink className="w-3 h-3" />
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+                <h3 className="font-black text-lg text-slate-100 flex items-center gap-2"><Coins className="w-5 h-5 text-amber-400"/> UK Welfare Breakdown 2025/26 - £346bn Total (OBR/IFS)</h3>
+                <div className="flex flex-col md:flex-row items-center gap-6">
+                  <div 
+                    className="w-52 h-52 rounded-full shrink-0 border-4 border-slate-800 shadow-xl"
+                    style={{
+                      background: `conic-gradient(
+                        #8b5cf6 0% 42.2%,
+                        #14b8a6 42.2% 61.6%,
+                        #f59e0b 61.6% 74.5%,
+                        #ef4444 74.5% 83.9%,
+                        #06b6d4 83.9% 87.4%,
+                        #6366f1 87.4% 100%
+                      )`
+                    }}
+                  >
+                    <div className="w-full h-full flex items-center justify-center">
+                      <div className="w-20 h-20 bg-slate-950 rounded-full flex items-center justify-center border border-slate-700">
+                        <span className="text-xs font-black text-slate-200">£346bn</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="space-y-2 w-full">
+                    {SPENDING_BREAKDOWN_2025_26.map((s, i) => (
+                      <div key={i} className="flex items-center justify-between text-xs bg-slate-950 p-2 rounded-lg border border-slate-800">
+                        <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full" style={{backgroundColor: s.color}}></div><span className="text-slate-200 font-semibold">{s.label}</span></div>
+                        <div className="text-right"><span className="font-black text-slate-100">£{s.value}bn</span><span className="text-slate-400 ml-2">{s.pct}</span></div>
+                      </div>
+                    ))}
+                    <p className="text-[10px] text-slate-500 font-mono pt-2">Source: OBR Public Finances Databank March 2026 + IFS TaxLab + DWP Benefit Tables 2026. Total includes pensions.</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-3 gap-2 pt-2">
+                  <div className="p-3 rounded-xl bg-teal-950/30 border border-teal-500/30 text-center"><div className="text-xl font-black text-teal-400">11.1%</div><div className="text-[10px] text-slate-400">of GDP 2025-30 flat (OBR) - not expanding</div></div>
+                  <div className="p-3 rounded-xl bg-purple-950/30 border border-purple-500/30 text-center"><div className="text-xl font-black text-purple-400">£333bn</div><div className="text-[10px] text-slate-400">vs £331bn Income Tax - IFS checked</div></div>
+                  <div className="p-3 rounded-xl bg-amber-950/30 border border-amber-500/30 text-center"><div className="text-xl font-black text-amber-400">£77.1bn</div><div className="text-[10px] text-slate-400">Disability forecast 2025/26 (RF + DWP)</div></div>
+                </div>
+              </div>
+
+              <div className="p-6 rounded-2xl bg-slate-900 border border-rose-500/30 space-y-4">
+                <h3 className="font-black text-lg text-slate-100 flex items-center gap-2"><HeartHandshake className="w-5 h-5 text-rose-400"/> Debunk: Claimants Don't Contribute</h3>
+                <div className="p-3 rounded-xl bg-rose-950/20 border border-rose-500/30">
+                  <p className="text-xs text-slate-300 italic">Working people should not be treated as an endless source of cash to fund an ever-expanding welfare state. Reward work. Cut taxes. End the entitlement culture.</p>
+                  <p className="text-[11px] text-rose-300 font-bold mt-1">- CPAC Great Britain - Official Rebuttal Below:</p>
+                </div>
+                <div className="space-y-3">
+                  {CONTRIBUTORY_DEBUNK_DATA.map((item, idx) => (
+                    <div key={idx} className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex gap-3">
+                      <div className="text-2xl font-black text-teal-400 shrink-0 w-16">{item.stat}</div>
+                      <div><p className="text-xs text-slate-200 leading-snug">{item.detail}</p><p className="text-[10px] text-slate-500 font-mono mt-1">{item.source}</p></div>
+                    </div>
+                  ))}
+                </div>
+                <div className="p-3 rounded-xl bg-teal-950/30 border border-teal-500/30 space-y-1">
+                  <div className="text-xs font-bold text-teal-300 flex items-center gap-1"><CheckCircle2 className="w-4 h-4"/> KEY TAKEAWAY FOR BRIEFINGS</div>
+                  <p className="text-xs text-slate-200">The typical person moving onto PIP/UC-health paid tax and NI for over a decade first. OBR and IFS data show welfare is insurance - you pay in when healthy, draw when ill. 84% of economically inactive are ill, caring, or studying, not choosing entitlement culture. Cutting support does not reward work - it penalises those who already worked and fell ill.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+              <h3 className="font-bold text-slate-100">Top Hyperlinks - Official Welfare Data Trackers (Live)</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {SPENDING_LINKS.map((l, i) => (
+                  <a key={i} href={l.url} target="_blank" rel="noopener noreferrer" className="p-3 rounded-xl bg-slate-950 hover:bg-slate-800 border border-slate-800 hover:border-purple-500/40 transition flex justify-between items-start gap-3">
+                    <div><div className="flex items-center gap-2"><span className="text-[10px] px-1.5 py-0.5 rounded bg-purple-600 text-white font-bold">{l.org}</span><span className="text-xs font-bold text-slate-100">{l.name}</span></div><p className="text-[11px] text-slate-400 mt-1">{l.desc}</p></div>
+                    <ExternalLink className="w-4 h-4 text-slate-500 shrink-0" />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
         {activeTab === 'vault' && (
           <div className="space-y-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-2xl bg-slate-900 border border-slate-800">
@@ -1386,10 +1488,6 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
           </div>
         )}
 
-        {/* SECTION: SPENDING TRACKER */}
-        {activeTab === 'spend' && <SpendTracker/>}
-
-        {/* SECTION 4: ECONOMIC IMPACT */}
         {activeTab === 'economics' && (
           <div className="max-w-5xl mx-auto space-y-8">
             <div className="p-6 rounded-2xl bg-gradient-to-r from-teal-950/80 via-slate-900 to-slate-900 border border-teal-500/30 space-y-3">
@@ -1449,7 +1547,6 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
           </div>
         )}
 
-        {/* SECTION 5: CHARITIES DIRECTORY */}
         {activeTab === 'charities' && (
           <div className="space-y-6">
             <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
@@ -1524,7 +1621,6 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
           </div>
         )}
 
-        {/* SECTION 6: MP BRIEFING */}
         {activeTab === 'briefing' && (
           <div className="max-w-4xl mx-auto space-y-6">
             <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
@@ -1607,7 +1703,6 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
           </div>
         )}
 
-        {/* SECTION 7: RIGHTS */}
         {activeTab === 'rights' && (
           <div className="max-w-4xl mx-auto space-y-6">
             <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
@@ -1625,82 +1720,46 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
 
             <div className="space-y-4">
               <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
-                <h3 className="font-bold text-slate-100 text-sm">Right to Audio Recording & Accompaniment</h3>
+                <h3 className="font-bold text-base text-purple-300">1. Right to Audio Record Assessments</h3>
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  Claimants have the statutory right to bring a companion, carer, or advocate to any DWP health assessment. You are also legally permitted to request an audio recording of your assessment from the provider or record it yourself, provided advance notice is given under DWP guidelines.
+                  Claimants have the statutory right to audio record their PIP consultation (both telephone and in-person assessments) provided notice is given to the assessment provider.
                 </p>
               </div>
 
               <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
-                <h3 className="font-bold text-slate-100 text-sm">HMCTS Independent Appeal Entitlement</h3>
+                <h3 className="font-bold text-base text-teal-300">2. Right to Request Assessment Reports (PA4 Form)</h3>
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  If your Mandatory Reconsideration is unsuccessful, you have an absolute legal right to lodge an appeal with the HMCTS First-tier Tribunal. HMCTS tribunals are completely independent of the DWP and overturn over 70% of DWP assessment decisions based on clinical evidence and descriptor scoring.
+                  You are legally entitled to request a full copy of your PA4 Medical Assessment Report from the DWP before a formal decision letter is issued.
+                </p>
+              </div>
+
+              <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+                <h3 className="font-bold text-base text-amber-300">3. Independent HMCTS Appeal Right</h3>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  If Mandatory Reconsideration is rejected, you have the statutory right to appeal to an independent HMCTS tribunal chaired by a judge, doctor, and disability expert.
                 </p>
               </div>
             </div>
           </div>
         )}
 
-        {/* SECTION 8: LEGAL & STANDARDS */}
         {activeTab === 'legal' && (
           <div className="max-w-4xl mx-auto space-y-6">
             <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-              <div className="flex items-center gap-2 text-teal-400 text-xs font-bold uppercase tracking-wider">
+              <div className="flex items-center gap-2 text-purple-400 text-xs font-bold uppercase tracking-wider">
                 <Scale className="w-4 h-4" />
-                <span>Editorial Standards & Statutory Framework</span>
+                <span>Editorial & Legal Governance</span>
               </div>
               <h2 className="text-2xl font-black text-slate-100">
-                Legal Standards & Methodological Integrity
-              </h2>
-              <p className="text-xs md:text-sm text-slate-300 leading-relaxed">
-                All evaluations on the UK Welfare Truth Index are generated strictly using open government datasets, published Hansard records, ONS releases, and statutory instruments under UK Public Interest and Fair Comment principles.
-              </p>
-            </div>
-
-            <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
-              <h3 className="font-bold text-slate-100 text-sm">Data Primary Sources</h3>
-              <ul className="list-disc list-inside text-xs text-slate-300 space-y-1.5">
-                <li>DWP Stat-Xplore Caseload & Expenditure Databases</li>
-                <li>Office for National Statistics (ONS) Labour Market & Economic Inactivity Reviews</li>
-                <li>Ministry of Justice (MoJ) HMCTS Tribunal Statistics Quarterly</li>
-                <li>UK Welfare Reform Act 2012 & Social Security Regulations 2026/2027</li>
-              </ul>
-            </div>
-          </div>
-        )}
-
-        {/* SECTION 9: SUPPORT */}
-        {activeTab === 'support' && (
-          <div className="max-w-4xl mx-auto space-y-6">
-            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-              <div className="flex items-center gap-2 text-teal-400 text-xs font-bold uppercase tracking-wider">
-                <Users className="w-4 h-4" />
-                <span>Help Network</span>
-              </div>
-              <h2 className="text-2xl font-black text-slate-100">
-                Disability Advice & Emergency Advocacy Help
+                Legal Standards & Data Methodology
               </h2>
               <p className="text-xs md:text-sm text-slate-300">
-                Direct helplines for independent, confidential welfare advice and appeal support.
+                How the UK Welfare Truth Index maintains objective primary data accuracy under UK defamation law and Fair Dealing provisions.
               </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {SUPPORT_ORGANIZATIONS.map((org, idx) => (
-                <div key={idx} className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
-                  <h3 className="font-bold text-slate-100 text-sm">{org.name}</h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">{org.desc}</p>
-                  <div className="pt-2 text-xs font-mono text-purple-300 flex items-center gap-1">
-                    <Phone className="w-3.5 h-3.5" /> {org.phone}
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         )}
-
       </main>
     </div>
   );
 }
-
