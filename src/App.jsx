@@ -906,6 +906,7 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
             { id: 'leaderboard', label: 'Top 10 Hall of Fame', icon: Award, badge: 'New' },
             { id: 'analyzer', label: 'BS Meter & Analyzer', icon: Zap },
             { id: 'vault', label: 'Myth Vault & Facts', icon: BookOpen },
+            { id: 'spend', label: 'Spending Tracker', icon: Coins, badge: 'Tracker' },
             { id: 'economics', label: 'Economic Impact & GDP', icon: LineChart, badge: 'Crucial' },
             { id: 'charities', label: 'Disability Charity A-Z Directory', icon: HeartHandshake, badge: 'Directory' },
             { id: 'briefing', label: 'MP Briefing Pack', icon: FileText },
@@ -936,7 +937,6 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
 
       {/* Main Content Area */}
       <main className="max-w-7xl mx-auto px-4 py-6 space-y-8">
-        {activeTab === 'spend' && <SpendTracker highContrast={highContrast} />}
 
         {/* SECTION 1: LEADERBOARD */}
         {activeTab === 'leaderboard' && (
@@ -1251,4 +1251,456 @@ Primary Sources: DWP Stat-Xplore, ONS, MoJ HMCTS, NIESR, IFS, OBR, OECD Social E
               <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-6">
                 
                 {/* DYNAMICALLY QUOTED STATEMENT DISPLAY */}
-                <div className="p-
+                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+                  <div className="text-xs font-bold text-purple-400 uppercase tracking-wider flex items-center gap-1.5">
+                    <Quote className="w-4 h-4" /> Target Statement Being Evaluated
+                  </div>
+                  <p className="text-sm italic text-slate-200 bg-slate-900/60 p-3 rounded-lg border border-slate-800/80 font-serif">
+                    "{analysisResult.inputStatement}"
+                  </p>
+                  {analysisResult.extractedQuotes && analysisResult.extractedQuotes.length > 0 && (
+                    <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px]">
+                      <span className="text-slate-400">Identified Key Claims:</span>
+                      {analysisResult.extractedQuotes.map((q, idx) => (
+                        <span key={idx} className="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30 font-mono">
+                          {q}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Meter Scale Display */}
+                <div className="space-y-3">
+                  <div className="flex justify-between items-end">
+                    <div>
+                      <div className="text-xs text-slate-400 font-semibold uppercase">BS Rating Verdict</div>
+                      <div className={`text-xl font-black ${ analysisResult.score > 75 ? 'text-rose-400' : analysisResult.score > 40 ? 'text-amber-400' : 'text-teal-400' }`}>
+                        {analysisResult.verdict} ({analysisResult.score}%)
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="w-full h-4 rounded-full bg-slate-800 overflow-hidden relative">
+                    <div
+                      className={`h-full transition-all duration-700 ${ analysisResult.score > 75 ? 'bg-gradient-to-r from-amber-500 to-rose-600' : 'bg-gradient-to-r from-teal-500 to-amber-500' }`}
+                      style={{ width: `${analysisResult.score}%` }}
+                    />
+                  </div>
+                </div>
+
+                {/* Tailored Flagged Issues */}
+                {analysisResult.flags.length > 0 && (
+                  <div className="space-y-2">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-rose-400 flex items-center gap-1.5">
+                      <AlertTriangle className="w-4 h-4" /> Tailored Breakdown of Statements & Misleading Rhetoric
+                    </h4>
+                    <ul className="space-y-2 text-xs text-slate-300">
+                      {analysisResult.flags.map((flag, idx) => (
+                        <li key={idx} className="flex items-start gap-2.5 bg-slate-950 p-3 rounded-lg border border-slate-800">
+                          <span className="text-rose-400 font-bold text-sm leading-none">•</span>
+                          <span className="leading-relaxed">{flag}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Tailored Fact Rebuttal */}
+                <div className="p-4 rounded-xl bg-teal-950/30 border border-teal-500/30 space-y-2">
+                  <div className="flex items-center gap-2 text-teal-300 font-bold text-xs uppercase tracking-wider">
+                    <CheckCircle2 className="w-4 h-4" /> Statement-Tailored Primary Data Rebuttal
+                  </div>
+                  <p className="text-xs md:text-sm text-slate-200 leading-relaxed">
+                    {analysisResult.primaryRebuttal}
+                  </p>
+                  <div className="text-[11px] text-teal-400/80 font-mono pt-1">
+                    Reference: {analysisResult.sourceRef}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* SECTION 3: MYTH VAULT */}
+        {activeTab === 'vault' && (
+          <div className="space-y-6">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-2xl bg-slate-900 border border-slate-800">
+              <div className="space-y-1">
+                <h2 className="text-2xl font-black text-slate-100 flex items-center gap-2">
+                  <BookOpen className="w-6 h-6 text-purple-400" /> Disability Welfare Myth Vault
+                </h2>
+                <p className="text-xs md:text-sm text-slate-400">
+                  Side-by-side evidence debunking common tabloid headlines and political talking points.
+                </p>
+              </div>
+
+              <div className="relative w-full md:w-72">
+                <Search className="w-4 h-4 absolute left-3 top-3 text-slate-500" />
+                <input
+                  type="text"
+                  value={vaultSearch}
+                  onChange={(e) => setVaultSearch(e.target.value)}
+                  placeholder="Search myths or topics..."
+                  className="w-full pl-9 pr-4 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-purple-500"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {MYTH_VAULT.filter(m =>
+                m.claim.toLowerCase().includes(vaultSearch.toLowerCase()) ||
+                m.truth.toLowerCase().includes(vaultSearch.toLowerCase())
+              ).map((myth) => (
+                <div key={myth.id} className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-4 hover:border-slate-700 transition">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs px-2.5 py-1 rounded-md bg-purple-500/20 text-purple-300 font-bold border border-purple-500/30">
+                      {myth.category}
+                    </span>
+                    <span className="text-[10px] text-rose-400 font-semibold bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/20">
+                      {myth.severity}
+                    </span>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-rose-950/20 border border-rose-500/30 space-y-1">
+                    <div className="text-[11px] font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1">
+                      <XCircle className="w-3.5 h-3.5" /> Common Misleading Claim
+                    </div>
+                    <p className="text-xs md:text-sm text-slate-200 font-medium">"{myth.claim}"</p>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-teal-950/20 border border-teal-500/30 space-y-1">
+                    <div className="text-[11px] font-bold text-teal-400 uppercase tracking-wider flex items-center gap-1">
+                      <CheckCircle2 className="w-3.5 h-3.5" /> The Official Primary Data Truth
+                    </div>
+                    <p className="text-xs md:text-sm text-slate-200 leading-relaxed">{myth.truth}</p>
+                  </div>
+
+                  <div className="text-[10px] text-slate-500 font-mono border-t border-slate-800 pt-2">
+                    Source: {myth.dwpData}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* SECTION: SPENDING TRACKER */}
+        {activeTab === 'spend' && <SpendTracker/>}
+
+        {/* SECTION 4: ECONOMIC IMPACT */}
+        {activeTab === 'economics' && (
+          <div className="max-w-5xl mx-auto space-y-8">
+            <div className="p-6 rounded-2xl bg-gradient-to-r from-teal-950/80 via-slate-900 to-slate-900 border border-teal-500/30 space-y-3">
+              <div className="flex items-center gap-2 text-teal-400 text-xs font-bold uppercase tracking-wider">
+                <LineChart className="w-4 h-4" />
+                <span>Macroeconomic Analysis & Fiscal Reality</span>
+              </div>
+              <h2 className="text-2xl md:text-3xl font-black text-slate-100">
+                PIP Macroeconomic Multiplier & Welfare Spend vs. GDP Trends
+              </h2>
+              <p className="text-xs md:text-sm text-slate-300 leading-relaxed">
+                Economic evidence debunking misconceptions surrounding disability expenditure. Personal Independence Payment (PIP) acts as a high-velocity fiscal multiplier in local economies, while UK welfare spend as a percentage of GDP has remained stable and well below historical peaks.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-6">
+              <div className="flex items-center gap-3 border-b border-slate-800 pb-4">
+                <div className="p-2.5 rounded-xl bg-teal-500/20 text-teal-300 border border-teal-500/30">
+                  <Coins className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-black text-slate-100">
+                    1. PIP as an Economic Multiplier Effect (£1.40–£1.70 Return)
+                  </h3>
+                  <p className="text-xs text-slate-400">
+                    How disability extra-cost awards directly stimulate regional economic output and employment.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+                  <div className="text-2xl font-black text-teal-400">1.40x – 1.70x</div>
+                  <div className="text-xs font-bold text-slate-200">Local Multiplier Value</div>
+                  <p className="text-[11px] text-slate-400 leading-normal">
+                    Every £1.00 disbursed via PIP creates up to £1.70 in local transaction volume across retail, energy, and community services.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+                  <div className="text-2xl font-black text-purple-400">Immediate Liquidity</div>
+                  <div className="text-xs font-bold text-slate-200">High Marginal Propensity</div>
+                  <p className="text-[11px] text-slate-400 leading-normal">
+                    Unlike high-income tax cuts which are frequently saved, 99%+ of PIP disbursements are spent immediately on essential items.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+                  <div className="text-2xl font-black text-amber-400">Indirect VAT Return</div>
+                  <div className="text-xs font-bold text-slate-200">Fiscal Recoupment</div>
+                  <p className="text-[11px] text-slate-400 leading-normal">
+                    Local spending generates direct VAT revenue, supporting local jobs, high streets, and preventing emergency healthcare costs.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* SECTION 5: CHARITIES DIRECTORY */}
+        {activeTab === 'charities' && (
+          <div className="space-y-6">
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+              <div className="flex items-center gap-2 text-teal-400 text-xs font-bold uppercase tracking-wider">
+                <HeartHandshake className="w-4 h-4" />
+                <span>Verified Support Network</span>
+              </div>
+              <h2 className="text-2xl md:text-3xl font-black text-slate-100">
+                A-Z Directory of UK Disability Charities & Support Organizations
+              </h2>
+              <p className="text-xs md:text-sm text-slate-300">
+                Search qualified UK charities providing helpline support, PIP appeal representation, and independent clinical guidance.
+              </p>
+
+              <div className="flex flex-col md:flex-row items-center gap-3 pt-2">
+                <div className="relative w-full md:w-80">
+                  <Search className="w-4 h-4 absolute left-3 top-3 text-slate-500" />
+                  <input
+                    type="text"
+                    value={charitySearch}
+                    onChange={(e) => setCharitySearch(e.target.value)}
+                    placeholder="Search charity name or condition..."
+                    className="w-full pl-9 pr-4 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-purple-500"
+                  />
+                </div>
+
+                <select
+                  value={charityCategory}
+                  onChange={(e) => setCharityCategory(e.target.value)}
+                  className="w-full md:w-64 p-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-purple-500"
+                >
+                  {charityCategoriesList.map((cat, i) => (
+                    <option key={i} value={cat}>{cat === 'ALL' ? 'All Condition Categories' : cat}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="flex flex-wrap gap-1 pt-2">
+                {['ALL', 'A', 'B', 'C', 'D', 'E', 'H', 'M', 'N', 'P', 'R', 'S', 'V'].map((lettr) => (
+                  <button
+                    key={lettr}
+                    onClick={() => setCharityLetter(lettr)}
+                    className={`px-2.5 py-1 rounded text-xs font-bold transition ${charityLetter === lettr ? 'bg-purple-600 text-white' : 'bg-slate-950 text-slate-400 hover:text-slate-200'}`}
+                  >
+                    {lettr}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {filteredCharities.map((item, idx) => (
+                <div key={idx} className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3 hover:border-slate-700 transition">
+                  <div className="flex justify-between items-start gap-2">
+                    <div>
+                      <h3 className="font-bold text-base text-slate-100">{item.name}</h3>
+                      <span className="text-[10px] px-2 py-0.5 rounded bg-teal-500/20 text-teal-300 font-semibold border border-teal-500/30">
+                        {item.category}
+                      </span>
+                    </div>
+                  </div>
+                  <p className="text-xs text-slate-300 leading-relaxed">{item.desc}</p>
+                  <div className="pt-2 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-slate-400">
+                    <span className="flex items-center gap-1 text-purple-300"><Phone className="w-3.5 h-3.5" /> {item.phone}</span>
+                    <a href={`https://${item.web}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-teal-400 hover:underline">
+                      <Globe className="w-3.5 h-3.5" /> {item.web}
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* SECTION 6: MP BRIEFING */}
+        {activeTab === 'briefing' && (
+          <div className="max-w-4xl mx-auto space-y-6">
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+              <div className="flex items-center gap-2 text-teal-400 text-xs font-bold uppercase tracking-wider">
+                <Printer className="w-4 h-4" />
+                <span>Constituency Export Tool</span>
+              </div>
+              <h2 className="text-2xl font-black text-slate-100">
+                MP & Public Representative Briefing Generator
+              </h2>
+              <p className="text-xs md:text-sm text-slate-300">
+                Generate print-ready constituency briefing sheets containing verified DWP, ONS, and HMCTS tribunal stats to send to your local MP or councilor.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-slate-400 mb-1">Constituency Name</label>
+                  <input
+                    type="text"
+                    value={constituency}
+                    onChange={(e) => setConstituency(e.target.value)}
+                    placeholder="e.g. Gosport / North West Norfolk"
+                    className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-purple-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-400 mb-1">Target MP / Representative Name</label>
+                  <input
+                    type="text"
+                    value={mpName}
+                    onChange={(e) => setMpName(e.target.value)}
+                    placeholder="e.g. Rt Hon MP"
+                    className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-purple-500"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-400 mb-2">Select Verified Fact Modules To Include:</label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+                  {[
+                    { id: 'pip_rates', label: '1. Official PIP Rates 2026/27 (£194.60 max/wk)' },
+                    { id: 'pip_multiplier', label: '2. PIP Local Economic Multiplier (£1.40 - £1.70)' },
+                    { id: 'welfare_gdp', label: '3. Welfare Spend vs GDP Trends (Stable ~10-11%)' },
+                    { id: 'pip_fraud', label: '4. DWP Fraud Statistics (Under 0.2%)' },
+                    { id: 'tribunals', label: '5. HMCTS Tribunal Success (70%+ Overturn Rate)' },
+                    { id: 'uc_rates', label: '6. Universal Credit Rates & LCWRA Health Element' },
+                    { id: 'carers', label: '7. Carer\'s Allowance & Overpayment Thresholds' }
+                  ].map((topic) => (
+                    <button
+                      key={topic.id}
+                      onClick={() => toggleTopic(topic.id)}
+                      className={`p-2.5 rounded-xl text-left font-medium border transition ${selectedTopics.includes(topic.id) ? 'bg-purple-600/20 text-purple-200 border-purple-500/40' : 'bg-slate-950 text-slate-400 border-slate-800'}`}
+                    >
+                      {topic.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-4 flex gap-3">
+                <button
+                  onClick={copyBriefingText}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-teal-500 text-slate-950 font-bold text-xs hover:bg-teal-400 transition"
+                >
+                  <Copy className="w-4 h-4" />
+                  <span>{briefingCopied ? 'Copied to Clipboard!' : 'Copy Briefing Text'}</span>
+                </button>
+                <button
+                  onClick={handlePrintBriefing}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-purple-600 text-white font-bold text-xs hover:bg-purple-500 transition"
+                >
+                  <Printer className="w-4 h-4" />
+                  <span>Print Briefing Pack</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* SECTION 7: RIGHTS */}
+        {activeTab === 'rights' && (
+          <div className="max-w-4xl mx-auto space-y-6">
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+              <div className="flex items-center gap-2 text-teal-400 text-xs font-bold uppercase tracking-wider">
+                <ShieldCheck className="w-4 h-4" />
+                <span>Legal Entitlements Framework</span>
+              </div>
+              <h2 className="text-2xl font-black text-slate-100">
+                Know Your PIP & Assessment Rights
+              </h2>
+              <p className="text-xs md:text-sm text-slate-300">
+                Essential legal entitlements for applicants navigating PIP assessments, mandatory reconsiderations, and HMCTS independent tribunals.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+                <h3 className="font-bold text-slate-100 text-sm">Right to Audio Recording & Accompaniment</h3>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  Claimants have the statutory right to bring a companion, carer, or advocate to any DWP health assessment. You are also legally permitted to request an audio recording of your assessment from the provider or record it yourself, provided advance notice is given under DWP guidelines.
+                </p>
+              </div>
+
+              <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+                <h3 className="font-bold text-slate-100 text-sm">HMCTS Independent Appeal Entitlement</h3>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  If your Mandatory Reconsideration is unsuccessful, you have an absolute legal right to lodge an appeal with the HMCTS First-tier Tribunal. HMCTS tribunals are completely independent of the DWP and overturn over 70% of DWP assessment decisions based on clinical evidence and descriptor scoring.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* SECTION 8: LEGAL & STANDARDS */}
+        {activeTab === 'legal' && (
+          <div className="max-w-4xl mx-auto space-y-6">
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+              <div className="flex items-center gap-2 text-teal-400 text-xs font-bold uppercase tracking-wider">
+                <Scale className="w-4 h-4" />
+                <span>Editorial Standards & Statutory Framework</span>
+              </div>
+              <h2 className="text-2xl font-black text-slate-100">
+                Legal Standards & Methodological Integrity
+              </h2>
+              <p className="text-xs md:text-sm text-slate-300 leading-relaxed">
+                All evaluations on the UK Welfare Truth Index are generated strictly using open government datasets, published Hansard records, ONS releases, and statutory instruments under UK Public Interest and Fair Comment principles.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+              <h3 className="font-bold text-slate-100 text-sm">Data Primary Sources</h3>
+              <ul className="list-disc list-inside text-xs text-slate-300 space-y-1.5">
+                <li>DWP Stat-Xplore Caseload & Expenditure Databases</li>
+                <li>Office for National Statistics (ONS) Labour Market & Economic Inactivity Reviews</li>
+                <li>Ministry of Justice (MoJ) HMCTS Tribunal Statistics Quarterly</li>
+                <li>UK Welfare Reform Act 2012 & Social Security Regulations 2026/2027</li>
+              </ul>
+            </div>
+          </div>
+        )}
+
+        {/* SECTION 9: SUPPORT */}
+        {activeTab === 'support' && (
+          <div className="max-w-4xl mx-auto space-y-6">
+            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+              <div className="flex items-center gap-2 text-teal-400 text-xs font-bold uppercase tracking-wider">
+                <Users className="w-4 h-4" />
+                <span>Help Network</span>
+              </div>
+              <h2 className="text-2xl font-black text-slate-100">
+                Disability Advice & Emergency Advocacy Help
+              </h2>
+              <p className="text-xs md:text-sm text-slate-300">
+                Direct helplines for independent, confidential welfare advice and appeal support.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {SUPPORT_ORGANIZATIONS.map((org, idx) => (
+                <div key={idx} className="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+                  <h3 className="font-bold text-slate-100 text-sm">{org.name}</h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">{org.desc}</p>
+                  <div className="pt-2 text-xs font-mono text-purple-300 flex items-center gap-1">
+                    <Phone className="w-3.5 h-3.5" /> {org.phone}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+      </main>
+    </div>
+  );
+}
+
