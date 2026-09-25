@@ -418,7 +418,6 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
     'feckless', 'disability scam', 'faking disability', 'pretending to be sick', 'faking depression',
     'parasite', 'parasites', 'moocher', 'moochers', 'sponger', 'spongers',
     'opting out of work', 'morally wrong', 'we can\'t afford it', 'has to stop',
-    // Added framing patterns to catch political statements coupling welfare cuts with wasteful spending
     'cut welfare and wasteful spending', 'cut welfare', 'wasteful spending'
   ];
 
@@ -434,7 +433,8 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
   const genericNegativeIndicators = [
     'bad', 'terrible', 'awful', 'horrible', 'useless', 'ruining', 'destroying', 
     'costing billions', 'out of control', 'crisis', 'fraud', 'cheat', 'scam', 
-    'lazy', 'refuse', 'burden', 'waste', 'drain', 'wrong', 'joke'
+    'lazy', 'refuse', 'burden', 'waste', 'drain', 'wrong', 'joke',
+    'not fair', 'unfair', 'broken', 'fail', 'failing'
   ];
   
   const mentionsWelfare = welfareTopics.some(topic => lower.includes(topic));
@@ -460,13 +460,13 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
       flags.push(`FLAGGED CASELOAD MISREPRESENTATION: Conflates total national health/welfare caseload volumes with willful idleness or mass fraud.`);
     } else {
       extractedQuotes.push(`"${text}"`);
-      flags.push(`FLAGGED UNSUBSTANTIATED NEGATIVE ASSERTION: Makes sweeping negative claims regarding disabled people or statutory benefits without supporting empirical data or primary source documentation.`);
+      flags.push(`FLAGGED UNSUBSTANTIATED NEGATIVE ASSERTION: Makes sweeping claims regarding social protection systems or statutory benefits without supporting empirical data or primary source documentation.`);
     }
 
     flags.push(`NON-EVIDENCE BACKED STATEMENT: Uses negative narrative framing against welfare entitlement while omitting verified baseline statistics.`);
-    flags.push(`PUBLIC DISCOURSE RISK: Disseminates unsupported hostility toward benefit claimants by framing statutory entitlement access as inherently bad, abusive, or unmonitored.`);
+    flags.push(`PUBLIC DISCOURSE RISK: Disseminates unsupported hostility or misleading generalisations toward benefit systems or claimants.`);
 
-    primaryRebuttal = `DEBUNKING UNSUBSTANTIATED NEGATIVE CLAIMS & FRAMING: Grouping essential social security and welfare support alongside "wasteful spending" misrepresents public expenditure and stigmatises vulnerable claimants. Statutory benefits such as Universal Credit and PIP provide vital safety nets for individuals facing health and economic barriers. Official DWP statistics confirm that PIP fraud is under 0.2%, and over 70% of appealed tribunal decisions are overturned in favor of claimants due to initial assessment errors. Framing social protection as economic waste ignores independent findings that structural under-investment in public health and social support drives economic inactivity rather than welfare provision itself.`;
+    primaryRebuttal = `DEBUNKING UNSUBSTANTIATED NEGATIVE CLAIMS & FRAMING: Grouping essential social security and welfare support alongside negative assertions misrepresents public expenditure and statutory frameworks. Statutory benefits such as Universal Credit and PIP provide vital safety nets for individuals facing health and economic barriers. Official DWP statistics confirm that PIP fraud is under 0.2%, and over 70% of appealed tribunal decisions are overturned in favor of claimants due to initial assessment errors. Framing social protection as inherently flawed ignores independent findings that structural support underpins economic stability.`;
     sourceRef = "DWP Fraud & Error Statistics, MOJ HMCTS Tribunal Quarterly Data, ONS Labour Force Survey";
     
     sourceLinks = [
