@@ -222,10 +222,8 @@ export const calculateRateConversions = (amount, originalType) => {
 
 // Robust Multi-Word & Token Search Function across All Welfare Types
 export const searchAllBenefits = (queryTerm = "") => {
-  // Normalize string: lowercase and remove non-alphanumeric punctuation
   const cleanTerm = queryTerm.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
   
-  // Strip conversational phrasing and question stop-words
   const stopWords = [
     'how', 'much', 'is', 'what', 'are', 'the', 'rate', 'rates', 
     'for', 'a', 'an', 'of', 'tell', 'me', 'about', 'get', 'can', 'i', 'claim', 'value'
@@ -243,10 +241,8 @@ export const searchAllBenefits = (queryTerm = "") => {
       const cleanCat = data.category.toLowerCase().replace(/[^a-z0-9\s]/g, '');
       const cleanDesc = data.description.toLowerCase().replace(/[^a-z0-9\s]/g, '');
       
-      // Tokenize target fields into whole words to avoid accidental substring matches across field bounds
       const targetTokens = `${id} ${cleanName} ${cleanCat} ${cleanDesc}`.split(/\s+/);
       
-      // Match if ALL query words match at least one word token in the database entry
       return queryWords.every(qWord => targetTokens.some(tToken => tToken === qWord || tToken.startsWith(qWord)));
     })
     .map(([id, data]) => ({
@@ -269,24 +265,24 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
 
   const lower = text.toLowerCase();
 
-  // Helper to format currency numbers cleanly
   const fmt = (val) => typeof val === 'number' ? `£${val.toFixed(2)}` : val;
 
-  // Extract Benefit Rates safely from constants
   const pipDailyStd = fmt(BENEFIT_RATES_2026_2027?.pip?.dailyLivingStandard || 76.70);
   const pipDailyEnh = fmt(BENEFIT_RATES_2026_2027?.pip?.dailyLivingEnhanced || 114.60);
   const pipMobStd = fmt(BENEFIT_RATES_2026_2027?.pip?.mobilityStandard || 30.30);
   const pipMobEnh = fmt(BENEFIT_RATES_2026_2027?.pip?.mobilityEnhanced || 80.00);
 
-  // Check database first so generic non-misleading queries match immediately
   const matchedSearchResults = searchAllBenefits(text);
   const isQuestion = text.includes('?') || 
     /^(how|what|why|is|are|can|does|do|who|where|how much|tell me|explain|cost|rate|rates|amount|amounts|search|find)/i.test(lower);
 
   // =========================================================================
   // SECTION 1: GENERAL & INFORMATIONAL INQUIRIES ROUTER
+  // (Bypassed if input contains political messaging or framing terms like "wasteful spending" + "welfare")
   // =========================================================================
-  if (matchedSearchResults.length > 0) {
+  const isWastefulWelfareFraming = (lower.includes('wasteful') || lower.includes('waste')) && (lower.includes('welfare') || lower.includes('benefit'));
+
+  if (matchedSearchResults.length > 0 && !isWastefulWelfareFraming) {
     const formattedFlags = matchedSearchResults.map(item => 
       `${item.name.toUpperCase()}: Weekly = ${item.conversions.weekly} | Monthly = ${item.conversions.monthly} | Cap Status: ${item.capApplicable ? 'Subject to Cap' : 'Exempt'}`
     );
@@ -303,8 +299,8 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
     return {
       inputStatement: text,
       extractedQuotes: [`"${text}"`],
-      score: 0,
-      verdict: `Verified Official 2026/27 Rates (${matchedSearchResults.length} Benefit Match${matchedSearchResults.length > 1 ? 'es' : ''})`,
+      score: 10,
+      verdict: `Low BS / Verified Official Rates (${matchedSearchResults.length} Benefit Match${matchedSearchResults.length > 1 ? 'es' : ''})`,
       flags: formattedFlags,
       primaryRebuttal: `OFFICIAL 2026/27 WELFARE RATES FOUND:\n${formattedRebuttalText}`,
       sourceRef: "DWP, HMRC & Pension Statutory Schedules 2026/27 (GOV.UK)",
@@ -312,14 +308,13 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
     };
   }
 
-  if (isQuestion) {
-    // A. Benefit Cap Questions
+  if (isQuestion && !isWastefulWelfareFraming) {
     if (lower.includes('cap') || lower.includes('limit') || lower.includes('maximum benefit')) {
       return {
         inputStatement: text,
         extractedQuotes: [`"${text}"`],
-        score: 0,
-        verdict: "Verified Statutory Benefit Cap Limits 2026/27",
+        score: 10,
+        verdict: "Low BS / Verified Statutory Benefit Cap Limits 2026/27",
         flags: [
           `GREATER LONDON CAP: £2,110.00/mo (£486.92/wk) for couples/parents | £1,413.92/mo (£326.29/wk) for single adults.`,
           `OUTSIDE LONDON CAP: £1,835.00/mo (£423.46/wk) for couples/parents | £1,229.42/mo (£283.71/wk) for single adults.`,
@@ -333,13 +328,12 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
       };
     }
 
-    // B. PIP Fraud / Misuse / Abuse Questions
     if (lower.includes('fraud') || lower.includes('cheat') || lower.includes('abuse') || lower.includes('scam')) {
       return {
         inputStatement: text,
         extractedQuotes: [`"${text}"`],
-        score: 0,
-        verdict: "Verified Primary Fact / Official DWP Data",
+        score: 10,
+        verdict: "Low BS / Verified Primary Fact (Official DWP Data)",
         flags: [
           "OFFICIAL STATISTICAL DATA: DWP Fraud and Error in the Benefit System report confirms PIP fraud is estimated at under 0.2%.",
           "MOST OVERPAYMENT IS ERROR: Overwhelming majority of non-compliant claims stem from administrative errors or delayed updates of changes in condition, not intentional fraud."
@@ -353,13 +347,12 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
       };
     }
 
-    // C. Tribunal Overturns & Assessment Appeals Questions
     if (lower.includes('tribunal') || lower.includes('appeal') || lower.includes('overturn') || lower.includes('reconsideration') || lower.includes('hmcts')) {
       return {
         inputStatement: text,
         extractedQuotes: [`"${text}"`],
-        score: 0,
-        verdict: "Verified Primary Fact / Ministry of Justice Data",
+        score: 10,
+        verdict: "Low BS / Verified Primary Fact (Ministry of Justice Data)",
         flags: [
           "HMCTS INDEPENDENT APPEALS OVERTURN RATE: Exceeds 70% in favor of benefit claimants.",
           "INDEPENDENT MEDICAL EVALUATION: HMCTS tribunals are chaired by an independent judge, specialist doctor, and disability expert independent of DWP."
@@ -373,7 +366,6 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
       };
     }
 
-    // Direct Question Generic Fallback - Topic Specific
     let questionTopicRebuttal = `PRIMARY DATA FACT-CHECK: Your query ("${text}") was evaluated against primary UK government statistics. Statutory UK benefits and state pensions are administered according to entitlement criteria set by Parliament. Social protection spending as a percentage of UK GDP remains stable at 10%–11%.`;
     
     if (lower.includes('pension') || lower.includes('retirement')) {
@@ -385,8 +377,8 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
     return {
       inputStatement: text,
       extractedQuotes: [`"${text}"`],
-      score: 10,
-      verdict: "Direct Informational Query Evaluated",
+      score: 15,
+      verdict: "Low BS / Direct Informational Query Evaluated",
       flags: [
         "DIRECT QUESTION DETECTED: Analyzed against DWP, ONS, and HMCTS primary documentation.",
         "PRIMARY SOURCE REFERENCE: Always refer to official DWP Stat-Xplore databases for verified UK benefit statistics."
@@ -410,7 +402,7 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
   let sourceLinks = [];
   let extractedQuotes = [];
 
-  const containsCitation = /(dwp|ons|hmcts|stat-xplore|ifs|niesr|hansard|gov\.uk|http|https|source|journal|tribunal statistics|office for national statistics|oecd|obr|institute for fiscal studies)/i.test(lower);
+  const containsCitation = /(dwp|ons|hmcts|stat-xplore|ifs|niesr|hansard|gov\.uk|http|https|source|journal|tribunal statistics|office for national statistics|oecd|obr|institute for fiscal studies|taxpayers.?alliance)/i.test(lower);
 
   // 1. EXTENDED UNSUBSTANTIATED STIGMATISING, SENSATIONALIST & HATE TROPES
   const negativeStigmaPhrases = [
@@ -424,18 +416,18 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
     'taking the mickey', 'work shy', 'work-shy', 'leech', 'leeches', 'system abuser', 'abuse the system',
     'scamming', 'free money', 'freeloader', 'freeloaders', 'welfare dependency', 'culture of laziness',
     'feckless', 'disability scam', 'faking disability', 'pretending to be sick', 'faking depression',
-    // --- UPDATED ANTI-STIGMA ADDITIONS ---
-    'parasite', 'parasites', 'moocher', 'moochers', 'sponger', 'spongers', 'shirker', 'shirkers',
-    'faking depression', 'opting out of work', 'pip crisis'
+    'parasite', 'parasites', 'moocher', 'moochers', 'sponger', 'spongers',
+    'opting out of work', 'morally wrong', 'we can\'t afford it', 'has to stop',
+    // Added framing patterns to catch political statements coupling welfare cuts with wasteful spending
+    'cut welfare and wasteful spending', 'cut welfare', 'wasteful spending'
   ];
 
   const foundStigmaPhrases = negativeStigmaPhrases.filter(phrase => lower.includes(phrase));
 
-  // --- UPDATED CASELOAD GENERALISATION DETECTION ---
   const isCaseloadGeneralisation = (
-    (lower.includes('million') || lower.includes('millions') || lower.includes('surge') || lower.includes('explosion') || lower.includes('claimants')) &&
+    (lower.includes('million') || lower.includes('millions') || lower.includes('surge') || lower.includes('explosion') || lower.includes('claimants') || lower.includes('1 in 3')) &&
     (lower.includes('benefit') || lower.includes('welfare') || lower.includes('pip') || lower.includes('sick')) &&
-    (lower.includes('lazy') || lower.includes('refuse') || lower.includes('choose') || lower.includes('avoid work') || lower.includes('faking'))
+    (lower.includes('lazy') || lower.includes('refuse') || lower.includes('choose') || lower.includes('avoid work') || lower.includes('faking') || lower.includes('morally wrong') || lower.includes('way of life'))
   );
 
   const welfareTopics = ['pip', 'universal credit', 'benefits', 'welfare', 'disabled', 'disability', 'work capability', 'fit note', 'sick note', 'esa', 'dla', 'pension', 'carer'];
@@ -451,10 +443,16 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
     return regex.test(lower);
   });
 
-  if ((foundStigmaPhrases.length > 0 || isCaseloadGeneralisation || (mentionsWelfare && hasNegativeTone)) && !containsCitation) {
+  // Explicit check for framing welfare alongside "wasteful spending" / austerity rhetoric
+  const couplesWelfareWithWaste = (lower.includes('welfare') || lower.includes('benefit')) && (lower.includes('wasteful') || lower.includes('waste'));
+
+  if ((foundStigmaPhrases.length > 0 || isCaseloadGeneralisation || couplesWelfareWithWaste || (mentionsWelfare && hasNegativeTone)) && !containsCitation) {
     score = Math.min(100, Math.max(92, score + 72 + (foundStigmaPhrases.length * 5)));
     
-    if (foundStigmaPhrases.length > 0) {
+    if (couplesWelfareWithWaste) {
+      extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
+      flags.push(`FLAGGED STIGMATISING FRAMING: Equates or groups welfare claimants alongside 'wasteful spending', framing social protection support as fiscal waste and fueling derogatory public discourse.`);
+    } else if (foundStigmaPhrases.length > 0) {
       extractedQuotes.push(`"${foundStigmaPhrases.map(p => `'${p}'`).join(', ')}"`);
       flags.push(`FLAGGED UNSUBSTANTIATED STIGMATISING RHETORIC: Contains negative anti-welfare or pejorative terminology (${foundStigmaPhrases.map(p => `'${p}'`).join(', ')}) without citing verified primary data from DWP, ONS, or HMCTS.`);
     } else if (isCaseloadGeneralisation) {
@@ -462,13 +460,13 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
       flags.push(`FLAGGED CASELOAD MISREPRESENTATION: Conflates total national health/welfare caseload volumes with willful idleness or mass fraud.`);
     } else {
       extractedQuotes.push(`"${text}"`);
-      flags.push(`FLAGGED UNSUBSTANTIATED NEGATIVE ASSERTION: Makes sweeping negative claims ('${text}') regarding disabled people or statutory benefits without supporting empirical data or primary source documentation.`);
+      flags.push(`FLAGGED UNSUBSTANTIATED NEGATIVE ASSERTION: Makes sweeping negative claims regarding disabled people or statutory benefits without supporting empirical data or primary source documentation.`);
     }
 
     flags.push(`NON-EVIDENCE BACKED STATEMENT: Uses negative narrative framing against welfare entitlement while omitting verified baseline statistics.`);
     flags.push(`PUBLIC DISCOURSE RISK: Disseminates unsupported hostility toward benefit claimants by framing statutory entitlement access as inherently bad, abusive, or unmonitored.`);
 
-    primaryRebuttal = `DEBUNKING UNSUBSTANTIATED NEGATIVE CLAIMS: Broad assertions dismissing PIP or Universal Credit as fraudulent or driven by lifestyle choice are refuted by official primary data. Personal Independence Payment (PIP) provides essential statutory support for extra daily costs faced by long-term sick and disabled individuals following rigorous clinical assessments. DWP Fraud & Error statistics confirm that PIP fraud is estimated at under 0.2% across the entire caseload, while over 70% of appealed PIP tribunal decisions are overturned in favor of the claimant due to initial assessment errors. Furthermore, implying that rising disability caseloads represent mass idleness ignores structural health barriers and independent tribunal findings showing systemic under-counting of genuine need.`;
+    primaryRebuttal = `DEBUNKING UNSUBSTANTIATED NEGATIVE CLAIMS & FRAMING: Grouping essential social security and welfare support alongside "wasteful spending" misrepresents public expenditure and stigmatises vulnerable claimants. Statutory benefits such as Universal Credit and PIP provide vital safety nets for individuals facing health and economic barriers. Official DWP statistics confirm that PIP fraud is under 0.2%, and over 70% of appealed tribunal decisions are overturned in favor of claimants due to initial assessment errors. Framing social protection as economic waste ignores independent findings that structural under-investment in public health and social support drives economic inactivity rather than welfare provision itself.`;
     sourceRef = "DWP Fraud & Error Statistics, MOJ HMCTS Tribunal Quarterly Data, ONS Labour Force Survey";
     
     sourceLinks = [
@@ -531,7 +529,7 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
     }
   }
 
-  // 4. IMPOSSIBLE FINANCIAL EXAGGERATIONS
+  // 4. STRICTLY REFINED FINANCIAL EXAGGERATIONS (Requires £ currency symbol or explicit monetary keywords)
   const explicitFinancialMatches = text.match(/(?:£\s*\d+[\d,]*\s*(?:k|thousand|million|bn|billion)?|\b\d+[\d,]*\s*(?:k|thousand|million|bn|billion)?\s*(?:pounds|pound|gbp)\b)/gi) || [];
   let extractedAnnualAmount = 0;
 
@@ -556,7 +554,7 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
     extractedAnnualAmount = 60000;
   }
 
-  const isFinancialClaim = extractedAnnualAmount > 0;
+  const isFinancialClaim = extractedAnnualAmount > 0 && (text.includes('£') || /pounds|gbp/i.test(text));
 
   if (isFinancialClaim && BENEFIT_RATES_2026_2027?.benefitCap2026?.absoluteMaxCap && extractedAnnualAmount > BENEFIT_RATES_2026_2027.benefitCap2026.absoluteMaxCap) {
     score = 98;
@@ -593,10 +591,10 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
         { label: "HMCTS Tribunal Quarterly Statistics", url: "https://www.gov.uk/government/collections/tribunals-statistics" }
       ];
     } else {
-      score = 0;
-      flags.push(`VERIFIED PRIMARY CITATION DETECTED: Cites official statistical documentation (DWP / ONS / HMCTS / IFS).`);
-      primaryRebuttal = `ANALYSIS OF STATEMENT: Statement evaluated against official DWP Stat-Xplore datasets, 2026/2027 Statutory Benefit Rates, and ONS employment statistics.`;
-      sourceRef = "ONS Labour Market Review & DWP Stat-Xplore Database";
+      score = 10;
+      flags.push(`VERIFIED PRIMARY CITATION DETECTED: Cites official statistical documentation or research briefs (DWP / ONS / HMCTS / IFS / Taxpayers' Alliance). Statement verified as low BS.`);
+      primaryRebuttal = `ANALYSIS OF STATEMENT: Statement evaluated against official DWP Stat-Xplore datasets, 2026/2027 Statutory Benefit Rates, ONS employment statistics, and research documentation. Cites documented empirical figures.`;
+      sourceRef = "ONS Labour Market Review, DWP Stat-Xplore Database & Research Publications";
       
       sourceLinks = [
         { label: "DWP Stat-Xplore Portal", url: "https://stat-xplore.dwp.gov.uk/" },
@@ -615,13 +613,11 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
 
   const finalScore = Math.min(100, Math.max(0, score));
   
-  let finalVerdict = "Informational Query / Standard Statement";
+  let finalVerdict = "Low BS / Mostly Factual";
   if (finalScore >= 80) {
-    finalVerdict = (foundStigmaPhrases.length > 0 || isCaseloadGeneralisation || (mentionsWelfare && hasNegativeTone) || !containsCitation)
-      ? "UNSUBSTANTIATED STIGMATISING CLAIM"
-      : "High Misleading Risk / False Claim";
+    finalVerdict = "High BS / Misleading Generalisation";
   } else if (finalScore >= 40) {
-    finalVerdict = "Moderate Bias / Unsubstantiated Assertion";
+    finalVerdict = "Medium BS / Unsubstantiated Assertion";
   }
 
   return {
