@@ -280,6 +280,36 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
     /^(how|what|why|is|are|can|does|do|who|where|how much|tell me|explain|cost|rate|rates|amount|amounts|search|find)/i.test(lower));
 
   // =========================================================================
+  // PRIORITY CHECK: SPECIFIC DISABILITY / CONDITION MISREPRESENTATION (BACK PAIN / FIBROMYALGIA / MH)
+  // =========================================================================
+  const isSpecificConditionFraming = (
+    (lower.includes('back pain') || lower.includes('non-specific back pain') || lower.includes('fibromyalgia') || lower.includes('mental health') || lower.includes('adhd') || lower.includes('anxiety')) &&
+    (lower.includes('surged') || lower.includes('hard to verify') || lower.includes('exaggerated') || lower.includes('false claims') || lower.includes('robustly assessed') || lower.includes('subjective') || lower.includes('loophole'))
+  );
+
+  if (isSpecificConditionFraming) {
+    const extractedQuotes = sentences.length > 0 ? sentences.slice(0, 3).map(s => `"${s}"`) : [`"${text}"`];
+    return {
+      inputStatement: text,
+      extractedQuotes,
+      score: 95,
+      verdict: "High BS / Misleading Condition Framing & Verification Skepticism",
+      flags: [
+        `FLAGGED CONDITION-SPECIFIC SKEPTICISM: Weaponises prevalence figures for specific disabling conditions (such as back pain) to cast doubt on the legitimacy of entire claimant cohorts.`,
+        `FALSE IMPLICATION OF UNVERIFIABILITY: Frames conditions without singular diagnostic imaging markers as inherently prone to exaggeration or fraud, ignoring standardized DWP functional assessment criteria.`,
+        `PUBLIC DISCOURSE RISK: Disseminates medical skepticism and undermines public trust in legitimate disability awards for chronic pain and musculoskeletal conditions.`
+      ],
+      primaryRebuttal: `DEBUNKING CONDITION-SPECIFIC FRAUD NARRATIVES: Claims that conditions like non-specific back pain are harder to verify and therefore indicative of systemic weakness misrepresent how Personal Independence Payment (PIP) is adjudicated. PIP awards are not based solely on a medical diagnosis label, but on rigorous functional assessments evaluating how a health condition impacts an individual's mobility and daily living activities against strict DWP statutory descriptors.`,
+      sourceRef: "DWP PIP Assessment Guide, NHS Musculoskeletal Pathways, ONS Health Statistics",
+      sourceLinks: [
+        { label: "GOV.UK PIP Assessment Guide for Assessment Providers", url: "https://www.gov.uk/government/publications/personal-independence-payment-assessment-guide-for-assessment-providers" },
+        { label: "DWP Stat-Xplore Caseload Data", url: "https://stat-xplore.dwp.gov.uk/" },
+        { label: "NHS Musculoskeletal Services Guidance", url: "https://www.england.nhs.uk/ourwork/clinical-policy/musculoskeletal/" }
+      ]
+    };
+  }
+
+  // =========================================================================
   // PRIORITY CHECK: TAXPAYER MONEY / CONTRIBUTION OVERSIMPLIFICATION (MEDIUM BS)
   // =========================================================================
   const isTaxpayerMoneyClaim = (
