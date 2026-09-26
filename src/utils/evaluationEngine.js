@@ -252,6 +252,14 @@ export const searchAllBenefits = (queryTerm = "") => {
     }));
 };
 
+// Helper function to split long paragraphs/transcripts into individual sentences
+const splitIntoSentences = (text) => {
+  return text
+    .split(/(?<=[.?!])\s+/)
+    .map(s => s.trim())
+    .filter(s => s.length > 0);
+};
+
 // Main Evaluation Function
 export const evaluatePipAndFinancialClaims = (rawInput) => {
   if (!rawInput || typeof rawInput !== 'string') {
@@ -264,6 +272,8 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
   }
 
   const lower = text.toLowerCase();
+  const sentences = splitIntoSentences(text);
+  const isMultiSentenceTranscript = sentences.length > 1 || text.length > 250;
 
   const fmt = (val) => typeof val === 'number' ? `£${val.toFixed(2)}` : val;
 
@@ -273,16 +283,16 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
   const pipMobEnh = fmt(BENEFIT_RATES_2026_2027?.pip?.mobilityEnhanced || 80.00);
 
   const matchedSearchResults = searchAllBenefits(text);
-  const isQuestion = text.includes('?') || 
-    /^(how|what|why|is|are|can|does|do|who|where|how much|tell me|explain|cost|rate|rates|amount|amounts|search|find)/i.test(lower);
+  const isQuestion = !isMultiSentenceTranscript && (text.includes('?') || 
+    /^(how|what|why|is|are|can|does|do|who|where|how much|tell me|explain|cost|rate|rates|amount|amounts|search|find)/i.test(lower));
 
   // =========================================================================
   // SECTION 1: GENERAL & INFORMATIONAL INQUIRIES ROUTER
-  // (Bypassed if input contains political messaging or framing terms like "wasteful spending" + "welfare")
+  // Bypassed for multi-sentence transcripts or text with political rhetoric/stigma
   // =========================================================================
   const isWastefulWelfareFraming = (lower.includes('wasteful') || lower.includes('waste')) && (lower.includes('welfare') || lower.includes('benefit'));
 
-  if (matchedSearchResults.length > 0 && !isWastefulWelfareFraming) {
+  if (matchedSearchResults.length > 0 && !isWastefulWelfareFraming && !isMultiSentenceTranscript) {
     const formattedFlags = matchedSearchResults.map(item => 
       `${item.name.toUpperCase()}: Weekly = ${item.conversions.weekly} | Monthly = ${item.conversions.monthly} | Cap Status: ${item.capApplicable ? 'Subject to Cap' : 'Exempt'}`
     );
@@ -393,7 +403,7 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
   }
 
   // =========================================================================
-  // SECTION 2: STATEMENT & MISINFORMATION EVALUATION ENGINE
+  // SECTION 2: STATEMENT, TRANSCRIPT & MISINFORMATION EVALUATION ENGINE
   // =========================================================================
   let score = 20;
   let flags = [];
@@ -404,7 +414,7 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
 
   const containsCitation = /(dwp|ons|hmcts|stat-xplore|ifs|niesr|hansard|gov\.uk|http|https|source|journal|tribunal statistics|office for national statistics|oecd|obr|institute for fiscal studies|taxpayers.?alliance)/i.test(lower);
 
-  // 1. EXTENDED UNSUBSTANTIATED STIGMATISING, SENSATIONALIST & HATE TROPES
+  // Expanded database of negative tropes, moralizing, and behavioral stigma terms
   const negativeStigmaPhrases = [
     'scrounger', 'scroungers', 'shirker', 'shirkers', 'skiver', 'skivers',
     'lazy', 'faking', 'faking illness', 'handout', 'handout nation', 'malingerer', 'malingerers',
@@ -418,8 +428,22 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
     'feckless', 'disability scam', 'faking disability', 'pretending to be sick', 'faking depression',
     'parasite', 'parasites', 'moocher', 'moochers', 'sponger', 'spongers',
     'opting out of work', 'morally wrong', 'we can\'t afford it', 'has to stop',
-    'cut welfare and wasteful spending', 'cut welfare', 'wasteful spending'
+    'cut welfare and wasteful spending', 'cut welfare', 'wasteful spending',
+    'live a life they can\'t afford', 'cant afford themselves', 'scrimp and save',
+    'hardworking', 'taxpayers\' money', 'taxpayer\'s money', 'luxuries', 'step up and get a job',
+    'crack an addiction', 'addiction to cigarettes', 'spend on that', 'give them cash',
+    'live a life on welfare', 'telling people how to spend', 'not fair'
   ];
+
+  // Scan sentences across transcript for offending segments
+  const detectedSentenceQuotes = [];
+  sentences.forEach(sentence => {
+    const sLower = sentence.toLowerCase();
+    const matchesPhrase = negativeStigmaPhrases.some(p => sLower.includes(p));
+    if (matchesPhrase) {
+      detectedSentenceQuotes.push(`"${sentence}"`);
+    }
+  });
 
   const foundStigmaPhrases = negativeStigmaPhrases.filter(phrase => lower.includes(phrase));
 
@@ -429,12 +453,12 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
     (lower.includes('lazy') || lower.includes('refuse') || lower.includes('choose') || lower.includes('avoid work') || lower.includes('faking') || lower.includes('morally wrong') || lower.includes('way of life'))
   );
 
-  const welfareTopics = ['pip', 'universal credit', 'benefits', 'welfare', 'disabled', 'disability', 'work capability', 'fit note', 'sick note', 'esa', 'dla', 'pension', 'carer'];
+  const welfareTopics = ['pip', 'universal credit', 'benefits', 'welfare', 'disabled', 'disability', 'work capability', 'fit note', 'sick note', 'esa', 'dla', 'pension', 'carer', 'addiction', 'taxpayers'];
   const genericNegativeIndicators = [
     'bad', 'terrible', 'awful', 'horrible', 'useless', 'ruining', 'destroying', 
     'costing billions', 'out of control', 'crisis', 'fraud', 'cheat', 'scam', 
     'lazy', 'refuse', 'burden', 'waste', 'drain', 'wrong', 'joke',
-    'not fair', 'unfair', 'broken', 'fail', 'failing'
+    'not fair', 'unfair', 'broken', 'fail', 'failing', 'patronising', 'addiction'
   ];
   
   const mentionsWelfare = welfareTopics.some(topic => lower.includes(topic));
@@ -443,36 +467,45 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
     return regex.test(lower);
   });
 
-  // Explicit check for framing welfare alongside "wasteful spending" / austerity rhetoric
+  // Explicit check for framing welfare alongside "wasteful spending" / austerity rhetoric or behavioral judgment
   const couplesWelfareWithWaste = (lower.includes('welfare') || lower.includes('benefit')) && (lower.includes('wasteful') || lower.includes('waste'));
+  const holdsBehavioralStigma = lower.includes('addiction') || lower.includes('cigarettes') || lower.includes('cash') || lower.includes('step up') || lower.includes('luxuries');
 
-  if ((foundStigmaPhrases.length > 0 || isCaseloadGeneralisation || couplesWelfareWithWaste || (mentionsWelfare && hasNegativeTone)) && !containsCitation) {
-    score = Math.min(100, Math.max(92, score + 72 + (foundStigmaPhrases.length * 5)));
+  if ((foundStigmaPhrases.length > 0 || isCaseloadGeneralisation || couplesWelfareWithWaste || holdsBehavioralStigma || (mentionsWelfare && hasNegativeTone)) && !containsCitation) {
+    score = Math.min(100, Math.max(92, score + 72 + (foundStigmaPhrases.length * 4)));
     
+    if (detectedSentenceQuotes.length > 0) {
+      // Limit to max 3 key quotes for clean output card rendering
+      extractedQuotes = detectedSentenceQuotes.slice(0, 3);
+    } else {
+      extractedQuotes.push(`"${text.length > 140 ? text.substring(0, 140) + '...' : text}"`);
+    }
+
+    if (holdsBehavioralStigma) {
+      flags.push(`FLAGGED DEROGATORY & BEHAVIORAL STIGMA: Uses paternalistic tropes alleging welfare recipients misspend cash on addictions/luxuries or live enviable lives compared to workers.`);
+    }
+
     if (couplesWelfareWithWaste) {
-      extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
-      flags.push(`FLAGGED STIGMATISING FRAMING: Equates or groups welfare claimants alongside 'wasteful spending', framing social protection support as fiscal waste and fueling derogatory public discourse.`);
+      flags.push(`FLAGGED STIGMATISING FRAMING: Equates or groups welfare claimants alongside 'wasteful spending', framing social protection support as fiscal waste.`);
     } else if (foundStigmaPhrases.length > 0) {
-      extractedQuotes.push(`"${foundStigmaPhrases.map(p => `'${p}'`).join(', ')}"`);
-      flags.push(`FLAGGED UNSUBSTANTIATED STIGMATISING RHETORIC: Contains negative anti-welfare or pejorative terminology (${foundStigmaPhrases.map(p => `'${p}'`).join(', ')}) without citing verified primary data from DWP, ONS, or HMCTS.`);
+      flags.push(`FLAGGED UNSUBSTANTIATED STIGMATISING RHETORIC: Contains negative anti-welfare rhetoric or derogatory framing without citing verified primary DWP or ONS data.`);
     } else if (isCaseloadGeneralisation) {
-      extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
       flags.push(`FLAGGED CASELOAD MISREPRESENTATION: Conflates total national health/welfare caseload volumes with willful idleness or mass fraud.`);
     } else {
-      extractedQuotes.push(`"${text}"`);
-      flags.push(`FLAGGED UNSUBSTANTIATED NEGATIVE ASSERTION: Makes sweeping claims regarding social protection systems or statutory benefits without supporting empirical data or primary source documentation.`);
+      flags.push(`FLAGGED UNSUBSTANTIATED NEGATIVE ASSERTION: Makes sweeping claims regarding social protection systems or statutory benefits without supporting empirical data.`);
     }
 
     flags.push(`NON-EVIDENCE BACKED STATEMENT: Uses negative narrative framing against welfare entitlement while omitting verified baseline statistics.`);
-    flags.push(`PUBLIC DISCOURSE RISK: Disseminates unsupported hostility or misleading generalisations toward benefit systems or claimants.`);
+    flags.push(`PUBLIC DISCOURSE RISK: Disseminates unsupported hostility, moralizing stereotypes, or misleading generalisations toward benefit claimants.`);
 
-    primaryRebuttal = `DEBUNKING UNSUBSTANTIATED NEGATIVE CLAIMS & FRAMING: Grouping essential social security and welfare support alongside negative assertions misrepresents public expenditure and statutory frameworks. Statutory benefits such as Universal Credit and PIP provide vital safety nets for individuals facing health and economic barriers. Official DWP statistics confirm that PIP fraud is under 0.2%, and over 70% of appealed tribunal decisions are overturned in favor of claimants due to initial assessment errors. Framing social protection as inherently flawed ignores independent findings that structural support underpins economic stability.`;
-    sourceRef = "DWP Fraud & Error Statistics, MOJ HMCTS Tribunal Quarterly Data, ONS Labour Force Survey";
+    primaryRebuttal = `DEBUNKING DEROGATORY WELFARE STIGMA & TRANSCRIPT CLAIMS: Suggesting that welfare recipients live luxurious lives at the expense of workers or routinely misuse cash on addictions misrepresents empirical data and statutory benefit levels. Standard Universal Credit rates (£338.58–£424.90/month base) fall well below low-income living cost thresholds. Official Joseph Rowntree Foundation and DWP studies demonstrate that social security payments are overwhelmingly spent on essential baseline expenses like food, utilities, and housing. Furthermore, Universal Credit explicitly maintains work incentives through Work Allowances (£404–£673/month) and a 55% taper rate, ensuring claimants are consistently better off in employment.`;
+    
+    sourceRef = "DWP Fraud & Error Statistics, Joseph Rowntree Foundation Minimum Income Standard, ONS Household Cost Indices";
     
     sourceLinks = [
       { label: "DWP Fraud & Error in the Benefit System", url: "https://www.gov.uk/government/collections/fraud-and-error-in-the-benefit-system" },
-      { label: "MOJ HMCTS Tribunal Statistics Quarterly", url: "https://www.gov.uk/government/collections/tribunals-statistics" },
-      { label: "ONS Labour Market & Inactivity Data", url: "https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork" }
+      { label: "Joseph Rowntree Foundation: Minimum Income Standard", url: "https://www.jrf.org.uk/topic/minimum-income-standard" },
+      { label: "ONS Household Cost Indices & Low Income Data", url: "https://www.ons.gov.uk/economy/inflationandpriceindices" }
     ];
   }
 
