@@ -280,6 +280,33 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
     /^(how|what|why|is|are|can|does|do|who|where|how much|tell me|explain|cost|rate|rates|amount|amounts|search|find)/i.test(lower));
 
   // =========================================================================
+  // PRIORITY CHECK: TAXPAYER MONEY / CONTRIBUTION OVERSIMPLIFICATION (MEDIUM BS)
+  // =========================================================================
+  const isTaxpayerMoneyClaim = (
+    lower.includes('tax payer') || lower.includes('taxpayers') || lower.includes('tax-payer') || lower.includes('tax payers') || 
+    (lower.includes('tax') && (lower.includes('money') || lower.includes('paid')))
+  ) && !lower.includes('paid into');
+
+  if (isTaxpayerMoneyClaim && !isMultiSentenceTranscript) {
+    return {
+      inputStatement: text,
+      extractedQuotes: [`"${text}"`],
+      score: 55,
+      verdict: "Medium BS / Oversimplified Contribution Rhetoric",
+      flags: [
+        `FLAGGED OVERSIMPLIFIED CONTRIBUTION FRAMING: While welfare is funded via general taxation, the statement omits that the vast majority of welfare and disability claimants have contributed directly to the tax and National Insurance systems for many years or decades before falling on hard times, ill health, or disability.`,
+        `PUBLIC DISCOURSE CONTEXT: Disregards the contributory history of benefit recipients and frames social security solely as a unidirectional handout rather than an insurance-based safety net.`
+      ],
+      primaryRebuttal: `CORRECTING TAXPAYER RHETORIC: While it is correct that welfare is funded through public taxation, this framing can be misleading. A large percentage of welfare and health-related benefit claimants have paid into the tax and National Insurance systems for many years and even decades before falling on hard times, ill health, or becoming disabled.`,
+      sourceRef: "HMRC National Insurance & DWP Benefit Recipient Longitudinal Statistics",
+      sourceLinks: [
+        { label: "HMRC National Insurance Recording System Data", url: "https://www.gov.uk/government/organisations/hm-revenue-customs" },
+        { label: "DWP Stat-Xplore Caseload Data", url: "https://stat-xplore.dwp.gov.uk/" }
+      ]
+    };
+  }
+
+  // =========================================================================
   // PRIORITY CHECK: MORALIZING CASELOAD RHETORIC
   // =========================================================================
   const isMoralizingCaseloadRhetoric = (
