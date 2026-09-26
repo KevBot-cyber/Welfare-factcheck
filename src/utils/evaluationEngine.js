@@ -277,14 +277,39 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
 
   const fmt = (val) => typeof val === 'number' ? `£${val.toFixed(2)}` : val;
 
-  const pipDailyStd = fmt(BENEFIT_RATES_2026_2027?.pip?.dailyLivingStandard || 76.70);
-  const pipDailyEnh = fmt(BENEFIT_RATES_2026_2027?.pip?.dailyLivingEnhanced || 114.60);
-  const pipMobStd = fmt(BENEFIT_RATES_2026_2027?.pip?.mobilityStandard || 30.30);
-  const pipMobEnh = fmt(BENEFIT_RATES_2026_2027?.pip?.mobilityEnhanced || 80.00);
-
   const matchedSearchResults = searchAllBenefits(text);
   const isQuestion = !isMultiSentenceTranscript && (text.includes('?') || 
     /^(how|what|why|is|are|can|does|do|who|where|how much|tell me|explain|cost|rate|rates|amount|amounts|search|find)/i.test(lower));
+
+  // =========================================================================
+  // PRIORITY CHECK: MORALIZING CASELOAD RHETORIC (e.g. Whately quote)
+  // Must intercept before informational routers catch keyword matches
+  // =========================================================================
+  const isMoralizingCaseloadRhetoric = (
+    (lower.includes('million') || lower.includes('six million') || lower.includes('out of work')) &&
+    (lower.includes('morally wrong') || lower.includes('do nothing') || lower.includes('fairness') || lower.includes('contribution'))
+  );
+
+  if (isMoralizingCaseloadRhetoric) {
+    const extractedQuotes = sentences.length > 0 ? sentences.slice(0, 3).map(s => `"${s}"`) : [`"${text}"`];
+    return {
+      inputStatement: text,
+      extractedQuotes,
+      score: 95,
+      verdict: "High BS / Misleading Caseload Moralizing Rhetoric",
+      flags: [
+        `FLAGGED MORALIZING CASELOAD RHETORIC: Combines headline-level out-of-work benefit counts with emotive moral judgments ("morally wrong") to manufacture public outrage and mischaracterize structural health/economic data.`,
+        `NON-EVIDENCE BACKED STATEMENT: Uses negative narrative framing against welfare entitlement while omitting verified baseline statistics.`,
+        `PUBLIC DISCOURSE RISK: Disseminates unsupported hostility, moralizing stereotypes, or misleading generalisations toward benefit claimants.`
+      ],
+      primaryRebuttal: `DEBUNKING DEROGATORY WELFARE STIGMA & TRANSCRIPT CLAIMS: Framing large out-of-work caseload numbers with moral imperatives ("morally wrong to do nothing") ignores complex health realities, structural labor market barriers, and statutory entitlement criteria. Official DWP and ONS data shows that the majority of out-of-work claimants face long-term health conditions or care responsibilities, rather than choosing idleness.`,
+      sourceRef: "DWP Stat-Xplore Caseload Data, ONS Labour Force Survey",
+      sourceLinks: [
+        { label: "DWP Stat-Xplore Portal", url: "https://stat-xplore.dwp.gov.uk/" },
+        { label: "ONS Official Labour Market Statistics", url: "https://www.ons.gov.uk/" }
+      ]
+    };
+  }
 
   // =========================================================================
   // SECTION 1: GENERAL & INFORMATIONAL INQUIRIES ROUTER
@@ -467,18 +492,20 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
     return regex.test(lower);
   });
 
-  // Explicit check for framing welfare alongside "wasteful spending" / austerity rhetoric or behavioral judgment
   const couplesWelfareWithWaste = (lower.includes('welfare') || lower.includes('benefit')) && (lower.includes('wasteful') || lower.includes('waste'));
   const holdsBehavioralStigma = lower.includes('addiction') || lower.includes('cigarettes') || lower.includes('cash') || lower.includes('step up') || lower.includes('luxuries');
 
-  if ((foundStigmaPhrases.length > 0 || isCaseloadGeneralisation || couplesWelfareWithWaste || holdsBehavioralStigma || (mentionsWelfare && hasNegativeTone)) && !containsCitation) {
-    score = Math.min(100, Math.max(92, score + 72 + (foundStigmaPhrases.length * 4)));
+  if ((foundStigmaPhrases.length > 0 || isCaseloadGeneralisation || isMoralizingCaseloadRhetoric || couplesWelfareWithWaste || holdsBehavioralStigma || (mentionsWelfare && hasNegativeTone)) && !containsCitation) {
+    score = Math.min(100, Math.max(92, score + 72 + (foundStigmaPhrases.length * 4) + (isMoralizingCaseloadRhetoric ? 10 : 0)));
     
     if (detectedSentenceQuotes.length > 0) {
-      // Limit to max 3 key quotes for clean output card rendering
       extractedQuotes = detectedSentenceQuotes.slice(0, 3);
     } else {
       extractedQuotes.push(`"${text.length > 140 ? text.substring(0, 140) + '...' : text}"`);
+    }
+
+    if (isMoralizingCaseloadRhetoric) {
+      flags.push(`FLAGGED MORALIZING CASELOAD RHETORIC: Combines headline-level out-of-work benefit counts with emotive moral judgments ("morally wrong") to manufacture public outrage and mischaracterize structural health/economic data.`);
     }
 
     if (holdsBehavioralStigma) {
@@ -562,7 +589,7 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
     }
   }
 
-  // 4. STRICTLY REFINED FINANCIAL EXAGGERATIONS (Requires £ currency symbol or explicit monetary keywords)
+  // 4. STRICTLY REFINED FINANCIAL EXAGGERATIONS
   const explicitFinancialMatches = text.match(/(?:£\s*\d+[\d,]*\s*(?:k|thousand|million|bn|billion)?|\b\d+[\d,]*\s*(?:k|thousand|million|bn|billion)?\s*(?:pounds|pound|gbp)\b)/gi) || [];
   let extractedAnnualAmount = 0;
 
