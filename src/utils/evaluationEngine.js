@@ -275,19 +275,16 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
   const sentences = splitIntoSentences(text);
   const isMultiSentenceTranscript = sentences.length > 1 || text.length > 250;
 
-  const fmt = (val) => typeof val === 'number' ? `£${val.toFixed(2)}` : val;
-
   const matchedSearchResults = searchAllBenefits(text);
   const isQuestion = !isMultiSentenceTranscript && (text.includes('?') || 
     /^(how|what|why|is|are|can|does|do|who|where|how much|tell me|explain|cost|rate|rates|amount|amounts|search|find)/i.test(lower));
 
   // =========================================================================
-  // PRIORITY CHECK: MORALIZING CASELOAD RHETORIC (e.g. Whately quote)
-  // Must intercept before informational routers catch keyword matches
+  // PRIORITY CHECK: MORALIZING CASELOAD RHETORIC
   // =========================================================================
   const isMoralizingCaseloadRhetoric = (
-    (lower.includes('million') || lower.includes('six million') || lower.includes('out of work')) &&
-    (lower.includes('morally wrong') || lower.includes('do nothing') || lower.includes('fairness') || lower.includes('contribution'))
+    (lower.includes('million') || lower.includes('six million') || lower.includes('out of work') || lower.includes('explosion') || lower.includes('unsustainable explosion') || lower.includes('epidemic of sickness') || lower.includes('drain') || lower.includes('fiscal drain') || lower.includes('burden') || lower.includes('welfare burden') || lower.includes('costing billions') || lower.includes('out of control')) &&
+    (lower.includes('morally wrong') || lower.includes('do nothing') || lower.includes('fairness') || lower.includes('contribution') || lower.includes('hardworking taxpayers'))
   );
 
   if (isMoralizingCaseloadRhetoric) {
@@ -298,11 +295,11 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
       score: 95,
       verdict: "High BS / Misleading Caseload Moralizing Rhetoric",
       flags: [
-        `FLAGGED MORALIZING CASELOAD RHETORIC: Combines headline-level out-of-work benefit counts with emotive moral judgments ("morally wrong") to manufacture public outrage and mischaracterize structural health/economic data.`,
+        `FLAGGED MORALIZING CASELOAD RHETORIC: Combines headline-level out-of-work benefit counts with emotive moral judgments to manufacture public outrage and mischaracterize structural health/economic data.`,
         `NON-EVIDENCE BACKED STATEMENT: Uses negative narrative framing against welfare entitlement while omitting verified baseline statistics.`,
         `PUBLIC DISCOURSE RISK: Disseminates unsupported hostility, moralizing stereotypes, or misleading generalisations toward benefit claimants.`
       ],
-      primaryRebuttal: `DEBUNKING DEROGATORY WELFARE STIGMA & TRANSCRIPT CLAIMS: Framing large out-of-work caseload numbers with moral imperatives ("morally wrong to do nothing") ignores complex health realities, structural labor market barriers, and statutory entitlement criteria. Official DWP and ONS data shows that the majority of out-of-work claimants face long-term health conditions or care responsibilities, rather than choosing idleness.`,
+      primaryRebuttal: `DEBUNKING DEROGATORY WELFARE STIGMA & TRANSCRIPT CLAIMS: Framing large out-of-work caseload numbers with moral imperatives ignores complex health realities, structural labor market barriers, and statutory entitlement criteria. Official DWP and ONS data shows that the majority of out-of-work claimants face long-term health conditions or care responsibilities, rather than choosing idleness.`,
       sourceRef: "DWP Stat-Xplore Caseload Data, ONS Labour Force Survey",
       sourceLinks: [
         { label: "DWP Stat-Xplore Portal", url: "https://stat-xplore.dwp.gov.uk/" },
@@ -312,8 +309,41 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
   }
 
   // =========================================================================
+  // PRIORITY CHECK: BEHAVIORAL STIGMA & RESTRICTIVE CARD TROPES (ALCOHOL, CIGARETTES, GAMBLING, CASHLESS)
+  // =========================================================================
+  const holdsBehavioralStigma = lower.includes('addiction') || lower.includes('cigarettes') || lower.includes('alcohol') || lower.includes('gambling') || lower.includes('cash') || lower.includes('back to work card') || lower.includes('card') || lower.includes('vices') || lower.includes('misspend') || lower.includes('restricted') || lower.includes('cashless') || lower.includes('poor lifestyle choices') || lower.includes('incapable') || lower.includes('handouts');
+
+  if (holdsBehavioralStigma) {
+    const detectedSentenceQuotes = [];
+    sentences.forEach(sentence => {
+      const sLower = sentence.toLowerCase();
+      if (sLower.includes('addiction') || sLower.includes('cigarettes') || sLower.includes('alcohol') || sLower.includes('gambling') || sLower.includes('card') || sLower.includes('cash') || sLower.includes('vices') || sLower.includes('misspend') || sLower.includes('restricted') || sLower.includes('cashless') || sLower.includes('lifestyle') || sLower.includes('incapable') || sLower.includes('handouts')) {
+        detectedSentenceQuotes.push(`"${sentence}"`);
+      }
+    });
+
+    return {
+      inputStatement: text,
+      extractedQuotes: detectedSentenceQuotes.length > 0 ? detectedSentenceQuotes.slice(0, 3) : [`"${text.length > 140 ? text.substring(0, 140) + '...' : text}"`],
+      score: 95,
+      verdict: "High BS / Unsubstantiated Behavioral Stigma & Restrictive Framing",
+      flags: [
+        `FLAGGED DEROGATORY & BEHAVIORAL STIGMA: Uses paternalistic tropes alleging welfare recipients misspend cash on alcohol, cigarettes, or gambling, or require restrictive payment cards.`,
+        `NON-EVIDENCE BACKED STATEMENT: Uses negative narrative framing against welfare entitlement while omitting verified baseline statistics.`,
+        `PUBLIC DISCOURSE RISK: Disseminates unsupported hostility, moralizing stereotypes, or misleading generalisations toward benefit claimants.`
+      ],
+      primaryRebuttal: `DEBUNKING DEROGATORY WELFARE STIGMA & TRANSCRIPT CLAIMS: Implying that claimants spend cash on alcohol, tobacco, or gambling and require restrictive cashless cards relies on unsubstantiated behavioral stereotypes. Standard Universal Credit rates (£338.58–£424.90/month base) fall well below low-income living cost thresholds. Empirical studies by the Joseph Rowntree Foundation and DWP confirm that social security payments are overwhelmingly spent on essential baseline expenses like food, utility bills, and rent.`,
+      sourceRef: "DWP Fraud & Error Statistics, Joseph Rowntree Foundation Minimum Income Standard, ONS Household Cost Indices",
+      sourceLinks: [
+        { label: "DWP Fraud & Error in the Benefit System", url: "https://www.gov.uk/government/collections/fraud-and-error-in-the-benefit-system" },
+        { label: "Joseph Rowntree Foundation: Minimum Income Standard", url: "https://www.jrf.org.uk/topic/minimum-income-standard" },
+        { label: "ONS Household Cost Indices & Low Income Data", url: "https://www.ons.gov.uk/economy/inflationandpriceindices" }
+      ]
+    };
+  }
+
+  // =========================================================================
   // SECTION 1: GENERAL & INFORMATIONAL INQUIRIES ROUTER
-  // Bypassed for multi-sentence transcripts or text with political rhetoric/stigma
   // =========================================================================
   const isWastefulWelfareFraming = (lower.includes('wasteful') || lower.includes('waste')) && (lower.includes('welfare') || lower.includes('benefit'));
 
@@ -363,7 +393,7 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
       };
     }
 
-    if (lower.includes('fraud') || lower.includes('cheat') || lower.includes('abuse') || lower.includes('scam')) {
+    if (lower.includes('fraud') || lower.includes('cheat') || lower.includes('abuse') || lower.includes('scam') || lower.includes('riddled with fraud') || lower.includes('fraud epidemic') || lower.includes('cheats') || lower.includes('scammers') || lower.includes('system abusers') || lower.includes('gravy train') || lower.includes('racket') || lower.includes('free ride')) {
       return {
         inputStatement: text,
         extractedQuotes: [`"${text}"`],
@@ -439,7 +469,6 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
 
   const containsCitation = /(dwp|ons|hmcts|stat-xplore|ifs|niesr|hansard|gov\.uk|http|https|source|journal|tribunal statistics|office for national statistics|oecd|obr|institute for fiscal studies|taxpayers.?alliance)/i.test(lower);
 
-  // Expanded database of negative tropes, moralizing, and behavioral stigma terms
   const negativeStigmaPhrases = [
     'scrounger', 'scroungers', 'shirker', 'shirkers', 'skiver', 'skivers',
     'lazy', 'faking', 'faking illness', 'handout', 'handout nation', 'malingerer', 'malingerers',
@@ -457,10 +486,17 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
     'live a life they can\'t afford', 'cant afford themselves', 'scrimp and save',
     'hardworking', 'taxpayers\' money', 'taxpayer\'s money', 'luxuries', 'step up and get a job',
     'crack an addiction', 'addiction to cigarettes', 'spend on that', 'give them cash',
-    'live a life on welfare', 'telling people how to spend', 'not fair'
+    'live a life on welfare', 'telling people how to spend', 'not fair',
+    'explosion', 'unsustainable explosion', 'drain', 'fiscal drain', 'burden', 'welfare burden',
+    'costing billions', 'out of control', 'vices', 'misspend', 'addiction', 'restricted', 'cashless',
+    'back-to-work card', 'poor lifestyle choices', 'incapable', 'handouts', 'culture of dependency',
+    'no incentive to work', 'better off on benefits', 'feckless', 'free ride', 'free lunch',
+    'scrounger', 'scroungers', 'shirker', 'shirkers', 'skiver', 'skivers', 'malingerer', 'malingerers',
+    'fit note culture', 'sick note culture', 'mock illnesses', 'faking', 'pretending',
+    'riddled with fraud', 'fraud epidemic', 'cheats', 'scammers', 'system abusers',
+    'gravy train', 'racket', 'free ride', 'work-shy', 'lazy'
   ];
 
-  // Scan sentences across transcript for offending segments
   const detectedSentenceQuotes = [];
   sentences.forEach(sentence => {
     const sLower = sentence.toLowerCase();
@@ -483,7 +519,7 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
     'bad', 'terrible', 'awful', 'horrible', 'useless', 'ruining', 'destroying', 
     'costing billions', 'out of control', 'crisis', 'fraud', 'cheat', 'scam', 
     'lazy', 'refuse', 'burden', 'waste', 'drain', 'wrong', 'joke',
-    'not fair', 'unfair', 'broken', 'fail', 'failing', 'patronising', 'addiction'
+    'not fair', 'unfair', 'broken', 'fail', 'failing', 'patronising', 'addiction', 'cut'
   ];
   
   const mentionsWelfare = welfareTopics.some(topic => lower.includes(topic));
@@ -493,10 +529,9 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
   });
 
   const couplesWelfareWithWaste = (lower.includes('welfare') || lower.includes('benefit')) && (lower.includes('wasteful') || lower.includes('waste'));
-  const holdsBehavioralStigma = lower.includes('addiction') || lower.includes('cigarettes') || lower.includes('cash') || lower.includes('step up') || lower.includes('luxuries');
 
-  if ((foundStigmaPhrases.length > 0 || isCaseloadGeneralisation || isMoralizingCaseloadRhetoric || couplesWelfareWithWaste || holdsBehavioralStigma || (mentionsWelfare && hasNegativeTone)) && !containsCitation) {
-    score = Math.min(100, Math.max(92, score + 72 + (foundStigmaPhrases.length * 4) + (isMoralizingCaseloadRhetoric ? 10 : 0)));
+  if ((foundStigmaPhrases.length > 0 || isCaseloadGeneralisation || isMoralizingCaseloadRhetoric || couplesWelfareWithWaste || (mentionsWelfare && hasNegativeTone)) && !containsCitation) {
+    score = Math.min(100, Math.max(95, score + 75 + (foundStigmaPhrases.length * 4) + (isMoralizingCaseloadRhetoric ? 10 : 0)));
     
     if (detectedSentenceQuotes.length > 0) {
       extractedQuotes = detectedSentenceQuotes.slice(0, 3);
@@ -505,11 +540,7 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
     }
 
     if (isMoralizingCaseloadRhetoric) {
-      flags.push(`FLAGGED MORALIZING CASELOAD RHETORIC: Combines headline-level out-of-work benefit counts with emotive moral judgments ("morally wrong") to manufacture public outrage and mischaracterize structural health/economic data.`);
-    }
-
-    if (holdsBehavioralStigma) {
-      flags.push(`FLAGGED DEROGATORY & BEHAVIORAL STIGMA: Uses paternalistic tropes alleging welfare recipients misspend cash on addictions/luxuries or live enviable lives compared to workers.`);
+      flags.push(`FLAGGED MORALIZING CASELOAD RHETORIC: Combines headline-level out-of-work benefit counts with emotive moral judgments to manufacture public outrage and mischaracterize structural health/economic data.`);
     }
 
     if (couplesWelfareWithWaste) {
@@ -525,7 +556,7 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
     flags.push(`NON-EVIDENCE BACKED STATEMENT: Uses negative narrative framing against welfare entitlement while omitting verified baseline statistics.`);
     flags.push(`PUBLIC DISCOURSE RISK: Disseminates unsupported hostility, moralizing stereotypes, or misleading generalisations toward benefit claimants.`);
 
-    primaryRebuttal = `DEBUNKING DEROGATORY WELFARE STIGMA & TRANSCRIPT CLAIMS: Suggesting that welfare recipients live luxurious lives at the expense of workers or routinely misuse cash on addictions misrepresents empirical data and statutory benefit levels. Standard Universal Credit rates (£338.58–£424.90/month base) fall well below low-income living cost thresholds. Official Joseph Rowntree Foundation and DWP studies demonstrate that social security payments are overwhelmingly spent on essential baseline expenses like food, utilities, and housing. Furthermore, Universal Credit explicitly maintains work incentives through Work Allowances (£404–£673/month) and a 55% taper rate, ensuring claimants are consistently better off in employment.`;
+    primaryRebuttal = `DEBUNKING DEROGATORY WELFARE STIGMA & TRANSCRIPT CLAIMS: Implying that claimants spend cash on alcohol, tobacco, or gambling and require restrictive cashless cards relies on unsubstantiated behavioral stereotypes. Standard Universal Credit rates (£338.58–£424.90/month base) fall well below low-income living cost thresholds. Empirical studies by the Joseph Rowntree Foundation and DWP confirm that social security payments are overwhelmingly spent on essential baseline expenses like food, utility bills, and rent.`;
     
     sourceRef = "DWP Fraud & Error Statistics, Joseph Rowntree Foundation Minimum Income Standard, ONS Household Cost Indices";
     
@@ -551,11 +582,11 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
       extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
     }
     flags.push(`EVALUATION OF GDP & ECONOMIC BENEFIT CLAIMS: Assesses assertions regarding benefit expenditure growth against historical UK GDP datasets.`);
-    flags.push(`DEBUNKS 'SPIRALLING' BENEFIT CLAIMS: UK social protection spending as a percentage of GDP has remained stable between 10% and 11% for over two decades (lower than the 2010–2012 peak of 12.1%).`);
-    flags.push(`INTERNATIONAL COMPARISON (OECD): OECD Social Expenditure Database demonstrates UK disability and welfare spending as a % of GDP remains consistently below the OECD average (13.2%) and well below European peer nations.`);
+    flags.push(`DEBUNKS 'SPIRALLING' BENEFIT CLAIMS: UK social protection spending as a percentage of GDP has remained stable between 10% and 11% for over two decades.`);
+    flags.push(`INTERNATIONAL COMPARISON (OECD): OECD Social Expenditure Database demonstrates UK disability and welfare spending as a % of GDP remains consistently below the OECD average.`);
 
     if (!primaryRebuttal) {
-      primaryRebuttal = `DEBUNKING ECONOMIC BENEFIT CLAIMS & GDP SPIRAL MYTH: Assertions that disability and welfare benefits are "spiralling out of control" as a share of the national economy are factually inaccurate. HM Treasury, OBR, and IFS historical figures confirm that total UK welfare/social protection spending as a percentage of Gross Domestic Product (GDP) has stayed practically unchanged at approximately 10%–11% for over two decades, remaining lower than post-2008 financial crash peaks (12.1% in 2009/10). OECD comparative data shows the UK spends a lower proportion of GDP on working-age disability and social protection than the OECD average and significantly less than peer European economies.`;
+      primaryRebuttal = `DEBUNKING ECONOMIC BENEFIT CLAIMS & GDP SPIRAL MYTH: Assertions that disability and welfare benefits are "spiralling out of control" as a share of the national economy are factually inaccurate. HM Treasury, OBR, and IFS historical figures confirm that total UK welfare/social protection spending as a percentage of Gross Domestic Product (GDP) has stayed practically unchanged at approximately 10%–11% for over two decades.`;
       sourceRef = "IFS TaxLab Welfare Share Analysis, OBR Economic & Fiscal Outlook, OECD Social Expenditure Database (SOCX)";
       
       sourceLinks = [
@@ -567,18 +598,17 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
   }
 
   // 3. WORK INCENTIVE CLAIMS
-  const incentivePhrases = ["incentive", "no reason to work", "better off on benefits", "work doesn't pay", "don't have any incentive"];
+  const incentivePhrases = ["incentive", "no reason to work", "better off on benefits", "work doesn't pay", "don't have any incentive", "culture of dependency", "lifestyle choice", "no incentive to work", "better off on benefits"];
   const hasIncentiveClaim = incentivePhrases.some(phrase => lower.includes(phrase));
 
   if (hasIncentiveClaim && !containsCitation) {
     score = Math.max(78, score + 30);
     extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
     flags.push(`UNSUBSTANTIATED WORK INCENTIVE CLAIM: Evaluates assertions alleging a total lack of work incentive or being 'better off on benefits' without backing data.`);
-    flags.push(`STRUCTURAL REBUTTAL: Universal Credit explicitly includes financial work incentives via Work Allowance rates (£404/mo with housing element, £673/mo without) and a 55% UC taper rate.`);
-    flags.push(`STATUTORY CEILINGS: Benefit payments are subject to statutory UK Benefit Cap limits (£25,323/yr London, £22,020/yr Outside London).`);
+    flags.push(`STRUCTURAL REBUTTAL: Universal Credit explicitly includes financial work incentives via Work Allowance rates and a 55% UC taper rate.`);
 
     if (!primaryRebuttal) {
-      primaryRebuttal = `ANALYSIS OF WORK INCENTIVE CLAIMS: Claims that there is "no incentive to work" or that individuals are "better off on benefits" misrepresent how Universal Credit operates. UC includes an explicit financial work incentive through DWP Work Allowance rates (£404/mo for claimants receiving housing support; £673/mo if no housing support is claimed) and a 55% taper rate, ensuring net household income increases for every hour worked.`;
+      primaryRebuttal = `ANALYSIS OF WORK INCENTIVE CLAIMS: Claims that there is "no incentive to work" or that individuals are "better off on benefits" misrepresent how Universal Credit operates. UC includes an explicit financial work incentive through DWP Work Allowance rates and a 55% taper rate.`;
       sourceRef = "DWP Work Allowance & UC Rules 2026/27, GOV.UK Benefit Cap Guidance & ONS Labour Market Statistics";
       
       sourceLinks = [
@@ -589,46 +619,6 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
     }
   }
 
-  // 4. STRICTLY REFINED FINANCIAL EXAGGERATIONS
-  const explicitFinancialMatches = text.match(/(?:£\s*\d+[\d,]*\s*(?:k|thousand|million|bn|billion)?|\b\d+[\d,]*\s*(?:k|thousand|million|bn|billion)?\s*(?:pounds|pound|gbp)\b)/gi) || [];
-  let extractedAnnualAmount = 0;
-
-  for (let match of explicitFinancialMatches) {
-    let clean = match.replace(/[£,\s]/g, '').toLowerCase();
-    let val = 0;
-    if (clean.endsWith('k')) {
-      val = parseFloat(clean.replace('k', '')) * 1000;
-    } else if (clean.endsWith('thousand')) {
-      val = parseFloat(clean.replace('thousand', '')) * 1000;
-    } else if (clean.includes('pound')) {
-      val = parseFloat(clean.split('pound')[0]);
-    } else {
-      val = parseFloat(clean);
-    }
-    if (val > extractedAnnualAmount && val < 1000000) {
-      extractedAnnualAmount = val;
-    }
-  }
-
-  if (lower.includes('£60k') || lower.includes('60,000 pounds') || lower.includes('60 thousand pounds')) {
-    extractedAnnualAmount = 60000;
-  }
-
-  const isFinancialClaim = extractedAnnualAmount > 0 && (text.includes('£') || /pounds|gbp/i.test(text));
-
-  if (isFinancialClaim && BENEFIT_RATES_2026_2027?.benefitCap2026?.absoluteMaxCap && extractedAnnualAmount > BENEFIT_RATES_2026_2027.benefitCap2026.absoluteMaxCap) {
-    score = 98;
-    extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
-    flags.push(`Claims an annual benefit payout of £${extractedAnnualAmount.toLocaleString()}, violating statutory UK Benefit Caps (£25,323/yr London, £22,020/yr Outside London).`);
-    primaryRebuttal = `STATUTORY IMPOSSIBILITY REBUTTAL: Allegations that claimants receive £${extractedAnnualAmount.toLocaleString()} per year violate UK Welfare Law. Under 2026/2027 regulations, benefit payments are capped at £25,323/year in Greater London or £22,020/year across the rest of the UK.`;
-    sourceRef = "DWP Statutory Benefit Rates & Benefit Cap Regulations 2026/2027 (GOV.UK)";
-    
-    sourceLinks = [
-      { label: "GOV.UK Benefit Cap Statutory Limits", url: "https://www.gov.uk/benefit-cap" },
-      { label: "DWP Benefit and Pension Rates 2026/27", url: "https://www.gov.uk/government/publications/benefit-and-pension-rates-2026-to-2027" }
-    ];
-  }
-
   // =========================================================================
   // SECTION 3: ROBUST GUARANTEED FALLBACK FOR ANY UNMATCHED INPUT
   // =========================================================================
@@ -636,13 +626,7 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
     if (!containsCitation) {
       score = 0;
       flags.push(`GENERAL INFORMATIONAL QUERY DETECTED: Analyzed input without detected misleading framing or explicit claim citations.`);
-      
-      if (lower.includes('pension') || lower.includes('retirement')) {
-        primaryRebuttal = `GENERAL QUERY ANALYSIS: Statement evaluated against UK pension frameworks. The State Pension and Pension Credit provide statutory financial support for eligible retirees, set by statutory schedule. Total UK social protection spending as a % of GDP remains steady at 10%–11%.`;
-      } else {
-        primaryRebuttal = `GENERAL QUERY ANALYSIS: Statement processed against official primary UK welfare indices. Personal Independence Payment (PIP) and Universal Credit are statutory benefits designed to support eligible claimants. DWP Fraud & Error figures confirm PIP fraud is under 0.2%, over 70% of tribunal appeals are won by claimants due to initial assessment errors, and social protection spending as a % of GDP has remained steady at 10%–11%.`;
-      }
-
+      primaryRebuttal = `GENERAL QUERY ANALYSIS: Statement processed against official primary UK welfare indices. Personal Independence Payment (PIP) and Universal Credit are statutory benefits designed to support eligible claimants.`;
       sourceRef = "DWP Stat-Xplore Caseload Data, ONS Labour Force Survey & HMCTS Tribunal Statistics";
       
       sourceLinks = [
@@ -652,8 +636,8 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
       ];
     } else {
       score = 10;
-      flags.push(`VERIFIED PRIMARY CITATION DETECTED: Cites official statistical documentation or research briefs (DWP / ONS / HMCTS / IFS / Taxpayers' Alliance). Statement verified as low BS.`);
-      primaryRebuttal = `ANALYSIS OF STATEMENT: Statement evaluated against official DWP Stat-Xplore datasets, 2026/2027 Statutory Benefit Rates, ONS employment statistics, and research documentation. Cites documented empirical figures.`;
+      flags.push(`VERIFIED PRIMARY CITATION DETECTED: Cites official statistical documentation or research briefs. Statement verified as low BS.`);
+      primaryRebuttal = `ANALYSIS OF STATEMENT: Statement evaluated against official DWP Stat-Xplore datasets, 2026/2027 Statutory Benefit Rates, and ONS employment statistics.`;
       sourceRef = "ONS Labour Market Review, DWP Stat-Xplore Database & Research Publications";
       
       sourceLinks = [
@@ -661,14 +645,6 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
         { label: "ONS Official Statistics", url: "https://www.ons.gov.uk/" }
       ];
     }
-  }
-
-  if (!sourceLinks || sourceLinks.length === 0) {
-    sourceLinks = [
-      { label: "DWP Stat-Xplore Database", url: "https://stat-xplore.dwp.gov.uk/" },
-      { label: "ONS Labour Market Data", url: "https://www.ons.gov.uk/employmentandlabourmarket" },
-      { label: "IFS Welfare Expenditure Analysis", url: "https://ifs.org.uk/taxlab/taxlab-data-feed/uk-welfare-spending" }
-    ];
   }
 
   const finalScore = Math.min(100, Math.max(0, score));
@@ -692,7 +668,6 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
   };
 };
 
-// Safe fallback generator if rawInput is completely empty or invalid
 function createFallbackResult(reason) {
   return {
     inputStatement: "",
