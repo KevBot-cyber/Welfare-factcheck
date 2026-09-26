@@ -280,6 +280,36 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
     /^(how|what|why|is|are|can|does|do|who|where|how much|tell me|explain|cost|rate|rates|amount|amounts|search|find)/i.test(lower));
 
   // =========================================================================
+  // PRIORITY CHECK: "BENEFITS PAY MORE THAN WORKING" TROPE & VARIATIONS
+  // =========================================================================
+  const isBenefitsPayMoreFraming = (
+    (lower.includes('benefits') || lower.includes('benefit') || lower.includes('welfare') || lower.includes('life on benefits')) &&
+    (lower.includes('pay more') || lower.includes('pays more') || lower.includes('paid more') || lower.includes('more than working') || lower.includes('more than a job') || lower.includes('more than working full time'))
+  );
+
+  if (isBenefitsPayMoreFraming) {
+    const extractedQuotes = sentences.length > 0 ? sentences.slice(0, 3).map(s => `"${s}"`) : [`"${text}"`];
+    return {
+      inputStatement: text,
+      extractedQuotes,
+      score: 95,
+      verdict: "High BS / Misleading 'Benefits Pay More Than Work' Trope",
+      flags: [
+        `FLAGGED WORK INCENTIVE MYTH: Repeats the unsubstantiated political trope that welfare payments regularly exceed earnings from employment.`,
+        `FALSE COMPARISON: Ignores statutory out-of-work benefit caps, standard allowance limits, and the reality that social security baseline levels fall significantly below minimum living costs.`,
+        `PUBLIC DISCOURSE RISK: Propagates misleading narratives regarding structural employment incentives and benefit dependency.`
+      ],
+      primaryRebuttal: `DEBUNKING 'BENEFITS PAY MORE THAN WORKING' MYTH: Claims that a life on benefits pays more than getting a job rely on extreme outliers or misrepresent standard welfare packages. Standard Universal Credit allowances (£338.58 to £424.90 per month base) sit far below median earnings and minimum income standards, and strict benefit caps limit total household awards.`,
+      sourceRef: "DWP Benefit Cap Limits, Joseph Rowntree Foundation Minimum Income Standard, ONS Earnings Statistics",
+      sourceLinks: [
+        { label: "GOV.UK Benefit Cap Amounts & Guidance", url: "https://www.gov.uk/benefit-cap/benefit-cap-amounts" },
+        { label: "Joseph Rowntree Foundation: Minimum Income Standard", url: "https://www.jrf.org.uk/topic/minimum-income-standard" },
+        { label: "ONS Average Weekly Earnings Statistics", url: "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours" }
+      ]
+    };
+  }
+
+  // =========================================================================
   // PRIORITY CHECK: SPECIFIC DISABILITY / CONDITION MISREPRESENTATION (BACK PAIN / FIBROMYALGIA / MH)
   // =========================================================================
   const isSpecificConditionFraming = (
