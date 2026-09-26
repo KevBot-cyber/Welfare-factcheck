@@ -643,14 +643,26 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
     flags.push(`NON-EVIDENCE BACKED STATEMENT: Uses negative narrative framing against welfare entitlement while omitting verified baseline statistics.`);
     flags.push(`PUBLIC DISCOURSE RISK: Disseminates unsupported hostility, moralizing stereotypes, or misleading generalisations toward benefit claimants.`);
 
-    primaryRebuttal = `DEBUNKING DEROGATORY WELFARE STIGMA & TRANSCRIPT CLAIMS: Implying that claimants spend cash on alcohol, tobacco, or gambling and require restrictive cashless cards relies on unsubstantiated behavioral stereotypes. Standard Universal Credit rates (£338.58–£424.90/month base) fall well below low-income living cost thresholds. Empirical studies by the Joseph Rowntree Foundation and DWP confirm that social security payments are overwhelmingly spent on essential baseline expenses like food, utility bills, and rent.`;
+    // =========================================================================
+    // DYNAMICALLY TAILORED PRIMARY REBUTTAL BASED ON INPUT CONTENT
+    // =========================================================================
+    let tailoredRebuttalCore = "";
+    if (lower.includes('want') || lower.includes('country') || lower.includes('everyone') || lower.includes('public') || lower.includes('kemi') || lower.includes('politician') || lower.includes('government') || lower.includes('party')) {
+      tailoredRebuttalCore = `Assertions that "the whole country wants benefits to be cut" or sweeping political mandates regarding public sentiment on social security oversimplify complex social attitudes. While polling indicates public backing for fiscal responsibility and targeted welfare reform, extensive British Social Attitudes (BSA) survey data demonstrates robust, cross-demographic public support for maintaining strong safety nets for disabled individuals, carers, and low-income families.`;
+    } else if (lower.includes('cut') || lower.includes('slash') || lower.includes('reduce') || lower.includes('abolish')) {
+      tailoredRebuttalCore = `Proposals to aggressively cut welfare entitlement without accounting for statutory obligations ignore the fundamental role social security plays in preventing destitution. Statutory benefits like Universal Credit and PIP provide essential baseline support mandated by Parliament to mitigate poverty and manage long-term health and labor market inequalities.`;
+    } else {
+      tailoredRebuttalCore = `Sweeping generalizations regarding welfare entitlements and benefit recipients rely on unsupported narratives rather than empirical reality. Standard social security rates are tightly regulated by Parliament and sit well below median living cost thresholds, ensuring assistance is strictly targeted toward essential needs.`;
+    }
+
+    primaryRebuttal = `FACT-CHECKING STATEMENT REGARDING "${text.length > 60 ? text.substring(0, 60) + '...' : text}": ${tailoredRebuttalCore} Official DWP and ONS data confirm that social security expenditure reflects structural economic conditions and statutory entitlements rather than arbitrary public consensus or unwarranted dependency.`;
     
-    sourceRef = "DWP Fraud & Error Statistics, Joseph Rowntree Foundation Minimum Income Standard, ONS Household Cost Indices";
+    sourceRef = "British Social Attitudes (BSA) Survey, DWP Benefit Expenditure & Caseload Statistics, ONS Social Well-being Indices";
     
     sourceLinks = [
-      { label: "DWP Fraud & Error in the Benefit System", url: "https://www.gov.uk/government/collections/fraud-and-error-in-the-benefit-system" },
-      { label: "Joseph Rowntree Foundation: Minimum Income Standard", url: "https://www.jrf.org.uk/topic/minimum-income-standard" },
-      { label: "ONS Household Cost Indices & Low Income Data", url: "https://www.ons.gov.uk/economy/inflationandpriceindices" }
+      { label: "NatCen British Social Attitudes Survey", url: "https://www.natcen.ac.uk/british-social-attitudes" },
+      { label: "DWP Benefit Expenditure and Caseload Tables", url: "https://www.gov.uk/government/collections/benefit-expenditure-and-caseload-tables" },
+      { label: "ONS Public Sector Expenditure Analysis", url: "https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes" }
     ];
   }
 
@@ -724,7 +736,7 @@ export const evaluatePipAndFinancialClaims = (rawInput) => {
     } else {
       score = 10;
       flags.push(`VERIFIED PRIMARY CITATION DETECTED: Cites official statistical documentation or research briefs. Statement verified as low BS.`);
-      primaryRebuttal = `ANALYSIS OF STATEMENT: Statement evaluated against official DWP Stat-Xplore datasets, 2026/2027 Statutory Benefit Rates, and ONS employment statistics.`;
+      primaryRebuttal = `ANALYSIS OF STATEMENT: Statement evaluated against official DWP Stat-Xplore datasets, 2026/2027 Statutory Benefit Rates, and Ons employment statistics.`;
       sourceRef = "ONS Labour Market Review, DWP Stat-Xplore Database & Research Publications";
       
       sourceLinks = [
