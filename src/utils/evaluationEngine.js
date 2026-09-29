@@ -6,12 +6,8 @@ const fuzzyMatchAny = (textLower, phrases) => {
     if (textLower.includes(phrase)) return true;
     // Simple tolerance for minor typos if length >= 6
     if (phrase.length >= 6) {
-      // Check if substituting or missing a character still allows inclusion, 
-      // or check standard substring with a quick distance check.
-      // For performance & reliability in a JS function, we can check core tokens or simple regex.
       const words = phrase.split(' ');
       if (words.length > 1) {
-        // If it's a multi-word phrase, check if most words are present close by
         return words.every(w => textLower.includes(w) || (w.length > 4 && textLower.includes(w.substring(0, w.length - 1))));
       }
     }
@@ -33,7 +29,7 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   const mediaType = options.mediaType || "UNKNOWN"; // POLITICAL_STATEMENT, PARLIAMENTARY, TV_NEWS, RADIO, NEWSPAPER, ONLINE_NEWS, SOCIAL_MEDIA, VIDEO, PODCAST, BLOG, UNKNOWN
 
   // 2. Context Sensitivity & Disambiguation
-  const hasQuotationMarks = /["“„«»‘’]/.test(text);
+  const hasQuotationMarks = /[”“„«»]/.test(text);
   const citationVerbs = /(said|claimed|stated|argued|reported|according to|wrote|suggested|commented|interviewed|published|headline|opinion|column)/i;
   const criticalVerbs = /(debunked|refuted|criticised|criticized|challenged|corrected|false|misleading|myth|untrue|nonsense)/i;
 
@@ -83,6 +79,46 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     'take from society', 'take from taxpayers', 'living off us', 'living off everyone else', 'living at our expense',
     'at the expense of working people', 'paid for by hardworking people', 'hardworking taxpayers versus',
     'those who pay in versus those who take out', 'contribute nothing to the pot', 'live off the state'
+  ];
+
+  const contributionAndFairnessPhrases = [
+    'recognise contribution',
+    'recognize contribution',
+    'people who contribute',
+    'those who contribute',
+    'people who pay in',
+    'those who pay in',
+    'people who pay their way',
+    'those who pay their way',
+    'pay their own way',
+    'hardworking taxpayers',
+    'hardworking people',
+    'working people versus',
+    'taxpayers versus claimants',
+    'taxpayers versus people on benefits',
+    'living off taxpayers',
+    'living off the taxpayer',
+    'footing the bill',
+    'fairness to taxpayers',
+    'restore fairness',
+    'restore fairness to taxpayers',
+    'make work pay',
+    'work must pay',
+    'work always pays',
+    'work always pays better than benefits',
+    'work should always pay',
+    'reward work',
+    'rewarding work',
+    'benefits reward idleness',
+    'benefits reward inactivity',
+    'doing nothing',
+    'do nothing',
+    'people who do nothing',
+    'those who do nothing',
+    'morally wrong to accept',
+    'morally wrong to claim',
+    'morally wrong to live on benefits',
+    'morally wrong to take benefits'
   ];
 
   const generalisationConstructions = [
@@ -140,7 +176,7 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     'benefits lifestyle', 'welfare lifestyle', 'lifestyle on benefits', 'living the lifestyle',
     'life on benefits', 'comfortable on benefits', 'comfortable lifestyle', 'living comfortably',
     'living a comfortable life', 'living the high life', 'living well on benefits', 'living off benefits',
-    'benefits pay for their lifestyle', 'taxpayer-funded lifestyle'
+    'benefits pay for their lifestyle', 'taxpayer-funded lifestyle', 'pay for your lifestyle'
   ];
 
   const benefitTourismPhrases = [
@@ -153,7 +189,7 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   const benefitChoicePhrases = [
     'choose benefits', 'choosing benefits', 'choose welfare', 'choosing welfare', 'choose not to work',
     'choice to stay on benefits', 'benefits are a lifestyle choice', 'made a choice to claim', 'chooses to claim',
-    'choosing not to contribute', 'choosing unemployment'
+    'choosing not to contribute', 'choosing unemployment', 'choose not to'
   ];
 
   const brokenSystemPhrases = [
@@ -178,9 +214,62 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   const benefitMaximisationPhrases = ['maxing out benefits', 'stacking benefits', 'collecting every benefit'];
   const austerityFramingPhrases = ['welfare cuts', 'benefit cuts', 'slash welfare', 'welfare crackdown'];
 
+  // Additional Political & Sensationalist Narrative Patterns
+  const politicalRhetoricPhrases = [
+    'way of life', 'morally wrong', 'can’t afford it', 'cant afford it',
+    'footing the bill', 'paying their own way', 'living on benefits instead',
+    'benefits pay more than', 'out of work benefits', 'definition of disability has expanded',
+    'scrapping the 2-child cap', 'unfair and unaffordable', 'benefit rise',
+    // Added specific political welfare weaponisation / scapegoating phrases
+    'welfare party', 'benefit party', 'party of welfare', 'party of benefits',
+    'welfare weapon', 'benefits weapon', 'use welfare as a weapon', 'using welfare as a weapon',
+    'benefit claimants as scapegoats', 'welfare claimants as scapegoats', 'scapegoating claimants',
+    'boost polling', 'boosting polling', 'boost the polls', 'boost their polls', 'polling boost',
+    'weaponise welfare', 'weaponising welfare', 'weaponize welfare', 'weaponizing welfare',
+    'welfare weaponisation', 'welfare weaponization'
+  ];
+
+  const robustPoliticalPatterns = {
+    welfareWayOfLife: [
+      /\b(welfare|benefits)\b.{0,60}\b(way of life|lifestyle|culture of dependency)\b/i,
+      /\b(millions|people)\b.{0,60}\b(living on benefits|out of work benefits)\b/i
+    ],
+    workPayComparison: [
+      /\b(benefits|life on benefits)\b.{0,60}\b(pay more than|better than|earn more than)\b.{0,60}\b(job|work)\b/i
+    ],
+    childBenefitCapRhetoric: [
+      /\b(2-child cap|two-child cap|child cap)\b.{0,80}\b(scrap|scrapping|unfair|unaffordable|bring back)\b/i
+    ],
+    contributionOthering: [
+      /\b(people|those|families|workers)\b.{0,60}\b(who|that)\b.{0,40}\b(contribute|pay in|pay their way|work|pay taxes)\b.{0,100}\b(versus|while|against)\b.{0,60}\b(claimants|benefits|welfare|people on benefits)\b/i,
+      /\b(claimants|people on benefits|welfare recipients|benefit recipients)\b.{0,80}\b(do nothing|contribute nothing|give nothing back|take without giving)\b/i,
+      /\b(working people|workers|taxpayers)\b.{0,80}\b(versus|against|while)\b.{0,80}\b(claimants|people on benefits)\b/i
+    ],
+    workAlwaysPays: [
+      /\b(work|working|employment)\b.{0,50}\b(always|should always|must)\b.{0,50}\b(pay|pay better|be better off)\b.{0,80}\b(benefits|welfare|claiming)\b/i,
+      /\b(benefits|welfare)\b.{0,80}\b(pay less|should pay less|never pay more)\b.{0,80}\b(work|working|employment)\b/i,
+      /\b(work|working)\b.{0,80}\b(always pays better than|pays better than|should pay better than)\b.{0,80}\b(benefits|welfare)\b/i
+    ],
+    moralWelfareJudgement: [
+      /\b(morally|moral)\b.{0,60}\b(wrong|bad|unacceptable|indefensible)\b.{0,80}\b(benefits|welfare|claim|claiming|claimants|support)\b/i,
+      /\b(benefits|welfare|claiming benefits)\b.{0,60}\b(is|are)\b.{0,30}\b(morally wrong|wrong|unfair|unacceptable)\b/i
+    ],
+    fairnessFraming: [
+      /\b(restore|bring back|protect|ensure)\b.{0,50}\b(fairness|fair)\b.{0,100}\b(taxpayers|workers|working people)\b/i,
+      /\b(fairness|fair)\b.{0,60}\b(taxpayers|workers|working people)\b.{0,100}\b(benefits|welfare|claimants)\b/i
+    ],
+    politicalWeaponisationRhetoric: [
+      /\b(welfare|benefits)\b.{0,60}\b(weapon|weaponise|weaponised|weaponising|weaponize|weaponized|weaponizing)\b/i,
+      /\b(claimants|recipients|people on benefits)\b.{0,60}\b(scapegoat|scapegoats|scapegoating)\b/i,
+      /\b(boost|boosting)\b.{0,60}\b(polls|polling)\b/i,
+      /\blabour\b.{0,40}\b(welfare|benefit)\b.{0,40}\bparty\b/i
+    ]
+  };
+
   // Apply fuzzy or direct checks
   const foundStigmaPhrases = negativeStigmaPhrases.filter(phrase => lower.includes(phrase) || fuzzyMatchAny(lower, [phrase]));
   const foundNonContributor = nonContributorPhrases.filter(p => lower.includes(p) || fuzzyMatchAny(lower, [p]));
+  const foundContributionFairness = contributionAndFairnessPhrases.filter(p => lower.includes(p));
   const foundGeneralisation = generalisationConstructions.filter(p => lower.includes(p) || fuzzyMatchAny(lower, [p]));
   const foundFraudAssoc = fraudAssociationPairs.filter(pair => {
     const parts = pair.split(' + ');
@@ -329,7 +418,9 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     economicScapegoating: [
       /\b(disabled people|claimants|benefit recipients|people on benefits|welfare recipients)\b.{0,100}\b(burden|drain|cost|costing|expense|taxpayer|taxpayers)\b/i,
       /\b(burden|drain|cost|costing|expense)\b.{0,100}\b(disabled people|claimants|benefit recipients|people on benefits|welfare recipients)\b/i
-    ]
+    ],
+
+    ...robustPoliticalPatterns
   };
 
   const robustHits = {};
@@ -387,7 +478,27 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     sensationalism: foundSensationalism.length > 0 || foundLoadedHeadline.length > 0 ? "HIGH" : "LOW",
     disabilityVoucherChoiceRestriction: foundVoucherChoice.length > 0 || robustVoucherChoice ? "HIGH" : "LOW",
     disabilityVoucherMarketRisk: foundVoucherMarket.length > 0 || robustVoucherMarket ? "HIGH" : "LOW",
-    disabilityVoucherAdministrativeRisk: foundVoucherAdmin.length > 0 || robustVoucherAdmin ? "HIGH" : "LOW"
+    disabilityVoucherAdministrativeRisk: foundVoucherAdmin.length > 0 || robustVoucherAdmin ? "HIGH" : "LOW",
+    contributionOthering:
+      foundContributionFairness.length > 0 || robustHits.contributionOthering
+        ? "HIGH"
+        : "LOW",
+    workPayFraming:
+      robustHits.workAlwaysPays
+        ? "HIGH"
+        : "LOW",
+    moralWelfareJudgement:
+      robustHits.moralWelfareJudgement
+        ? "HIGH"
+        : "LOW",
+    fairnessFraming:
+      robustHits.fairnessFraming
+        ? "HIGH"
+        : "LOW",
+    politicalWeaponisation:
+      robustHits.politicalWeaponisationRhetoric
+        ? "HIGH"
+        : "LOW"
   };
 
   const welfareTopics = [
@@ -422,6 +533,7 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   const totalFramingHits =
     foundStigmaPhrases.length +
     foundNonContributor.length +
+    foundContributionFairness.length +
     foundGeneralisation.length +
     foundFraudAssoc.length +
     foundShockingCase.length +
@@ -442,6 +554,7 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     foundAssessmentMockery.length +
     foundMaximisation.length +
     foundAusterity.length +
+    foundContributionFairness.length +
     robustFramingHits;
 
   // Topic specific detection for tailored debunking
@@ -449,6 +562,22 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   const isUniversalCreditClaim = lower.includes('universal credit') || lower.includes(' uc ');
   const isCarerClaim = lower.includes('carer') || lower.includes('attendance allowance');
   const isStatePensionClaim = lower.includes('state pension');
+
+  // Check for specific political/sensationalist welfare framing
+  const isPoliticalWelfareClaim = lower.includes('way of life') || lower.includes('morally wrong') || lower.includes('footing the bill') || foundContributionFairness.length > 0 || robustHits.welfareWayOfLife || robustHits.contributionOthering || robustHits.workAlwaysPays || robustHits.moralWelfareJudgement || robustHits.fairnessFraming || robustHits.politicalWeaponisationRhetoric;
+  const isWorkPayComparisonClaim = lower.includes('pay more than getting a job') || lower.includes('better than working') || robustHits.workPayComparison;
+  const isChildCapClaim = lower.includes('child cap') || lower.includes('2-child') || lower.includes('two-child') || robustHits.childBenefitCapRhetoric;
+
+  const highRiskRhetoric =
+    robustHits.moralWelfareJudgement ||
+    robustHits.workAlwaysPays ||
+    robustHits.contributionOthering ||
+    robustHits.fairnessFraming ||
+    robustHits.politicalWeaponisationRhetoric ||
+    robustWorkShaming ||
+    robustGeneralisation ||
+    robustFraud ||
+    robustEconomicScapegoating;
 
   if (isMotabilityClaim) {
     score = isIndirectOrCritical ? 40 : Math.max(90, score + 70);
@@ -461,6 +590,52 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     sourceLinks = [
       { label: "GOV.UK Get a vehicle through the Motability scheme", url: "https://www.gov.uk/get-motability-vehicle" },
       { label: "DWP PIP Handbook for claimants and assessors", url: "https://www.gov.uk/government/publications/personal-independence-payment-handbook" }
+    ];
+  } else if (isPoliticalWelfareClaim && !isIndirectOrCritical) {
+    if (highRiskRhetoric && !isIndirectOrCritical) {
+      score = Math.min(
+        100,
+        Math.max(
+          90,
+          score + 70 + (robustFramingHits * 5)
+        )
+      );
+    } else {
+      score = Math.max(95, score + 75);
+    }
+    extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
+    flags.push(`POLITICAL RHETORIC FLAG: Characterises widespread social security support as a lifestyle choice or uses welfare as a political weapon while omitting structural economic context and health barriers.`);
+    
+    primaryRebuttal = `EVALUATION OF WELFARE DEPENDENCY & POLITICAL RHETORIC CLAIMS: Assertions that welfare is used as a political weapon, or that welfare has become a "way of life" to boost polling without official backing, ignore official DWP and ONS labor market data showing that the majority of claimants face severe health conditions, long NHS waiting lists, or are already combining low-paid part-time work with Universal Credit.`;
+    sourceRef = "DWP Stat-Xplore Caseload Data & ONS Labour Market Overview";
+    
+    sourceLinks = [
+      { label: "DWP Stat-Xplore Portal", url: "https://stat-xplore.dwp.gov.uk/" },
+      { label: "ONS Labour Market Statistics", url: "https://www.gov.uk/" }
+    ];
+  } else if (isWorkPayComparisonClaim && !isIndirectOrCritical) {
+    score = Math.max(96, score + 78);
+    extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
+    flags.push(`UNSUBSTANTIATED INCOME COMPARISON CLAIM: Implies out-of-work benefits routinely exceed employment income without accounting for statutory caps and work allowances.`);
+
+    primaryRebuttal = `DEBUNKING BENEFIT VS WORK INCOME CLAIMS: Claims that benefits pay more than working are factually incorrect. Benefit caps (such as £25,323 per year in London and £22,020 per year elsewhere) ensure that out-of-work support does not exceed average earnings. Furthermore, the UK welfare structure explicitly incorporates Universal Credit tapers and work allowances, ensuring that work always pays more than claiming benefits and providing structural financial incentives for employment progression.`;
+    sourceRef = "GOV.UK Benefit Cap Guidance & DWP Universal Credit Rules";
+
+    sourceLinks = [
+      { label: "GOV.UK Benefit Cap Limits", url: "https://www.gov.uk/benefit-cap" },
+      { label: "DWP Universal Credit Work Allowances", url: "https://www.gov.uk/universal-credit/what-youll-get" }
+    ];
+  } else if (isChildCapClaim && !isIndirectOrCritical) {
+    score = Math.max(95, score + 75);
+    extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
+    flags.push(`CHILD BENEFIT CAP CLAIM: Evaluates assertions regarding the removal of the two-child limit and its impact on child poverty and household support.`);
+
+    primaryRebuttal = `ANALYSIS OF TWO-CHILD BENEFIT LIMIT: Arguments concerning child benefit restrictions must be weighed against independent economic and social research (such as from the IFS and child poverty action groups), which demonstrates that the cap disproportionately impacts larger families experiencing temporary unemployment or low wages, directly affecting child poverty rates.`;
+    sourceRef = "Institute for Fiscal Studies (IFS) & Department for Work and Pensions Policy Analysis";
+
+    sourceLinks = [
+      { label: "Institute for Fiscal Studies Policy Briefings", url: "https://ifs.org.uk/" },
+      { label: "GOV.UK Child Benefit Overview", url: "https://www.gov.uk/child-benefit" }
     ];
   } else if (isNeutralVoucherProposal) {
     score = 45;
@@ -528,36 +703,38 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
       robustFramingHits > 0 ||
       (mentionsWelfare && hasNegativeTone) ||
       lower.includes('easy to game') ||
-      lower.includes('game')
+      lower.includes('game') ||
+      foundLifestyle.length > 0 ||
+      foundBenefitChoice.length > 0
     ) &&
     !isIndirectOrCritical
   ) {
     score = Math.min(
       100,
       Math.max(
-        92,
-        score + 72 + ((totalFramingHits + robustFramingHits) * 5)
+        95,
+        score + 75 + ((totalFramingHits + robustFramingHits) * 5)
       )
     );
     
-    if (totalFramingHits > 0 || robustFramingHits > 0 || lower.includes('easy to game')) {
+    if (totalFramingHits > 0 || robustFramingHits > 0 || foundLifestyle.length > 0 || foundBenefitChoice.length > 0) {
       extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
-      flags.push(`FLAGGED UNSUBSTANTIATED STIGMATISING RHETORIC: Contains negative framing terminology or implies the benefits system is easily gamed without citing verified primary data from DWP, ONS, or HMCTS.`);
+      flags.push(`FLAGGED STIGMATISING RHETORIC: Promotes inaccurate generalizations portraying welfare as a lifestyle choice or political weapon, ignoring official DWP/ONS figures showing that 40% of Universal Credit claimants are in work alongside individuals trapped on lengthy NHS health waiting lists.`);
     } else {
       extractedQuotes.push(`"${text}"`);
-      flags.push(`FLAGGED UNSUBSTANTIATED NEGATIVE ASSERTION: Makes sweeping negative claims ('${text}') regarding disabled people or statutory benefits without supporting empirical data or primary source documentation.`);
+      flags.push(`FLAGGED UNSUBSTANTIATED NEGATIVE ASSERTION: Makes sweeping negative claims regarding statutory benefits without supporting empirical data or primary source documentation.`);
     }
 
     flags.push(`NON-EVIDENCE BACKED STATEMENT: Uses negative narrative framing against welfare entitlement while omitting verified baseline statistics.`);
     flags.push(`PUBLIC DISCOURSE RISK: Disseminates unsupported hostility toward benefit claimants by framing statutory entitlement access as inherently bad, abusive, or unmonitored.`);
 
-    primaryRebuttal = `DEBUNKING CLAIMS THAT DISABILITY & WELFARE SUPPORT IS "EASY TO GAME" OR FAKE: Assertions that Personal Independence Payment (PIP) or wider welfare support can be easily gamed or faked are fundamentally refuted by the rigorous statutory assessment framework. PIP is not assessed on medical conditions or diagnoses alone; rather, it is strictly evaluated on functional ability and an individual's verified capability to complete daily living and mobility tasks safely, to an acceptable standard, repeatedly, and in a timely manner. The application and adjudication process requires extensive evidentiary substantiation across multiple organisations, including detailed medical evidence from GPs, hospital consultants, occupational health specialists, mental health specialists, and social care providers. Furthermore, independent health professional assessments, functional history reviews, and DWP decision-making scrutiny—backed by robust HMCTS tribunal oversight—ensure that claims undergo rigorous verification rather than automatic approval.`;
-    sourceRef = "DWP PIP Assessment Guide, Statutory Functional Criteria & HMCTS Tribunal Statistics";
+    primaryRebuttal = `REBUKE AGAINST WELFARE STIGMATISATION: Claims portraying social security recipients as having a "lifestyle choice" or using benefit claimants as scapegoats are severely misleading and stigmatising. Official DWP and ONS statistics demonstrate that approximately 40% of Universal Credit claimants are already in work, supplementing low wages. Furthermore, a substantial proportion of welfare recipients face acute health barriers, chronic illness, or physical disabilities while enduring long NHS waiting lists for medical treatment before they can safely return to work.`;
+    sourceRef = "DWP Stat-Xplore Work and Health Statistics, ONS Labour Market Overview";
     
     sourceLinks = [
-      { label: "DWP PIP Assessment Guide for Assessment Providers", url: "https://www.gov.uk/government/publications/personal-independence-payment-assessment-guide-for-assessment-providers" },
-      { label: "DWP Fraud & Error in the Benefit System", url: "https://www.gov.uk/government/collections/fraud-and-error-in-the-benefit-system" },
-      { label: "MOJ HMCTS Tribunal Statistics Quarterly", url: "https://www.gov.uk/government/collections/tribunals-statistics" }
+      { label: "DWP Stat-Xplore Portal", url: "https://stat-xplore.dwp.gov.uk/" },
+      { label: "ONS Labour Market Statistics", url: "https://www.gov.uk/" },
+      { label: "NHS Referral to Treatment Consultant-led Waiting Times", url: "https://www.england.nhs.uk/statistics/statistical-work-areas/rtt-waiting-times/" }
     ];
   }
 
@@ -685,8 +862,8 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   
   let finalVerdict = "Low BS / Mostly Factual";
   if (finalScore >= 80) {
-    finalVerdict = (totalFramingHits > 0 || robustFramingHits > 0 || (mentionsWelfare && hasNegativeTone) || isMotabilityClaim || hasVoucherMention || robustVoucherProposal || lower.includes('easy to game'))
-      ? "UNSUBSTANTIATED STIGMATISING CLAIM"
+    finalVerdict = (totalFramingHits > 0 || robustFramingHits > 0 || (mentionsWelfare && hasNegativeTone) || isMotabilityClaim || hasVoucherMention || robustVoucherProposal || lower.includes('easy to game') || foundLifestyle.length > 0 || foundBenefitChoice.length > 0 || isPoliticalWelfareClaim || isWorkPayComparisonClaim || isChildCapClaim)
+      ? "HIGH BS / STIGMATISING RHETORIC"
       : "High Misleading Risk / False Claim";
   } else if (finalScore >= 50) {
     finalVerdict = "Moderate Bias / Unsubstantiated Assertion";
@@ -722,6 +899,9 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   }
   if (toxicAnalysis.disabilityVoucherAdministrativeRisk === "HIGH") {
     detectedFramingExplanations.disabilityVoucherAdministrativeRisk = "Restricted voucher systems require additional administration to maintain eligible-product lists and monitor supplier participation.";
+  }
+  if (toxicAnalysis.politicalWeaponisation === "HIGH") {
+    detectedFramingExplanations.politicalWeaponisation = "Welfare or claimants are framed as political tools or scapegoats to boost polling without official backing or facts.";
   }
 
   const counterContextLayer = {
