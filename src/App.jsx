@@ -615,7 +615,7 @@ export default function App() {
                             </button>
                           </div>
                           <p className="text-slate-200 italic">&ldquo;{figure.claimsHistory[0].quote}&rdquo;</p>
-                          <p className="text-teal-400 font-medium pt-1">&check; Fact: {figure.claimsHistory[0].factCheck}</p>
+                          <p className="text-teal-400 font-medium pt-1 flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Fact: {figure.claimsHistory[0].factCheck}</p>
                         </div>
                       )}
 
@@ -655,7 +655,7 @@ export default function App() {
                                   </div>
                                 </div>
                                 <p className="text-slate-200 italic">&ldquo;{claim.quote}&rdquo;</p>
-                                <p className="text-teal-400 font-medium">&check; Fact: {claim.factCheck}</p>
+                                <p className="text-teal-400 font-medium flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Fact: {claim.factCheck}</p>
                               </div>
                             ))}
                           </div>
@@ -853,7 +853,7 @@ export default function App() {
                   {Object.entries(CONTRIBUTORY_DEBUNK_DATA || {}).map(([key, item]) => (
                     <div key={key} className="p-3 bg-slate-950 rounded-xl space-y-1 border border-slate-800/60">
                       <p className="font-bold text-amber-400">Myth: {item.claim || item.myth}</p>
-                      <p className="text-slate-300">Fact: {item.reality || item.fact}</p>
+                      <p className="text-slate-300 flex items-start gap-1"><Check className="w-3.5 h-3.5 text-teal-400 shrink-0 mt-0.5" /> <span>Fact: {item.reality || item.fact}</span></p>
                     </div>
                   ))}
                 </div>
@@ -1645,8 +1645,8 @@ export default function App() {
                 </div>
               )}
               {shareCardModalData.fact && (
-                <div className="p-3 rounded-lg text-xs font-medium" style={{ backgroundColor: '#0f172a', borderLeft: '4px solid #2dd4bf', color: '#2dd4bf' }}>
-                  &check; Fact: {shareCardModalData.fact}
+                <div className="p-3 rounded-lg text-xs font-medium flex items-start gap-1.5" style={{ backgroundColor: '#0f172a', borderLeft: '4px solid #2dd4bf', color: '#2dd4bf' }}>
+                  <Check className="w-4 h-4 shrink-0 mt-0.5" /> <span>Fact: {shareCardModalData.fact}</span>
                 </div>
               )}
               <div className="flex items-center justify-between text-[10px] pt-2" style={{ borderTop: '1px solid rgba(124, 58, 237, 0.3)', color: '#94a3b8' }}>
@@ -1747,7 +1747,7 @@ export default function App() {
                     <span className="text-teal-400 font-semibold">{item.category || 'Audit Trail'}</span>
                   </div>
                   {item.quote && <p className="text-slate-200 italic">&ldquo;{item.quote}&rdquo;</p>}
-                  {item.factCheck && <p className="text-teal-300 font-medium">&check; {item.factCheck}</p>}
+                  {item.factCheck && <p className="text-teal-300 font-medium flex items-center gap-1"><Check className="w-3.5 h-3.5" /> <span>{item.factCheck}</span></p>}
                 </div>
               ))}
             </div>
