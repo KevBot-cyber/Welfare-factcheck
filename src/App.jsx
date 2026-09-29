@@ -93,14 +93,14 @@ const formatRateLines = (data, depth = 0) => {
     Object.entries(data).forEach(([key, val]) => {
       const formattedKey = formatCamelCase(key);
       if (typeof val === 'object' && val !== null) {
-        lines.push(`${indent}• ${formattedKey}:`);
+        lines.push(`${indent}&bull; ${formattedKey}:`);
         lines.push(...formatRateLines(val, depth + 1));
       } else {
-        lines.push(`${indent}• ${formattedKey}: ${formatCurrencyVal(val)}`);
+        lines.push(`${indent}&bull; ${formattedKey}: ${formatCurrencyVal(val)}`);
       }
     });
   } else {
-    lines.push(`${indent}• Rate: ${formatCurrencyVal(data)}`);
+    lines.push(`${indent}&bull; Rate: ${formatCurrencyVal(data)}`);
   }
   return lines;
 };
@@ -146,7 +146,7 @@ const searchBroadDataset = (queryStr) => {
         const lines = formatRateLines(data);
         results.push({
           id: `rate_${category}`,
-          sourceOrg: 'DWP Official Benefit & Pension Rates (2026/27)',
+          sourceOrg: 'DWP Official Benefit &amp; Pension Rates (2026/27)',
           question: `Official Statutory Rates: ${categoryFormatted}`,
           answer: lines.join('\n'),
           sourceName: 'DWP Schedule of Statutory Benefit Rates 2026/27'
@@ -179,7 +179,7 @@ const searchBroadDataset = (queryStr) => {
       if (claimText.includes(q) || realityText.includes(q) || keyText.includes(q) || searchWords.some(w => w.length > 2 && (claimText.includes(w) || realityText.includes(w)))) {
         results.push({
           id: `contrib_${key}`,
-          sourceOrg: 'Verified Financial & Contribution Analysis',
+          sourceOrg: 'Verified Financial &amp; Contribution Analysis',
           question: item.claim || item.myth || formatCamelCase(key),
           answer: item.reality || item.fact,
           sourceName: 'DWP / Institute for Fiscal Studies (IFS) Analysis'
@@ -199,7 +199,7 @@ const searchBroadDataset = (queryStr) => {
           sourceOrg: `Disability Charity Directory (${charity.category || 'Support'})`,
           question: charity.name,
           answer: `${charity.desc}\n\nCategory: ${charity.category}`,
-          sourceName: 'UK Disability Charity & Advocacy Index'
+          sourceName: 'UK Disability Charity &amp; Advocacy Index'
         });
       }
     });
@@ -447,7 +447,7 @@ export default function App() {
                   </h1>
                 </div>
                 <p className={`text-xs ${highContrast ? 'text-black' : 'text-slate-400'}`}>
-                  Debunking Welfare Misinformation with Primary DWP, ONS & Tribunal Data
+                  Debunking Welfare Misinformation with Primary DWP, ONS &amp; Tribunal Data
                 </p>
               </div>
             </div>
@@ -476,15 +476,15 @@ export default function App() {
           <div className="max-w-7xl mx-auto flex overflow-x-auto gap-1 py-2 scrollbar-thin scrollbar-thumb-purple-600/50 scrollbar-track-slate-950">
             {[
               { id: 'leaderboard', label: 'Top 10 Hall of Fame', icon: Award, badge: 'New' },
-              { id: 'analyzer', label: 'BS Meter & Analyzer', icon: Zap },
-              { id: 'spending', label: 'Spending & Contribution Debunk', icon: BarChart3, badge: 'NEW' },
-              { id: 'vault', label: 'Myth Vault & Facts', icon: BookOpen },
-              { id: 'economics', label: 'Economic Impact & GDP', icon: LineChart, badge: 'Crucial' },
+              { id: 'analyzer', label: 'BS Meter &amp; Analyzer', icon: Zap },
+              { id: 'spending', label: 'Spending &amp; Contribution Debunk', icon: BarChart3, badge: 'NEW' },
+              { id: 'vault', label: 'Myth Vault &amp; Facts', icon: BookOpen },
+              { id: 'economics', label: 'Economic Impact &amp; GDP', icon: LineChart, badge: 'Crucial' },
               { id: 'charities', label: 'Disability Charity A-Z Directory', icon: HeartHandshake, badge: 'Directory' },
               { id: 'briefing', label: 'MP Briefing Pack', icon: FileText },
               { id: 'rights', label: 'Know Your Rights', icon: ShieldCheck, badge: 'Info' },
-              { id: 'legal', label: 'Legal & Standards', icon: Scale },
-              { id: 'support', label: 'Disability Help & Advocacy', icon: Users },
+              { id: 'legal', label: 'Legal &amp; Standards', icon: Scale },
+              { id: 'support', label: 'Disability Help &amp; Advocacy', icon: Users },
             ].map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -530,10 +530,10 @@ export default function App() {
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-2">
               <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 w-full sm:w-auto overflow-x-auto">
                 {[
-                  { id: 'mps', label: 'Top MPs & Ministers' },
+                  { id: 'mps', label: 'Top MPs &amp; Ministers' },
                   { id: 'mp_social_media', label: 'MP Social Media' },
                   { id: 'byParty', label: 'Political Party Welfare Posts' },
-                  { id: 'tabloids', label: 'Newspapers & Tabloids' },
+                  { id: 'tabloids', label: 'Newspapers &amp; Tabloids' },
                   { id: 'broadcasters', label: 'News Channels' },
                   { id: 'radio', label: 'Radio' },
                 ].map((cat) => (
@@ -622,7 +622,7 @@ export default function App() {
                       {isExpanded && (
                         <div className="mt-4 pt-4 border-t border-slate-800/80 space-y-3">
                           <div className="flex items-center justify-between">
-                            <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400">Claims History & Primary Data Counter-proofs</h4>
+                            <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400">Claims History &amp; Primary Data Counter-proofs</h4>
                             <button
                               onClick={() => setDeepDiveModalData({
                                 title: `Deep Dive Report: ${figure.name}`,
@@ -631,7 +631,7 @@ export default function App() {
                               })}
                               className="text-xs bg-teal-500/20 text-teal-300 px-2.5 py-1 rounded-lg border border-teal-500/30 hover:bg-teal-500/30 flex items-center gap-1 font-semibold"
                             >
-                              <FileText className="w-3.5 h-3.5" /> Full Deep-Dive & Datasets
+                              <FileText className="w-3.5 h-3.5" /> Full Deep-Dive &amp; Datasets
                             </button>
                           </div>
                           <div className="space-y-2">
@@ -682,7 +682,7 @@ export default function App() {
                 <Zap className="w-4 h-4" />
                 <span>Automated Fact-Checker Engine</span>
               </div>
-              <h2 className="text-2xl font-black text-slate-100">BS Meter & Statement Evaluator</h2>
+              <h2 className="text-2xl font-black text-slate-100">BS Meter &amp; Statement Evaluator</h2>
               <p className="text-sm text-slate-300">
                 Paste any headline, MP quote, social media post, or news article text below to verify it against official DWP, ONS, and HMCTS primary datasets.
               </p>
@@ -788,7 +788,7 @@ export default function App() {
           <div className="space-y-6">
             <div className="p-6 rounded-2xl border border-purple-800/40 bg-slate-900/85 flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="space-y-2">
-                <h2 className="text-2xl font-black text-slate-100">Welfare & Social Protection Breakdown (2025/26)</h2>
+                <h2 className="text-2xl font-black text-slate-100">Welfare &amp; Social Protection Breakdown (2025/26)</h2>
                 <p className="text-xs text-slate-400 font-medium">
                   Total UK Welfare Budget: ~£{totalSpendingBN.toFixed(1)} Billion (HM Treasury / DWP / OBR Data)
                 </p>
@@ -962,7 +962,7 @@ export default function App() {
 
                     dynamicResults.push({
                       id: `fallback_rate_${category}`,
-                      sourceOrg: 'DWP Official Benefit & Pension Rates (2026/27)',
+                      sourceOrg: 'DWP Official Benefit &amp; Pension Rates (2026/27)',
                       question: `Official Statutory Rates: ${categoryFormatted}`,
                       answer: lines.join('\n'),
                       sourceName: 'DWP Schedule of Statutory Benefit Rates 2026/27'
@@ -991,7 +991,7 @@ export default function App() {
             <div className="space-y-6">
               <div className="p-6 rounded-2xl border border-purple-800/40 bg-slate-900/80 space-y-3">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-black text-slate-100">Disability & Welfare Myth Vault</h2>
+                  <h2 className="text-2xl font-black text-slate-100">Disability &amp; Welfare Myth Vault</h2>
                   <button
                     onClick={() => setDeepDiveModalData({
                       title: 'Complete Myth Vault Open Dataset',
@@ -1066,7 +1066,7 @@ export default function App() {
                 <div className="space-y-4">
                   {filteredMyths.length > 0 && (
                     <h3 className="text-xs font-bold text-purple-400 uppercase tracking-wider pt-2">
-                      Matching Official Benefit Rates & Policy Datasets
+                      Matching Official Benefit Rates &amp; Policy Datasets
                     </h3>
                   )}
                   {dynamicResults.map((result) => (
@@ -1138,7 +1138,7 @@ export default function App() {
                   <FileSpreadsheet className="w-3.5 h-3.5" /> Export Macro Dataset
                 </button>
               </div>
-              <h2 className="text-2xl font-black text-slate-100">Economic Impact & Regional Multiplier Effects</h2>
+              <h2 className="text-2xl font-black text-slate-100">Economic Impact &amp; Regional Multiplier Effects</h2>
               <p className="text-sm text-slate-300">
                 Evaluating how disability benefit disbursements directly feed local high-street economies, sustain UK GDP, and mitigate acute healthcare system expenditure.
               </p>
@@ -1183,7 +1183,7 @@ export default function App() {
                         onClick={() => toggleMacroAccordion(key)}
                         className="w-full text-left text-xs font-medium text-purple-400 hover:text-purple-300 flex items-center justify-between"
                       >
-                        <span>View Official Evidence & Reports ({Array.isArray(metric.citations) ? metric.citations.length : 0})</span>
+                        <span>View Official Evidence &amp; Reports ({Array.isArray(metric.citations) ? metric.citations.length : 0})</span>
                         {isOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                       </button>
 
@@ -1247,7 +1247,7 @@ export default function App() {
                           onClick={() => toggleMacroAccordion(item.id)}
                           className="w-full text-left text-xs font-medium text-purple-400 hover:text-purple-300 flex items-center justify-between"
                         >
-                          <span>View Official Evidence & Reports ({Array.isArray(item.citations) ? item.citations.length : 0})</span>
+                          <span>View Official Evidence &amp; Reports ({Array.isArray(item.citations) ? item.citations.length : 0})</span>
                           {isOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                         </button>
 
@@ -1381,7 +1381,7 @@ export default function App() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-purple-400 text-xs font-bold uppercase tracking-wider">
                   <ShieldCheck className="w-4 h-4" />
-                  <span>Statutory Protections & Rules</span>
+                  <span>Statutory Protections &amp; Rules</span>
                 </div>
                 <button
                   onClick={() => setDeepDiveModalData({
@@ -1482,7 +1482,7 @@ export default function App() {
                     {/* Useful Tools & Links */}
                     {guide.usefulToolsAndLinks && guide.usefulToolsAndLinks.length > 0 && (
                       <div className="pt-2 border-t border-slate-800/80">
-                        <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Official Guides & Tools:</p>
+                        <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Official Guides &amp; Tools:</p>
                         <div className="flex flex-wrap gap-2 text-xs">
                           {guide.usefulToolsAndLinks.map((link, lIdx) => (
                             <a
@@ -1508,7 +1508,7 @@ export default function App() {
             <div className="p-6 rounded-2xl border border-slate-800 bg-slate-900/90 space-y-4">
               <h3 className="text-xl font-bold text-slate-100 flex items-center gap-2">
                 <Gavel className="w-5 h-5 text-purple-400" />
-                Legal Support Networks & Pro Bono Advocates
+                Legal Support Networks &amp; Pro Bono Advocates
               </h3>
 
               <div className="grid md:grid-cols-2 gap-4">
@@ -1550,7 +1550,7 @@ export default function App() {
         {activeTab === 'support' && (
           <div className="space-y-6">
             <div className="p-6 rounded-2xl border border-purple-800/40 bg-slate-900/80 space-y-2">
-              <h2 className="text-2xl font-black text-slate-100">Disability Help & Free Advocacy Resources</h2>
+              <h2 className="text-2xl font-black text-slate-100">Disability Help &amp; Free Advocacy Resources</h2>
               <p className="text-sm text-slate-300">Direct links to verified support, Citizens Advice, and independent welfare advisors.</p>
             </div>
             <div className="grid md:grid-cols-2 gap-4">
@@ -1724,7 +1724,7 @@ export default function App() {
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <div className="flex items-center gap-2 text-teal-400 font-bold text-xs uppercase tracking-wider">
                 <FileText className="w-4 h-4 text-teal-400" />
-                <span>Deep-Dive Audit & Open Dataset Export</span>
+                <span>Deep-Dive Audit &amp; Open Dataset Export</span>
               </div>
               <button
                 onClick={() => setDeepDiveModalData(null)}
