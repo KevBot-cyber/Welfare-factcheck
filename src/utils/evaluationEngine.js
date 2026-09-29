@@ -444,6 +444,12 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     foundAusterity.length +
     robustFramingHits;
 
+  // Topic specific detection for tailored debunking
+  const isPensionCreditClaim = lower.includes('pension credit');
+  const isUniversalCreditClaim = lower.includes('universal credit') || lower.includes(' uc ');
+  const isCarerClaim = lower.includes('carer') || lower.includes('attendance allowance');
+  const isStatePensionClaim = lower.includes('state pension');
+
   if (isMotabilityClaim) {
     score = isIndirectOrCritical ? 40 : Math.max(90, score + 70);
     extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
@@ -461,7 +467,7 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
     flags.push(`NEUTRAL POLICY PROPOSAL DETECTED: Discusses or considers disability vouchers as a policy mechanism without asserting unproven effectiveness or stigmatising claims.`);
     
-    primaryRebuttal = `DISABILITY VOUCHER & CHOICE ANALYSIS: Claims that replacing flexible disability-related cash support with restricted vouchers or catalogue systems would automatically improve outcomes require evidence comparing the systems. DWP evidence states that PIP is intended to contribute towards a wide range of additional disability costs, including specialist goods and services, greater use of ordinary goods and services such as taxis and heating, and higher costs associated with accessible housing. Current evidence also recognises that recipients use PIP according to individual priorities and that some disability-related needs are difficult to fit into predefined categories. The Institute for Fiscal Studies has noted that restricting vouchers to specified disability-related goods could prevent recipients using support for other genuine disability-related costs, while restricting redemption to particular providers could increase prices. A voucher system would also require additional administration to maintain eligible-product lists, monitor use and arrange supplier participation. Claims that vouchers would necessarily improve outcomes, reduce costs, or eliminate misuse therefore require comparative evidence rather than assumption.`;
+    primaryRebuttal = `DISABILITY VOUCHER & CHOICE ANALYSIS: Claims that replacing flexible disability-related cash support with restricted vouchers or catalogue systems would automatically improve outcomes require evidence comparing the systems. DWP evidence states that PIP is intended to contribute towards a wide range of additional disability costs, including specialist goods and services, greater use of ordinary goods and services such as taxis and heating, and higher costs associated with accessible housing. Current evidence also recognises that recipients use PIP according to individual priorities and that some disability-related needs are difficult to fit into predefined categories. The Institute for Fiscal Studies (IFS) has noted that restricting vouchers to specified disability-related goods could prevent recipients using support for other genuine disability-related costs, while restricting redemption to particular providers could increase prices. A voucher system would also require additional administration to maintain eligible-product lists, monitor use and arrange supplier participation.`;
     sourceRef = "DWP Disability Cost Research, Institute for Fiscal Studies (IFS) Analysis";
     
     sourceLinks = [
@@ -473,12 +479,48 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
     flags.push(`DISABILITY VOUCHER CLAIM — EVIDENCE REQUIRED: Asserts unsupported effectiveness or fraud-control benefits of vouchers without comparative empirical data.`);
 
-    primaryRebuttal = `DISABILITY VOUCHER CLAIM — EVIDENCE REQUIRED: Claims that replacing disability-related cash support with vouchers would automatically improve outcomes require evidence demonstrating that the proposed voucher mechanism improves disabled people’s living standards, independence, participation or ability to meet additional disability-related costs. DWP evidence describes PIP and DLA as contributions towards additional disability-related costs, including specialist goods and services, increased use of ordinary goods and services, and higher costs for ordinary goods and services. Government research also finds that recipients use health and disability benefits alongside other resources to meet diverse health- and disability-related needs. A voucher proposal therefore should not be presented as automatically producing better outcomes without evidence comparing the proposed system with existing cash support.`;
+    primaryRebuttal = `DISABILITY VOUCHER CLAIM — EVIDENCE REQUIRED: Claims that replacing disability-related cash support with vouchers would automatically improve outcomes require evidence demonstrating that the proposed voucher mechanism improves disabled people’s living standards, independence, participation or ability to meet additional disability-related costs. DWP evidence describes PIP and DLA as contributions towards additional disability-related costs, including specialist goods and services, increased use of ordinary goods and services, and higher costs for ordinary goods and services.`;
     sourceRef = "DWP Statutory Guidance, IFS & DWP Disability Expenditure Research";
     
     sourceLinks = [
       { label: "DWP Guidance on Disability Support", url: "https://www.gov.uk/" },
       { label: "Institute for Fiscal Studies Policy Briefings", url: "https://ifs.org.uk/" }
+    ];
+  } else if (isPensionCreditClaim) {
+    score = Math.max(90, score + 65);
+    extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
+    flags.push(`PENSION CREDIT / ELDERLY WELFARE CLAIM: Evaluates assertions regarding Pension Credit take-up, eligibility, or pensioner support using official DWP and IFS data.`);
+
+    primaryRebuttal = `DEBUNKING PENSION CREDIT & ELDERLY WELFARE CLAIMS: Assertions regarding Pension Credit eligibility or adequacy must be evaluated against official Department for Work and Pensions (DWP) take-up statistics and Institute for Fiscal Studies (IFS) analysis. Official DWP statistics consistently highlight significant under-claiming, with hundreds of thousands of eligible low-income pensioners failing to receive Pension Credit entitlement, leaving them vulnerable to fuel poverty and deprivation. Furthermore, IFS evaluations demonstrate that Pension Credit acts as a vital gateway benefit for wider support such as housing benefit, council tax reduction, and cold weather payments.`;
+    sourceRef = "DWP Pension Credit Take-up Statistics, Institute for Fiscal Studies (IFS) Retirement & Pension Analysis";
+
+    sourceLinks = [
+      { label: "DWP Income-related benefits: estimates of take-up", url: "https://www.gov.uk/government/statistics/income-related-benefits-estimates-of-take-up" },
+      { label: "Institute for Fiscal Studies Pension Analysis", url: "https://ifs.org.uk/" }
+    ];
+  } else if (isUniversalCreditClaim) {
+    score = Math.max(90, score + 65);
+    extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
+    flags.push(`UNIVERSAL CREDIT CLAIM: Evaluates assertions regarding Universal Credit claimant behavior, adequacy, or administrative structures.`);
+
+    primaryRebuttal = `DEBUNKING UNIVERSAL CREDIT CLAIMS: Generalised claims regarding Universal Credit claimants or administrative burdens are addressed by Office for National Statistics (ONS) labour market reviews and Department for Work and Pensions (DWP) administrative data. Research from the Joseph Rowntree Foundation (JRF) and IFS shows that standard allowances frequently fall below the ONS-backed Minimum Income Standard required for basic essentials, while taper rates and work allowances dictate employment progression incentives.`;
+    sourceRef = "DWP Stat-Xplore, Joseph Rowntree Foundation (JRF) Destitution in the UK, ONS Labour Market Statistics";
+
+    sourceLinks = [
+      { label: "Joseph Rowntree Foundation Research", url: "https://www.jrf.org.uk/" },
+      { label: "DWP Stat-Xplore Portal", url: "https://stat-xplore.dwp.gov.uk/" }
+    ];
+  } else if (isCarerClaim) {
+    score = Math.max(90, score + 65);
+    extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
+    flags.push(`CARER BENEFIT / ALLOWANCE CLAIM: Evaluates assertions concerning carer support thresholds and financial adequacy.`);
+
+    primaryRebuttal = `DEBUNKING CARER SUPPORT CLAIMS: Assertions regarding Carer's Allowance or carer financial provisions are evaluated against DWP operational guidelines and OBR fiscal forecasts. Carer's Allowance earnings limits and weekly benefit rates are subject to statutory uprating rules, with independent research from policy institutes highlighting the severe financial strain and poverty risks faced by unpaid full-time carers balancing intense care responsibilities.`;
+    sourceRef = "DWP Carer's Allowance Guidance, Office for Budget Responsibility (OBR) Welfare Trends Report";
+
+    sourceLinks = [
+      { label: "GOV.UK Carer's Allowance Overview", url: "https://www.gov.uk/carers-allowance" },
+      { label: "Office for Budget Responsibility Welfare Trends", url: "https://obr.uk/" }
     ];
   } else if (
     (
@@ -509,7 +551,7 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     flags.push(`NON-EVIDENCE BACKED STATEMENT: Uses negative narrative framing against welfare entitlement while omitting verified baseline statistics.`);
     flags.push(`PUBLIC DISCOURSE RISK: Disseminates unsupported hostility toward benefit claimants by framing statutory entitlement access as inherently bad, abusive, or unmonitored.`);
 
-    primaryRebuttal = `DEBUNKING CLAIMS THAT PIP IS "EASY TO GAME" OR FAKE: Assertions that Personal Independence Payment (PIP) or wider welfare support can be easily gamed or faked are fundamentally refuted by the rigorous statutory assessment framework. PIP is not assessed on medical conditions or diagnoses alone; rather, it is strictly evaluated on functional ability and an individual's verified capability to complete daily living and mobility tasks safely, to an acceptable standard, repeatedly, and in a timely manner. The application and adjudication process requires extensive evidentiary substantiation across multiple organisations, including detailed medical evidence from GPs, hospital consultants, occupational health therapists, mental health specialists, and social care providers. Furthermore, independent health professional assessments, functional history reviews, and DWP decision-making scrutiny—backed by robust HMCTS tribunal oversight—ensure that claims undergo rigorous verification rather than automatic approval.`;
+    primaryRebuttal = `DEBUNKING CLAIMS THAT DISABILITY & WELFARE SUPPORT IS "EASY TO GAME" OR FAKE: Assertions that Personal Independence Payment (PIP) or wider welfare support can be easily gamed or faked are fundamentally refuted by the rigorous statutory assessment framework. PIP is not assessed on medical conditions or diagnoses alone; rather, it is strictly evaluated on functional ability and an individual's verified capability to complete daily living and mobility tasks safely, to an acceptable standard, repeatedly, and in a timely manner. The application and adjudication process requires extensive evidentiary substantiation across multiple organisations, including detailed medical evidence from GPs, hospital consultants, occupational health specialists, mental health specialists, and social care providers. Furthermore, independent health professional assessments, functional history reviews, and DWP decision-making scrutiny—backed by robust HMCTS tribunal oversight—ensure that claims undergo rigorous verification rather than automatic approval.`;
     sourceRef = "DWP PIP Assessment Guide, Statutory Functional Criteria & HMCTS Tribunal Statistics";
     
     sourceLinks = [
@@ -612,11 +654,11 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   if (!primaryRebuttal) {
     if (!isIndirectOrCritical && (totalFramingHits > 0 || robustFramingHits > 0)) {
       score = 92;
-      primaryRebuttal = `ANALYSIS OF STATEMENT: Unverified negative or subjective assertion regarding welfare support taxonomy. PIP is assessed strictly on functional ability and the capability to complete daily living tasks safely and repeatedly, requiring extensive medical evidence from GPs, consultants, and occupational health specialists.`;
-      sourceRef = "DWP PIP Assessment Guide, Stat-Xplore Caseload Data & HMCTS Tribunal Statistics";
+      primaryRebuttal = `ANALYSIS OF STATEMENT: Unverified negative or subjective assertion regarding welfare support taxonomy. Statutory benefits are assessed strictly on eligibility criteria, functional ability, and verified evidentiary standards requiring medical and administrative proof.`;
+      sourceRef = "DWP Assessment Guides, Stat-Xplore Caseload Data & HMCTS Tribunal Statistics";
       
       sourceLinks = [
-        { label: "DWP PIP Assessment Guide", url: "https://www.gov.uk/government/publications/personal-independence-payment-assessment-guide-for-assessment-providers" },
+        { label: "DWP Assessment Guides", url: "https://www.gov.uk/government/organisations/department-for-work-pensions" },
         { label: "DWP Stat-Xplore Portal", url: "https://stat-xplore.dwp.gov.uk/" },
         { label: "HMCTS Tribunal Quarterly Statistics", url: "https://www.gov.uk/government/collections/tribunals-statistics" }
       ];
