@@ -447,7 +447,7 @@ export default function App() {
                   </h1>
                 </div>
                 <p className={`text-xs ${highContrast ? 'text-black' : 'text-slate-400'}`}>
-                  Debunking Welfare Misinformation with Primary DWP, ONS &amp; Tribunal Data
+                  Debunking Welfare Misinformation with Primary DWP, ONS & Tribunal Data
                 </p>
               </div>
             </div>
@@ -631,7 +631,7 @@ export default function App() {
                               })}
                               className="text-xs bg-teal-500/20 text-teal-300 px-2.5 py-1 rounded-lg border border-teal-500/30 hover:bg-teal-500/30 flex items-center gap-1 font-semibold"
                             >
-                              <FileText className="w-3.5 h-3.5" /> Full Deep-Dive &amp; Datasets
+                              <FileText className="w-3.5 h-3.5" /> Full Deep-Dive & Datasets
                             </button>
                           </div>
                           <div className="space-y-2">
@@ -768,7 +768,7 @@ export default function App() {
                   <div className="space-y-2">
                     <h4 className="text-xs font-bold text-amber-400 uppercase flex items-center gap-1.5">
                       <AlertTriangle className="w-4 h-4 text-amber-400" />
-                      <span>TAILORED BREAKDOWN OF STATEMENTS &amp; MISLEADING RHETORIC</span>
+                      <span>TAILORED BREAKDOWN OF STATEMENTS & MISLEADING RHETORIC</span>
                     </h4>
                     {analysisResult.flags.map((flag, i) => (
                       <div key={i} className="p-3 bg-slate-950 rounded-xl border border-slate-800 text-xs text-slate-300 flex items-start gap-2">
@@ -788,7 +788,7 @@ export default function App() {
           <div className="space-y-6">
             <div className="p-6 rounded-2xl border border-purple-800/40 bg-slate-900/85 flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="space-y-2">
-                <h2 className="text-2xl font-black text-slate-100">Welfare &amp; Social Protection Breakdown (2025/26)</h2>
+                <h2 className="text-2xl font-black text-slate-100">Welfare & Social Protection Breakdown (2025/26)</h2>
                 <p className="text-xs text-slate-400 font-medium">
                   Total UK Welfare Budget: ~£{totalSpendingBN.toFixed(1)} Billion (HM Treasury / DWP / OBR Data)
                 </p>
@@ -801,7 +801,7 @@ export default function App() {
                 })}
                 className="px-4 py-2 bg-teal-500/20 hover:bg-teal-500/30 text-teal-300 border border-teal-500/30 rounded-xl text-xs font-bold flex items-center gap-2 transition shrink-0"
               >
-                <FileSpreadsheet className="w-4 h-4" /> Open Dataset &amp; CSV Export
+                <FileSpreadsheet className="w-4 h-4" /> Open Dataset & CSV Export
               </button>
             </div>
 
@@ -1724,7 +1724,7 @@ export default function App() {
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <div className="flex items-center gap-2 text-teal-400 font-bold text-xs uppercase tracking-wider">
                 <FileText className="w-4 h-4 text-teal-400" />
-                <span>Deep-Dive Audit &amp; Open Dataset Export</span>
+                <span>Deep-Dive Audit & Open Dataset Export</span>
               </div>
               <button
                 onClick={() => setDeepDiveModalData(null)}
