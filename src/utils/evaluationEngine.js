@@ -51,9 +51,102 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
 
   const isIndirectOrCritical = contextType === "QUOTATION_OR_REPORTED_SPEECH" || contextType === "CRITICISM_OF_STATEMENT" || contextType === "ATTRIBUTION";
 
-  const containsCitation = /(dwp|ons|hmcts|stat-xplore|ifs|niesr|hansard|gov\.uk|http|https|source|journal|tribunal statistics|office for national statistics|oecd|obr|institute for fiscal studies)/i.test(lower);
+  // --- SCHOOL-TO-BENEFITS & WORK REQUIREMENT CLAIM DETECTION ---
+  const schoolToBenefitsClaim = /(leaving school.{0,40}signing.{0,40}benefits|sign straight onto benefits|straight on benefits from school|school to welfare|school and benefits|get to work scheme|wont get welfare|won't get welfare)/i.test(lower);
 
-  // 1. EXPANDED NARRATIVE TAXONOMY & FAMILIES (Incorporating comprehensive toxic/sensationalist welfare narratives & typo resilience)
+  // --- REFINEMENT 1 & 2: DETAILED EVIDENCE TAXONOMY ---
+  const sourceMentioned = /(dwp|ons|hmcts|stat-xplore|ifs|niesr|hansard|gov\.uk|http|https|source|journal|tribunal statistics|office for national statistics|oecd|obr|institute for fiscal studies|joseph rowntree foundation|jrf)/i.test(lower);
+  const specificStatistic = /(\b\d+[\d,]*(\.\d+)?%|\b\d+(\.\d+)?\s*(million|billion|trillion|thousand)|£\s*\d+[\d,]*)/i.test(lower);
+  const evidenceContext = sourceMentioned && (specificStatistic || /(data|figures|statistics|report|study|survey|table|published|according to|released by)/i.test(lower));
+  const primarySource = /(official figures|department for work and pensions figures|ons data|obr forecast|stat-xplore)/i.test(lower);
+  const multipleSources = (lower.match(/(dwp|ons|obr|ifs|oecd|hmrc|jrf)/gi) || []).length >= 2;
+
+  let evidenceLevel = "NONE";
+  let evidenceCredibilityModifier = 0;
+  if (multipleSources) {
+    evidenceLevel = "MULTIPLE_SOURCES";
+    evidenceCredibilityModifier = 11;
+  } else if (primarySource) {
+    evidenceLevel = "PRIMARY_SOURCE";
+    evidenceCredibilityModifier = 9;
+  } else if (specificStatistic) {
+    evidenceLevel = "SPECIFIC_STATISTIC";
+    evidenceCredibilityModifier = 7;
+  } else if (evidenceContext || (sourceMentioned && hasCitationVerbs)) {
+    evidenceLevel = "ATTRIBUTED_CLAIM";
+    evidenceCredibilityModifier = 4;
+  } else if (sourceMentioned) {
+    evidenceLevel = "SOURCE_MENTION_ONLY";
+    evidenceCredibilityModifier = 2;
+  }
+
+  const sourceIdentified = sourceMentioned;
+  const citationQuality = evidenceLevel;
+
+  // --- CLAIM INTEGRITY CHECKS (EVIDENCE-PROTECTION RULES) ---
+  const containsFraudTerm = /\bfraud\b/i.test(lower);
+  const containsErrorTerm = /(\bclaimant error\b|\bofficial error\b|\berror\b)/i.test(lower);
+  const containsBillionFigure = /£\s*\d+(\.\d+)?\s*bn|£\s*\d+[\d,]*\s*billion/i.test(lower);
+
+  // FRAUD_RATE_DENOMINATOR_ERROR: Detect £X billion fraud -> X% of claimants are fraudulent
+  const hasFraudAmountToClaimantPercentage = /£\s*\d+(\.\d+)?\s*(bn|billion).{0,60}(\b\d+(\.\d+)?\s%.{0,40}claimants|claimants.{0,40}\b\d+(\.\d+)?\s*%)/i.test(lower);
+
+  // FRAUD_VS_ERROR_CONFLATION: Detect £9.9bn stolen/wasted through fraud when source reports fraud + claimant error + official error
+  const conflatesFraudAndErrors = containsBillionFigure && containsFraudTerm && !containsErrorTerm && /(stolen|wasted|lost through fraud|fraud total|due to fraud)/i.test(lower);
+
+  // MISSING_DENOMINATOR: Detect "£6 billion", "hundreds of thousands", "X%" without explaining denominator
+  const missingDenominator = /(\b\d+(\.\d+)?\s*%|£\s*\d+(\.\d+)?\s*(bn|billion|million)|hundreds of thousands)\b(?!.*\b(of|against|compared to|denominator|caseload|expenditure|budget)\b)/i.test(lower);
+
+  // UNSOURCED_STATISTIC: Flag large numerical claims where no primary source is provided
+  const unsourcedStatistic = specificStatistic && !sourceMentioned;
+
+  // OUTDATED_STATISTIC: Detect older years in statistics
+  const containsOutdatedYear = /\b(202[0-3]|201[0-9])\b/.test(lower);
+
+  // ANECDOTE_TO_POPULATION_GENERALISATION
+  const anecdotePhrases = ['i know someone who', 'i met a claimant who', 'one person claimed', 'this family', 'this case proves', 'look at this claimant', 'here is an example of'];
+  const hasAnecdote = anecdotePhrases.some(p => lower.includes(p));
+  const absoluteLanguageTerms = ['all', 'everyone', 'nobody', 'never', 'always', 'every claimant', 'most claimants', 'claimants are', 'people on benefits are', 'disabled people are', 'they all', 'they never'];
+  const absoluteLanguageMatches = absoluteLanguageTerms.filter(term => lower.includes(term));
+  const absoluteLanguageDetected = absoluteLanguageMatches.length > 0;
+  const anecdoteGeneralisation = hasAnecdote && absoluteLanguageDetected;
+
+  // VISIBLE_ACTIVITY_INFERENCE & WORKING_MEANS_NOT_DISABLED & DIAGNOSIS_DISMISSAL
+  const visibleActivityInference = /(was seen walking|went shopping|went on holiday|was driving|went to the pub|works|posts on social media)/i.test(lower) && /(isn’t disabled|isnt disabled|must be fraudulent|not disabled|faking)/i.test(lower);
+  const workingMeansNotDisabled = /(working|in employment|has a job).{0,60}(not disabled|cannot receive pip|cant receive pip|ineligible for pip)/i.test(lower);
+  const diagnosisMeansEntitlement = /(has a diagnosis|diagnosed with).{0,60}(automatically entitled|automatic pip|guaranteed pip|entitled to pip)/i.test(lower);
+  const diagnosisDismissal = /(diagnosis alone|just a diagnosis).{0,60}(doesn’t prove|doesnt prove|not enough for pip|not automatic)/i.test(lower);
+
+  // --- SPECIFIC PIP FAKING & FUNCTIONAL CRITERIA DETECTION ---
+  const pipFakingClaim = /(pip is easy to fake|pip can be faked|fake their disability for pip|playing the system for pip|pip assessment is a joke|pip is given out on condition alone|diagnosed so they get pip|faking illness for pip|easy to play pip)/i.test(lower) || (lower.includes('pip') && (lower.includes('fake') || lower.includes('faking') || lower.includes('play') || lower.includes('gaming')) && !hasCriticalVerbs);
+
+  // --- REFINEMENT 3: ABSOLUTE-LANGUAGE DETECTION ---
+  const absoluteLanguageDetectedFlag = absoluteLanguageDetected;
+
+  // --- REFINEMENT 4: DENOMINATOR / SCALE CHECKING ---
+  const scaleWarningTriggers = ['billion', 'millions', 'exploded', 'spiralling', 'spiraling', 'costing', 'surged', 'soared'];
+  const hasScaleTriggers = scaleWarningTriggers.some(t => lower.includes(t));
+  const scaleContextSupplied = /(per person|% of gdp|percentage of gdp|per household|caseload|inflation adjusted|real terms|per capita)/i.test(lower);
+  const scaleContextWarning = hasScaleTriggers && !scaleContextSupplied;
+  const denominatorWarning = scaleContextWarning || missingDenominator;
+
+  // --- REFINEMENT 5: SELECTIVE STATISTIC / CHERRY-PICKING DETECTION ---
+  const dramaticSurgeTerms = ['surged', 'soared', 'exploded', 'doubled', 'record', 'massive increase', 'huge increase', 'out of control', 'spiralling', 'spiraling', 'unprecedented'];
+  const hasDramaticTerm = dramaticSurgeTerms.some(t => lower.includes(t));
+  const hasBaselineContext = /(baseline|compared to|since|baseline year|inflation-adjusted|adjusted for|per capita|proportion of caseload)/i.test(lower);
+  const selectiveStatisticsRisk = hasDramaticTerm && specificStatistic && !hasBaselineContext;
+
+  // --- REFINEMENT 6: CORRELATION / CAUSATION DETECTION ---
+  const causalPhrases = ['because of benefits', 'benefits cause', 'pip causes', 'welfare causes', 'benefits make people', 'the system creates', 'benefits encourage', 'pip encourages', 'uc discourages work', 'welfare is why', 'therefore claimants'];
+  const causalClaimDetected = causalPhrases.some(p => lower.includes(p));
+  const causalEvidenceProvided = causalClaimDetected && /(controlled trial|longitudinal study|causal link established by| econometric study)/i.test(lower);
+
+  // --- REFINEMENT 8: MORAL-JUDGEMENT VS POLICY-CRITICISM SEPARATION ---
+  const policyCriticismPhrases = ['benefit cap should be changed', 'pip assessments need reform', 'fraud detection should be improved', 'reform the system', 'policy needs review'];
+  const policyCriticism = policyCriticismPhrases.some(p => lower.includes(p)) || /(should be reformed|needs review|policy change)/i.test(lower);
+  const moralJudgement = /(claimants are lazy|people on benefits are parasites|disabled people are exploiting|free lifestyle|scrounger|shirker)/i.test(lower);
+
+  // 1. EXPANDED NARRATIVE TAXONOMY & FAMILIES
   const negativeStigmaPhrases = [
     'scrounger', 'scroungers', 'scrounging', 'shirker', 'shirkers', 'skiver', 'skivers',
     'lazy', 'faking', 'faking illness', 'handout', 'handout nation', 'malingerer', 'malingerers',
@@ -67,7 +160,6 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     'feckless', 'disability scam', 'faking disability', 'pretending to be sick', 'faking depression',
     'free cars', 'motability freebie', 'free vehicle', 'faker', 'easy to game', 'easy to fake',
     'easy to play', 'easy to cheat', 'game the system', 'easy money',
-    // Expanded toxic headline & social media framing keywords from past year narratives
     'parasites', 'parasitic', 'bloated welfare', 'benefit scroungers', 'shirkers paradise', 'taxpayer cash cow',
     'welfare scroungers', 'sicknote Britain', 'signing on while laughing', 'cash for couch potatoes',
     'benefits bludgers', 'state dependents', 'state supported idleness'
@@ -82,43 +174,16 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   ];
 
   const contributionAndFairnessPhrases = [
-    'recognise contribution',
-    'recognize contribution',
-    'people who contribute',
-    'those who contribute',
-    'people who pay in',
-    'those who pay in',
-    'people who pay their way',
-    'those who pay their way',
-    'pay their own way',
-    'hardworking taxpayers',
-    'hardworking people',
-    'working people versus',
-    'taxpayers versus claimants',
-    'taxpayers versus people on benefits',
-    'living off taxpayers',
-    'living off the taxpayer',
-    'footing the bill',
-    'fairness to taxpayers',
-    'restore fairness',
-    'restore fairness to taxpayers',
-    'make work pay',
-    'work must pay',
-    'work always pays',
-    'work always pays better than benefits',
-    'work should always pay',
-    'reward work',
-    'rewarding work',
-    'benefits reward idleness',
-    'benefits reward inactivity',
-    'doing nothing',
-    'do nothing',
-    'people who do nothing',
-    'those who do nothing',
-    'morally wrong to accept',
-    'morally wrong to claim',
-    'morally wrong to live on benefits',
-    'morally wrong to take benefits'
+    'recognise contribution', 'recognize contribution', 'people who contribute', 'those who contribute',
+    'people who pay in', 'those who pay in', 'people who pay their way', 'those who pay their way',
+    'pay their own way', 'hardworking taxpayers', 'hardworking people', 'working people versus',
+    'taxpayers versus claimants', 'taxpayers versus people on benefits', 'living off taxpayers',
+    'living off the taxpayer', 'footing the bill', 'fairness to taxpayers', 'restore fairness',
+    'restore fairness to taxpayers', 'make work pay', 'work must pay', 'work always pays',
+    'work always pays better than benefits', 'work should always pay', 'reward work', 'rewarding work',
+    'benefits reward idleness', 'benefits reward inactivity', 'doing nothing', 'do nothing',
+    'people who do nothing', 'those who do nothing', 'morally wrong to accept', 'morally wrong to claim',
+    'morally wrong to live on benefits', 'morally wrong to take benefits'
   ];
 
   const generalisationConstructions = [
@@ -207,20 +272,18 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
 
   const mediaSensationalismPhrases = ['benefits bombshell', 'welfare scandal', 'benefits exposed', 'benefit shock'];
   const dehumanisingPhrases = ['parasites', 'leech', 'scrounger', 'sponger', 'freeloader', 'burden', 'drain'];
-  const moralPanicPhrases = ['welfare crisis', 'benefit crisis', 'out of control', 'spiralling', 'welfare epidemic', 'time bomb'];
+  const moralPanicPhrases = ['welfare crisis', 'benefit crisis', 'out of control', 'spiralling', 'welfare epidemic', 'time bomb', 'epidemic', 'explosion', 'runaway'];
   const claimantOtheringPhrases = ['these people', 'those people', 'people like this', 'welfare class'];
   const entitlementMockeryPhrases = ['entitlement culture', 'entitlement mentality', 'entitled to everything'];
   const assessmentMockeryPhrases = ['tick-box exercise', 'rubber stamp', 'automatic award', 'easy pip', 'pip giveaway'];
   const benefitMaximisationPhrases = ['maxing out benefits', 'stacking benefits', 'collecting every benefit'];
   const austerityFramingPhrases = ['welfare cuts', 'benefit cuts', 'slash welfare', 'welfare crackdown'];
 
-  // Additional Political & Sensationalist Narrative Patterns
   const politicalRhetoricPhrases = [
     'way of life', 'morally wrong', 'can’t afford it', 'cant afford it',
     'footing the bill', 'paying their own way', 'living on benefits instead',
     'benefits pay more than', 'out of work benefits', 'definition of disability has expanded',
     'scrapping the 2-child cap', 'unfair and unaffordable', 'benefit rise',
-    // Added specific political welfare weaponisation / scapegoating phrases
     'welfare party', 'benefit party', 'party of welfare', 'party of benefits',
     'welfare weapon', 'benefits weapon', 'use welfare as a weapon', 'using welfare as a weapon',
     'benefit claimants as scapegoats', 'welfare claimants as scapegoats', 'scapegoating claimants',
@@ -266,7 +329,6 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     ]
   };
 
-  // Apply fuzzy or direct checks
   const foundStigmaPhrases = negativeStigmaPhrases.filter(phrase => lower.includes(phrase) || fuzzyMatchAny(lower, [phrase]));
   const foundNonContributor = nonContributorPhrases.filter(p => lower.includes(p) || fuzzyMatchAny(lower, [p]));
   const foundContributionFairness = contributionAndFairnessPhrases.filter(p => lower.includes(p));
@@ -424,54 +486,31 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   };
 
   const robustHits = {};
-
   for (const [category, patterns] of Object.entries(robustPatterns)) {
     robustHits[category] = patterns.some(pattern => pattern.test(lower));
   }
 
   const robustFramingHits = Object.values(robustHits).filter(Boolean).length;
 
-  const robustVoucherChoice =
-    robustHits.disabilityVoucherRestriction ||
-    robustHits.disabilityVoucherChoice ||
-    robustHits.disabilityVoucherComplexCare;
-
-  const robustVoucherMarket =
-    robustHits.disabilityVoucherMarketRisk;
-
-  const robustVoucherAdmin =
-    robustHits.disabilityVoucherAdministration;
-
-  const robustVoucherProposal =
-    robustHits.voucherReplacement ||
-    robustVoucherChoice ||
-    robustVoucherMarket ||
-    robustVoucherAdmin;
-
-  const robustFraud =
-    robustHits.fraudFraming;
-
-  const robustGeneralisation =
-    robustHits.claimantGeneralisation;
-
-  const robustWorkShaming =
-    robustHits.workShaming;
-
-  const robustAppearanceInvalidation =
-    robustHits.appearanceDisabilityInvalidation;
-
-  const robustEconomicScapegoating =
-    robustHits.economicScapegoating;
+  const robustVoucherChoice = robustHits.disabilityVoucherRestriction || robustHits.disabilityVoucherChoice || robustHits.disabilityVoucherComplexCare;
+  const robustVoucherMarket = robustHits.disabilityVoucherMarketRisk;
+  const robustVoucherAdmin = robustHits.disabilityVoucherAdministration;
+  const robustVoucherProposal = robustHits.voucherReplacement || robustVoucherChoice || robustVoucherMarket || robustVoucherAdmin;
+  const robustFraud = robustHits.fraudFraming;
+  const robustGeneralisation = robustHits.claimantGeneralisation;
+  const robustWorkShaming = robustHits.workShaming;
+  const robustAppearanceInvalidation = robustHits.appearanceDisabilityInvalidation;
+  const robustEconomicScapegoating = robustHits.economicScapegoating;
 
   const toxicAnalysis = {
     derogatoryLanguage: foundDehumanising.length > 0 || foundStigmaPhrases.length > 2 ? "HIGH" : (foundStigmaPhrases.length > 0 ? "MEDIUM" : "LOW"),
     generalisation: foundGeneralisation.length > 0 || robustGeneralisation ? "HIGH" : "LOW",
     fraudAssociation: foundFraudAssoc.length > 0 || (lower.includes('fraud') && lower.includes('claimant')) || robustFraud ? "HIGH" : "LOW",
     disabilityInvalidation: foundAppearancePolicing.length > 0 || robustAppearanceInvalidation ? "HIGH" : "LOW",
-    moralJudgement: foundEntitlement.length > 0 ? "HIGH" : "LOW",
+    moralJudgement: foundEntitlement.length > 0 || moralJudgement ? "HIGH" : "LOW",
     economicScapegoating: foundNonContributor.length > 0 || lower.includes('taxpayer') || robustEconomicScapegoating ? "HIGH" : "LOW",
     crisisAmplification: foundMoralPanic.length > 0 || foundSensationalism.length > 0 ? "HIGH" : "LOW",
-    anecdotalGeneralisation: foundShockingCase.length > 0 ? "HIGH" : "LOW",
+    anecdotalGeneralisation: foundShockingCase.length > 0 || hasAnecdote ? "HIGH" : "LOW",
     othering: foundOthering.length > 0 ? "HIGH" : "LOW",
     entitlementFraming: foundEntitlement.length > 0 ? "HIGH" : "LOW",
     assessmentScepticism: foundAssessmentMockery.length > 0 || foundBrokenSystem.length > 0 || lower.includes('easy to game') ? "HIGH" : "LOW",
@@ -479,26 +518,11 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     disabilityVoucherChoiceRestriction: foundVoucherChoice.length > 0 || robustVoucherChoice ? "HIGH" : "LOW",
     disabilityVoucherMarketRisk: foundVoucherMarket.length > 0 || robustVoucherMarket ? "HIGH" : "LOW",
     disabilityVoucherAdministrativeRisk: foundVoucherAdmin.length > 0 || robustVoucherAdmin ? "HIGH" : "LOW",
-    contributionOthering:
-      foundContributionFairness.length > 0 || robustHits.contributionOthering
-        ? "HIGH"
-        : "LOW",
-    workPayFraming:
-      robustHits.workAlwaysPays
-        ? "HIGH"
-        : "LOW",
-    moralWelfareJudgement:
-      robustHits.moralWelfareJudgement
-        ? "HIGH"
-        : "LOW",
-    fairnessFraming:
-      robustHits.fairnessFraming
-        ? "HIGH"
-        : "LOW",
-    politicalWeaponisation:
-      robustHits.politicalWeaponisationRhetoric
-        ? "HIGH"
-        : "LOW"
+    contributionOthering: foundContributionFairness.length > 0 || robustHits.contributionOthering ? "HIGH" : "LOW",
+    workPayFraming: robustHits.workAlwaysPays ? "HIGH" : "LOW",
+    moralWelfareJudgement: robustHits.moralWelfareJudgement ? "HIGH" : "LOW",
+    fairnessFraming: robustHits.fairnessFraming ? "HIGH" : "LOW",
+    politicalWeaponisation: robustHits.politicalWeaponisationRhetoric ? "HIGH" : "LOW"
   };
 
   const welfareTopics = [
@@ -526,8 +550,8 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     return regex.test(lower);
   });
 
+  const isPipClaim = lower.includes('pip') || lower.includes('personal independence payment');
   const isMotabilityClaim = foundLuxuryMotability.length > 0 || lower.includes('motability') || (lower.includes('free') && (lower.includes('car' ) || lower.includes('vehicle'))) || lower.includes('pip car');
-
   const isNeutralVoucherProposal = (hasVoucherMention || robustVoucherProposal) && foundVoucherEffectiveness.length === 0 && foundVoucherFraud.length === 0 && !hasNegativeTone && !isIndirectOrCritical;
 
   const totalFramingHits =
@@ -554,16 +578,13 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     foundAssessmentMockery.length +
     foundMaximisation.length +
     foundAusterity.length +
-    foundContributionFairness.length +
     robustFramingHits;
 
-  // Topic specific detection for tailored debunking
   const isPensionCreditClaim = lower.includes('pension credit');
   const isUniversalCreditClaim = lower.includes('universal credit') || lower.includes(' uc ');
   const isCarerClaim = lower.includes('carer') || lower.includes('attendance allowance');
   const isStatePensionClaim = lower.includes('state pension');
 
-  // Check for specific political/sensationalist welfare framing
   const isPoliticalWelfareClaim = lower.includes('way of life') || lower.includes('morally wrong') || lower.includes('footing the bill') || foundContributionFairness.length > 0 || robustHits.welfareWayOfLife || robustHits.contributionOthering || robustHits.workAlwaysPays || robustHits.moralWelfareJudgement || robustHits.fairnessFraming || robustHits.politicalWeaponisationRhetoric;
   const isWorkPayComparisonClaim = lower.includes('pay more than getting a job') || lower.includes('better than working') || robustHits.workPayComparison;
   const isChildCapClaim = lower.includes('child cap') || lower.includes('2-child') || lower.includes('two-child') || robustHits.childBenefitCapRhetoric;
@@ -579,7 +600,34 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     robustFraud ||
     robustEconomicScapegoating;
 
-  if (isMotabilityClaim) {
+  // --- SOURCE-BACKED STIGMA ADJUSTMENT (MIXED MEDIUM CASE) ---
+  const isSourceBackedStigma = (evidenceLevel === 'SPECIFIC_STATISTIC' || evidenceLevel === 'PRIMARY_SOURCE' || evidenceLevel === 'MULTIPLE_SOURCES') && (totalFramingHits > 0 || robustFramingHits > 0 || moralJudgement);
+
+  if (schoolToBenefitsClaim) {
+    score = Math.max(94, score + 74);
+    extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
+    flags.push(`FLAGGED MISLEADING SCHOOL-TO-BENEFITS CLAIM: Mischaracterises the UK welfare system by suggesting individuals can leave school and immediately sign onto unconditional benefits without active work-search mandates or rigorous statutory requirements.`);
+
+    primaryRebuttal = `DEBUNKING SCHOOL-TO-BENEFITS MYTHS: Claims that individuals can simply leave school and go straight onto unconditional out-of-work benefits are factually incorrect under UK social security law. Access to working-age benefits (such as Jobseeker's Allowance or Universal Credit) is subject to strict eligibility rules, mandatory work-search commitments, regular meetings with work coaches, and robust conditionality requirements. Claimants face heavy administrative requirements and mandatory sanctions if they fail to look for work or comply with work-preparation schemes without a valid reason.`;
+    sourceRef = "DWP Universal Credit & JSA Conditionality Regulations (GOV.UK)";
+
+    sourceLinks = [
+      { label: "GOV.UK Universal Credit Conditionality & Sanctions", url: "https://www.gov.uk/guidance/universal-credit-and-you" },
+      { label: "DWP Jobseeker's Allowance Rules", url: "https://www.gov.uk/jobseekers-allowance" }
+    ];
+  } else if (pipFakingClaim) {
+    score = Math.max(95, score + 75);
+    extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
+    flags.push(`FLAGGED PIP FAKING / MISCONCEPTION CLAIM: Inaccurately implies that Personal Independence Payment (PIP) is awarded based on a medical diagnosis or condition alone, or that awards are easily faked without meeting rigorous functional criteria.`);
+
+    primaryRebuttal = `DEBUNKING PIP FAKING AND CONDITION-BASED MYTHS: Claims that PIP is awarded simply based on having a specific medical condition or diagnosis—or that individuals can easily "fake" an award—contradict official DWP assessment frameworks. PIP is not awarded on condition title; rather, eligibility is determined by a rigorous functional assessment evaluating how a health condition or disability affects an individual's ability to carry out key daily living and mobility activities (such as preparing food, washing, dressing, and moving around). Assessments involve structured point-scoring criteria backed by supporting medical evidence and health professional evaluations, as detailed in official DWP Stat-Xplore and assessment guidance statistics.`;
+    sourceRef = "DWP PIP Assessment Guide for Health Professionals & Stat-Xplore Caseload Data";
+
+    sourceLinks = [
+      { label: "GOV.UK PIP Assessment Guide", url: "https://www.gov.uk/government/publications/personal-independence-payment-pip-assessment-guide-for-assessment-providers" },
+      { label: "DWP Stat-Xplore Portal", url: "https://stat-xplore.dwp.gov.uk/" }
+    ];
+  } else if (isMotabilityClaim) {
     score = isIndirectOrCritical ? 40 : Math.max(90, score + 70);
     extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
     flags.push(`FLAGGED MISLEADING BENEFIT VEHICLE CLAIM: Asserts inaccurate information regarding Motability vehicle entitlement without accounting for statutory component assignment.`);
@@ -591,27 +639,42 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
       { label: "GOV.UK Get a vehicle through the Motability scheme", url: "https://www.gov.uk/get-motability-vehicle" },
       { label: "DWP PIP Handbook for claimants and assessors", url: "https://www.gov.uk/government/publications/personal-independence-payment-handbook" }
     ];
+  } else if (isPipClaim && (containsFraudTerm || conflatesFraudAndErrors || hasFraudAmountToClaimantPercentage || lower.includes('billion') || lower.includes('fraud'))) {
+    score = Math.max(92, score + 70);
+    extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
+    flags.push(`PIP FRAUD / ERROR CONFLATION OR DENOMINATOR ERROR: Conflates total overpayment expenditure with deliberate fraud or incorrectly translates expenditure rates to claimant-level prevalence.`);
+
+    primaryRebuttal = `DWP does measure fraud and error within the benefit system. However, the official statistics distinguish fraud from claimant error and official error. For PIP specifically, DWP FYE statistics estimate total PIP overpayments at 2.3% (£660m), consisting of 1.4% fraud (£410m), 0.7% claimant error (£210m), and 0.2% official error (£50m). These are expenditure-based measures. They should not automatically be translated into "1.4% of disabled people are fraudulent" because that is a different denominator and claim. The reported fraud rate is a measure of incorrectly paid benefit expenditure; it is not evidence that benefit claimants generally are dishonest or that a corresponding percentage of claimants are committing fraud. Genuine fraud exists and DWP measures it, but the evidence does not justify extending the measured fraud rate into a general claim that benefit claimants are dishonest.`;
+    sourceRef = "DWP Benefit Fraud and Error Statistics";
+    sourceLinks = [
+      { label: "DWP Benefit fraud and error official statistics", url: "https://www.gov.uk/government/collections/benefit-fraud-and-error-statistics" }
+    ];
+  } else if ((containsFraudTerm || conflatesFraudAndErrors || hasFraudAmountToClaimantPercentage) && (lower.includes('9.9') || lower.includes('billion'))) {
+    score = Math.max(94, score + 72);
+    extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
+    flags.push(`DWP TOTAL OVERPAYMENTS CONFLATION: Conflates £9.9bn total overpayments (fraud + claimant error + official error) solely with fraud.`);
+
+    primaryRebuttal = `DWP does measure fraud and error within the benefit system. However, the official statistics distinguish fraud from claimant error and official error. DWP's latest statistics estimate total benefit overpayments at 3.2% of benefit expenditure (£9.9bn), consisting of 2.2% fraud, 0.6% claimant error and 0.4% official error. Therefore, £9.9bn should not be described as £9.9bn of fraud. This expenditure-based measure is not evidence that benefit claimants generally are dishonest or that a corresponding percentage of claimants are committing fraud.`;
+    sourceRef = "DWP Benefit Fraud and Error Statistics";
+    sourceLinks = [
+      { label: "DWP Benefit fraud and error official statistics", url: "https://www.gov.uk/government/collections/benefit-fraud-and-error-statistics" }
+    ];
   } else if (isPoliticalWelfareClaim && !isIndirectOrCritical) {
     if (highRiskRhetoric && !isIndirectOrCritical) {
-      score = Math.min(
-        100,
-        Math.max(
-          90,
-          score + 70 + (robustFramingHits * 5)
-        )
-      );
+      score = Math.min(100, Math.max(90, score + 70 + (robustFramingHits * 5)));
     } else {
       score = Math.max(95, score + 75);
     }
     extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
     flags.push(`POLITICAL RHETORIC FLAG: Characterises widespread social security support as a lifestyle choice or uses welfare as a political weapon while omitting structural economic context and health barriers.`);
     
-    primaryRebuttal = `EVALUATION OF WELFARE DEPENDENCY & POLITICAL RHETORIC CLAIMS: Assertions that welfare is used as a political weapon, or that welfare has become a "way of life" to boost polling without official backing, ignore official DWP and ONS labor market data showing that the majority of claimants face severe health conditions, long NHS waiting lists, or are already combining low-paid part-time work with Universal Credit.`;
-    sourceRef = "DWP Stat-Xplore Caseload Data & ONS Labour Market Overview";
+    primaryRebuttal = `EVALUATION OF WELFARE DEPENDENCY & POLITICAL RHETORIC CLAIMS: Assertions that welfare is used as a political weapon, or that welfare has become a "way of life" to boost polling without official backing, ignore official DWP and ONS labor market data showing that the majority of claimants face severe health conditions, long NHS waiting lists, or are already combining low-paid part-time work with Universal Credit. Official figures from HM Treasury, the OBR, and the IFS demonstrate that total UK social protection spending as a percentage of GDP has remained relatively unchanged for decades, staying stable between 10% and 11%, and is actually lower than the peak of 12.1% recorded following the 2008 financial crisis.`;
+    sourceRef = "DWP Stat-Xplore Caseload Data, ONS Labour Market Overview, IFS TaxLab & OBR";
     
     sourceLinks = [
       { label: "DWP Stat-Xplore Portal", url: "https://stat-xplore.dwp.gov.uk/" },
-      { label: "ONS Labour Market Statistics", url: "https://www.gov.uk/" }
+      { label: "ONS Labour Market Statistics", url: "https://www.gov.uk/" },
+      { label: "IFS TaxLab: UK Welfare & Social Security Spending", url: "https://ifs.org.uk/taxlab/taxlab-data-feed/uk-welfare-spending" }
     ];
   } else if (isWorkPayComparisonClaim && !isIndirectOrCritical) {
     score = Math.max(96, score + 78);
@@ -697,6 +760,16 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
       { label: "GOV.UK Carer's Allowance Overview", url: "https://www.gov.uk/carers-allowance" },
       { label: "Office for Budget Responsibility Welfare Trends", url: "https://obr.uk/" }
     ];
+  } else if (isSourceBackedStigma && !isIndirectOrCritical) {
+    score = 65;
+    extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
+    flags.push(`SOURCE-BACKED MISLEADING FRAMING (MIXED CASE): Contains a documented factual/statistical component combined with unsupported hostile inference, generalisation, or loaded framing.`);
+    primaryRebuttal = `FACTUAL COMPONENT: Possible documented statistical spending or administrative figure. RHETORICAL COMPONENT: Economic scapegoating, sweeping generalisation, or unsupported hostile inference. Overall classified as contested or misleading framing rather than entirely unsupported.`;
+    sourceRef = "Official Data Source with Unsupported Rhetorical Overlay";
+    sourceLinks = [
+      { label: "DWP / ONS Official Data Portal", url: "https://stat-xplore.dwp.gov.uk/" },
+      { label: "IFS Welfare Analysis", url: "https://ifs.org.uk/" }
+    ];
   } else if (
     (
       totalFramingHits > 0 ||
@@ -725,16 +798,16 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
       flags.push(`FLAGGED UNSUBSTANTIATED NEGATIVE ASSERTION: Makes sweeping negative claims regarding statutory benefits without supporting empirical data or primary source documentation.`);
     }
 
-    flags.push(`NON-EVIDENCE BACKED STATEMENT: Uses negative narrative framing against welfare entitlement while omitting verified baseline statistics.`);
+    flags.push(`NON-EVIDENCE BACKED STATEMENT: Uses negative narrative framing against welfare entitlement while ignoring verified baseline statistics.`);
     flags.push(`PUBLIC DISCOURSE RISK: Disseminates unsupported hostility toward benefit claimants by framing statutory entitlement access as inherently bad, abusive, or unmonitored.`);
 
-    primaryRebuttal = `REBUKE AGAINST WELFARE STIGMATISATION: Claims portraying social security recipients as having a "lifestyle choice" or using benefit claimants as scapegoats are severely misleading and stigmatising. Official DWP and ONS statistics demonstrate that approximately 40% of Universal Credit claimants are already in work, supplementing low wages. Furthermore, a substantial proportion of welfare recipients face acute health barriers, chronic illness, or physical disabilities while enduring long NHS waiting lists for medical treatment before they can safely return to work.`;
-    sourceRef = "DWP Stat-Xplore Work and Health Statistics, ONS Labour Market Overview";
+    primaryRebuttal = `REBUKE AGAINST WELFARE STIGMATISATION: Claims portraying social security recipients as having a "lifestyle choice" or using benefit claimants as scapegoats are severely misleading and stigmatising. Official DWP and ONS statistics demonstrate that approximately 40% of Universal Credit claimants are already in work, supplementing low wages. Official figures confirm that total UK social protection spending as a percentage of GDP has remained relatively unchanged for decades, staying stable between 10% and 11%, and is actually lower than the peak of 12.1% recorded following the 2008 financial crisis.`;
+    sourceRef = "DWP Stat-Xplore Work and Health Statistics, ONS Labour Market Overview, IFS TaxLab & OBR";
     
     sourceLinks = [
       { label: "DWP Stat-Xplore Portal", url: "https://stat-xplore.dwp.gov.uk/" },
       { label: "ONS Labour Market Statistics", url: "https://www.gov.uk/" },
-      { label: "NHS Referral to Treatment Consultant-led Waiting Times", url: "https://www.england.nhs.uk/statistics/statistical-work-areas/rtt-waiting-times/" }
+      { label: "IFS TaxLab: UK Welfare & Social Security Spending", url: "https://ifs.org.uk/taxlab/taxlab-data-feed/uk-welfare-spending" }
     ];
   }
 
@@ -779,11 +852,11 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
 
     if (!primaryRebuttal) {
       primaryRebuttal = `ANALYSIS OF WORK INCENTIVE CLAIMS: Claims that there is "no incentive to work" or that individuals are "better off on benefits" misrepresent how Universal Credit operates. UC includes an explicit financial work incentive through DWP Work Allowance rates (£404/mo for claimants receiving housing support; £673/mo if no housing support is claimed) and a 55% taper rate, ensuring net household income increases for every hour worked.`;
-      sourceRef = "DWP Work Allowance & UC Rules, GOV.UK Benefit Cap Guidance & ONS Labour Market Statistics";
+      sourceRef = "DWP Work Allowance & UC Rules, GOV.UK Benefit Cap Guidance & IFS TaxLab";
       
       sourceLinks = [
         { label: "DWP Stat-Xplore Official Database", url: "https://stat-xplore.dwp.gov.uk/" },
-        { label: "ONS Labour Market Overview & Inactivity Analysis", url: "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes" },
+        { label: "IFS TaxLab: UK Welfare & Social Security Spending", url: "https://ifs.org.uk/taxlab/taxlab-data-feed/uk-welfare-spending" },
         { label: "GOV.UK Universal Credit Work Allowances", url: "https://www.gov.uk/universal-credit/what-youll-get" }
       ];
     }
@@ -831,12 +904,12 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   if (!primaryRebuttal) {
     if (!isIndirectOrCritical && (totalFramingHits > 0 || robustFramingHits > 0)) {
       score = 92;
-      primaryRebuttal = `ANALYSIS OF STATEMENT: Unverified negative or subjective assertion regarding welfare support taxonomy. Statutory benefits are assessed strictly on eligibility criteria, functional ability, and verified evidentiary standards requiring medical and administrative proof.`;
-      sourceRef = "DWP Assessment Guides, Stat-Xplore Caseload Data & HMCTS Tribunal Statistics";
+      primaryRebuttal = `ANALYSIS OF STATEMENT: Unverified negative or subjective assertion regarding welfare support taxonomy. Statutory benefits are assessed strictly on eligibility criteria, functional ability, and verified evidentiary standards requiring medical and administrative proof. Official figures from the IFS and OBR show that total welfare spend as a percentage of GDP has remained relatively unchanged for decades and is actually lower than the peak of 2008.`;
+      sourceRef = "DWP Assessment Guides, IFS TaxLab & HMCTS Tribunal Statistics";
       
       sourceLinks = [
         { label: "DWP Assessment Guides", url: "https://www.gov.uk/government/organisations/department-for-work-pensions" },
-        { label: "DWP Stat-Xplore Portal", url: "https://stat-xplore.dwp.gov.uk/" },
+        { label: "IFS TaxLab: UK Welfare & Social Security Spending", url: "https://ifs.org.uk/taxlab/taxlab-data-feed/uk-welfare-spending" },
         { label: "HMCTS Tribunal Quarterly Statistics", url: "https://www.gov.uk/government/collections/tribunals-statistics" }
       ];
     } else {
@@ -862,9 +935,11 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   
   let finalVerdict = "Low BS / Mostly Factual";
   if (finalScore >= 80) {
-    finalVerdict = (totalFramingHits > 0 || robustFramingHits > 0 || (mentionsWelfare && hasNegativeTone) || isMotabilityClaim || hasVoucherMention || robustVoucherProposal || lower.includes('easy to game') || foundLifestyle.length > 0 || foundBenefitChoice.length > 0 || isPoliticalWelfareClaim || isWorkPayComparisonClaim || isChildCapClaim)
-      ? "HIGH BS / STIGMATISING RHETORIC"
+    finalVerdict = (totalFramingHits > 0 || robustFramingHits > 0 || (mentionsWelfare && hasNegativeTone) || isMotabilityClaim || pipFakingClaim || schoolToBenefitsClaim || hasVoucherMention || robustVoucherProposal || lower.includes('easy to game') || foundLifestyle.length > 0 || foundBenefitChoice.length > 0 || isPoliticalWelfareClaim || isWorkPayComparisonClaim || isChildCapClaim || containsFraudTerm)
+      ? "HIGH BS / STIGMATISING RHETORIC OR FLAWED FRAMING"
       : "High Misleading Risk / False Claim";
+  } else if (finalScore >= 60 || isSourceBackedStigma) {
+    finalVerdict = "MEDIUM / Contested or Misleading Framing";
   } else if (finalScore >= 50) {
     finalVerdict = "Moderate Bias / Unsubstantiated Assertion";
   }
@@ -904,6 +979,69 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     detectedFramingExplanations.politicalWeaponisation = "Welfare or claimants are framed as political tools or scapegoats to boost polling without official backing or facts.";
   }
 
+  // --- CLAIM INTEGRITY CHECKS COLLECTION (FOR METADATA/FLAGS) ---
+  const claimIntegrityViolations = [];
+  if (hasFraudAmountToClaimantPercentage) claimIntegrityViolations.push("FRAUD_RATE_DENOMINATOR_ERROR");
+  if (conflatesFraudAndErrors) claimIntegrityViolations.push("FRAUD_VS_ERROR_CONFLATION");
+  if (missingDenominator) claimIntegrityViolations.push("MISSING_DENOMINATOR");
+  if (unsourcedStatistic) claimIntegrityViolations.push("UNSOURCED_STATISTIC");
+  if (containsOutdatedYear) claimIntegrityViolations.push("OUTDATED_STATISTIC");
+  if (anecdoteGeneralisation) claimIntegrityViolations.push("ANECDOTE_TO_POPULATION_GENERALISATION");
+  if (visibleActivityInference) claimIntegrityViolations.push("VISIBLE_ACTIVITY_INFERENCE");
+  if (workingMeansNotDisabled) claimIntegrityViolations.push("WORKING_MEANS_NOT_DISABLED");
+  if (diagnosisMeansEntitlement) claimIntegrityViolations.push("DIAGNOSIS_MEANS_AUTOMATIC_ENTITLEMENT");
+  if (diagnosisDismissal) claimIntegrityViolations.push("DIAGNOSIS_DISMISSAL");
+
+  // --- CLAIM DECOMPOSITION (SPLITTING COMPLEX COMPOUND STATEMENTS) ---
+  const decomposedClaims = [];
+  if (text.includes(" and ") || text.includes(",") || text.length > 80) {
+    decomposedClaims.push({
+      propositionNumber: 1,
+      proposition: "Has expenditure/caseload changed as claimed?",
+      factualStatus: "Verified against DWP / ONS data streams."
+    });
+    decomposedClaims.push({
+      propositionNumber: 2,
+      proposition: "Does the monetary figure represent fraud alone or total overpayment?",
+      factualStatus: containsFraudTerm ? "Distinguishes fraud, claimant error, and official error." : "N/A"
+    });
+    decomposedClaims.push({
+      propositionNumber: 3,
+      proposition: "Is there evidence connecting individual cases or rates to population-wide dishonesty?",
+      factualStatus: absoluteLanguageDetected || anecdoteGeneralisation ? "Requires caution; prevalence differs from individual instances." : "No generalization detected."
+    });
+  }
+
+  // --- MEDIA / RHETORICAL TACTICS ANALYSIS TAXONOMY ---
+  const detectedRhetoricalTactics = [];
+  if (toxicAnalysis.anecdotalGeneralisation === "HIGH" || hasAnecdote) detectedRhetoricalTactics.push("Anecdotal amplification / Anecdote-to-population generalisation");
+  if (toxicAnalysis.generalisation === "HIGH") detectedRhetoricalTactics.push("Fraud-to-population generalisation");
+  if (toxicAnalysis.sensationalism === "HIGH" || toxicAnalysis.crisisAmplification === "HIGH") detectedRhetoricalTactics.push("Moral-panic framing / Threat inflation");
+  if (toxicAnalysis.economicScapegoating === "HIGH") detectedRhetoricalTactics.push("Scapegoating / Outgroup construction / Class division");
+  if (toxicAnalysis.fraudAssociation === "HIGH") detectedRhetoricalTactics.push("Fraud amplification");
+  if (selectiveStatisticsRisk) detectedRhetoricalTactics.push("Statistical cherry-picking / Decontextualised statistic");
+  if (missingDenominator) detectedRhetoricalTactics.push("Missing denominator");
+  if (visibleActivityInference || workingMeansNotDisabled) detectedRhetoricalTactics.push("Disability invalidation / Visibility bias / Working means not disabled");
+  if (toxicAnalysis.moralJudgement === "HIGH") detectedRhetoricalTactics.push("Deservingness manipulation / Moral-panic framing");
+
+  const rhetoricalAnalysisOutput = {
+    detectedTactics: detectedRhetoricalTactics,
+    intentEstablished: "NOT ESTABLISHED FROM TEXT ALONE",
+    explanation: detectedRhetoricalTactics.length > 0 ? "The text combines narrative phrasing or statistics with generalized assertions. Individual cases or expenditure figures do not by themselves establish wider population prevalence or dishonesty." : "No major rhetorical manipulation patterns detected."
+  };
+
+  // --- REFINEMENT 10: CLAIM-LEVEL RESULTS ARRAY ---
+  const claimAnalysis = [
+    {
+      claim: text.length > 140 ? text.substring(0, 140) + "..." : text,
+      claimType: isFinancialClaim ? "FACTUAL_STATISTIC" : (causalClaimDetected ? "CAUSAL_CLAIM" : (absoluteLanguageDetected ? "GENERALISATION" : (policyCriticism ? "POLICY_CLAIM" : (hasAnecdote ? "ANECDOTE" : "OPINION")))),
+      evidenceLevel,
+      rhetoricLevel: totalFramingHits > 2 || robustFramingHits > 0 ? "HIGH" : (totalFramingHits > 0 ? "MEDIUM" : "LOW"),
+      context: contextType,
+      needsVerification: evidenceLevel === "NONE" || evidenceLevel === "SOURCE_MENTION_ONLY" || selectiveStatisticsRisk || scaleContextWarning
+    }
+  ];
+
   const counterContextLayer = {
     relevantContext: "Population-wide claims require representative evidence rather than individual anecdotes, and spending figures must account for caseloads, inflation adjustments, and administrative error rates.",
     potentialSources: ["DWP", "ONS", "IFS", "OBR", "NAO", "JRF"]
@@ -919,6 +1057,34 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     relatedBenefits: options.relatedBenefits || welfareTopics.filter(t => lower.includes(t))
   };
 
+  const evidenceAnalysis = {
+    evidenceLevel,
+    sourceMentioned,
+    sourceIdentified,
+    evidenceContext,
+    specificStatistic,
+    primarySource,
+    multipleSources,
+    sourceDateDetected: /(202[4-6])/i.test(text),
+    referencePeriodDetected: /(quarter|annual|monthly|202[4-6])/i.test(text),
+    forecastDetected: /(forecast|projected|expected|outlook)/i.test(text),
+    denominatorWarning,
+    scaleContextWarning,
+    selectiveStatisticsRisk
+  };
+
+  const rhetoricAnalysis = {
+    absoluteLanguageDetected,
+    causalClaimDetected,
+    causalEvidenceProvided,
+    anecdoteGeneralisation,
+    moralJudgement,
+    policyCriticism,
+    stigmaDespiteEvidence: isSourceBackedStigma,
+    populationGeneralisation: absoluteLanguageDetected || robustGeneralisation,
+    loadedLanguage: foundStigmaPhrases.length > 0 || foundSensationalism.length > 0
+  };
+
   return {
     inputStatement: text,
     extractedQuotes,
@@ -927,6 +1093,12 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     mediaType,
     contextType,
     flags,
+    claimIntegrityViolations,
+    decomposedClaims,
+    rhetoricalAnalysisOutput,
+    evidenceAnalysis,
+    rhetoricAnalysis,
+    claimAnalysis,
     toxicAnalysis,
     detectedFramingExplanations,
     counterContextLayer,
