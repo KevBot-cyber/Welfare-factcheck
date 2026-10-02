@@ -54,6 +54,10 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   // --- SCHOOL-TO-BENEFITS & WORK REQUIREMENT CLAIM DETECTION ---
   const schoolToBenefitsClaim = /(leaving school.{0,40}signing.{0,40}benefits|sign straight onto benefits|straight on benefits from school|school to welfare|school and benefits|get to work scheme|wont get welfare|won't get welfare|school leavers|going straight on the dole|drift into life on benefits)/i.test(lower);
 
+  // --- SPECIFIC ARTICLE & STATEMENT PATTERNS ---
+  const GBNEWS_BENEFITS_SPLURGE_CLAIM = lower.includes('welfare party') || (lower.includes('labour seats') && lower.includes('12billion')) || lower.includes('12 billion benefits splurge');
+  const GRADUATE_BENEFITS_CLAIM = lower.includes('fast-tracking them onto welfare') || lower.includes('graduation present') || lower.includes('advise graduates to apply for benefits');
+
   // --- REFINEMENT 1 & 2: DETAILED EVIDENCE TAXONOMY ---
   const sourceMentioned = /(dwp|ons|hmcts|stat-xplore|ifs|niesr|hansard|gov\.uk|http|https|source|journal|tribunal statistics|office for national statistics|oecd|obr|institute for fiscal studies|joseph rowntree foundation|jrf)/i.test(lower);
   const specificStatistic = /(\b\d+[\d,]*(\.\d+)?%|\b\d+(\.\d+)?\s*(million|billion|trillion|thousand)|£\s*\d+[\d,]*)/i.test(lower);
@@ -653,7 +657,33 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   // ============================================================
   // CONDITIONAL BRANCHING (PLACED BEFORE GENERAL CATCH-ALLS)
   // ============================================================
-  if (schoolToBenefitsClaim) {
+  if (GBNEWS_BENEFITS_SPLURGE_CLAIM) {
+    score = 96;
+    extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
+    flags.push(`FLAGGED GEOGRAPHIC & PARLIAMENTARY PARTISAN SCAPEGOATING: Characterises demand-led statutory benefit spending across constituencies as a partisan 'splurge' or 'Welfare Party' tactic, ignoring baseline population size, local economic demographics, and health outcomes.`);
+
+    primaryRebuttal = `DEBUNKING 'WELFARE PARTY' AND CONSTITUENCY BENFIT 'SPLURGE' CLAIMS: Allegations that social security expenditure represents a partisan 'splurge' targeted at specific parliamentary seats misrepresent statutory welfare administration. Social security entitlements—including Universal Credit, Disability Living Allowance, and PIP—are administered strictly based on individual statutory eligibility under DWP regulations, not constituency boundaries or parliamentary control. Official DWP Stat-Xplore and ONS labor market data confirm that higher benefit expenditure in specific geographic areas correlates directly with population density, local health inequalities, lower average household incomes, and industrial structural factors. Furthermore, IFS expenditure analyses show that around 40% of Universal Credit recipients across all constituencies are in active employment but require wage top-ups due to low hourly pay or part-time hours.`;
+    sourceRef = "DWP Stat-Xplore Constituency Caseload Data, ONS Regional Labour Market Statistics & IFS Welfare Analysis";
+
+    sourceLinks = [
+      { label: "DWP Stat-Xplore Constituency Statistics", url: "https://stat-xplore.dwp.gov.uk/" },
+      { label: "ONS Regional Labour Market Overview", url: "https://www.ons.gov.uk/employmentandlabourmarket" },
+      { label: "IFS TaxLab: UK Welfare & Regional Spending", url: "https://ifs.org.uk/taxlab/taxlab-data-feed/uk-welfare-spending" }
+    ];
+  } else if (GRADUATE_BENEFITS_CLAIM) {
+    score = 95;
+    extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
+    flags.push(`FLAGGED GRADUATE WELFARE RHETORIC: Mischaracterises higher education advice and statutory Universal Credit entitlement as a 'fast-track onto welfare' or 'graduation present', ignoring mandatory Jobcentre conditionality frameworks.`);
+
+    primaryRebuttal = `DEBUNKING GRADUATE WELFARE AND 'FAST-TRACK' CLAIMS: Rhetoric alleging that universities are 'fast-tracking graduates onto welfare' or treating benefits as a 'graduation present' misrepresents statutory UC rules and higher education career advisory services. University hardship funds and welfare advice services guide eligible graduates to access statutory safety-net support strictly in accordance with DWP regulations during transitions into employment or postgraduate training. Universal Credit recipients are immediately subject to full work-search conditionality under DWP guidelines, requiring up to 35 hours per week of documented job-seeking, regular work coach interviews, and mandatory participation in employment schemes. Furthermore, HESA (Higher Education Statistics Agency) official outcome figures show that the vast majority of university graduates progress directly into employment or further study.`;
+    sourceRef = "DWP Universal Credit Conditionality Guidance & HESA Graduate Outcomes Statistics";
+
+    sourceLinks = [
+      { label: "GOV.UK Universal Credit Work Search Requirements", url: "https://www.gov.uk/guidance/universal-credit-and-you" },
+      { label: "HESA Graduate Outcomes Official Data", url: "https://www.hesa.ac.uk/data-and-analysis/graduates" },
+      { label: "DWP Stat-Xplore Portal", url: "https://stat-xplore.dwp.gov.uk/" }
+    ];
+  } else if (schoolToBenefitsClaim) {
     score = Math.max(98, score + 78);
     extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
     flags.push(`HIGH BS / FACTUALLY IMPOSSIBLE CLAIM: Asserts that school leavers can go "straight on the dole" or onto benefits immediately upon leaving school, contradicting UK statutory eligibility rules and Universal Credit conditionality frameworks.`);
@@ -1056,6 +1086,8 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
       isMotabilityClaim ||
       pipFakingClaim ||
       schoolToBenefitsClaim ||
+      GBNEWS_BENEFITS_SPLURGE_CLAIM ||
+      GRADUATE_BENEFITS_CLAIM ||
       hasVoucherMention ||
       robustVoucherProposal ||
       lower.includes('easy to game') ||
