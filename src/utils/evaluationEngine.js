@@ -52,7 +52,7 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   const isIndirectOrCritical = contextType === "QUOTATION_OR_REPORTED_SPEECH" || contextType === "CRITICISM_OF_STATEMENT" || contextType === "ATTRIBUTION";
 
   // --- SCHOOL-TO-BENEFITS & WORK REQUIREMENT CLAIM DETECTION ---
-  const schoolToBenefitsClaim = /(leaving school.{0,40}signing.{0,40}benefits|sign straight onto benefits|straight on benefits from school|school to welfare|school and benefits|get to work scheme|wont get welfare|won't get welfare)/i.test(lower);
+  const schoolToBenefitsClaim = /(leaving school.{0,40}signing.{0,40}benefits|sign straight onto benefits|straight on benefits from school|school to welfare|school and benefits|get to work scheme|wont get welfare|won't get welfare|school leavers|going straight on the dole|drift into life on benefits)/i.test(lower);
 
   // --- REFINEMENT 1 & 2: DETAILED EVIDENCE TAXONOMY ---
   const sourceMentioned = /(dwp|ons|hmcts|stat-xplore|ifs|niesr|hansard|gov\.uk|http|https|source|journal|tribunal statistics|office for national statistics|oecd|obr|institute for fiscal studies|joseph rowntree foundation|jrf)/i.test(lower);
@@ -115,7 +115,7 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   const visibleActivityInference = /(was seen walking|went shopping|went on holiday|was driving|went to the pub|works|posts on social media)/i.test(lower) && /(isn’t disabled|isnt disabled|must be fraudulent|not disabled|faking)/i.test(lower);
   const workingMeansNotDisabled = /(working|in employment|has a job).{0,60}(not disabled|cannot receive pip|cant receive pip|ineligible for pip)/i.test(lower);
   const diagnosisMeansEntitlement = /(has a diagnosis|diagnosed with).{0,60}(automatically entitled|automatic pip|guaranteed pip|entitled to pip)/i.test(lower);
-  const diagnosisDismissal = /(diagnosis alone|just a diagnosis).{0,60}(doesn’t prove|doesnt prove|not enough for pip|not automatic)/i.test(lower);
+  const diagnosisDismissal = /(diagnosis alone|just a diagnosis).{0,60}(doesn’t prove|doenst prove|not enough for pip|not automatic)/i.test(lower);
 
   // --- SPECIFIC PIP FAKING & FUNCTIONAL CRITERIA DETECTION ---
   const pipFakingClaim = /(pip is easy to fake|pip can be faked|fake their disability for pip|playing the system for pip|pip assessment is a joke|pip is given out on condition alone|diagnosed so they get pip|faking illness for pip|easy to play pip)/i.test(lower) || (lower.includes('pip') && (lower.includes('fake') || lower.includes('faking') || lower.includes('play') || lower.includes('gaming')) && !hasCriticalVerbs);
@@ -600,20 +600,71 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     robustFraud ||
     robustEconomicScapegoating;
 
-  // --- SOURCE-BACKED STIGMA ADJUSTMENT (MIXED MEDIUM CASE) ---
-  const isSourceBackedStigma = (evidenceLevel === 'SPECIFIC_STATISTIC' || evidenceLevel === 'PRIMARY_SOURCE' || evidenceLevel === 'MULTIPLE_SOURCES') && (totalFramingHits > 0 || robustFramingHits > 0 || moralJudgement);
+  // — EVIDENCE VS RHETORIC BALANCE —
+  const hasCredibleEvidence =
+    evidenceLevel === "PRIMARY_SOURCE" ||
+    evidenceLevel === "MULTIPLE_SOURCES" ||
+    evidenceLevel === "ATTRIBUTED_CLAIM" ||
+    (evidenceLevel === "SPECIFIC_STATISTIC" && sourceMentioned) ||
+    sourceMentioned;
 
+  const hasMeaningfulRhetoric =
+    totalFramingHits > 0 ||
+    robustFramingHits > 0 ||
+    foundStigmaPhrases.length > 0 ||
+    foundGeneralisation.length > 0 ||
+    foundFraudAssoc.length > 0 ||
+    foundShockingCase.length > 0 ||
+    foundLoadedHeadline.length > 0 ||
+    foundAppearancePolicing.length > 0 ||
+    foundTheyCanWork.length > 0 ||
+    foundLifestyle.length > 0 ||
+    foundBenefitChoice.length > 0 ||
+    foundDehumanising.length > 0 ||
+    foundMoralPanic.length > 0 ||
+    foundOthering.length > 0 ||
+    foundEntitlement.length > 0 ||
+    foundAssessmentMockery.length > 0 ||
+    foundMaximisation.length > 0 ||
+    foundAusterity.length > 0 ||
+    highRiskRhetoric;
+
+  const hasSevereClaimIntegrityProblem =
+    hasFraudAmountToClaimantPercentage ||
+    conflatesFraudAndErrors ||
+    missingDenominator ||
+    unsourcedStatistic ||
+    visibleActivityInference ||
+    workingMeansNotDisabled ||
+    diagnosisMeansEntitlement;
+
+  const isSourceBackedStigma =
+    hasCredibleEvidence &&
+    hasMeaningfulRhetoric;
+
+  const isMixedEvidenceCase =
+    isSourceBackedStigma &&
+    !hasSevereClaimIntegrityProblem &&
+    !policyCriticism;
+
+  // Check specifically if statement contains official source-backed figures / data accompanied by anti-welfare rhetoric
+  const hasOfficialSourceWithAntiWelfareRhetoric = (hasCredibleEvidence || sourceMentioned) && !policyCriticism;
+
+  // ============================================================
+  // CONDITIONAL BRANCHING (PLACED BEFORE GENERAL CATCH-ALLS)
+  // ============================================================
   if (schoolToBenefitsClaim) {
-    score = Math.max(94, score + 74);
+    score = Math.max(98, score + 78);
     extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
-    flags.push(`FLAGGED MISLEADING SCHOOL-TO-BENEFITS CLAIM: Mischaracterises the UK welfare system by suggesting individuals can leave school and immediately sign onto unconditional benefits without active work-search mandates or rigorous statutory requirements.`);
+    flags.push(`HIGH BS / FACTUALLY IMPOSSIBLE CLAIM: Asserts that school leavers can go "straight on the dole" or onto benefits immediately upon leaving school, contradicting UK statutory eligibility rules and Universal Credit conditionality frameworks.`);
 
-    primaryRebuttal = `DEBUNKING SCHOOL-TO-BENEFITS MYTHS: Claims that individuals can simply leave school and go straight onto unconditional out-of-work benefits are factually incorrect under UK social security law. Access to working-age benefits (such as Jobseeker's Allowance or Universal Credit) is subject to strict eligibility rules, mandatory work-search commitments, regular meetings with work coaches, and robust conditionality requirements. Claimants face heavy administrative requirements and mandatory sanctions if they fail to look for work or comply with work-preparation schemes without a valid reason.`;
-    sourceRef = "DWP Universal Credit & JSA Conditionality Regulations (GOV.UK)";
+    primaryRebuttal = `DEBUNKING SCHOOL-LEAVER BENEFIT MYTHS: Claims that young people can leave school and go "straight on the dole" or immediately receive out-of-work benefits are factually impossible under statutory UK welfare rules (GOV.UK). Under UK law, 16- and 17-year-olds are legally required to remain in education, an apprenticeship, or training, and are strictly ineligible for Universal Credit except under rare, specific statutory exceptions (e.g. severe disability, being a parent, or being estranged without parental support). Furthermore, standard Universal Credit entitlement begins at age 18, at which point claimants are legally bound by stringent Jobcentre guidelines. Claimants must sign a Claimant Commitment requiring up to 35 hours per week of active job-seeking, mandatory work coach meetings, and compliance with work-preparation schemes; failure to comply results in heavy financial sanctions.`;
+    sourceRef = "GOV.UK Universal Credit Rules for 16-17 Year Olds, UC Conditionality & Sanctions Framework";
 
     sourceLinks = [
-      { label: "GOV.UK Universal Credit Conditionality & Sanctions", url: "https://www.gov.uk/guidance/universal-credit-and-you" },
-      { label: "DWP Jobseeker's Allowance Rules", url: "https://www.gov.uk/jobseekers-allowance" }
+      { label: "GOV.UK Universal Credit Eligibility & Age Rules", url: "https://www.gov.uk/universal-credit/eligibility" },
+      { label: "GOV.UK Universal Credit for 16 and 17 year olds", url: "https://www.gov.uk/universal-credit/16-17" },
+      { label: "GOV.UK Universal Credit Conditionality & Sanctions Guidance", url: "https://www.gov.uk/guidance/universal-credit-and-you" }
     ];
   } else if (pipFakingClaim) {
     score = Math.max(95, score + 75);
@@ -658,6 +709,17 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     sourceRef = "DWP Benefit Fraud and Error Statistics";
     sourceLinks = [
       { label: "DWP Benefit fraud and error official statistics", url: "https://www.gov.uk/government/collections/benefit-fraud-and-error-statistics" }
+    ];
+  } else if ((hasOfficialSourceWithAntiWelfareRhetoric || isSourceBackedStigma) && !isIndirectOrCritical) {
+    // --- PRIORITIZED MIXED EVIDENCE CHECK TO ENSURE MEDIUM SCORE OUTPUT ---
+    score = 68;
+    extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
+    flags.push(`OFFICIAL SOURCE WITH ANTI-WELFARE RHETORIC / MIXED EVIDENCE: Contains documented official/statistical figures combined with anti-welfare or stigmatising narrative framing.`);
+    primaryRebuttal = `FACTUAL COMPONENT: Uses documented official statistics or figures. RHETORICAL COMPONENT: Accompanied by anti-welfare rhetoric, economic scapegoating, or hostile inference. Classified as medium risk (contested/misleading framing).`;
+    sourceRef = "Official Data Source with Anti-Welfare Rhetorical Overlay";
+    sourceLinks = [
+      { label: "DWP / ONS Official Data Portal", url: "https://stat-xplore.dwp.gov.uk/" },
+      { label: "IFS Welfare Analysis", url: "https://ifs.org.uk/" }
     ];
   } else if (isPoliticalWelfareClaim && !isIndirectOrCritical) {
     if (highRiskRhetoric && !isIndirectOrCritical) {
@@ -757,15 +819,15 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     sourceRef = "DWP Carer's Allowance Guidance, Office for Budget Responsibility (OBR) Welfare Trends Report";
 
     sourceLinks = [
-      { label: "GOV.UK Carer's Allowance Overview", url: "https://www.gov.uk/carers-allowance" },
+      { label: "GOV.UK Carer's Allowance Guidance", url: "https://www.gov.uk/carers-allowance" },
       { label: "Office for Budget Responsibility Welfare Trends", url: "https://obr.uk/" }
     ];
-  } else if (isSourceBackedStigma && !isIndirectOrCritical) {
-    score = 65;
+  } else if (sourceMentioned || hasCredibleEvidence) {
+    score = 68;
     extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
-    flags.push(`SOURCE-BACKED MISLEADING FRAMING (MIXED CASE): Contains a documented factual/statistical component combined with unsupported hostile inference, generalisation, or loaded framing.`);
-    primaryRebuttal = `FACTUAL COMPONENT: Possible documented statistical spending or administrative figure. RHETORICAL COMPONENT: Economic scapegoating, sweeping generalisation, or unsupported hostile inference. Overall classified as contested or misleading framing rather than entirely unsupported.`;
-    sourceRef = "Official Data Source with Unsupported Rhetorical Overlay";
+    flags.push(`OFFICIAL SOURCE WITH ANTI-WELFARE RHETORIC / MIXED EVIDENCE: Contains documented official/statistical figures combined with anti-welfare or stigmatising narrative framing.`);
+    primaryRebuttal = `FACTUAL COMPONENT: Uses documented official statistics or figures. RHETORICAL COMPONENT: Accompanied by anti-welfare rhetoric, economic scapegoating, or hostile inference. Classified as medium risk (contested/misleading framing).`;
+    sourceRef = "Official Data Source with Anti-Welfare Rhetorical Overlay";
     sourceLinks = [
       { label: "DWP / ONS Official Data Portal", url: "https://stat-xplore.dwp.gov.uk/" },
       { label: "IFS Welfare Analysis", url: "https://ifs.org.uk/" }
@@ -819,7 +881,13 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
 
   const hasEconomicGdpClaim = economicSpirallingPhrases.some(phrase => lower.includes(phrase));
 
-  if (hasEconomicGdpClaim && (!containsCitation || score > 50) && !isIndirectOrCritical) {
+  if (
+    hasEconomicGdpClaim &&
+    (!hasCredibleEvidence || score > 50) &&
+    !isIndirectOrCritical &&
+    !isMixedEvidenceCase &&
+    !hasOfficialSourceWithAntiWelfareRhetoric
+  ) {
     score = Math.max(82, score + 35);
     if (!extractedQuotes.some(q => q.toLowerCase().includes('gdp') || q.toLowerCase().includes('spiralling'))) {
       extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
@@ -843,7 +911,7 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   const incentivePhrases = ["incentive", "no reason to work", "better off on benefits", "work doesn't pay", "don't have any incentive"];
   const hasIncentiveClaim = incentivePhrases.some(phrase => lower.includes(phrase));
 
-  if (hasIncentiveClaim && !containsCitation && !isIndirectOrCritical) {
+  if (hasIncentiveClaim && !hasCredibleEvidence && !isIndirectOrCritical && !isMixedEvidenceCase) {
     score = Math.max(78, score + 30);
     extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
     flags.push(`UNSUBSTANTIATED WORK INCENTIVE CLAIM: Evaluates assertions alleging a total lack of work incentive or being 'better off on benefits' without backing data.`);
@@ -903,7 +971,9 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
 
   if (!primaryRebuttal) {
     if (!isIndirectOrCritical && (totalFramingHits > 0 || robustFramingHits > 0)) {
-      score = 92;
+      score = (isMixedEvidenceCase || hasOfficialSourceWithAntiWelfareRhetoric)
+        ? 68
+        : 92;
       primaryRebuttal = `ANALYSIS OF STATEMENT: Unverified negative or subjective assertion regarding welfare support taxonomy. Statutory benefits are assessed strictly on eligibility criteria, functional ability, and verified evidentiary standards requiring medical and administrative proof. Official figures from the IFS and OBR show that total welfare spend as a percentage of GDP has remained relatively unchanged for decades and is actually lower than the peak of 2008.`;
       sourceRef = "DWP Assessment Guides, IFS TaxLab & HMCTS Tribunal Statistics";
       
@@ -931,15 +1001,77 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     ];
   }
 
+  // Define isStrongUnsupportedRhetoric definition fix
+  const isStrongUnsupportedRhetoric = totalFramingHits > 3 || robustFramingHits > 0 || highRiskRhetoric;
+
+  if (hasOfficialSourceWithAntiWelfareRhetoric || isSourceBackedStigma) {
+    score = Math.max(60, Math.min(79, score));
+    flags.push(
+      "OFFICIAL SOURCE WITH ANTI-WELFARE RHETORIC: The text contains verifiable official figures or data, but is accompanied by anti-welfare rhetoric or loaded framing. Scored as Medium."
+    );
+  } else if (isStrongUnsupportedRhetoric && !hasSevereClaimIntegrityProblem) {
+    score = Math.max(80, score);
+  }
+
+  // ============================================================
+  // FINAL EVIDENCE / RHETORIC BALANCE OVERRIDE
+  // ============================================================
+  const finalOfficialEvidenceRhetoric =
+    hasCredibleEvidence &&
+    hasMeaningfulRhetoric &&
+    !policyCriticism;
+
+  const finalSevereMisinformation =
+    hasFraudAmountToClaimantPercentage ||
+    conflatesFraudAndErrors ||
+    visibleActivityInference ||
+    workingMeansNotDisabled ||
+    diagnosisMeansEntitlement;
+
+  if (
+    finalOfficialEvidenceRhetoric &&
+    !finalSevereMisinformation
+  ) {
+    score = Math.min(79, Math.max(60, score));
+
+    flags.push(
+      "EVIDENCE / RHETORIC SEPARATION: The statement contains identifiable official or statistical evidence, but that evidence is accompanied by anti-welfare, stigmatising, generalising, sensationalist or hostile framing. The presence of genuine statistics does not validate the rhetorical conclusion drawn from them."
+    );
+
+    flags.push(
+      "MEDIUM BS CLASSIFICATION: Official evidence is recognised as factual content, while the accompanying welfare/disability rhetoric is assessed separately."
+    );
+  }
+
   const finalScore = Math.min(100, Math.max(12, score));
   
   let finalVerdict = "Low BS / Mostly Factual";
+
   if (finalScore >= 80) {
-    finalVerdict = (totalFramingHits > 0 || robustFramingHits > 0 || (mentionsWelfare && hasNegativeTone) || isMotabilityClaim || pipFakingClaim || schoolToBenefitsClaim || hasVoucherMention || robustVoucherProposal || lower.includes('easy to game') || foundLifestyle.length > 0 || foundBenefitChoice.length > 0 || isPoliticalWelfareClaim || isWorkPayComparisonClaim || isChildCapClaim || containsFraudTerm)
-      ? "HIGH BS / STIGMATISING RHETORIC OR FLAWED FRAMING"
-      : "High Misleading Risk / False Claim";
-  } else if (finalScore >= 60 || isSourceBackedStigma) {
+    finalVerdict =
+    (
+      totalFramingHits > 0 ||
+      robustFramingHits > 0 ||
+      (mentionsWelfare && hasNegativeTone) ||
+      isMotabilityClaim ||
+      pipFakingClaim ||
+      schoolToBenefitsClaim ||
+      hasVoucherMention ||
+      robustVoucherProposal ||
+      lower.includes('easy to game') ||
+      foundLifestyle.length > 0 ||
+      foundBenefitChoice.length > 0 ||
+      isPoliticalWelfareClaim ||
+      isWorkPayComparisonClaim ||
+      isChildCapClaim ||
+      containsFraudTerm
+    )
+    ? "HIGH BS / STIGMATISING RHETORIC OR FLAWED FRAMING"
+    : "High Misleading Risk / False Claim";
+
+  } else if (finalScore >= 60) {
     finalVerdict = "MEDIUM / Contested or Misleading Framing";
+
   } else if (finalScore >= 50) {
     finalVerdict = "Moderate Bias / Unsubstantiated Assertion";
   }
