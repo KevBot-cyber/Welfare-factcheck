@@ -54,6 +54,9 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   // --- SCHOOL-TO-BENEFITS & WORK REQUIREMENT CLAIM DETECTION ---
   const schoolToBenefitsClaim = /(leaving school.{0,40}signing.{0,40}benefits|sign straight onto benefits|straight on benefits from school|school to welfare|school and benefits|get to work scheme|wont get welfare|won't get welfare|school leavers|going straight on the dole|drift into life on benefits)/i.test(lower);
 
+  // --- SICK NOTE / FIT NOTE 11 MILLION CLAIM DETECTION ---
+  const sickNoteClaim = /(11 million|eleven million).{0,60}(sick note|fit note|signed off|GPs|doctors)/i.test(lower) || lower.includes('sick note system') || lower.includes('signed off 11 million');
+
   // --- SPECIFIC ARTICLE & STATEMENT PATTERNS ---
   const GBNEWS_BENEFITS_SPLURGE_CLAIM = lower.includes('welfare party') || (lower.includes('labour seats') && lower.includes('12billion')) || lower.includes('12 billion benefits splurge');
   const GRADUATE_BENEFITS_CLAIM = lower.includes('fast-tracking them onto welfare') || lower.includes('graduation present') || lower.includes('advise graduates to apply for benefits');
@@ -63,7 +66,7 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   const specificStatistic = /(\b\d+[\d,]*(\.\d+)?%|\b\d+(\.\d+)?\s*(million|billion|trillion|thousand)|£\s*\d+[\d,]*)/i.test(lower);
   const evidenceContext = sourceMentioned && (specificStatistic || /(data|figures|statistics|report|study|survey|table|published|according to|released by)/i.test(lower));
   const primarySource = /(official figures|department for work and pensions figures|ons data|obr forecast|stat-xplore)/i.test(lower);
-  const multipleSources = (lower.match(/(dwp|ons|obr|ifs|oecd|hmrc|jrf)/gi) || []).length >= 2;
+  const multipleSources = (lower.match(/(dwp|ons|obr|ifs|hmrc|jrf)/gi) || []).length >= 2;
 
   let evidenceLevel = "NONE";
   let evidenceCredibilityModifier = 0;
@@ -657,7 +660,20 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   // ============================================================
   // CONDITIONAL BRANCHING (PLACED BEFORE GENERAL CATCH-ALLS)
   // ============================================================
-  if (GBNEWS_BENEFITS_SPLURGE_CLAIM) {
+  if (sickNoteClaim) {
+    score = Math.max(92, score + 70);
+    extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
+    flags.push(`FLAGGED SICK NOTE / FIT NOTE VOLUME CLAIM: Cites the 11 million sick note figure without context regarding underlying socioeconomic drivers, poor health, poverty, NHS waiting lists, or lack of in-work occupational health support.`);
+
+    primaryRebuttal = `DEBUNKING THE 11 MILLION SICK NOTE NARRATIVE: While 11 million fit notes are issued annually, attributing this entirely to a 'broken sick note system' or GPs 'gatekeeping' ignores the structural and systemic drivers behind rising sickness absence. The surge is driven by deteriorating public health, widening socioeconomic inequalities and poverty, extensive NHS waiting lists (where patients are unable to work while waiting for treatment), and a severe lack of in-work occupational health support and workplace adjustments. GPs do not wish to act as administrative gatekeepers, but they are issuing fit notes for patients genuinely struggling with physical and mental health conditions exacerbated by delayed healthcare access and inflexible workplace environments.`;
+    sourceRef = "ONS Sickness Absence in the UK Labour Market, NHS Waiting List Statistics & Health Foundation Research";
+
+    sourceLinks = [
+      { label: "ONS Sickness Absence in the UK Labour Market", url: "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/bulletins/sicknessabsenceinthelabourmarket/latest" },
+      { label: "Health Foundation Work and Health Analysis", url: "https://www.health.org.uk/" },
+      { label: "NHS Consultant-led Referral to Treatment Waiting Times", url: "https://www.england.nhs.uk/statistics/statistical-work-areas/rtt-waiting-times/" }
+    ];
+  } else if (GBNEWS_BENEFITS_SPLURGE_CLAIM) {
     score = 96;
     extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
     flags.push(`FLAGGED GEOGRAPHIC & PARLIAMENTARY PARTISAN SCAPEGOATING: Characterises demand-led statutory benefit spending across constituencies as a partisan 'splurge' or 'Welfare Party' tactic, ignoring baseline population size, local economic demographics, and health outcomes.`);
@@ -1086,6 +1102,7 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
       isMotabilityClaim ||
       pipFakingClaim ||
       schoolToBenefitsClaim ||
+      sickNoteClaim ||
       GBNEWS_BENEFITS_SPLURGE_CLAIM ||
       GRADUATE_BENEFITS_CLAIM ||
       hasVoucherMention ||
