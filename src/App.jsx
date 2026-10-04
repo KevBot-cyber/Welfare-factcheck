@@ -8,6 +8,7 @@ import {
   HeartHandshake, Coins, LineChart, Phone, Globe, Quote, Landmark, ShoppingCart, Stethoscope, FileSpreadsheet
 } from 'lucide-react';
 import html2canvas from 'html2canvas';
+import { GoogleGenAI } from '@google/genai';
 
 import { SPENDING_LINKS, SPENDING_BREAKDOWN_2025_26, CONTRIBUTORY_DEBUNK_DATA, BENEFIT_RATES_2026_2027 } from './constants/spendingData';
 import { getDynamicLeaderboardData } from './constants/leaderboardData';
@@ -18,6 +19,9 @@ import { MACROECONOMIC_METRICS, MACROECONOMIC_SUMMARIES } from './constants/econ
 import { KNOW_YOUR_RIGHTS_CONTENT } from './constants/knowyourrights';
 import LegalAndStandards from './constants/legalandstandards';
 import MPBriefingModule from './constants/mpBriefingModule';
+
+// Initialize the Google GenAI client
+const ai = new GoogleGenAI({ apiKey: (typeof process !== 'undefined' && process.env?.GEMINI_API_KEY) || (import.meta && import.meta.env?.VITE_GEMINI_API_KEY) || '' });
 
 // Helper to format keys like "DailyLivingStandard" to "Daily Living Standard"
 const formatCamelCase = (str) => {
@@ -93,14 +97,14 @@ const formatRateLines = (data, depth = 0) => {
     Object.entries(data).forEach(([key, val]) => {
       const formattedKey = formatCamelCase(key);
       if (typeof val === 'object' && val !== null) {
-        lines.push(`${indent}&bull; ${formattedKey}:`);
+        lines.push(`${indent}• ${formattedKey}:`);
         lines.push(...formatRateLines(val, depth + 1));
       } else {
-        lines.push(`${indent}&bull; ${formattedKey}: ${formatCurrencyVal(val)}`);
+        lines.push(`${indent}• ${formattedKey}: ${formatCurrencyVal(val)}`);
       }
     });
   } else {
-    lines.push(`${indent}&bull; Rate: ${formatCurrencyVal(data)}`);
+    lines.push(`${indent}• Rate: ${formatCurrencyVal(data)}`);
   }
   return lines;
 };
@@ -331,17 +335,56 @@ export default function App() {
     return () => clearInterval(interval);
   }, [isFeedLive]);
 
-  const handleAnalyzeText = () => {
+  const handleAnalyzeText = async () => {
     if (!analyzerInput.trim()) return;
     setAnalyzing(true);
     setAnalysisResult(null);
-    setTimeout(() => {
+    try {
+      let localResult = null;
       if (typeof evaluatePipAndFinancialClaims === 'function') {
-        const result = evaluatePipAndFinancialClaims(analyzerInput);
-        setAnalysisResult(result);
+        localResult = await evaluatePipAndFinancialClaims(analyzerInput);
       }
+
+      const prompt = `Analyze the following statement regarding UK welfare/benefits (such as PIP, Universal Credit, DLA):
+"${analyzerInput}"
+
+Primary local evaluation context:
+${JSON.stringify(localResult)}
+
+Please return a JSON object with:
+- "verdict": A brief rating label (e.g., "Highly Misleading", "Partially Inaccurate", "Factually Verified")
+- "score": A BS/misinformation percentage score from 0 to 100
+- "primaryRebuttal": A concise statement-tailored rebuttal based on DWP, ONS, or official UK statutory data
+- "sourceRef": Primary citation or official reference string
+- "flags": An array of specific misleading points or rhetorical issues found in the statement`;
+
+      const response = await ai.models.generateContent({
+        model: 'gemini-3.8-flash',
+        contents: prompt,
+        config: {
+          responseMimeType: 'application/json'
+        }
+      });
+
+      if (response && response.text) {
+        const parsed = JSON.parse(response.text);
+        setAnalysisResult(parsed);
+      } else if (localResult) {
+        setAnalysisResult(localResult);
+      }
+    } catch (e) {
+      console.error("Evaluation error:", e);
+      if (typeof evaluatePipAndFinancialClaims === 'function') {
+        try {
+          const fallback = await evaluatePipAndFinancialClaims(analyzerInput);
+          setAnalysisResult(fallback);
+        } catch (err) {
+          console.error("Fallback error:", err);
+        }
+      }
+    } finally {
       setAnalyzing(false);
-    }, 400);
+    }
   };
 
   const spendingItems = useMemo(() => {
@@ -615,7 +658,7 @@ export default function App() {
                             </button>
                           </div>
                           <p className="text-slate-200 italic">&ldquo;{figure.claimsHistory[0].quote}&rdquo;</p>
-                          <p className="text-teal-400 font-medium pt-1 flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Fact: {figure.claimsHistory[0].factCheck}</p>
+                          <p className="text-teal-400 font-medium pt-1">&check; Fact: {figure.claimsHistory[0].factCheck}</p>
                         </div>
                       )}
 
@@ -631,7 +674,7 @@ export default function App() {
                               })}
                               className="text-xs bg-teal-500/20 text-teal-300 px-2.5 py-1 rounded-lg border border-teal-500/30 hover:bg-teal-500/30 flex items-center gap-1 font-semibold"
                             >
-                              <FileText className="w-3.5 h-3.5" /> Full Deep-Dive & Datasets
+                              <FileText className="w-3.5 h-3.5" /> Full Deep-Dive &amp; Datasets
                             </button>
                           </div>
                           <div className="space-y-2">
@@ -655,7 +698,7 @@ export default function App() {
                                   </div>
                                 </div>
                                 <p className="text-slate-200 italic">&ldquo;{claim.quote}&rdquo;</p>
-                                <p className="text-teal-400 font-medium flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Fact: {claim.factCheck}</p>
+                                <p className="text-teal-400 font-medium">&check; Fact: {claim.factCheck}</p>
                               </div>
                             ))}
                           </div>
@@ -680,9 +723,9 @@ export default function App() {
             <div className="p-6 rounded-2xl border border-purple-800/40 bg-slate-900/80 space-y-3">
               <div className="flex items-center gap-2 text-purple-400 text-xs font-bold uppercase tracking-wider">
                 <Zap className="w-4 h-4" />
-                <span>Automated Fact-Checker Engine</span>
+                <span>Automated Fact-Checker Engine • Powered by Gemini AI</span>
               </div>
-              <h2 className="text-2xl font-black text-slate-100">BS Meter & Analyzer</h2>
+              <h2 className="text-2xl font-black text-slate-100">BS Meter & Statement Evaluator</h2>
               <p className="text-sm text-slate-300">
                 Paste any headline, MP quote, social media post, or news article text below to verify it against official DWP, ONS, and HMCTS primary datasets.
               </p>
@@ -768,7 +811,7 @@ export default function App() {
                   <div className="space-y-2">
                     <h4 className="text-xs font-bold text-amber-400 uppercase flex items-center gap-1.5">
                       <AlertTriangle className="w-4 h-4 text-amber-400" />
-                      <span>TAILORED BREAKDOWN OF STATEMENTS & MISLEADING RHETORIC</span>
+                      <span>TAILORED BREAKDOWN OF STATEMENTS &amp; MISLEADING RHETORIC</span>
                     </h4>
                     {analysisResult.flags.map((flag, i) => (
                       <div key={i} className="p-3 bg-slate-950 rounded-xl border border-slate-800 text-xs text-slate-300 flex items-start gap-2">
@@ -788,7 +831,7 @@ export default function App() {
           <div className="space-y-6">
             <div className="p-6 rounded-2xl border border-purple-800/40 bg-slate-900/85 flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="space-y-2">
-                <h2 className="text-2xl font-black text-slate-100">Welfare & Social Protection Breakdown (2025/26)</h2>
+                <h2 className="text-2xl font-black text-slate-100">Welfare &amp; Social Protection Breakdown (2025/26)</h2>
                 <p className="text-xs text-slate-400 font-medium">
                   Total UK Welfare Budget: ~£{totalSpendingBN.toFixed(1)} Billion (HM Treasury / DWP / OBR Data)
                 </p>
@@ -801,7 +844,7 @@ export default function App() {
                 })}
                 className="px-4 py-2 bg-teal-500/20 hover:bg-teal-500/30 text-teal-300 border border-teal-500/30 rounded-xl text-xs font-bold flex items-center gap-2 transition shrink-0"
               >
-                <FileSpreadsheet className="w-4 h-4" /> Open Dataset & CSV Export
+                <FileSpreadsheet className="w-4 h-4" /> Open Dataset &amp; CSV Export
               </button>
             </div>
 
@@ -853,7 +896,7 @@ export default function App() {
                   {Object.entries(CONTRIBUTORY_DEBUNK_DATA || {}).map(([key, item]) => (
                     <div key={key} className="p-3 bg-slate-950 rounded-xl space-y-1 border border-slate-800/60">
                       <p className="font-bold text-amber-400">Myth: {item.claim || item.myth}</p>
-                      <p className="text-slate-300 flex items-start gap-1"><Check className="w-3.5 h-3.5 text-teal-400 shrink-0 mt-0.5" /> <span>Fact: {item.reality || item.fact}</span></p>
+                      <p className="text-slate-300">Fact: {item.reality || item.fact}</p>
                     </div>
                   ))}
                 </div>
@@ -1645,8 +1688,8 @@ export default function App() {
                 </div>
               )}
               {shareCardModalData.fact && (
-                <div className="p-3 rounded-lg text-xs font-medium flex items-start gap-1.5" style={{ backgroundColor: '#0f172a', borderLeft: '4px solid #2dd4bf', color: '#2dd4bf' }}>
-                  <Check className="w-4 h-4 shrink-0 mt-0.5" /> <span>Fact: {shareCardModalData.fact}</span>
+                <div className="p-3 rounded-lg text-xs font-medium" style={{ backgroundColor: '#0f172a', borderLeft: '4px solid #2dd4bf', color: '#2dd4bf' }}>
+                  &check; Fact: {shareCardModalData.fact}
                 </div>
               )}
               <div className="flex items-center justify-between text-[10px] pt-2" style={{ borderTop: '1px solid rgba(124, 58, 237, 0.3)', color: '#94a3b8' }}>
@@ -1724,7 +1767,7 @@ export default function App() {
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <div className="flex items-center gap-2 text-teal-400 font-bold text-xs uppercase tracking-wider">
                 <FileText className="w-4 h-4 text-teal-400" />
-                <span>Deep-Dive Audit & Open Dataset Export</span>
+                <span>Deep-Dive Audit &amp; Open Dataset Export</span>
               </div>
               <button
                 onClick={() => setDeepDiveModalData(null)}
@@ -1747,7 +1790,7 @@ export default function App() {
                     <span className="text-teal-400 font-semibold">{item.category || 'Audit Trail'}</span>
                   </div>
                   {item.quote && <p className="text-slate-200 italic">&ldquo;{item.quote}&rdquo;</p>}
-                  {item.factCheck && <p className="text-teal-300 font-medium flex items-center gap-1"><Check className="w-3.5 h-3.5" /> <span>{item.factCheck}</span></p>}
+                  {item.factCheck && <p className="text-teal-300 font-medium">&check; {item.factCheck}</p>}
                 </div>
               ))}
             </div>
