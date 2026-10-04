@@ -15,6 +15,45 @@ const fuzzyMatchAny = (textLower, phrases) => {
   });
 };
 
+/**
+ * Calls the Gemini API to obtain external analysis or verification context for a claim.
+ * @param {string} statement - The claim or text to analyze.
+ * @param {string} apiKey - The Gemini API Key.
+ * @returns {Promise<Object>} Response object containing Gemini API evaluation details.
+ */
+export const evaluateWithGemini = async (statement, apiKey = process.env.GEMINI_API_KEY) => {
+  if (!apiKey) {
+    throw new Error("Gemini API key is required.");
+  }
+
+  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        contents: [{
+          parts: [{
+            text: `Analyze the following UK welfare/disability claim for factual accuracy, statistical integrity, and rhetorical framing:\n\n"${statement}"`
+          }]
+        }]
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Gemini API Error: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    return evaluatePipAndFinancialClaims(statement);
+  }
+};
+
 export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   const text = rawInput.trim();
   const lower = text.toLowerCase();
