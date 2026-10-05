@@ -15,83 +15,6 @@ const fuzzyMatchAny = (textLower, phrases) => {
   });
 };
 
-/**
- * Calls the Gemini API to obtain external analysis or verification context for a claim.
- * @param {string} statement - The claim or text to analyze.
- * @param {string} apiKey - The Gemini API Key.
- * @returns {Promise<Object>} Response object containing Gemini API evaluation details.
- */
-export const evaluateWithGemini = async (statement, apiKey = process.env.GEMINI_API_KEY) => {
-  if (!apiKey) {
-    return evaluatePipAndFinancialClaims(statement);
-  }
-
-  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-
-  const systemInstructionText = `You are an expert analyst in UK social security, welfare economics, disability rights, and statutory DWP/ONS policy frameworks. Your primary objective is to evaluate statements, claims, quotes, or articles for factual accuracy, statistical integrity, and rhetorical framing, while actively protecting disabled people and welfare claimants from political scapegoating, toxic narratives, anti-welfare rhetoric, and stigmatising tropes.
-
-When analyzing input:
-1. Evaluate statistical claims, expenditure metrics, and eligibility rules using verified UK sources (e.g., DWP Stat-Xplore, ONS, IFS, OBR, NAO, JRF, and statutory regulations).
-2. Identify and challenge dehumanising language, derogatory insults, sweeping generalisations, and ungrounded anti-welfare tropes (e.g., framing benefit access as a "lifestyle choice" or "easy money").
-3. Contextualise claims by providing essential structural facts (e.g., 40% of Universal Credit claimants are in employment; PIP evaluates functional impairment rather than diagnosis; social protection spending as a % of GDP has remained stable at ~10-11% for decades).
-4. Maintain an objective, authoritative, and human-rights-protective stance against hostility, political weaponisation, and social security scapegoating.
-
-Return your evaluation as a valid JSON object matching this schema:
-{
-  "score": <number between 12 and 100 representing misleading/stigmatising risk>,
-  "verdict": "<string verdict e.g. HIGH BS / STIGMATISING RHETORIC OR FLAWED FRAMING, MEDIUM / Contested or Misleading Framing, or Low BS / Mostly Factual>",
-  "flags": ["<string flag 1>", "<string flag 2>"],
-  "primaryRebuttal": "<detailed expert rebuttal defending disabled people and claimants with verified facts>",
-  "sourceRef": "<verified sources, e.g. DWP Stat-Xplore, ONS, IFS>",
-  "sourceLinks": [{"label": "<source name>", "url": "<url>"}]
-}`;
-
-  try {
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        system_instruction: {
-          parts: [{ text: systemInstructionText }]
-        },
-        contents: [{
-          parts: [{ text: statement }]
-        }],
-        generationConfig: {
-          response_mime_type: "application/json"
-        }
-      })
-    });
-
-    if (!response.ok) {
-      throw new Error(`Gemini API Error: ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    const candidateText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!candidateText) {
-      return evaluatePipAndFinancialClaims(statement);
-    }
-
-    const parsed = JSON.parse(candidateText);
-    const baseEvaluation = evaluatePipAndFinancialClaims(statement);
-
-    return {
-      ...baseEvaluation,
-      score: parsed.score ?? baseEvaluation.score,
-      verdict: parsed.verdict ?? baseEvaluation.verdict,
-      flags: parsed.flags ?? baseEvaluation.flags,
-      primaryRebuttal: parsed.primaryRebuttal ?? baseEvaluation.primaryRebuttal,
-      sourceRef: parsed.sourceRef ?? baseEvaluation.sourceRef,
-      sourceLinks: parsed.sourceLinks ?? baseEvaluation.sourceLinks
-    };
-  } catch (error) {
-    return evaluatePipAndFinancialClaims(statement);
-  }
-};
-
 export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   const text = rawInput.trim();
   const lower = text.toLowerCase();
@@ -137,11 +60,6 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   // --- SPECIFIC ARTICLE & STATEMENT PATTERNS ---
   const GBNEWS_BENEFITS_SPLURGE_CLAIM = lower.includes('welfare party') || (lower.includes('labour seats') && lower.includes('12billion')) || lower.includes('12 billion benefits splurge');
   const GRADUATE_BENEFITS_CLAIM = lower.includes('fast-tracking them onto welfare') || lower.includes('graduation present') || lower.includes('advise graduates to apply for benefits');
-
-  // --- HYGIENE & WASHING STIGMA CLAIM DETECTION ---
-  const hygieneStigmaClaim = /(stink|stinks|smell|smelly|don’t wash|dont wash|never wash|unwashed|dirty|filthy|hygiene).{0,60}(claimant|claimants|benefits|welfare|disabled|pip)/i.test(lower) ||
-    /(claimant|claimants|benefits|welfare|disabled|pip).{0,60}(stink|stinks|smell|smelly|don’t wash|dont wash|never wash|unwashed|dirty|filthy)/i.test(lower) ||
-    lower.includes('benefit claimants stink') || lower.includes('people on benefits don\'t wash') || lower.includes('disabled people smell');
 
   // --- REFINEMENT 1 & 2: DETAILED EVIDENCE TAXONOMY ---
   const sourceMentioned = /(dwp|ons|hmcts|stat-xplore|ifs|niesr|hansard|gov\.uk|http|https|source|journal|tribunal statistics|office for national statistics|oecd|obr|institute for fiscal studies|joseph rowntree foundation|jrf)/i.test(lower);
@@ -236,11 +154,6 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   const moralJudgement = /(claimants are lazy|people on benefits are parasites|disabled people are exploiting|free lifestyle|scrounger|shirker)/i.test(lower);
 
   // 1. EXPANDED NARRATIVE TAXONOMY & FAMILIES
-  const hygieneStigmaPhrases = [
-    'stink', 'stinks', 'smell', 'smelly', 'don’t wash', 'dont wash', 'never wash', 'unwashed', 'dirty', 'filthy',
-    'hygiene', 'personal hygiene', 'bathing', 'showering', 'can’t wash', 'cant wash', 'washing barriers'
-  ];
-
   const negativeStigmaPhrases = [
     'scrounger', 'scroungers', 'scrounging', 'shirker', 'shirkers', 'skiver', 'skivers',
     'lazy', 'faking', 'faking illness', 'handout', 'handout nation', 'malingerer', 'malingerers',
@@ -256,8 +169,7 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     'easy to play', 'easy to cheat', 'game the system', 'easy money',
     'parasites', 'parasitic', 'bloated welfare', 'benefit scroungers', 'shirkers paradise', 'taxpayer cash cow',
     'welfare scroungers', 'sicknote Britain', 'signing on while laughing', 'cash for couch potatoes',
-    'benefits bludgers', 'state dependents', 'state supported idleness',
-    'stink', 'stinks', 'smell', 'useless', 'trash', 'scum', 'filth', 'subhuman', 'wasters'
+    'benefits bludgers', 'state dependents', 'state supported idleness'
   ];
 
   const nonContributorPhrases = [
@@ -366,7 +278,7 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   ];
 
   const mediaSensationalismPhrases = ['benefits bombshell', 'welfare scandal', 'benefits exposed', 'benefit shock'];
-  const dehumanisingPhrases = ['parasites', 'leech', 'scrounger', 'sponger', 'freeloader', 'burden', 'drain', 'stink', 'stinks', 'scum', 'subhuman', 'wasters'];
+  const dehumanisingPhrases = ['parasites', 'leech', 'scrounger', 'sponger', 'freeloader', 'burden', 'drain'];
   const moralPanicPhrases = ['welfare crisis', 'benefit crisis', 'out of control', 'spiralling', 'welfare epidemic', 'time bomb', 'epidemic', 'explosion', 'runaway'];
   const claimantOtheringPhrases = ['these people', 'those people', 'people like this', 'welfare class'];
   const entitlementMockeryPhrases = ['entitlement culture', 'entitlement mentality', 'entitled to everything'];
@@ -421,14 +333,9 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
       /\b(claimants|recipients|people on benefits)\b.{0,60}\b(scapegoat|scapegoats|scapegoating)\b/i,
       /\b(boost|boosting)\b.{0,60}\b(polls|polling)\b/i,
       /\blabour\b.{0,40}\b(welfare|benefit)\b.{0,40}\bparty\b/i
-    ],
-    hygieneStigmaRhetoric: [
-      /\b(claimant|claimants|benefit|benefits|welfare|disabled)\b.{0,60}\b(stink|stinks|smell|smelly|don’t wash|dont wash|never wash|unwashed|dirty|filthy)\b/i,
-      /\b(stink|stinks|smell|smelly|don’t wash|dont wash|never wash|unwashed|dirty|filthy)\b.{0,60}\b(claimant|claimants|benefit|benefits|welfare|disabled)\b/i
     ]
   };
 
-  const foundHygieneStigma = hygieneStigmaPhrases.filter(p => lower.includes(p));
   const foundStigmaPhrases = negativeStigmaPhrases.filter(phrase => lower.includes(phrase) || fuzzyMatchAny(lower, [phrase]));
   const foundNonContributor = nonContributorPhrases.filter(p => lower.includes(p) || fuzzyMatchAny(lower, [p]));
   const foundContributionFairness = contributionAndFairnessPhrases.filter(p => lower.includes(p));
@@ -603,8 +510,7 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   const robustEconomicScapegoating = robustHits.economicScapegoating;
 
   const toxicAnalysis = {
-    derogatoryLanguage: foundDehumanising.length > 0 || foundStigmaPhrases.length > 2 || foundHygieneStigma.length > 0 || robustHits.hygieneStigmaRhetoric ? "HIGH" : (foundStigmaPhrases.length > 0 ? "MEDIUM" : "LOW"),
-    hygieneStigma: foundHygieneStigma.length > 0 || robustHits.hygieneStigmaRhetoric || hygieneStigmaClaim ? "HIGH" : "LOW",
+    derogatoryLanguage: foundDehumanising.length > 0 || foundStigmaPhrases.length > 2 ? "HIGH" : (foundStigmaPhrases.length > 0 ? "MEDIUM" : "LOW"),
     generalisation: foundGeneralisation.length > 0 || robustGeneralisation ? "HIGH" : "LOW",
     fraudAssociation: foundFraudAssoc.length > 0 || (lower.includes('fraud') && lower.includes('claimant')) || robustFraud ? "HIGH" : "LOW",
     disabilityInvalidation: foundAppearancePolicing.length > 0 || robustAppearanceInvalidation ? "HIGH" : "LOW",
@@ -614,7 +520,7 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     anecdotalGeneralisation: foundShockingCase.length > 0 || hasAnecdote ? "HIGH" : "LOW",
     othering: foundOthering.length > 0 ? "HIGH" : "LOW",
     entitlementFraming: foundEntitlement.length > 0 ? "HIGH" : "LOW",
-    assessmentMockery: foundAssessmentMockery.length > 0 || foundBrokenSystem.length > 0 || lower.includes('easy to game') ? "HIGH" : "LOW",
+    assessmentScepticism: foundAssessmentMockery.length > 0 || foundBrokenSystem.length > 0 || lower.includes('easy to game') ? "HIGH" : "LOW",
     sensationalism: foundSensationalism.length > 0 || foundLoadedHeadline.length > 0 ? "HIGH" : "LOW",
     disabilityVoucherChoiceRestriction: foundVoucherChoice.length > 0 || robustVoucherChoice ? "HIGH" : "LOW",
     disabilityVoucherMarketRisk: foundVoucherMarket.length > 0 || robustVoucherMarket ? "HIGH" : "LOW",
@@ -642,7 +548,7 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   const genericNegativeIndicators = [
     'bad', 'terrible', 'awful', 'horrible', 'useless', 'ruining', 'destroying', 
     'costing billions', 'out of control', 'crisis', 'fraud', 'cheat', 'scam', 
-    'lazy', 'refuse', 'burden', 'waste', 'drain', 'wrong', 'joke', 'free', 'game', 'fake', 'stink', 'stinks'
+    'lazy', 'refuse', 'burden', 'waste', 'drain', 'wrong', 'joke', 'free', 'game', 'fake'
   ];
   
   const mentionsWelfare = welfareTopics.some(topic => lower.includes(topic));
@@ -679,7 +585,6 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     foundAssessmentMockery.length +
     foundMaximisation.length +
     foundAusterity.length +
-    foundHygieneStigma.length +
     robustFramingHits;
 
   const isPensionCreditClaim = lower.includes('pension credit');
@@ -697,7 +602,6 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     robustHits.contributionOthering ||
     robustHits.fairnessFraming ||
     robustHits.politicalWeaponisationRhetoric ||
-    robustHits.hygieneStigmaRhetoric ||
     robustWorkShaming ||
     robustGeneralisation ||
     robustFraud ||
@@ -730,7 +634,6 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     foundAssessmentMockery.length > 0 ||
     foundMaximisation.length > 0 ||
     foundAusterity.length > 0 ||
-    foundHygieneStigma.length > 0 ||
     highRiskRhetoric;
 
   const hasSevereClaimIntegrityProblem =
@@ -757,20 +660,7 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
   // ============================================================
   // CONDITIONAL BRANCHING (PLACED BEFORE GENERAL CATCH-ALLS)
   // ============================================================
-  if (hygieneStigmaClaim) {
-    score = Math.max(98, score + 78);
-    extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
-    flags.push(`HIGH BS / DEHUMANISING HYGIENE TROPE: Uses abusive, derogatory tropes regarding personal cleanliness or hygiene against benefit claimants, ignoring systemic barriers, disability, chronic illness, and severe pain.`);
-
-    primaryRebuttal = `DEBUNKING HYGIENE TROPES & DISABILITY BARRIERS: Claims portraying benefit claimants or disabled people as unwashed, dirty, or "stinking" are factually baseless, dehumanising tropes. In the UK, millions of disabled people and individuals with long-term physical or mental health conditions experience severe daily barriers, severe physical pain, mobility loss, sensory impairments, or fatigue that make washing, bathing, and personal care extremely challenging or impossible without formal assistance. Statutory assessment frameworks like Personal Independence Payment (PIP) explicitly recognize "Washing and Bathing" as a core descriptor of daily living impairment. Furthermore, widespread poverty, social isolation, and rising energy costs often prevent vulnerable individuals from accessing hot water or heating, making hygiene challenges a structural barrier rather than a personal choice or fault.`;
-    sourceRef = "DWP PIP Assessment Guide (Daily Living Descriptors), Equality and Human Rights Commission (EHRC) & Scope UK";
-
-    sourceLinks = [
-      { label: "GOV.UK PIP Assessment Guide: Washing & Bathing", url: "https://www.gov.uk/government/publications/personal-independence-payment-pip-assessment-guide-for-assessment-providers" },
-      { label: "Scope Disability Equality Charity", url: "https://www.scope.org.uk/" },
-      { label: "Equality and Human Rights Commission", url: "https://www.equalityhumanrights.com/" }
-    ];
-  } else if (sickNoteClaim) {
+  if (sickNoteClaim) {
     score = Math.max(92, score + 70);
     extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
     flags.push(`FLAGGED SICK NOTE / FIT NOTE VOLUME CLAIM: Cites the 11 million sick note figure without context regarding underlying socioeconomic drivers, poor health, poverty, NHS waiting lists, or lack of in-work occupational health support.`);
@@ -865,46 +755,6 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
     sourceRef = "DWP Benefit Fraud and Error Statistics";
     sourceLinks = [
       { label: "DWP Benefit fraud and error official statistics", url: "https://www.gov.uk/government/collections/benefit-fraud-and-error-statistics" }
-    ];
-  } else if (
-    (
-      totalFramingHits > 0 ||
-      robustFramingHits > 0 ||
-      (mentionsWelfare && hasNegativeTone) ||
-      lower.includes('easy to game') ||
-      lower.includes('game') ||
-      foundLifestyle.length > 0 ||
-      foundBenefitChoice.length > 0
-    ) &&
-    !isIndirectOrCritical &&
-    !hasCredibleEvidence
-  ) {
-    score = Math.min(
-      100,
-      Math.max(
-        95,
-        score + 75 + ((totalFramingHits + robustFramingHits) * 5)
-      )
-    );
-    
-    if (totalFramingHits > 0 || robustFramingHits > 0 || foundLifestyle.length > 0 || foundBenefitChoice.length > 0) {
-      extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
-      flags.push(`FLAGGED STIGMATISING RHETORIC: Promotes inaccurate generalizations portraying welfare as a lifestyle choice or political weapon, ignoring official DWP/ONS figures showing that 40% of Universal Credit claimants are in work alongside individuals trapped on lengthy NHS health waiting lists.`);
-    } else {
-      extractedQuotes.push(`"${text}"`);
-      flags.push(`FLAGGED UNSUBSTANTIATED NEGATIVE ASSERTION: Makes sweeping negative claims regarding statutory benefits without supporting empirical data or primary source documentation.`);
-    }
-
-    flags.push(`NON-EVIDENCE BACKED STATEMENT: Uses negative narrative framing against welfare entitlement while ignoring verified baseline statistics.`);
-    flags.push(`PUBLIC DISCOURSE RISK: Disseminates unsupported hostility toward benefit claimants by framing statutory entitlement access as inherently bad, abusive, or unmonitored.`);
-
-    primaryRebuttal = `REBUKE AGAINST WELFARE STIGMATISATION: Claims portraying social security recipients as having a "lifestyle choice" or using benefit claimants as scapegoats are severely misleading and stigmatising. Official DWP and ONS statistics demonstrate that approximately 40% of Universal Credit claimants are already in work, supplementing low wages. Official figures confirm that total UK social protection spending as a percentage of GDP has remained relatively unchanged for decades, staying stable between 10% and 11%, and is actually lower than the peak of 12.1% recorded following the 2008 financial crisis.`;
-    sourceRef = "DWP Stat-Xplore Work and Health Statistics, ONS Labour Market Overview, IFS TaxLab & OBR";
-    
-    sourceLinks = [
-      { label: "DWP Stat-Xplore Portal", url: "https://stat-xplore.dwp.gov.uk/" },
-      { label: "ONS Labour Market Statistics", url: "https://www.gov.uk/" },
-      { label: "IFS TaxLab: UK Welfare & Social Security Spending", url: "https://ifs.org.uk/taxlab/taxlab-data-feed/uk-welfare-spending" }
     ];
   } else if ((hasOfficialSourceWithAntiWelfareRhetoric || isSourceBackedStigma) && !isIndirectOrCritical) {
     // --- PRIORITIZED MIXED EVIDENCE CHECK TO ENSURE MEDIUM SCORE OUTPUT ---
@@ -1028,6 +878,45 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
       { label: "DWP / ONS Official Data Portal", url: "https://stat-xplore.dwp.gov.uk/" },
       { label: "IFS Welfare Analysis", url: "https://ifs.org.uk/" }
     ];
+  } else if (
+    (
+      totalFramingHits > 0 ||
+      robustFramingHits > 0 ||
+      (mentionsWelfare && hasNegativeTone) ||
+      lower.includes('easy to game') ||
+      lower.includes('game') ||
+      foundLifestyle.length > 0 ||
+      foundBenefitChoice.length > 0
+    ) &&
+    !isIndirectOrCritical
+  ) {
+    score = Math.min(
+      100,
+      Math.max(
+        95,
+        score + 75 + ((totalFramingHits + robustFramingHits) * 5)
+      )
+    );
+    
+    if (totalFramingHits > 0 || robustFramingHits > 0 || foundLifestyle.length > 0 || foundBenefitChoice.length > 0) {
+      extractedQuotes.push(`"${text.length > 120 ? text.substring(0, 120) + '...' : text}"`);
+      flags.push(`FLAGGED STIGMATISING RHETORIC: Promotes inaccurate generalizations portraying welfare as a lifestyle choice or political weapon, ignoring official DWP/ONS figures showing that 40% of Universal Credit claimants are in work alongside individuals trapped on lengthy NHS health waiting lists.`);
+    } else {
+      extractedQuotes.push(`"${text}"`);
+      flags.push(`FLAGGED UNSUBSTANTIATED NEGATIVE ASSERTION: Makes sweeping negative claims regarding statutory benefits without supporting empirical data or primary source documentation.`);
+    }
+
+    flags.push(`NON-EVIDENCE BACKED STATEMENT: Uses negative narrative framing against welfare entitlement while ignoring verified baseline statistics.`);
+    flags.push(`PUBLIC DISCOURSE RISK: Disseminates unsupported hostility toward benefit claimants by framing statutory entitlement access as inherently bad, abusive, or unmonitored.`);
+
+    primaryRebuttal = `REBUKE AGAINST WELFARE STIGMATISATION: Claims portraying social security recipients as having a "lifestyle choice" or using benefit claimants as scapegoats are severely misleading and stigmatising. Official DWP and ONS statistics demonstrate that approximately 40% of Universal Credit claimants are already in work, supplementing low wages. Official figures confirm that total UK social protection spending as a percentage of GDP has remained relatively unchanged for decades, staying stable between 10% and 11%, and is actually lower than the peak of 12.1% recorded following the 2008 financial crisis.`;
+    sourceRef = "DWP Stat-Xplore Work and Health Statistics, ONS Labour Market Overview, IFS TaxLab & OBR";
+    
+    sourceLinks = [
+      { label: "DWP Stat-Xplore Portal", url: "https://stat-xplore.dwp.gov.uk/" },
+      { label: "ONS Labour Market Statistics", url: "https://www.gov.uk/" },
+      { label: "IFS TaxLab: UK Welfare & Social Security Spending", url: "https://ifs.org.uk/taxlab/taxlab-data-feed/uk-welfare-spending" }
+    ];
   }
 
   const economicSpirallingPhrases = [
@@ -1144,264 +1033,22 @@ export const evaluatePipAndFinancialClaims = (rawInput, options = {}) => {
       sourceRef = "ONS Labour Market Review & DWP Stat-Xplore Database";
       
       sourceLinks = [
-        { label: "DWP Stat-Xplore Portal", url: "https://stat-xplore.dwp.gov.uk/" },
-        { label: "ONS Official Statistics", url: "https://www.gov.uk/" }
+        { label: "ONS Labour Market Overview", url: "https://www.ons.gov.uk/employmentandlabourmarket" },
+        { label: "DWP Stat-Xplore Portal", url: "https://stat-xplore.dwp.gov.uk/" }
       ];
     }
   }
 
-  if (!sourceLinks || sourceLinks.length === 0) {
-    sourceLinks = [
-      { label: "DWP Stat-Xplore Database", url: "https://stat-xplore.dwp.gov.uk/" },
-      { label: "ONS Labour Market Data", url: "https://www.gov.uk/employmentandlabourmarket" },
-      { label: "IFS Welfare Expenditure Analysis", url: "https://ifs.org.uk/taxlab/taxlab-data-feed/uk-welfare-spending" }
-    ];
-  }
-
-  // Define isStrongUnsupportedRhetoric definition fix
-  const isStrongUnsupportedRhetoric = totalFramingHits > 3 || robustFramingHits > 0 || highRiskRhetoric;
-
-  if (hasOfficialSourceWithAntiWelfareRhetoric || isSourceBackedStigma) {
-    score = Math.max(60, Math.min(79, score));
-    flags.push(
-      "OFFICIAL SOURCE WITH ANTI-WELFARE RHETORIC: The text contains verifiable official figures or data, but is accompanied by anti-welfare rhetoric or loaded framing. Scored as Medium."
-    );
-  } else if (isStrongUnsupportedRhetoric && !hasSevereClaimIntegrityProblem) {
-    score = Math.max(80, score);
-  }
-
-  // ============================================================
-  // FINAL EVIDENCE / RHETORIC BALANCE OVERRIDE
-  // ============================================================
-  const finalOfficialEvidenceRhetoric =
-    hasCredibleEvidence &&
-    hasMeaningfulRhetoric &&
-    !policyCriticism;
-
-  const finalSevereMisinformation =
-    hasFraudAmountToClaimantPercentage ||
-    conflatesFraudAndErrors ||
-    visibleActivityInference ||
-    workingMeansNotDisabled ||
-    diagnosisMeansEntitlement;
-
-  if (
-    finalOfficialEvidenceRhetoric &&
-    !finalSevereMisinformation
-  ) {
-    score = Math.min(79, Math.max(60, score));
-
-    flags.push(
-      "EVIDENCE / RHETORIC SEPARATION: The statement contains identifiable official or statistical evidence, but that evidence is accompanied by anti-welfare, stigmatising, generalising, sensationalist or hostile framing. The presence of genuine statistics does not validate the rhetorical conclusion drawn from them."
-    );
-
-    flags.push(
-      "MEDIUM BS CLASSIFICATION: Official evidence is recognised as factual content, while the accompanying welfare/disability rhetoric is assessed separately."
-    );
-  }
-
-  const finalScore = Math.min(100, Math.max(12, score));
-  
-  let finalVerdict = "Low BS / Mostly Factual";
-
-  if (finalScore >= 80) {
-    finalVerdict =
-    (
-      totalFramingHits > 0 ||
-      robustFramingHits > 0 ||
-      (mentionsWelfare && hasNegativeTone) ||
-      isMotabilityClaim ||
-      pipFakingClaim ||
-      schoolToBenefitsClaim ||
-      sickNoteClaim ||
-      GBNEWS_BENEFITS_SPLURGE_CLAIM ||
-      GRADUATE_BENEFITS_CLAIM ||
-      hygieneStigmaClaim ||
-      hasVoucherMention ||
-      robustVoucherProposal ||
-      lower.includes('easy to game') ||
-      foundLifestyle.length > 0 ||
-      foundBenefitChoice.length > 0 ||
-      isPoliticalWelfareClaim ||
-      isWorkPayComparisonClaim ||
-      isChildCapClaim ||
-      containsFraudTerm
-    )
-    ? "HIGH BS / STIGMATISING RHETORIC OR FLAWED FRAMING"
-    : "High Misleading Risk / False Claim";
-
-  } else if (finalScore >= 60) {
-    finalVerdict = "MEDIUM / Contested or Misleading Framing";
-
-  } else if (finalScore >= 50) {
-    finalVerdict = "Moderate Bias / Unsubstantiated Assertion";
-  }
-
-  const detectedFramingExplanations = {};
-  if (toxicAnalysis.generalisation === "HIGH") {
-    detectedFramingExplanations.generalisation = "A characteristic attributed to some individuals is presented as applying to an entire claimant population.";
-  }
-  if (toxicAnalysis.hygieneStigma === "HIGH") {
-    detectedFramingExplanations.hygieneStigma = "Personal cleanliness or hygiene claims are used to demean or stigmatise claimants, ignoring functional disability barriers, chronic pain, severe mobility limitations, or structural poverty.";
-  }
-  if (toxicAnalysis.moralJudgement === "HIGH") {
-    detectedFramingExplanations.moralFraming = "A policy or economic issue is presented primarily as a judgement about the character, worth or morality of benefit recipients.";
-  }
-  if (toxicAnalysis.fraudAssociation === "HIGH") {
-    detectedFramingExplanations.fraudAssociation = "An allegation or individual example may be presented in a way that implies widespread dishonesty without establishing prevalence.";
-  }
-  if (toxicAnalysis.disabilityInvalidation === "HIGH") {
-    detectedFramingExplanations.disabilityInvalidation = "Disability or illness is questioned using appearance, age or anecdotal assumptions rather than evidence of functional limitations.";
-  }
-  if (toxicAnalysis.crisisAmplification === "HIGH") {
-    detectedFramingExplanations.crisisAmplification = "Highly emotive crisis terminology may amplify perceptions of scale or urgency beyond what the underlying evidence establishes.";
-  }
-  if (toxicAnalysis.anecdotalGeneralisation === "HIGH") {
-    detectedFramingExplanations.anecdotalGeneralisation = "An individual case is used to imply characteristics of a much larger population.";
-  }
-  if (toxicAnalysis.economicScapegoating === "HIGH") {
-    detectedFramingExplanations.taxpayerScapegoating = "Claimants are framed primarily as a financial burden without relevant economic or distributional context.";
-  }
-  if (toxicAnalysis.disabilityVoucherChoiceRestriction === "HIGH") {
-    detectedFramingExplanations.disabilityVoucherChoiceRestriction = "A restricted voucher or catalogue model may constrain how disabled people use support to meet individual and sometimes complex disability-related costs.";
-  }
-  if (toxicAnalysis.disabilityVoucherMarketRisk === "HIGH") {
-    detectedFramingExplanations.disabilityVoucherMarketRisk = "A restricted voucher model can create an intermediary/provider market, raising procurement and pricing questions.";
-  }
-  if (toxicAnalysis.disabilityVoucherAdministrativeRisk === "HIGH") {
-    detectedFramingExplanations.disabilityVoucherAdministrativeRisk = "Restricted voucher systems require additional administration to maintain eligible-product lists and monitor supplier participation.";
-  }
-  if (toxicAnalysis.politicalWeaponisation === "HIGH") {
-    detectedFramingExplanations.politicalWeaponisation = "Welfare or claimants are framed as political tools or scapegoats to boost polling without official backing or facts.";
-  }
-
-  // --- CLAIM INTEGRITY CHECKS COLLECTION (FOR METADATA/FLAGS) ---
-  const claimIntegrityViolations = [];
-  if (hasFraudAmountToClaimantPercentage) claimIntegrityViolations.push("FRAUD_RATE_DENOMINATOR_ERROR");
-  if (conflatesFraudAndErrors) claimIntegrityViolations.push("FRAUD_VS_ERROR_CONFLATION");
-  if (missingDenominator) claimIntegrityViolations.push("MISSING_DENOMINATOR");
-  if (unsourcedStatistic) claimIntegrityViolations.push("UNSOURCED_STATISTIC");
-  if (containsOutdatedYear) claimIntegrityViolations.push("OUTDATED_STATISTIC");
-  if (anecdoteGeneralisation) claimIntegrityViolations.push("ANECDOTE_TO_POPULATION_GENERALISATION");
-  if (visibleActivityInference) claimIntegrityViolations.push("VISIBLE_ACTIVITY_INFERENCE");
-  if (workingMeansNotDisabled) claimIntegrityViolations.push("WORKING_MEANS_NOT_DISABLED");
-  if (diagnosisMeansEntitlement) claimIntegrityViolations.push("DIAGNOSIS_MEANS_AUTOMATIC_ENTITLEMENT");
-  if (diagnosisDismissal) claimIntegrityViolations.push("DIAGNOSIS_DISMISSAL");
-
-  // --- CLAIM DECOMPOSITION (SPLITTING COMPLEX COMPOUND STATEMENTS) ---
-  const decomposedClaims = [];
-  if (text.includes(" and ") || text.includes(",") || text.length > 80) {
-    decomposedClaims.push({
-      propositionNumber: 1,
-      proposition: "Has expenditure/caseload changed as claimed?",
-      factualStatus: "Verified against DWP / ONS data streams."
-    });
-    decomposedClaims.push({
-      propositionNumber: 2,
-      proposition: "Does the monetary figure represent fraud alone or total overpayment?",
-      factualStatus: containsFraudTerm ? "Distinguishes fraud, claimant error, and official error." : "N/A"
-    });
-    decomposedClaims.push({
-      propositionNumber: 3,
-      proposition: "Is there evidence connecting individual cases or rates to population-wide dishonesty?",
-      factualStatus: absoluteLanguageDetected || anecdoteGeneralisation ? "Requires caution; prevalence differs from individual instances." : "No generalization detected."
-    });
-  }
-
-  // --- MEDIA / RHETORICAL TACTICS ANALYSIS TAXONOMY ---
-  const detectedRhetoricalTactics = [];
-  if (toxicAnalysis.anecdotalGeneralisation === "HIGH" || hasAnecdote) detectedRhetoricalTactics.push("Anecdotal amplification / Anecdote-to-population generalisation");
-  if (toxicAnalysis.generalisation === "HIGH") detectedRhetoricalTactics.push("Fraud-to-population generalisation");
-  if (toxicAnalysis.sensationalism === "HIGH" || toxicAnalysis.crisisAmplification === "HIGH") detectedRhetoricalTactics.push("Moral-panic framing / Threat inflation");
-  if (toxicAnalysis.economicScapegoating === "HIGH") detectedRhetoricalTactics.push("Scapegoating / Outgroup construction / Class division");
-  if (toxicAnalysis.fraudAssociation === "HIGH") detectedRhetoricalTactics.push("Fraud amplification");
-  if (toxicAnalysis.hygieneStigma === "HIGH") detectedRhetoricalTactics.push("Dehumanising hygiene trope / Physical disability invalidation");
-  if (selectiveStatisticsRisk) detectedRhetoricalTactics.push("Statistical cherry-picking / Decontextualised statistic");
-  if (missingDenominator) detectedRhetoricalTactics.push("Missing denominator");
-  if (visibleActivityInference || workingMeansNotDisabled) detectedRhetoricalTactics.push("Disability invalidation / Visibility bias / Working means not disabled");
-  if (toxicAnalysis.moralJudgement === "HIGH") detectedRhetoricalTactics.push("Deservingness manipulation / Moral-panic framing");
-
-  const rhetoricalAnalysisOutput = {
-    detectedTactics: detectedRhetoricalTactics,
-    intentEstablished: "NOT ESTABLISHED FROM TEXT ALONE",
-    explanation: detectedRhetoricalTactics.length > 0 ? "The text combines narrative phrasing or statistics with generalized assertions. Individual cases or expenditure figures do not by themselves establish wider population prevalence or dishonesty." : "No major rhetorical manipulation patterns detected."
-  };
-
-  // --- REFINEMENT 10: CLAIM-LEVEL RESULTS ARRAY ---
-  const claimAnalysis = [
-    {
-      claim: text.length > 140 ? text.substring(0, 140) + "..." : text,
-      claimType: isFinancialClaim ? "FACTUAL_STATISTIC" : (causalClaimDetected ? "CAUSAL_CLAIM" : (absoluteLanguageDetected ? "GENERALISATION" : (policyCriticism ? "POLICY_CLAIM" : (hasAnecdote ? "ANECDOTE" : "OPINION")))),
-      evidenceLevel,
-      rhetoricLevel: totalFramingHits > 2 || robustFramingHits > 0 ? "HIGH" : (totalFramingHits > 0 ? "MEDIUM" : "LOW"),
-      context: contextType,
-      needsVerification: evidenceLevel === "NONE" || evidenceLevel === "SOURCE_MENTION_ONLY" || selectiveStatisticsRisk || scaleContextWarning
-    }
-  ];
-
-  const counterContextLayer = {
-    relevantContext: "Population-wide claims require representative evidence rather than individual anecdotes, and spending figures must account for caseloads, inflation adjustments, and administrative error rates.",
-    potentialSources: ["DWP", "ONS", "IFS", "OBR", "NAO", "JRF"]
-  };
-
-  const monitoringMetadata = {
-    firstDetected: options.firstDetected || new Date().toISOString(),
-    lastDetected: new Date().toISOString(),
-    occurrenceCount: options.occurrenceCount || 1,
-    sourceCount: options.sourceCount || 1,
-    platforms: options.platforms || [mediaType],
-    relatedNarratives: options.relatedNarratives || Object.keys(toxicAnalysis).filter(k => toxicAnalysis[k] === "HIGH"),
-    relatedBenefits: options.relatedBenefits || welfareTopics.filter(t => lower.includes(t))
-  };
-
-  const evidenceAnalysis = {
-    evidenceLevel,
-    sourceMentioned,
-    sourceIdentified,
-    evidenceContext,
-    specificStatistic,
-    primarySource,
-    multipleSources,
-    sourceDateDetected: /(202[4-6])/i.test(text),
-    referencePeriodDetected: /(quarter|annual|monthly|202[4-6])/i.test(text),
-    forecastDetected: /(forecast|projected|expected|outlook)/i.test(text),
-    denominatorWarning,
-    scaleContextWarning,
-    selectiveStatisticsRisk
-  };
-
-  const rhetoricAnalysis = {
-    absoluteLanguageDetected,
-    causalClaimDetected,
-    causalEvidenceProvided,
-    anecdoteGeneralisation,
-    moralJudgement,
-    policyCriticism,
-    stigmaDespiteEvidence: isSourceBackedStigma,
-    populationGeneralisation: absoluteLanguageDetected || robustGeneralisation,
-    loadedLanguage: foundStigmaPhrases.length > 0 || foundSensationalism.length > 0
-  };
-
   return {
-    inputStatement: text,
-    extractedQuotes,
-    score: finalScore,
-    verdict: finalVerdict,
-    mediaType,
-    contextType,
+    score,
     flags,
-    claimIntegrityViolations,
-    decomposedClaims,
-    rhetoricalAnalysisOutput,
-    evidenceAnalysis,
-    rhetoricAnalysis,
-    claimAnalysis,
-    toxicAnalysis,
-    detectedFramingExplanations,
-    counterContextLayer,
     primaryRebuttal,
     sourceRef,
     sourceLinks,
-    monitoringMetadata
+    extractedQuotes,
+    contextType,
+    mediaType,
+    evidenceLevel,
+    toxicAnalysis
   };
 };
