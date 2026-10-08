@@ -5,7 +5,7 @@ import factCardsData from './factCardsData';
 import * as dataSourcesApi from "../utils/dataSourcesApi";
 import * as factCheckMyths from "../utils/factCheckMyths";
 import * as rhetoricEngine from "../utils/rhetoricEngine";
-import * as ucRatesandRules from '../utils/ucRatesandRules';
+import * as ucRatesAndRules from '../utils/ucRatesAndRules';
 import * as wcaAndPipRules from '../utils/wcaAndPipRules';
 import { BENEFIT_REGISTRY as benefitCoverageMatrix } from './benefitCoverageMatrix';
 
@@ -15,7 +15,7 @@ export {
   dataSourcesApi,
   factCheckMyths,
   rhetoricEngine,
-  ucRatesandRules,
+  ucRatesAndRules,
   wcaAndPipRules,
   benefitCoverageMatrix
 };
