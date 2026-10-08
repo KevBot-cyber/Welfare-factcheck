@@ -23,25 +23,25 @@ import MPBriefingModule from './constants/mpBriefingModule';
 const formatCamelCase = (str) => {
   if (!str) return '';
   return str
-    .replace(/([A-Z])/g, ' $1')
-    .replace(/([a-zA-Z])(\d+)/g, '$1 $2')
-    .replace(/_/g, ' ')
-    .replace(/^./, (s) => s.toUpperCase())
-    .trim();
+   .replace(/([A-Z])/g, ' $1')
+   .replace(/([a-zA-Z])(\d+)/g, '$1 $2')
+   .replace(/_/g, ' ')
+   .replace(/^./, (s) => s.toUpperCase())
+   .trim();
 };
 
 // Helper to format values with £ signs where appropriate
 const formatCurrencyVal = (val) => {
   if (val === null || val === undefined) return '';
   if (typeof val === 'number') {
-    return `£${val.toLocaleString('en-GB', { minimumFractionDigits: val % 1 !== 0 ? 2 : 0 })}`;
+    return `£${val.toLocaleString('en-GB', { minimumFractionDigits: val % 1!== 0? 2 : 0 })}`;
   }
   const str = String(val).trim();
   if (!isNaN(Number(str))) {
     const num = Number(str);
-    return `£${num.toLocaleString('en-GB', { minimumFractionDigits: num % 1 !== 0 ? 2 : 0 })}`;
+    return `£${num.toLocaleString('en-GB', { minimumFractionDigits: num % 1!== 0? 2 : 0 })}`;
   }
-  if (!str.startsWith('£') && !str.includes('bn') && !str.includes('%')) {
+  if (!str.startsWith('£') &&!str.includes('bn') &&!str.includes('%')) {
     return `£${str}`;
   }
   return str;
@@ -88,11 +88,11 @@ const BENEFIT_KEYWORD_ALIASES = {
 // Recursive helper to build readable rate summary lines from nested objects
 const formatRateLines = (data, depth = 0) => {
   let lines = [];
-  const indent = '   '.repeat(depth);
-  if (typeof data === 'object' && data !== null) {
+  const indent = ' '.repeat(depth);
+  if (typeof data === 'object' && data!== null) {
     Object.entries(data).forEach(([key, val]) => {
       const formattedKey = formatCamelCase(key);
-      if (typeof val === 'object' && val !== null) {
+      if (typeof val === 'object' && val!== null) {
         lines.push(`${indent}• ${formattedKey}:`);
         lines.push(...formatRateLines(val, depth + 1));
       } else {
@@ -107,7 +107,7 @@ const formatRateLines = (data, depth = 0) => {
 
 // Broader multi-dataset search helper covering all UK benefits and policy topics
 const searchBroadDataset = (queryStr) => {
-  if (!queryStr || !queryStr.trim()) return [];
+  if (!queryStr ||!queryStr.trim()) return [];
   const q = queryStr.toLowerCase().trim();
   const searchWords = q.split(/\s+/).filter(w => w.length > 1);
   const results = [];
@@ -164,7 +164,7 @@ const searchBroadDataset = (queryStr) => {
           id: `spend_${key}`,
           sourceOrg: 'HM Treasury / OBR Expenditure Data (2025/26)',
           question: `UK Social Protection Budget: ${formattedKey}`,
-          answer: `Allocated Expenditure: ${typeof val === 'object' && val !== null ? formatCurrencyVal(val.amount || val.value || val.total) : formatCurrencyVal(val)}\n\nThis represents official government expenditure tracking within the UK social protection budget framework.`,
+          answer: `Allocated Expenditure: ${typeof val === 'object' && val!== null? formatCurrencyVal(val.amount || val.value || val.total) : formatCurrencyVal(val)}\n\nThis represents official government expenditure tracking within the UK social protection budget framework.`,
           sourceName: 'HM Treasury Public Expenditure Statistical Analyses (PESA)'
         });
       }
@@ -229,39 +229,39 @@ export default function App() {
   const [expandedMacroId, setExpandedMacroId] = useState(null);
 
   const toggleMacroAccordion = (id) => {
-    setExpandedMacroId((prev) => (prev === id ? null : id));
+    setExpandedMacroId((prev) => (prev === id? null : id));
   };
 
   const filteredLeaderboardData = useMemo(() => {
-    const rawData = typeof getDynamicLeaderboardData === 'function' ? getDynamicLeaderboardData() : null;
-    const leaderboardData = rawData && typeof rawData === 'object' ? rawData : {};
-    
+    const rawData = typeof getDynamicLeaderboardData === 'function'? getDynamicLeaderboardData() : null;
+    const leaderboardData = rawData && typeof rawData === 'object'? rawData : {};
+
     const days = parseInt(timeframe, 10);
     const now = new Date();
     const cutoffDate = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
     const filtered = {};
 
     Object.keys(leaderboardData).forEach((categoryKey) => {
-      const items = Array.isArray(leaderboardData[categoryKey]) ? leaderboardData[categoryKey] : [];
+      const items = Array.isArray(leaderboardData[categoryKey])? leaderboardData[categoryKey] : [];
 
       filtered[categoryKey] = items
-        .map((figure) => {
-          const claimsHistory = Array.isArray(figure?.claimsHistory) ? figure.claimsHistory : [];
+       .map((figure) => {
+          const claimsHistory = Array.isArray(figure?.claimsHistory)? figure.claimsHistory : [];
           const filteredHistory = claimsHistory.filter((claim) => {
             if (!claim?.date) return true;
             const claimDate = new Date(claim.date);
-            return !isNaN(claimDate.getTime()) && claimDate >= cutoffDate;
+            return!isNaN(claimDate.getTime()) && claimDate >= cutoffDate;
           });
           return {
-            ...figure,
+           ...figure,
             flaggedClaimsCount: filteredHistory.length,
             claimsHistory: filteredHistory
           };
         })
-        .filter((figure) => figure.flaggedClaimsCount > 0)
-        .sort((a, b) => b.flaggedClaimsCount - a.flaggedClaimsCount)
-        .map((figure, index) => ({
-          ...figure,
+       .filter((figure) => figure.flaggedClaimsCount > 0)
+       .sort((a, b) => b.flaggedClaimsCount - a.flaggedClaimsCount)
+       .map((figure, index) => ({
+         ...figure,
           rank: figure.rank || index + 1
         }));
     });
@@ -269,7 +269,7 @@ export default function App() {
   }, [timeframe]);
 
   const filteredCharities = useMemo(() => {
-    const charitiesList = Array.isArray(CHARITIES_AZ) ? CHARITIES_AZ : [];
+    const charitiesList = Array.isArray(CHARITIES_AZ)? CHARITIES_AZ : [];
     return charitiesList.filter((item) => {
       const matchesSearch = (item.name || '').toLowerCase().includes(charitySearch.toLowerCase()) ||
         (item.desc || '').toLowerCase().includes(charitySearch.toLowerCase()) ||
@@ -281,14 +281,14 @@ export default function App() {
   }, [charitySearch, charityLetter, charityCategory]);
 
   const charityCategoriesList = useMemo(() => {
-    const charitiesList = Array.isArray(CHARITIES_AZ) ? CHARITIES_AZ : [];
+    const charitiesList = Array.isArray(CHARITIES_AZ)? CHARITIES_AZ : [];
     const cats = new Set(charitiesList.map(c => c.category).filter(Boolean));
-    return ['ALL', ...Array.from(cats)];
+    return ['ALL',...Array.from(cats)];
   }, []);
 
   const [liveFeed, setLiveFeed] = useState(INITIAL_LIVE_FEED || []);
   const [isFeedLive, setIsFeedLive] = useState(true);
-  
+
   const [analyzerInput, setAnalyzerInput] = useState('');
   const [analyzing, setAnalyzing] = useState(false);
   const [analysisResult, setAnalysisResult] = useState(null);
@@ -306,10 +306,10 @@ export default function App() {
     if (!isFeedLive) return;
     const interval = setInterval(() => {
       const newsItems = [
-        { text: "Daily Mail publishes article claiming PIP claims hit 'unprecedented crisis'.", author: "Daily Mail Digital", sourceUrl: "https://www.dailymail.co.uk/", bsFlag: "High BS (88%)" },
+        { text: "【entity-Daily Mail¦canonical_name=Daily Mail】 publishes article claiming PIP claims hit 'unprecedented crisis'.", author: "【entity-Daily Mail¦canonical_name=Daily Mail】 Digital", sourceUrl: "https://www.dailymail.co.uk/", bsFlag: "High BS (88%)" },
         { text: "Hansard Record: Minister acknowledges 70% HMCTS tribunal success rate.", author: "House of Commons", sourceUrl: "https://hansard.parliament.uk/", bsFlag: "Low BS" },
         { text: "LBC Phone-in host debates fit note reforms with NHS doctor.", author: "LBC Radio", sourceUrl: "https://www.lbc.co.uk/", bsFlag: "Medium BS (54%)" },
-        { text: "The Telegraph writes feature on economic inactivity and NHS waiting lists.", author: "Daily Telegraph", sourceUrl: "https://www.telegraph.co.uk/", bsFlag: "High BS (79%)" }
+        { text: "【entity-The Telegraph¦canonical_name=The Telegraph】 writes feature on economic inactivity and NHS waiting lists.", author: "Daily Telegraph", sourceUrl: "https://www.telegraph.co.uk/", bsFlag: "High BS (79%)" }
       ];
       const randomItem = newsItems[Math.floor(Math.random() * newsItems.length)];
       const now = new Date();
@@ -322,10 +322,10 @@ export default function App() {
           sourceUrl: randomItem.sourceUrl,
           author: randomItem.author,
           text: randomItem.text,
-          status: randomItem.bsFlag.includes('High') ? 'Flagged Misleading' : 'Verified Data',
+          status: randomItem.bsFlag.includes('High')? 'Flagged Misleading' : 'Verified Data',
           bsFlag: randomItem.bsFlag
         },
-        ...(Array.isArray(prev) ? prev.slice(0, 7) : [])
+       ...(Array.isArray(prev)? prev.slice(0, 7) : [])
       ]);
     }, 12000);
     return () => clearInterval(interval);
@@ -390,7 +390,7 @@ export default function App() {
         const cleaned = rawVal.replace(/[^0-9.]/g, '');
         return parseFloat(cleaned) || 0;
       }
-      if (typeof rawVal === 'object' && rawVal !== null) {
+      if (typeof rawVal === 'object' && rawVal!== null) {
         if ('amount' in rawVal) return parseValue(rawVal.amount);
         if ('value' in rawVal) return parseValue(rawVal.value);
         if ('total' in rawVal) return parseValue(rawVal.total);
@@ -400,7 +400,7 @@ export default function App() {
     };
 
     const parseName = (key, rawVal) => {
-      if (typeof rawVal === 'object' && rawVal !== null) {
+      if (typeof rawVal === 'object' && rawVal!== null) {
         if (rawVal.name) return rawVal.name;
         if (rawVal.label) return rawVal.label;
         if (rawVal.title) return rawVal.title;
@@ -451,15 +451,15 @@ export default function App() {
 
   const totalSpendingBN = useMemo(() => {
     const sum = spendingItems.reduce((acc, item) => acc + item.amount, 0);
-    return sum > 0 ? sum : 346.0;
+    return sum > 0? sum : 346.0;
   }, [spendingItems]);
 
   const spendCategoriesFormatted = useMemo(() => {
     return spendingItems.map(item => {
-      const pct = totalSpendingBN > 0 ? ((item.amount / totalSpendingBN) * 100).toFixed(1) : '0.0';
+      const pct = totalSpendingBN > 0? ((item.amount / totalSpendingBN) * 100).toFixed(1) : '0.0';
       return {
-        ...item,
-        amountFormatted: item.amount >= 1 ? `£${item.amount.toFixed(1)}bn` : `£${(item.amount * 1000).toFixed(0)}m`,
+       ...item,
+        amountFormatted: item.amount >= 1? `£${item.amount.toFixed(1)}bn` : `£${(item.amount * 1000).toFixed(0)}m`,
         pct: `${pct}%`,
         pctVal: parseFloat(pct)
       };
@@ -467,13 +467,13 @@ export default function App() {
   }, [spendingItems, totalSpendingBN]);
 
   return (
-    <div className={`min-h-screen ${highContrast ? 'bg-black text-yellow-300 font-bold' : 'bg-slate-950 text-slate-100'} transition-colors duration-200`}>
+    <div className={`min-h-screen ${highContrast? 'bg-black text-yellow-300 font-bold' : 'bg-slate-950 text-slate-100'} transition-colors duration-200`}>
       {/* Sticky Header Container */}
       <div className="sticky top-0 z-50 print:hidden">
-        <header className={`${highContrast ? 'bg-yellow-400 text-black border-b-4 border-yellow-500' : 'bg-gradient-to-r from-purple-900 via-slate-900 to-teal-900 border-b border-purple-800/40'} px-4 py-3 backdrop-blur-md`}>
+        <header className={`${highContrast? 'bg-yellow-400 text-black border-b-4 border-yellow-500' : 'bg-gradient-to-r from-purple-900 via-slate-900 to-teal-900 border-b border-purple-800/40'} px-4 py-3 backdrop-blur-md`}>
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <div className={`p-2 rounded-xl ${highContrast ? 'bg-black text-yellow-300' : 'bg-purple-600/30 text-purple-300 border border-purple-400/30'}`}>
+              <div className={`p-2 rounded-xl ${highContrast? 'bg-black text-yellow-300' : 'bg-purple-600/30 text-purple-300 border border-purple-400/30'}`}>
                 <ShieldCheck className="w-7 h-7" />
               </div>
               <div>
@@ -482,7 +482,7 @@ export default function App() {
                     UK Welfare Truth Index <span className="text-xs px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/30 font-semibold">2026 Live</span>
                   </h1>
                 </div>
-                <p className={`text-xs ${highContrast ? 'text-black' : 'text-slate-400'}`}>
+                <p className={`text-xs ${highContrast? 'text-black' : 'text-slate-400'}`}>
                   Debunking Welfare Misinformation with Primary DWP, ONS &amp; Tribunal Data
                 </p>
               </div>
@@ -490,11 +490,11 @@ export default function App() {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setHighContrast(!highContrast)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition ${ highContrast ? 'bg-black text-yellow-300 border-2 border-yellow-300' : 'bg-slate-800 text-slate-200 hover:bg-slate-700 border border-slate-700' }`}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition ${ highContrast? 'bg-black text-yellow-300 border-2 border-yellow-300' : 'bg-slate-800 text-slate-200 hover:bg-slate-700 border border-slate-700' }`}
                 aria-label="Toggle High Contrast Mode"
               >
-                {highContrast ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-                <span>{highContrast ? 'Standard Contrast' : 'High Contrast'}</span>
+                {highContrast? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                <span>{highContrast? 'Standard Contrast' : 'High Contrast'}</span>
               </button>
               <button
                 onClick={() => setActiveTab('briefing')}
@@ -508,7 +508,7 @@ export default function App() {
         </header>
 
         {/* Scrollable Horizontal Navigation Bar */}
-        <nav className={`border-b ${highContrast ? 'border-yellow-400 bg-black' : 'border-slate-800 bg-slate-900/95'} px-4 backdrop-blur-md shadow-lg`}>
+        <nav className={`border-b ${highContrast? 'border-yellow-400 bg-black' : 'border-slate-800 bg-slate-900/95'} px-4 backdrop-blur-md shadow-lg`}>
           <div className="max-w-7xl mx-auto flex overflow-x-auto gap-1 py-2 scrollbar-thin scrollbar-thumb-purple-600/50 scrollbar-track-slate-950">
             {[
               { id: 'leaderboard', label: 'Top 10 Hall of Fame', icon: Award, badge: 'New' },
@@ -528,7 +528,7 @@ export default function App() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs md:text-sm font-semibold whitespace-nowrap transition ${ isActive ? highContrast ? 'bg-yellow-400 text-black font-extrabold' : 'bg-purple-600 text-white shadow-md shadow-purple-600/30' : highContrast ? 'text-yellow-300 hover:bg-yellow-900/40' : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200' }`}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs md:text-sm font-semibold whitespace-nowrap transition ${ isActive? highContrast? 'bg-yellow-400 text-black font-extrabold' : 'bg-purple-600 text-white shadow-md shadow-purple-600/30' : highContrast? 'text-yellow-300 hover:bg-yellow-900/40' : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200' }`}
                 >
                   <Icon className="w-4 h-4" />
                   <span>{tab.label}</span>
@@ -548,7 +548,7 @@ export default function App() {
         {/* 1. HALL OF FAME LEADERBOARD */}
         {activeTab === 'leaderboard' && (
           <div className="space-y-6">
-            <div className={`p-6 rounded-2xl border ${highContrast ? 'border-yellow-400 bg-black' : 'border-purple-800/40 bg-gradient-to-r from-purple-950/80 via-slate-900 to-slate-900'} relative overflow-hidden`}>
+            <div className={`p-6 rounded-2xl border ${highContrast? 'border-yellow-400 bg-black' : 'border-purple-800/40 bg-gradient-to-r from-purple-950/80 via-slate-900 to-slate-900'} relative overflow-hidden`}>
               <div className="max-w-3xl space-y-2">
                 <div className="flex items-center gap-2 text-purple-400 text-xs font-bold uppercase tracking-wider">
                   <Award className="w-4 h-4" />
@@ -557,7 +557,7 @@ export default function App() {
                 <h2 className="text-2xl md:text-3xl font-black tracking-tight text-slate-100">
                   The Welfare Misinformation Leaderboard
                 </h2>
-                <p className={`text-sm ${highContrast ? 'text-yellow-300' : 'text-slate-300'}`}>
+                <p className={`text-sm ${highContrast? 'text-yellow-300' : 'text-slate-300'}`}>
                   Tracking MPs, political parties, social media posts (X, TikTok, Facebook), newspaper tabloids, and broadcast shows ranked by verified inaccurate or misleading statements about PIP, Universal Credit, and disability stats in 2026.
                 </p>
               </div>
@@ -576,7 +576,7 @@ export default function App() {
                   <button
                     key={cat.id}
                     onClick={() => setLeaderboardCategory(cat.id)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 whitespace-nowrap transition ${leaderboardCategory === cat.id ? 'bg-purple-600 text-white' : 'text-slate-400 hover:text-slate-200'}`}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 whitespace-nowrap transition ${leaderboardCategory === cat.id? 'bg-purple-600 text-white' : 'text-slate-400 hover:text-slate-200'}`}
                   >
                     <span>{cat.label}</span>
                   </button>
@@ -600,7 +600,7 @@ export default function App() {
             </div>
 
             <div className="grid gap-4">
-              {filteredLeaderboardData[leaderboardCategory]?.length > 0 ? (
+              {filteredLeaderboardData[leaderboardCategory]?.length > 0? (
                 filteredLeaderboardData[leaderboardCategory].map((figure) => {
                   const isExpanded = expandedFigure === figure.id;
                   return (
@@ -612,7 +612,7 @@ export default function App() {
                           </span>
                           <div>
                             <h3 className="font-bold text-base md:text-lg text-slate-100">{figure.name}</h3>
-                            <p className="text-xs text-slate-400">{figure.party || figure.type || figure.outlet} &bull; {figure.constituency || figure.role || 'Media Outlet'}</p>
+                            <p className="text-xs text-slate-400">{figure.party || figure.type || figure.outlet} • {figure.constituency || figure.role || 'Media Outlet'}</p>
                           </div>
                         </div>
                         <div className="flex items-center gap-3">
@@ -622,19 +622,19 @@ export default function App() {
                             </span>
                           )}
                           <span className="text-xs font-bold px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                            {figure.flaggedClaimsCount} Flagged Statement{figure.flaggedClaimsCount !== 1 ? 's' : ''}
+                            {figure.flaggedClaimsCount} Flagged Statement{figure.flaggedClaimsCount!== 1? 's' : ''}
                           </span>
                           <button
-                            onClick={() => setExpandedFigure(isExpanded ? null : figure.id)}
+                            onClick={() => setExpandedFigure(isExpanded? null : figure.id)}
                             className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition"
                             aria-label="Expand details"
                           >
-                            {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                            {isExpanded? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                           </button>
                         </div>
                       </div>
 
-                      {figure.claimsHistory?.[0] && !isExpanded && (
+                      {figure.claimsHistory?.[0] &&!isExpanded && (
                         <div className="bg-slate-950/80 rounded-xl p-3 border-l-4 border-red-500 text-xs space-y-1">
                           <div className="flex items-center justify-between">
                             <p className="font-semibold text-red-400 uppercase tracking-wider text-[10px]">Top Flagged Claim</p>
@@ -650,8 +650,8 @@ export default function App() {
                               <Share2 className="w-3 h-3" /> Share Card
                             </button>
                           </div>
-                          <p className="text-slate-200 italic">&ldquo;{figure.claimsHistory[0].quote}&rdquo;</p>
-                          <p className="text-teal-400 font-medium pt-1">&check; Fact: {figure.claimsHistory[0].factCheck}</p>
+                          <p className="text-slate-200 italic">“{figure.claimsHistory[0].quote}”</p>
+                          <p className="text-teal-400 font-medium pt-1">✅ Fact: {figure.claimsHistory[0].factCheck}</p>
                         </div>
                       )}
 
@@ -674,7 +674,7 @@ export default function App() {
                             {(figure.claimsHistory || []).map((claim, idx) => (
                               <div key={idx} className="p-3 rounded-xl bg-slate-950/80 border border-slate-800/60 text-xs space-y-1.5">
                                 <div className="flex items-center justify-between text-slate-400">
-                                  <span>{claim.date} &bull; Source: {claim.source}</span>
+                                  <span>{claim.date} • Source: {claim.source}</span>
                                   <div className="flex items-center gap-2">
                                     <span className="text-amber-400 font-semibold">{claim.category}</span>
                                     <button
@@ -690,8 +690,8 @@ export default function App() {
                                     </button>
                                   </div>
                                 </div>
-                                <p className="text-slate-200 italic">&ldquo;{claim.quote}&rdquo;</p>
-                                <p className="text-teal-400 font-medium">&check; Fact: {claim.factCheck}</p>
+                                <p className="text-slate-200 italic">“{claim.quote}”</p>
+                                <p className="text-teal-400 font-medium">✅ Fact: {claim.factCheck}</p>
                               </div>
                             ))}
                           </div>
@@ -733,11 +733,11 @@ export default function App() {
               />
               <button
                 onClick={handleAnalyzeText}
-                disabled={analyzing || !analyzerInput.trim()}
+                disabled={analyzing ||!analyzerInput.trim()}
                 className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 disabled:opacity-50 text-white font-bold text-sm transition"
               >
-                {analyzing ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-                <span>{analyzing ? 'Evaluating Claim...' : 'Evaluate Statement'}</span>
+                {analyzing? <RefreshCw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+                <span>{analyzing? 'Evaluating Claim...' : 'Evaluate Statement'}</span>
               </button>
             </div>
 
@@ -746,7 +746,7 @@ export default function App() {
                 <div className="flex items-center justify-between">
                   <div className="space-y-2 flex-1">
                     <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">BS RATING VERDICT</p>
-                    <h3 className={`text-xl md:text-2xl font-black ${analysisResult.score >= 70 ? 'text-rose-400' : analysisResult.score >= 40 ? 'text-amber-400' : 'text-teal-400'}`}>
+                    <h3 className={`text-xl md:text-2xl font-black ${analysisResult.score >= 70? 'text-rose-400' : analysisResult.score >= 40? 'text-amber-400' : 'text-teal-400'}`}>
                       {analysisResult.verdict} ({analysisResult.score}%)
                     </h3>
 
@@ -754,9 +754,9 @@ export default function App() {
                       <div
                         className={`h-full rounded-full transition-all duration-700 ease-out ${
                           analysisResult.score >= 70
-                            ? 'bg-amber-500'
+                           ? 'bg-amber-500'
                             : analysisResult.score >= 40
-                            ? 'bg-amber-400'
+                           ? 'bg-amber-400'
                             : 'bg-emerald-400'
                         }`}
                         style={{ width: `${Math.max(5, Math.min(100, analysisResult.score))}%` }}
@@ -808,7 +808,7 @@ export default function App() {
                     </h4>
                     {analysisResult.flags.map((flag, i) => (
                       <div key={i} className="p-3 bg-slate-950 rounded-xl border border-slate-800 text-xs text-slate-300 flex items-start gap-2">
-                        <span className="text-amber-400 shrink-0 font-bold">&bull;</span>
+                        <span className="text-amber-400 shrink-0 font-bold">•</span>
                         <span>{flag}</span>
                       </div>
                     ))}
@@ -901,7 +901,7 @@ export default function App() {
                   {Object.entries(BENEFIT_RATES_2026_2027 || {}).map(([key, item]) => {
                     const groupTitle = formatCamelCase(key);
 
-                    if (typeof item === 'object' && item !== null && !Array.isArray(item)) {
+                    if (typeof item === 'object' && item!== null &&!Array.isArray(item)) {
                       return (
                         <div key={key} className="p-4 bg-slate-950 rounded-xl border border-slate-800/60 space-y-2">
                           <h4 className="font-extrabold text-xs text-purple-300 uppercase tracking-wider">{groupTitle}</h4>
@@ -909,7 +909,7 @@ export default function App() {
                             {Object.entries(item).map(([subKey, subVal]) => {
                               const subLabel = formatCamelCase(subKey);
 
-                              if (typeof subVal === 'object' && subVal !== null) {
+                              if (typeof subVal === 'object' && subVal!== null) {
                                 return (
                                   <div key={subKey} className="space-y-1 py-1 border-b border-slate-900/80">
                                     <span className="font-semibold text-slate-300">{subLabel}:</span>
@@ -978,7 +978,7 @@ export default function App() {
             if (!searchTerm) return true;
             const mythText = (m.myth || m.title || m.claim || m.misconception || '').toLowerCase();
             const factText = (m.fact || m.reality || m.description || m.details || '').toLowerCase();
-            const tags = Array.isArray(m.tags) ? m.tags.join(' ').toLowerCase() : '';
+            const tags = Array.isArray(m.tags)? m.tags.join(' ').toLowerCase() : '';
             return mythText.includes(searchTerm) || factText.includes(searchTerm) || tags.includes(searchTerm);
           });
 
@@ -1126,7 +1126,7 @@ export default function App() {
                           <span className="text-xs text-teal-400 font-semibold">Verified Primary Source</span>
                         </div>
                       </div>
-                      
+
                       <h3 className="text-lg font-bold text-white capitalize">
                         {result.question || vaultSearch}
                       </h3>
@@ -1147,7 +1147,7 @@ export default function App() {
 
               {searchTerm && filteredMyths.length === 0 && dynamicResults.length === 0 && (
                 <div className="p-8 text-center bg-slate-900/50 rounded-2xl border border-slate-800 text-slate-400 text-sm">
-                  No matching myths or benefit policy data found for &ldquo;{vaultSearch}&rdquo;.
+                  No matching myths or benefit policy data found for “{vaultSearch}”.
                 </div>
               )}
             </div>
@@ -1189,7 +1189,7 @@ export default function App() {
                     <div>
                       <div className="flex items-center justify-between mb-2">
                         <span className="p-2 rounded-xl bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                          {key === 'fiscalMultiplier' ? <ShoppingCart className="w-5 h-5" /> : key === 'gdpExpenditure' ? <Landmark className="w-5 h-5" /> : <Stethoscope className="w-5 h-5" />}
+                          {key === 'fiscalMultiplier'? <ShoppingCart className="w-5 h-5" /> : key === 'gdpExpenditure'? <Landmark className="w-5 h-5" /> : <Stethoscope className="w-5 h-5" />}
                         </span>
                         <div className="flex items-center gap-1.5">
                           <button
@@ -1219,8 +1219,8 @@ export default function App() {
                         onClick={() => toggleMacroAccordion(key)}
                         className="w-full text-left text-xs font-medium text-purple-400 hover:text-purple-300 flex items-center justify-between"
                       >
-                        <span>View Official Evidence & Reports ({Array.isArray(metric.citations) ? metric.citations.length : 0})</span>
-                        {isOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                        <span>View Official Evidence & Reports ({Array.isArray(metric.citations)? metric.citations.length : 0})</span>
+                        {isOpen? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                       </button>
 
                       {isOpen && Array.isArray(metric.citations) && (
@@ -1229,7 +1229,7 @@ export default function App() {
                             <div key={idx} className="border-b border-slate-800 last:border-0 pb-2 last:pb-0 space-y-1">
                               <div className="font-bold text-purple-300 text-[11px]">{cite.source}</div>
                               <div className="text-slate-200 font-medium">{cite.title}</div>
-                              <p className="italic text-slate-400 text-[11px]">&ldquo;{cite.quote}&rdquo;</p>
+                              <p className="italic text-slate-400 text-[11px]">“{cite.quote}”</p>
                               <a
                                 href={cite.link}
                                 target="_blank"
@@ -1283,8 +1283,8 @@ export default function App() {
                           onClick={() => toggleMacroAccordion(item.id)}
                           className="w-full text-left text-xs font-medium text-purple-400 hover:text-purple-300 flex items-center justify-between"
                         >
-                          <span>View Official Evidence & Reports ({Array.isArray(item.citations) ? item.citations.length : 0})</span>
-                          {isOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                          <span>View Official Evidence & Reports ({Array.isArray(item.citations)? item.citations.length : 0})</span>
+                          {isOpen? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                         </button>
 
                         {isOpen && Array.isArray(item.citations) && (
@@ -1293,7 +1293,7 @@ export default function App() {
                               <div key={idx} className="border-b border-slate-800 last:border-0 pb-2 last:pb-0 space-y-1">
                                 <div className="font-bold text-purple-300 text-[11px]">{cite.source}</div>
                                 <div className="text-slate-200 font-medium">{cite.title}</div>
-                                <p className="italic text-slate-400 text-[11px]">&ldquo;{cite.quote}&rdquo;</p>
+                                <p className="italic text-slate-400 text-[11px]">“{cite.quote}”</p>
                                 <a
                                   href={cite.link}
                                   target="_blank"
@@ -1355,13 +1355,13 @@ export default function App() {
 
               {/* Alphabet Quick Filter Bar */}
               <div className="flex flex-wrap gap-1 pt-2">
-                {['ALL', ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')].map((letter) => (
+                {['ALL',...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')].map((letter) => (
                   <button
                     key={letter}
                     onClick={() => setCharityLetter(letter)}
                     className={`px-2 py-1 text-xs rounded-md font-bold transition ${
                       charityLetter === letter
-                        ? 'bg-purple-600 text-white'
+                       ? 'bg-purple-600 text-white'
                         : 'bg-slate-950 text-slate-400 hover:bg-slate-800 hover:text-slate-200 border border-slate-800'
                     }`}
                   >
@@ -1372,7 +1372,7 @@ export default function App() {
             </div>
 
             <div className="grid md:grid-cols-2 gap-4">
-              {filteredCharities.length > 0 ? (
+              {filteredCharities.length > 0? (
                 filteredCharities.map((charity, idx) => (
                   <div key={idx} className="p-4 rounded-2xl border border-slate-800 bg-slate-900 space-y-2">
                     <div className="flex items-center justify-between">
@@ -1399,7 +1399,7 @@ export default function App() {
                 ))
               ) : (
                 <div className="col-span-full p-8 text-center text-slate-400 bg-slate-900/40 rounded-2xl border border-slate-800">
-                  No charities found matching letter &ldquo;{charityLetter}&rdquo; or filter &ldquo;{charitySearch}&rdquo;.
+                  No charities found matching letter “{charityLetter}” or filter “{charitySearch}”.
                 </div>
               )}
             </div>
@@ -1609,7 +1609,7 @@ export default function App() {
               </div>
               <h3 className="text-lg font-bold text-slate-100">{shareCardModalData.title}</h3>
               <div className="p-3 bg-red-950/40 border-l-2 border-red-500 rounded text-xs text-slate-300 italic">
-                &ldquo;{shareCardModalData.quote}&rdquo;
+                “{shareCardModalData.quote}”
               </div>
               <div className="p-3 bg-teal-950/40 border-l-2 border-teal-500 rounded text-xs text-teal-200">
                 <strong>Fact:</strong> {shareCardModalData.fact}
@@ -1621,14 +1621,14 @@ export default function App() {
                 onClick={handleCopyCardText}
                 className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold flex items-center gap-1.5 transition"
               >
-                <Copy className="w-4 h-4" /> {copiedCardStatus ? 'Copied!' : 'Copy Text'}
+                <Copy className="w-4 h-4" /> {copiedCardStatus? 'Copied!' : 'Copy Text'}
               </button>
               <button
                 onClick={handleDownloadCardImage}
                 disabled={downloadingImage}
                 className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold flex items-center gap-1.5 transition"
               >
-                <Download className="w-4 h-4" /> {downloadingImage ? 'Generating...' : 'Download Image'}
+                <Download className="w-4 h-4" /> {downloadingImage? 'Generating...' : 'Download Image'}
               </button>
             </div>
           </div>
@@ -1651,11 +1651,11 @@ export default function App() {
               {Array.isArray(deepDiveModalData.items) && deepDiveModalData.items.map((item, idx) => (
                 <div key={idx} className="p-3 bg-slate-950 rounded-xl border border-slate-800 text-xs space-y-1.5">
                   <div className="flex justify-between text-slate-400">
-                    <span>{item.date} &bull; {item.source}</span>
+                    <span>{item.date} • {item.source}</span>
                     <span className="text-purple-400 font-semibold">{item.category}</span>
                   </div>
-                  {item.quote && <p className="text-slate-200 italic">&ldquo;{item.quote}&rdquo;</p>}
-                  {item.factCheck && <p className="text-teal-400 font-medium">&check; {item.factCheck}</p>}
+                  {item.quote && <p className="text-slate-200 italic">“{item.quote}”</p>}
+                  {item.factCheck && <p className="text-teal-400 font-medium">✅ {item.factCheck}</p>}
                 </div>
               ))}
             </div>
