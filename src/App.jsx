@@ -8,7 +8,6 @@ import {
   HeartHandshake, Coins, LineChart, Phone, Globe, Quote, Landmark, ShoppingCart, Stethoscope, FileSpreadsheet
 } from 'lucide-react';
 import html2canvas from 'html2canvas';
-import { GoogleGenAI } from '@google/genai';
 
 import { SPENDING_LINKS, SPENDING_BREAKDOWN_2025_26, CONTRIBUTORY_DEBUNK_DATA, BENEFIT_RATES_2026_2027 } from './constants/spendingData';
 import { getDynamicLeaderboardData } from './constants/leaderboardData';
@@ -19,26 +18,6 @@ import { MACROECONOMIC_METRICS, MACROECONOMIC_SUMMARIES } from './constants/econ
 import { KNOW_YOUR_RIGHTS_CONTENT } from './constants/knowyourrights';
 import LegalAndStandards from './constants/legalandstandards';
 import MPBriefingModule from './constants/mpBriefingModule';
-
-// Helper to safely get the Gemini API Key across environment contexts
-const getApiKey = () => {
-  if (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GEMINI_API_KEY) {
-    return import.meta.env.VITE_GEMINI_API_KEY;
-  }
-  if (typeof import.meta !== 'undefined' && import.meta.env?.GEMINI_API_KEY) {
-    return import.meta.env.GEMINI_API_KEY;
-  }
-  if (typeof process !== 'undefined' && process.env?.GEMINI_API_KEY) {
-    return process.env.GEMINI_API_KEY;
-  }
-  if (typeof process !== 'undefined' && process.env?.VITE_GEMINI_API_KEY) {
-    return process.env.VITE_GEMINI_API_KEY;
-  }
-  if (typeof process !== 'undefined' && process.env?.REACT_APP_GEMINI_API_KEY) {
-    return process.env.REACT_APP_GEMINI_API_KEY;
-  }
-  return '';
-};
 
 // Helper to format keys like "DailyLivingStandard" to "Daily Living Standard"
 const formatCamelCase = (str) => {
@@ -357,65 +336,8 @@ export default function App() {
     setAnalyzing(true);
     setAnalysisResult(null);
     try {
-      let localResult = null;
       if (typeof evaluatePipAndFinancialClaims === 'function') {
-        localResult = await evaluatePipAndFinancialClaims(analyzerInput);
-      }
-
-      // Try serverless endpoint first for Vercel deployment
-      try {
-        const apiRes = await fetch('/api/analyze-bs', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ statement: analyzerInput, localResult })
-        });
-        if (apiRes.ok) {
-          const apiData = await apiRes.json();
-          if (apiData && apiData.verdict) {
-            setAnalysisResult(apiData);
-            return;
-          }
-        }
-      } catch (endpointErr) {
-        console.warn('Serverless endpoint fetch failed, falling back to direct client API call:', endpointErr);
-      }
-
-      const apiKey = getApiKey();
-      if (!apiKey) {
-        if (localResult) {
-          setAnalysisResult(localResult);
-          return;
-        }
-        throw new Error('Gemini API key is not configured.');
-      }
-
-      const ai = new GoogleGenAI({ apiKey });
-
-      const prompt = `Analyze the following statement regarding UK welfare/benefits (such as PIP, Universal Credit, DLA):
-"${analyzerInput}"
-
-Primary local evaluation context:
-${JSON.stringify(localResult)}
-
-Please return a JSON object with:
-- "verdict": A brief rating label (e.g., "Highly Misleading", "Partially Inaccurate", "Factually Verified")
-- "score": A BS/misinformation percentage score from 0 to 100
-- "primaryRebuttal": A concise statement-tailored rebuttal based on DWP, ONS, or official UK statutory data
-- "sourceRef": Primary citation or official reference string
-- "flags": An array of specific misleading points or rhetorical issues found in the statement`;
-
-      const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
-        contents: prompt,
-        config: {
-          responseMimeType: 'application/json'
-        }
-      });
-
-      if (response && response.text) {
-        const parsed = JSON.parse(response.text);
-        setAnalysisResult(parsed);
-      } else if (localResult) {
+        const localResult = await evaluatePipAndFinancialClaims(analyzerInput);
         setAnalysisResult(localResult);
       }
     } catch (e) {
@@ -794,7 +716,7 @@ Please return a JSON object with:
             <div className="p-6 rounded-2xl border border-purple-800/40 bg-slate-900/80 space-y-3">
               <div className="flex items-center gap-2 text-purple-400 text-xs font-bold uppercase tracking-wider">
                 <Zap className="w-4 h-4" />
-                <span>Automated Fact-Checker Engine • Powered by Gemini AI</span>
+                <span>Automated Fact-Checker Engine</span>
               </div>
               <h2 className="text-2xl font-black text-slate-100">BS Meter & Statement Evaluator</h2>
               <p className="text-sm text-slate-300">
@@ -1595,51 +1517,24 @@ Please return a JSON object with:
 
                     {/* Useful Tools & Links */}
                     {guide.usefulToolsAndLinks && guide.usefulToolsAndLinks.length > 0 && (
-                      <div className="pt-2 border-t border-slate-800/80">
-                        <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Official Guides & Tools:</p>
+                      <div className="pt-2 border-t border-slate-800/80 space-y-2">
+                        <h5 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Useful Tools & Resources</h5>
                         <div className="flex flex-wrap gap-2 text-xs">
                           {guide.usefulToolsAndLinks.map((link, lIdx) => (
                             <a
                               key={lIdx}
-                              href={link.url}
+                              href={link.url || '#'}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-slate-800 text-teal-400 border border-slate-800 transition"
                             >
-                              <span>{link.label}</span>
+                              <span>{link.title || link.label}</span>
                               <ExternalLink className="w-3.5 h-3.5 shrink-0" />
                             </a>
                           ))}
                         </div>
                       </div>
                     )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Support Networks & Legal Help Directory */}
-            <div className="p-6 rounded-2xl border border-slate-800 bg-slate-900/90 space-y-4">
-              <h3 className="text-xl font-bold text-slate-100 flex items-center gap-2">
-                <Gavel className="w-5 h-5 text-purple-400" />
-                Legal Support Networks & Pro Bono Advocates
-              </h3>
-
-              <div className="grid md:grid-cols-2 gap-4">
-                {KNOW_YOUR_RIGHTS_CONTENT.supportNetworksAndLegalHelp.map((org, idx) => (
-                  <div key={idx} className="p-4 rounded-xl bg-slate-950 border border-slate-800 flex justify-between items-start">
-                    <div>
-                      <h4 className="font-bold text-slate-100 text-sm">{org.name}</h4>
-                      <p className="text-xs text-slate-400 pt-1">{org.description}</p>
-                    </div>
-                    <a
-                      href={org.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-teal-400 hover:underline shrink-0 ml-2 font-bold"
-                    >
-                      Visit
-                    </a>
                   </div>
                 ))}
               </div>
@@ -1654,9 +1549,13 @@ Please return a JSON object with:
         {activeTab === 'support' && (
           <div className="space-y-6">
             <div className="p-6 rounded-2xl border border-purple-800/40 bg-slate-900/80 space-y-3">
-              <h2 className="text-2xl font-black text-slate-100">Disability Support & Local Advocacy Networks</h2>
+              <div className="flex items-center gap-2 text-teal-400 text-xs font-bold uppercase tracking-wider">
+                <Users className="w-4 h-4" />
+                <span>Advocacy & Legal Support</span>
+              </div>
+              <h2 className="text-2xl font-black text-slate-100">Disability Help & Advocacy Organizations</h2>
               <p className="text-sm text-slate-300">
-                Direct access to statutory advice organizations, food banks, crisis grants, and local advocate support directories across the UK.
+                Direct contacts and official support channels for appeal representation, legal aid, and welfare advocacy.
               </p>
             </div>
 
@@ -1665,21 +1564,25 @@ Please return a JSON object with:
                 <div key={idx} className="p-5 rounded-2xl border border-slate-800 bg-slate-900 space-y-3">
                   <div className="flex items-center justify-between">
                     <h3 className="font-bold text-base text-slate-100">{org.name}</h3>
-                    {org.phone && (
-                      <span className="text-xs bg-purple-500/20 text-purple-300 px-2.5 py-1 rounded-full font-mono border border-purple-500/30">
-                        {org.phone}
-                      </span>
-                    )}
+                    <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                      {org.category || 'Support'}
+                    </span>
                   </div>
-                  <p className="text-xs text-slate-300 leading-relaxed">{org.desc || org.description}</p>
-                  {org.url && (
+                  <p className="text-xs text-slate-300 leading-relaxed">{org.description || org.desc}</p>
+                  {org.phone && (
+                    <p className="text-xs text-teal-400 font-mono flex items-center gap-1.5">
+                      <Phone className="w-3.5 h-3.5" /> {org.phone}
+                    </p>
+                  )}
+                  {org.website && (
                     <a
-                      href={org.url}
+                      href={org.website}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs text-teal-400 font-bold hover:underline pt-1"
+                      className="inline-flex items-center gap-1.5 text-xs text-purple-400 hover:text-purple-300 font-semibold"
                     >
-                      Official Contact Portal <ExternalLink className="w-3.5 h-3.5" />
+                      <span>Visit Official Website</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
                     </a>
                   )}
                 </div>
@@ -1689,111 +1592,72 @@ Please return a JSON object with:
         )}
       </main>
 
-      {/* SHARE CARD MODAL */}
+      {/* Share Card Modal */}
       {shareCardModalData && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-purple-800/60 rounded-2xl max-w-lg w-full p-6 space-y-5 shadow-2xl relative">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <div className="flex items-center gap-2 text-purple-400 text-xs font-bold uppercase tracking-wider">
-                <Share2 className="w-4 h-4" />
-                <span>Fact Check Card Generator</span>
-              </div>
-              <button
-                onClick={() => setShareCardModalData(null)}
-                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800"
-              >
-                <XCircle className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Visual Card Target */}
-            <div
-              ref={cardRef}
-              className="p-5 rounded-2xl bg-gradient-to-br from-slate-950 via-purple-950/40 to-slate-950 border-2 border-purple-500/40 space-y-3 relative overflow-hidden"
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="relative w-full max-w-lg bg-slate-900 border border-purple-500/40 rounded-2xl p-6 space-y-4 shadow-2xl">
+            <button
+              onClick={() => setShareCardModalData(null)}
+              className="absolute top-4 right-4 p-1 rounded-lg bg-slate-800 text-slate-400 hover:text-slate-200 transition"
             >
-              <div className="flex items-center justify-between text-[10px] font-bold text-teal-400 tracking-wider uppercase">
+              <XCircle className="w-5 h-5" />
+            </button>
+            <div ref={cardRef} className="p-5 bg-slate-950 rounded-xl border border-purple-800/40 space-y-3">
+              <div className="flex items-center justify-between text-xs text-purple-400 font-bold uppercase tracking-wider">
                 <span>UK Welfare Truth Index</span>
-                <span>Verified Fact-Check</span>
+                <span>Fact Check</span>
               </div>
-              <h4 className="text-base font-black text-slate-100">{shareCardModalData.title}</h4>
-              <div className="p-3 bg-slate-900/80 rounded-xl border border-red-500/30 text-xs text-red-300 italic">
+              <h3 className="text-lg font-bold text-slate-100">{shareCardModalData.title}</h3>
+              <div className="p-3 bg-red-950/40 border-l-2 border-red-500 rounded text-xs text-slate-300 italic">
                 &ldquo;{shareCardModalData.quote}&rdquo;
               </div>
-              <div className="p-3 bg-teal-950/40 rounded-xl border border-teal-500/30 text-xs text-teal-200 font-medium">
-                &check; {shareCardModalData.fact}
+              <div className="p-3 bg-teal-950/40 border-l-2 border-teal-500 rounded text-xs text-teal-200">
+                <strong>Fact:</strong> {shareCardModalData.fact}
               </div>
-              <div className="flex items-center justify-between text-[10px] text-slate-400 border-t border-slate-800 pt-2">
-                <span>Source: {shareCardModalData.source || 'Official DWP/ONS Data'}</span>
-                <span>2026 Live Audit</span>
-              </div>
+              <p className="text-[10px] text-slate-400 pt-1">Source: {shareCardModalData.source}</p>
             </div>
-
-            {/* Modal Actions */}
-            <div className="flex items-center justify-end gap-3 pt-2">
+            <div className="flex gap-2 justify-end pt-2">
               <button
                 onClick={handleCopyCardText}
                 className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold flex items-center gap-1.5 transition"
               >
-                {copiedCardStatus ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
-                <span>{copiedCardStatus ? 'Text Copied!' : 'Copy Text'}</span>
+                <Copy className="w-4 h-4" /> {copiedCardStatus ? 'Copied!' : 'Copy Text'}
               </button>
               <button
                 onClick={handleDownloadCardImage}
                 disabled={downloadingImage}
-                className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md transition"
+                className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold flex items-center gap-1.5 transition"
               >
-                {downloadingImage ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-                <span>Download Image Card</span>
+                <Download className="w-4 h-4" /> {downloadingImage ? 'Generating...' : 'Download Image'}
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* DEEP DIVE MODAL */}
+      {/* Deep Dive Modal */}
       {deepDiveModalData && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-3xl w-full max-h-[85vh] flex flex-col p-6 space-y-4 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <div className="flex items-center gap-2 text-teal-400 text-xs font-bold uppercase tracking-wider">
-                <FileText className="w-4 h-4" />
-                <span>Full Open Data Audit &amp; Deep-Dive</span>
-              </div>
-              <button
-                onClick={() => setDeepDiveModalData(null)}
-                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800"
-              >
-                <XCircle className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="space-y-1">
-              <h3 className="text-xl font-black text-slate-100">{deepDiveModalData.title}</h3>
-              <p className="text-xs text-slate-300">{deepDiveModalData.summary}</p>
-            </div>
-
-            <div className="flex-1 overflow-y-auto space-y-3 pr-2 scrollbar-thin scrollbar-thumb-purple-600/50 scrollbar-track-slate-950">
-              {(deepDiveModalData.items || []).map((item, idx) => (
-                <div key={idx} className="p-4 rounded-xl bg-slate-950 border border-slate-800/80 text-xs space-y-2">
-                  <div className="flex items-center justify-between text-slate-400">
-                    <span className="font-semibold">{item.date || 'Record'} &bull; {item.source || 'Primary Dataset'}</span>
-                    <span className="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 text-[10px] font-bold">
-                      {item.category || 'Statutory Data'}
-                    </span>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 shadow-2xl">
+            <button
+              onClick={() => setDeepDiveModalData(null)}
+              className="absolute top-4 right-4 p-1 rounded-lg bg-slate-800 text-slate-400 hover:text-slate-200 transition"
+            >
+              <XCircle className="w-5 h-5" />
+            </button>
+            <h3 className="text-xl font-bold text-slate-100">{deepDiveModalData.title}</h3>
+            <p className="text-xs text-slate-300">{deepDiveModalData.summary}</p>
+            <div className="space-y-3 pt-2">
+              {Array.isArray(deepDiveModalData.items) && deepDiveModalData.items.map((item, idx) => (
+                <div key={idx} className="p-3 bg-slate-950 rounded-xl border border-slate-800 text-xs space-y-1.5">
+                  <div className="flex justify-between text-slate-400">
+                    <span>{item.date} &bull; {item.source}</span>
+                    <span className="text-purple-400 font-semibold">{item.category}</span>
                   </div>
-                  <p className="text-slate-200 italic">&ldquo;{item.quote}&rdquo;</p>
-                  <p className="text-teal-400 font-medium border-t border-slate-900 pt-1.5">&check; Fact / Data: {item.factCheck}</p>
+                  {item.quote && <p className="text-slate-200 italic">&ldquo;{item.quote}&rdquo;</p>}
+                  {item.factCheck && <p className="text-teal-400 font-medium">&check; {item.factCheck}</p>}
                 </div>
               ))}
-            </div>
-
-            <div className="flex items-center justify-end border-t border-slate-800 pt-3">
-              <button
-                onClick={() => setDeepDiveModalData(null)}
-                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition"
-              >
-                Close Audit View
-              </button>
             </div>
           </div>
         </div>
