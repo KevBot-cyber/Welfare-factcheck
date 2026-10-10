@@ -5,7 +5,7 @@ import {
   Rss, CheckCircle2, XCircle, Info, Radio, Users, Newspaper, Award,
   Share2, Download, Eye, Sun, Moon, Volume2, Sparkles, Filter, HelpCircle,
   Building2, MessageSquare, BookOpen, Clock, Zap, Gavel, Check, Send,
-  HeartHandshake, Coins, LineChart, Phone, Globe, Quote, Landmark, ShoppingCart, Stethoscope, FileSpreadsheet
+  HeartHandshake, Coins, LineChart, Phone, Globe, Quote, Landmark, ShoppingCart, Stethoscope, FileSpreadsheet, Building
 } from 'lucide-react';
 import html2canvas from 'html2canvas';
 
@@ -18,18 +18,7 @@ import { MACROECONOMIC_METRICS, MACROECONOMIC_SUMMARIES } from './constants/econ
 import { KNOW_YOUR_RIGHTS_CONTENT } from './constants/knowyourrights';
 import LegalAndStandards from './constants/legalandstandards';
 import MPBriefingModule from './constants/mpBriefingModule';
-
-// FIX: Clean mojibake from financial figures coming from leaderboardData (Â£ -> £)
-const fixMojibake = (str) => {
-  if (str === null || str === undefined) return str;
-  let s = String(str);
-  s = s.replace(/Â£/g, '£');
-  s = s.replace(/Â€/g, '€');
-  s = s.replace(/Â/g, '');
-  s = s.replace(/Ã‚/g, '');
-  s = s.replace(/â€œ/g, '"').replace(/â€/g, '"').replace(/â€™/g, "'");
-  return s;
-};
+import constituencyDataJSON from './constants/constituency_tax_risk.json';
 
 // Helper to format keys like "DailyLivingStandard" to "Daily Living Standard"
 const formatCamelCase = (str) => {
@@ -48,7 +37,7 @@ const formatCurrencyVal = (val) => {
   if (typeof val === 'number') {
     return `£${val.toLocaleString('en-GB', { minimumFractionDigits: val % 1 !== 0 ? 2 : 0 })}`;
   }
-  const str = fixMojibake(String(val).trim());
+  const str = String(val).trim();
   if (!isNaN(Number(str))) {
     const num = Number(str);
     return `£${num.toLocaleString('en-GB', { minimumFractionDigits: num % 1 !== 0 ? 2 : 0 })}`;
@@ -240,6 +229,10 @@ export default function App() {
 
   const [expandedMacroId, setExpandedMacroId] = useState(null);
 
+  // State for Tax-Avoidance Risk Leaderboard Tab
+  const [taxSearch, setTaxSearch] = useState('');
+  const [selectedTaxConstituency, setSelectedTaxConstituency] = useState(null);
+
   const toggleMacroAccordion = (id) => {
     setExpandedMacroId((prev) => (prev === id ? null : id));
   };
@@ -313,6 +306,21 @@ export default function App() {
   const cardRef = useRef(null);
 
   const [vaultSearch, setVaultSearch] = useState('');
+
+  // Filtered Tax Leaderboard items
+  const filteredTaxConstituencies = useMemo(() => {
+    const list = constituencyDataJSON?.constituencies || [];
+    if (!taxSearch.trim()) return list;
+    const q = taxSearch.toLowerCase();
+    return list.filter(item => (item.constituency || '').toLowerCase().includes(q));
+  }, [taxSearch]);
+
+  const totalTaxLossFormatted = useMemo(() => {
+    const list = constituencyDataJSON?.constituencies || [];
+    const sum = list.reduce((acc, curr) => acc + (curr.estimated_tax_loss_gbp_millions || 0), 0);
+    const sumInBillions = sum / 1000;
+    return `£${sumInBillions.toFixed(1)} billion`;
+  }, []);
 
   useEffect(() => {
     if (!isFeedLive) return;
@@ -399,7 +407,7 @@ export default function App() {
     const parseValue = (rawVal) => {
       if (typeof rawVal === 'number') return rawVal;
       if (typeof rawVal === 'string') {
-        const cleaned = fixMojibake(rawVal).replace(/[^0-9.]/g, '');
+        const cleaned = rawVal.replace(/[^0-9.]/g, '');
         return parseFloat(cleaned) || 0;
       }
       if (typeof rawVal === 'object' && rawVal !== null) {
@@ -413,10 +421,10 @@ export default function App() {
 
     const parseName = (key, rawVal) => {
       if (typeof rawVal === 'object' && rawVal !== null) {
-        if (rawVal.name) return fixMojibake(rawVal.name);
-        if (rawVal.label) return fixMojibake(rawVal.label);
-        if (rawVal.title) return fixMojibake(rawVal.title);
-        if (rawVal.category) return fixMojibake(rawVal.category);
+        if (rawVal.name) return rawVal.name;
+        if (rawVal.label) return rawVal.label;
+        if (rawVal.title) return rawVal.title;
+        if (rawVal.category) return rawVal.category;
       }
       return formatCamelCase(key);
     };
@@ -523,6 +531,7 @@ export default function App() {
         <nav className={`border-b ${highContrast ? 'border-yellow-400 bg-black' : 'border-slate-800 bg-slate-900/95'} px-4 backdrop-blur-md shadow-lg`}>
           <div className="max-w-7xl mx-auto flex overflow-x-auto gap-1 py-2 scrollbar-thin scrollbar-thumb-purple-600/50 scrollbar-track-slate-950">
             {[
+              { id: 'taxLeaderboard', label: 'UK Tax-Avoidance Risk', icon: Building, badge: 'Live DB' },
               { id: 'leaderboard', label: 'Top 10 Hall of Fame', icon: Award, badge: 'New' },
               { id: 'analyzer', label: 'BS Meter & Analyzer', icon: Zap },
               { id: 'spending', label: 'Spending & Contribution Debunk', icon: BarChart3, badge: 'NEW' },
@@ -557,6 +566,114 @@ export default function App() {
       </div>
 
       <main className="max-w-7xl mx-auto px-4 py-6 space-y-8">
+        {/* TAX AVOIDANCE RISK LEADERBOARD TAB */}
+        {activeTab === 'taxLeaderboard' && (
+          <div className="space-y-6">
+            <div className="p-6 rounded-2xl border border-purple-800/40 bg-gradient-to-r from-purple-950/80 via-slate-900 to-slate-900 relative overflow-hidden space-y-4">
+              <div className="max-w-3xl space-y-2">
+                <div className="flex items-center gap-2 text-teal-400 text-xs font-bold uppercase tracking-wider">
+                  <Building className="w-4 h-4" />
+                  <span>Parliamentary Constituency Corporate Tax-Avoidance Risk Leaderboard</span>
+                </div>
+                <h2 className="text-2xl md:text-3xl font-black tracking-tight text-slate-100">
+                  UK Corporate Tax-Avoidance &amp; ETR Risk Index
+                </h2>
+                <p className="text-sm text-slate-300">
+                  Mapping active company density, estimated Effective Tax Rate (ETR) divergence risks, and apportioned corporate tax gaps across all UK parliamentary constituencies.
+                </p>
+              </div>
+
+              {/* Headline KPI Cards */}
+              <div className="grid sm:grid-cols-3 gap-4 pt-2">
+                <div className="p-4 rounded-xl bg-slate-950/90 border border-slate-800 space-y-1">
+                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">UK Total Corporate Tax Gap</p>
+                  <p className="text-2xl font-black text-rose-400">{constituencyDataJSON?.headline_metrics?.uk_total_tax_gap_billions || '£59.2 billion'}</p>
+                  <p className="text-[10px] text-slate-500">Apportioned across active company density</p>
+                </div>
+                <div className="p-4 rounded-xl bg-slate-950/90 border border-slate-800 space-y-1">
+                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Total Modeled Constituencies</p>
+                  <p className="text-2xl font-black text-purple-300">{constituencyDataJSON?.constituencies?.length || 0}</p>
+                  <p className="text-[10px] text-slate-500">Full UK parliamentary boundary coverage</p>
+                </div>
+                <div className="p-4 rounded-xl bg-slate-950/90 border border-slate-800 space-y-1">
+                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Total Modeled Tax Loss</p>
+                  <p className="text-2xl font-black text-amber-400">{totalTaxLossFormatted}</p>
+                  <p className="text-[10px] text-slate-500">Modeled local revenue divergence</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Search Filter Bar */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="relative w-full sm:w-96">
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <input
+                  type="text"
+                  value={taxSearch}
+                  onChange={(e) => setTaxSearch(e.target.value)}
+                  placeholder="Search constituency (e.g., Gosport, Fareham)..."
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-100 focus:outline-none focus:border-purple-500"
+                />
+              </div>
+              <div className="text-xs text-slate-400 font-medium">
+                Showing {filteredTaxConstituencies.length} of {constituencyDataJSON?.constituencies?.length || 0} constituencies
+              </div>
+            </div>
+
+            {/* Constituency Data Table */}
+            <div className="rounded-2xl border border-slate-800 bg-slate-900/60 overflow-hidden shadow-xl">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead className="bg-slate-950 text-slate-400 uppercase font-bold tracking-wider border-b border-slate-800">
+                    <tr>
+                      <th className="p-4">Constituency</th>
+                      <th className="p-4 text-center">Active Companies</th>
+                      <th className="p-4 text-center">ETR Risk Targets</th>
+                      <th className="p-4 text-right">Estimated Tax Loss (£M)</th>
+                      <th className="p-4 text-center">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-800/80">
+                    {filteredTaxConstituencies.length > 0 ? (
+                      filteredTaxConstituencies.map((item, idx) => (
+                        <tr key={idx} className="hover:bg-slate-800/40 transition">
+                          <td className="p-4 font-bold text-slate-100 flex items-center gap-2">
+                            <Building className="w-4 h-4 text-purple-400 shrink-0" />
+                            <span>{item.constituency}</span>
+                          </td>
+                          <td className="p-4 text-center font-mono text-slate-300">{item.active_companies?.toLocaleString()}</td>
+                          <td className="p-4 text-center">
+                            <span className="px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 font-bold font-mono">
+                              {item.etr_risk_companies}
+                            </span>
+                          </td>
+                          <td className="p-4 text-right font-mono font-bold text-rose-400">
+                            £{item.estimated_tax_loss_gbp_millions?.toLocaleString('en-GB', { minimumFractionDigits: 2 })}m
+                          </td>
+                          <td className="p-4 text-center">
+                            <button
+                              onClick={() => setSelectedTaxConstituency(item)}
+                              className="px-3 py-1.5 rounded-lg bg-purple-600/20 text-purple-300 hover:bg-purple-600/40 border border-purple-500/30 font-semibold transition"
+                            >
+                              View Details
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="5" className="p-8 text-center text-slate-400">
+                          No constituencies found matching &ldquo;{taxSearch}&rdquo;.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* 1. HALL OF FAME LEADERBOARD */}
         {activeTab === 'leaderboard' && (
           <div className="space-y-6">
@@ -623,8 +740,8 @@ export default function App() {
                             #{figure.rank}
                           </span>
                           <div>
-                            <h3 className="font-bold text-base md:text-lg text-slate-100">{fixMojibake(figure.name)}</h3>
-                            <p className="text-xs text-slate-400">{fixMojibake(figure.party || figure.type || figure.outlet)} • {fixMojibake(figure.constituency || figure.role || 'Media Outlet')}</p>
+                            <h3 className="font-bold text-base md:text-lg text-slate-100">{figure.name}</h3>
+                            <p className="text-xs text-slate-400">{figure.party || figure.type || figure.outlet} &bull; {figure.constituency || figure.role || 'Media Outlet'}</p>
                           </div>
                         </div>
                         <div className="flex items-center gap-3">
@@ -653,8 +770,8 @@ export default function App() {
                             <button
                               onClick={() => setShareCardModalData({
                                 title: `Fact-Check: ${figure.name}`,
-                                quote: fixMojibake(figure.claimsHistory[0].quote),
-                                fact: fixMojibake(figure.claimsHistory[0].factCheck),
+                                quote: figure.claimsHistory[0].quote,
+                                fact: figure.claimsHistory[0].factCheck,
                                 source: figure.claimsHistory[0].source || figure.name
                               })}
                               className="text-[10px] bg-purple-600/20 text-purple-300 px-2 py-0.5 rounded border border-purple-500/30 hover:bg-purple-600/40 flex items-center gap-1"
@@ -662,8 +779,8 @@ export default function App() {
                               <Share2 className="w-3 h-3" /> Share Card
                             </button>
                           </div>
-                          <p className="text-slate-200 italic">"{fixMojibake(figure.claimsHistory[0].quote)}"</p>
-                          <p className="text-teal-400 font-medium pt-1">✅ Fact: {fixMojibake(figure.claimsHistory[0].factCheck)}</p>
+                          <p className="text-slate-200 italic">&ldquo;{figure.claimsHistory[0].quote}&rdquo;</p>
+                          <p className="text-teal-400 font-medium pt-1">&check; Fact: {figure.claimsHistory[0].factCheck}</p>
                         </div>
                       )}
 
@@ -686,14 +803,14 @@ export default function App() {
                             {(figure.claimsHistory || []).map((claim, idx) => (
                               <div key={idx} className="p-3 rounded-xl bg-slate-950/80 border border-slate-800/60 text-xs space-y-1.5">
                                 <div className="flex items-center justify-between text-slate-400">
-                                  <span>{fixMojibake(claim.date)} • Source: {fixMojibake(claim.source)}</span>
+                                  <span>{claim.date} &bull; Source: {claim.source}</span>
                                   <div className="flex items-center gap-2">
-                                    <span className="text-amber-400 font-semibold">{fixMojibake(claim.category)}</span>
+                                    <span className="text-amber-400 font-semibold">{claim.category}</span>
                                     <button
                                       onClick={() => setShareCardModalData({
                                         title: `Fact-Check: ${figure.name}`,
-                                        quote: fixMojibake(claim.quote),
-                                        fact: fixMojibake(claim.factCheck),
+                                        quote: claim.quote,
+                                        fact: claim.factCheck,
                                         source: claim.source
                                       })}
                                       className="text-[10px] bg-slate-800 text-slate-200 px-2 py-0.5 rounded hover:bg-slate-700 flex items-center gap-1"
@@ -702,8 +819,8 @@ export default function App() {
                                     </button>
                                   </div>
                                 </div>
-                                <p className="text-slate-200 italic">"{fixMojibake(claim.quote)}"</p>
-                                <p className="text-teal-400 font-medium">✅ Fact: {fixMojibake(claim.factCheck)}</p>
+                                <p className="text-slate-200 italic">&ldquo;{claim.quote}&rdquo;</p>
+                                <p className="text-teal-400 font-medium">&check; Fact: {claim.factCheck}</p>
                               </div>
                             ))}
                           </div>
@@ -803,10 +920,10 @@ export default function App() {
                 {analysisResult.primaryRebuttal && (
                   <div className="p-4 bg-slate-950 rounded-xl border border-purple-800/40 text-xs space-y-2">
                     <p className="font-bold text-purple-400 uppercase tracking-wider">STATEMENT-TAILORED PRIMARY DATA REBUTTAL</p>
-                    <p className="text-slate-200 leading-relaxed">{fixMojibake(analysisResult.primaryRebuttal)}</p>
+                    <p className="text-slate-200 leading-relaxed">{analysisResult.primaryRebuttal}</p>
                     {analysisResult.sourceRef && (
                       <p className="text-slate-400 font-medium pt-1">
-                        <strong className="text-teal-400">Reference:</strong> {fixMojibake(analysisResult.sourceRef)}
+                        <strong className="text-teal-400">Reference:</strong> {analysisResult.sourceRef}
                       </p>
                     )}
                   </div>
@@ -820,8 +937,8 @@ export default function App() {
                     </h4>
                     {analysisResult.flags.map((flag, i) => (
                       <div key={i} className="p-3 bg-slate-950 rounded-xl border border-slate-800 text-xs text-slate-300 flex items-start gap-2">
-                        <span className="text-amber-400 shrink-0 font-bold">•</span>
-                        <span>{fixMojibake(flag)}</span>
+                        <span className="text-amber-400 shrink-0 font-bold">&bull;</span>
+                        <span>{flag}</span>
                       </div>
                     ))}
                   </div>
@@ -900,8 +1017,8 @@ export default function App() {
                 <div className="space-y-3 text-xs">
                   {Object.entries(CONTRIBUTORY_DEBUNK_DATA || {}).map(([key, item]) => (
                     <div key={key} className="p-3 bg-slate-950 rounded-xl space-y-1 border border-slate-800/60">
-                      <p className="font-bold text-amber-400">Myth: {fixMojibake(item.claim || item.myth)}</p>
-                      <p className="text-slate-300">Fact: {fixMojibake(item.reality || item.fact)}</p>
+                      <p className="font-bold text-amber-400">Myth: {item.claim || item.myth}</p>
+                      <p className="text-slate-300">Fact: {item.reality || item.fact}</p>
                     </div>
                   ))}
                 </div>
@@ -972,7 +1089,7 @@ export default function App() {
                       rel="noopener noreferrer"
                       className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-slate-800 text-teal-400 border border-slate-800 transition"
                     >
-                      <span>{fixMojibake(link.title || link.label || link.name || 'Source')}</span>
+                      <span>{link.title || link.label || link.name || 'Source'}</span>
                       <ExternalLink className="w-3.5 h-3.5 shrink-0" />
                     </a>
                   ))}
@@ -1083,13 +1200,13 @@ export default function App() {
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2 text-red-400 font-bold text-xs uppercase">
                             <XCircle className="w-4 h-4" />
-                            <span>Myth #{idx + 1}</span>
+                            <span>Myth #${idx + 1}</span>
                           </div>
                           <button
                             onClick={() => setShareCardModalData({
                               title: `Fact-Check: Myth #${idx + 1}`,
-                              quote: fixMojibake(mythText),
-                              fact: fixMojibake(factText),
+                              quote: mythText,
+                              fact: factText,
                               source: 'UK Welfare Truth Index Myth Vault'
                             })}
                             className="text-[10px] bg-purple-600/20 text-purple-300 px-2 py-0.5 rounded border border-purple-500/30 hover:bg-purple-600/40 flex items-center gap-1"
@@ -1097,12 +1214,12 @@ export default function App() {
                             <Share2 className="w-3 h-3" /> Share Card
                           </button>
                         </div>
-                        <h3 className="font-bold text-slate-100 text-sm">{fixMojibake(mythText)}</h3>
+                        <h3 className="font-bold text-slate-100 text-sm">{mythText}</h3>
                         <div className="pt-2 border-t border-slate-800 text-xs text-slate-300 space-y-1">
                           <span className="text-teal-400 font-semibold flex items-center gap-1">
                             <CheckCircle2 className="w-3.5 h-3.5" /> Official Primary Fact:
                           </span>
-                          <p className="leading-relaxed">{fixMojibake(factText)}</p>
+                          <p className="leading-relaxed">{factText}</p>
                         </div>
                       </div>
                     );
@@ -1140,16 +1257,16 @@ export default function App() {
                       </div>
                       
                       <h3 className="text-lg font-bold text-white capitalize">
-                        {fixMojibake(result.question || vaultSearch)}
+                        {result.question || vaultSearch}
                       </h3>
 
                       <div className="text-sm text-slate-200 leading-relaxed whitespace-pre-line bg-slate-950 p-4 rounded-xl border border-slate-800 font-mono">
-                        {fixMojibake(result.answer)}
+                        {result.answer}
                       </div>
 
                       {result.sourceName && (
                         <p className="text-xs text-slate-400 border-t border-slate-800 pt-2">
-                          <strong className="text-slate-300">Source:</strong> {fixMojibake(result.sourceName)}
+                          <strong className="text-slate-300">Source:</strong> {result.sourceName}
                         </p>
                       )}
                     </div>
@@ -1159,7 +1276,7 @@ export default function App() {
 
               {searchTerm && filteredMyths.length === 0 && dynamicResults.length === 0 && (
                 <div className="p-8 text-center bg-slate-900/50 rounded-2xl border border-slate-800 text-slate-400 text-sm">
-                  No matching myths or benefit policy data found for "{fixMojibake(vaultSearch)}".
+                  No matching myths or benefit policy data found for &ldquo;{vaultSearch}&rdquo;.
                 </div>
               )}
             </div>
@@ -1220,9 +1337,9 @@ export default function App() {
                           </span>
                         </div>
                       </div>
-                      <h3 className="text-xl font-black text-purple-300">{fixMojibake(metric.stat)}</h3>
-                      <p className="text-xs text-slate-400 font-medium mb-2">{fixMojibake(metric.subtitle)}</p>
-                      <p className="text-xs text-slate-300 leading-relaxed">{fixMojibake(metric.summary)}</p>
+                      <h3 className="text-xl font-black text-purple-300">{metric.stat}</h3>
+                      <p className="text-xs text-slate-400 font-medium mb-2">{metric.subtitle}</p>
+                      <p className="text-xs text-slate-300 leading-relaxed">{metric.summary}</p>
                     </div>
 
                     {/* Accordion Toggle */}
@@ -1239,9 +1356,9 @@ export default function App() {
                         <div className="mt-3 space-y-3 bg-slate-950 p-3 rounded-xl border border-purple-500/20 text-xs">
                           {metric.citations.map((cite, idx) => (
                             <div key={idx} className="border-b border-slate-800 last:border-0 pb-2 last:pb-0 space-y-1">
-                              <div className="font-bold text-purple-300 text-[11px]">{fixMojibake(cite.source)}</div>
-                              <div className="text-slate-200 font-medium">{fixMojibake(cite.title)}</div>
-                              <p className="italic text-slate-400 text-[11px]">"{fixMojibake(cite.quote)}"</p>
+                              <div className="font-bold text-purple-300 text-[11px]">{cite.source}</div>
+                              <div className="text-slate-200 font-medium">{cite.title}</div>
+                              <p className="italic text-slate-400 text-[11px]">&ldquo;{cite.quote}&rdquo;</p>
                               <a
                                 href={cite.link}
                                 target="_blank"
@@ -1260,6 +1377,69 @@ export default function App() {
               })}
             </div>
 
+            {/* Offshore Tax Evasion & Shell Company Impact Section (Expanded Scope) */}
+            <div className="p-6 rounded-2xl border border-slate-800 bg-slate-900/90 space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="font-bold text-base text-slate-100 flex items-center gap-2">
+                  <Building2 className="w-5 h-5 text-amber-400" />
+                  Offshore Tax Evasion, Non-Dom Relocations &amp; Expanded Tax Gap Scope
+                </h3>
+                <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                  HMRC, IFS &amp; Tax Justice Data
+                </span>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                While HMRC's narrow direct corporate profit-shifting estimates baseline specific technical adjustments, comprehensive independent economic audits (incorporating high-net-worth non-domiciled tax avoidance, offshore trust structures, private asset concealment, and multinational profit shifting) reveal a total annual revenue loss exceeding <strong className="text-white">£30 billion to £35 billion+</strong>. High-profile individual relocations (such as billionaires restructuring residency in low-tax jurisdictions like Monaco) and secretive offshore shell company networks severely impact public revenues that fund national infrastructure and social protection frameworks.
+              </p>
+
+              <div className="grid md:grid-cols-3 gap-4 pt-2 text-xs">
+                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+                  <div className="font-bold text-amber-400">Total UK Tax Gap (HMRC Official)</div>
+                  <p className="text-slate-300 leading-relaxed">
+                    HMRC's official annual tax gap figures estimate the total difference between theoretical tax liabilities and actual tax collected at <strong className="text-white">£59.2 billion</strong> across all non-compliance categories.
+                  </p>
+                  <a
+                    href="https://www.gov.uk/government/statistics/measuring-tax-gaps/1-tax-gaps-summary"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1 text-teal-400 hover:underline font-semibold pt-1"
+                  >
+                    HMRC Measuring Tax Gaps <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+
+                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+                  <div className="font-bold text-purple-300">Non-Dom &amp; Wealth Evasion Scope</div>
+                  <p className="text-slate-300 leading-relaxed">
+                    Research from institutions like the London School of Economics (LSE) and Tax Justice UK demonstrates that reforming or losing ultra-high-net-worth non-domiciled taxpayers impacts billions in potential receipts.
+                  </p>
+                  <a
+                    href="https://www.lse.ac.uk/News/Latest-News-from-LSE/2022/The-UK's-non-dom-rules"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1 text-teal-400 hover:underline font-semibold pt-1"
+                  >
+                    LSE Non-Dom Research <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+
+                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+                  <div className="font-bold text-teal-300">Global Tax Justice Network</div>
+                  <p className="text-slate-300 leading-relaxed">
+                    International tax transparency studies highlight that cross-border corporate profit shifting and private offshore asset concealment cost public budgets tens of billions annually.
+                  </p>
+                  <a
+                    href="https://taxjustice.net/reports/the-state-of-tax-justice-2025/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1 text-teal-400 hover:underline font-semibold pt-1"
+                  >
+                    Tax Justice Network Report <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              </div>
+            </div>
+
             {/* Macroeconomic Summaries Section */}
             <div className="p-6 rounded-2xl border border-slate-800 bg-slate-900/90 space-y-4">
               <h3 className="font-bold text-base text-slate-100 flex items-center gap-2">
@@ -1273,7 +1453,7 @@ export default function App() {
                     <div key={item.id} className="p-4 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between space-y-3">
                       <div>
                         <div className="flex items-center justify-between mb-1">
-                          <h4 className="font-bold text-purple-300">{fixMojibake(item.title)}</h4>
+                          <h4 className="font-bold text-purple-300">{item.title}</h4>
                           <button
                             onClick={() => setShareCardModalData({
                               title: item.title,
@@ -1286,7 +1466,7 @@ export default function App() {
                             Card
                           </button>
                         </div>
-                        <p className="leading-relaxed">{fixMojibake(item.description)}</p>
+                        <p className="leading-relaxed">{item.description}</p>
                       </div>
 
                       {/* Accordion Toggle */}
@@ -1303,9 +1483,9 @@ export default function App() {
                           <div className="mt-3 space-y-3 bg-slate-900 p-3 rounded-lg border border-purple-500/20 text-xs">
                             {item.citations.map((cite, idx) => (
                               <div key={idx} className="border-b border-slate-800 last:border-0 pb-2 last:pb-0 space-y-1">
-                                <div className="font-bold text-purple-300 text-[11px]">{fixMojibake(cite.source)}</div>
-                                <div className="text-slate-200 font-medium">{fixMojibake(cite.title)}</div>
-                                <p className="italic text-slate-400 text-[11px]">"{fixMojibake(cite.quote)}"</p>
+                                <div className="font-bold text-purple-300 text-[11px]">{cite.source}</div>
+                                <div className="text-slate-200 font-medium">{cite.title}</div>
+                                <p className="italic text-slate-400 text-[11px]">&ldquo;{cite.quote}&rdquo;</p>
                                 <a
                                   href={cite.link}
                                   target="_blank"
@@ -1388,7 +1568,7 @@ export default function App() {
                 filteredCharities.map((charity, idx) => (
                   <div key={idx} className="p-4 rounded-2xl border border-slate-800 bg-slate-900 space-y-2">
                     <div className="flex items-center justify-between">
-                      <h3 className="font-bold text-sm text-slate-100">{fixMojibake(charity.name)}</h3>
+                      <h3 className="font-bold text-sm text-slate-100">{charity.name}</h3>
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => setShareCardModalData({
@@ -1402,16 +1582,16 @@ export default function App() {
                           Card
                         </button>
                         <span className="text-[10px] px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30 font-semibold">
-                          {fixMojibake(charity.category)}
+                          {charity.category}
                         </span>
                       </div>
                     </div>
-                    <p className="text-xs text-slate-300">{fixMojibake(charity.desc)}</p>
+                    <p className="text-xs text-slate-300">{charity.desc}</p>
                   </div>
                 ))
               ) : (
                 <div className="col-span-full p-8 text-center text-slate-400 bg-slate-900/40 rounded-2xl border border-slate-800">
-                  No charities found matching letter "{charityLetter}" or filter "{charitySearch}".
+                  No charities found matching letter &ldquo;{charityLetter}&rdquo; or filter &ldquo;{charitySearch}&rdquo;.
                 </div>
               )}
             </div>
@@ -1456,7 +1636,7 @@ export default function App() {
                     <div className="flex items-center justify-between">
                       <h3 className="font-bold text-purple-300 text-sm flex items-center gap-1.5">
                         <CheckCircle2 className="w-4 h-4 text-teal-400 shrink-0" />
-                        {fixMojibake(principle.heading)}
+                        {principle.heading}
                       </h3>
                       <button
                         onClick={() => setShareCardModalData({
@@ -1471,7 +1651,7 @@ export default function App() {
                       </button>
                     </div>
                     <p className="text-xs text-slate-300 leading-relaxed">
-                      {fixMojibake(principle.description)}
+                      {principle.description}
                     </p>
                   </div>
                 ))}
@@ -1490,7 +1670,7 @@ export default function App() {
                   <div key={guide.id} className="p-6 rounded-2xl border border-slate-800 bg-slate-900 space-y-4">
                     <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                       <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 uppercase tracking-wider">
-                        {fixMojibake(guide.category)}
+                        {guide.category}
                       </span>
                       <button
                         onClick={() => setShareCardModalData({
@@ -1506,20 +1686,20 @@ export default function App() {
                     </div>
 
                     <div>
-                      <h4 className="text-lg font-bold text-slate-100">{fixMojibake(guide.title)}</h4>
-                      <p className="text-xs text-slate-400 pt-1">{fixMojibake(guide.summary)}</p>
+                      <h4 className="text-lg font-bold text-slate-100">{guide.title}</h4>
+                      <p className="text-xs text-slate-400 pt-1">{guide.summary}</p>
                     </div>
 
                     {/* Guide Sections */}
                     <div className="space-y-4 pt-2">
                       {guide.sections.map((sec, idx) => (
                         <div key={idx} className="bg-slate-950 p-4 rounded-xl border border-slate-800/80 space-y-2 text-xs">
-                          <h5 className="font-bold text-teal-300 text-sm">{fixMojibake(sec.subheading)}</h5>
-                          <p className="text-slate-300 leading-relaxed">{fixMojibake(sec.text)}</p>
+                          <h5 className="font-bold text-teal-300 text-sm">{sec.subheading}</h5>
+                          <p className="text-slate-300 leading-relaxed">{sec.text}</p>
                           {sec.bullets && (
                             <ul className="list-disc pl-5 space-y-1 text-slate-300 pt-1">
                               {sec.bullets.map((b, bIdx) => (
-                                <li key={bIdx} className="leading-relaxed">{fixMojibake(b)}</li>
+                                <li key={bIdx} className="leading-relaxed">{b}</li>
                               ))}
                             </ul>
                           )}
@@ -1540,7 +1720,7 @@ export default function App() {
                               rel="noopener noreferrer"
                               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-950 hover:bg-slate-800 text-teal-400 border border-slate-800 transition"
                             >
-                              <span>{fixMojibake(link.title || link.label)}</span>
+                              <span>{link.title || link.label}</span>
                               <ExternalLink className="w-3.5 h-3.5 shrink-0" />
                             </a>
                           ))}
@@ -1575,15 +1755,15 @@ export default function App() {
               {Array.isArray(SUPPORT_ORGANIZATIONS) && SUPPORT_ORGANIZATIONS.map((org, idx) => (
                 <div key={idx} className="p-5 rounded-2xl border border-slate-800 bg-slate-900 space-y-3">
                   <div className="flex items-center justify-between">
-                    <h3 className="font-bold text-base text-slate-100">{fixMojibake(org.name)}</h3>
+                    <h3 className="font-bold text-base text-slate-100">{org.name}</h3>
                     <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                      {fixMojibake(org.category || 'Support')}
+                      {org.category || 'Support'}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-300 leading-relaxed">{fixMojibake(org.description || org.desc)}</p>
+                  <p className="text-xs text-slate-300 leading-relaxed">{org.description || org.desc}</p>
                   {org.phone && (
                     <p className="text-xs text-teal-400 font-mono flex items-center gap-1.5">
-                      <Phone className="w-3.5 h-3.5" /> {fixMojibake(org.phone)}
+                      <Phone className="w-3.5 h-3.5" /> {org.phone}
                     </p>
                   )}
                   {org.website && (
@@ -1604,6 +1784,48 @@ export default function App() {
         )}
       </main>
 
+      {/* Selected Constituency Details Modal */}
+      {selectedTaxConstituency && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="relative w-full max-w-lg bg-slate-900 border border-purple-500/40 rounded-2xl p-6 space-y-4 shadow-2xl">
+            <button
+              onClick={() => setSelectedTaxConstituency(null)}
+              className="absolute top-4 right-4 p-1 rounded-lg bg-slate-800 text-slate-400 hover:text-slate-200 transition"
+            >
+              <XCircle className="w-5 h-5" />
+            </button>
+            <div className="space-y-1">
+              <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 uppercase tracking-wider">
+                Constituency Tax Audit Report
+              </span>
+              <h3 className="text-xl font-bold text-slate-100 pt-1">{selectedTaxConstituency.constituency}</h3>
+            </div>
+            <div className="p-4 bg-slate-950 rounded-xl border border-slate-800 space-y-3 text-xs">
+              <div className="flex justify-between items-center">
+                <span className="text-slate-400">Total Active Companies:</span>
+                <span className="font-mono font-bold text-slate-200">{selectedTaxConstituency.active_companies?.toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-slate-400">Estimated ETR Risk Targets:</span>
+                <span className="font-mono font-bold text-amber-400">{selectedTaxConstituency.etr_risk_companies}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-slate-400">Modeled Tax Avoidance Loss:</span>
+                <span className="font-mono font-bold text-rose-400">£{selectedTaxConstituency.estimated_tax_loss_gbp_millions?.toLocaleString('en-GB', { minimumFractionDigits: 2 })}m</span>
+              </div>
+            </div>
+            <div className="flex justify-end pt-2">
+              <button
+                onClick={() => setSelectedTaxConstituency(null)}
+                className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition"
+              >
+                Close Report
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Share Card Modal */}
       {shareCardModalData && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
@@ -1619,14 +1841,14 @@ export default function App() {
                 <span>UK Welfare Truth Index</span>
                 <span>Fact Check</span>
               </div>
-              <h3 className="text-lg font-bold text-slate-100">{fixMojibake(shareCardModalData.title)}</h3>
+              <h3 className="text-lg font-bold text-slate-100">{shareCardModalData.title}</h3>
               <div className="p-3 bg-red-950/40 border-l-2 border-red-500 rounded text-xs text-slate-300 italic">
-                "{fixMojibake(shareCardModalData.quote)}"
+                &ldquo;{shareCardModalData.quote}&rdquo;
               </div>
               <div className="p-3 bg-teal-950/40 border-l-2 border-teal-500 rounded text-xs text-teal-200">
-                <strong>Fact:</strong> {fixMojibake(shareCardModalData.fact)}
+                <strong>Fact:</strong> {shareCardModalData.fact}
               </div>
-              <p className="text-[10px] text-slate-400 pt-1">Source: {fixMojibake(shareCardModalData.source)}</p>
+              <p className="text-[10px] text-slate-400 pt-1">Source: {shareCardModalData.source}</p>
             </div>
             <div className="flex gap-2 justify-end pt-2">
               <button
@@ -1657,17 +1879,17 @@ export default function App() {
             >
               <XCircle className="w-5 h-5" />
             </button>
-            <h3 className="text-xl font-bold text-slate-100">{fixMojibake(deepDiveModalData.title)}</h3>
-            <p className="text-xs text-slate-300">{fixMojibake(deepDiveModalData.summary)}</p>
+            <h3 className="text-xl font-bold text-slate-100">{deepDiveModalData.title}</h3>
+            <p className="text-xs text-slate-300">{deepDiveModalData.summary}</p>
             <div className="space-y-3 pt-2">
               {Array.isArray(deepDiveModalData.items) && deepDiveModalData.items.map((item, idx) => (
                 <div key={idx} className="p-3 bg-slate-950 rounded-xl border border-slate-800 text-xs space-y-1.5">
                   <div className="flex justify-between text-slate-400">
-                    <span>{fixMojibake(item.date)} • {fixMojibake(item.source)}</span>
-                    <span className="text-purple-400 font-semibold">{fixMojibake(item.category)}</span>
+                    <span>{item.date} &bull; {item.source}</span>
+                    <span className="text-purple-400 font-semibold">{item.category}</span>
                   </div>
-                  {item.quote && <p className="text-slate-200 italic">"{fixMojibake(item.quote)}"</p>}
-                  {item.factCheck && <p className="text-teal-400 font-medium">✅ {fixMojibake(item.factCheck)}</p>}
+                  {item.quote && <p className="text-slate-200 italic">&ldquo;{item.quote}&rdquo;</p>}
+                  {item.factCheck && <p className="text-teal-400 font-medium">&check; {item.factCheck}</p>}
                 </div>
               ))}
             </div>
