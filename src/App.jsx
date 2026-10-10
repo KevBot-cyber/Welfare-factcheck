@@ -586,12 +586,12 @@ export default function App() {
               {/* Headline KPI Cards */}
               <div className="grid sm:grid-cols-3 gap-4 pt-2">
                 <div className="p-4 rounded-xl bg-slate-950/90 border border-slate-800 space-y-1">
-                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">UK Total Corporate Tax Gap</p>
+                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">UK Total Tax Gap</p>
                   <p className="text-2xl font-black text-rose-400">{constituencyDataJSON?.headline_metrics?.uk_total_tax_gap_billions || '£59.2 billion'}</p>
                   <p className="text-[10px] text-slate-500">Apportioned across active company density</p>
                 </div>
                 <div className="p-4 rounded-xl bg-slate-950/90 border border-slate-800 space-y-1">
-                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Total Modeled Constituencies</p>
+                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Total Modeled Constituencies with sufficient account filings</p>
                   <p className="text-2xl font-black text-purple-300">{constituencyDataJSON?.constituencies?.length || 0}</p>
                   <p className="text-[10px] text-slate-500">Full UK parliamentary boundary coverage</p>
                 </div>
@@ -605,7 +605,7 @@ export default function App() {
 
             {/* Methodology & Modeled Disclaimer Box (Distinct Full-Width Card) */}
             <div className="p-5 rounded-2xl border border-purple-800/50 bg-slate-900/90 space-y-3 text-xs text-slate-300 shadow-lg">
-              <p className="font-bold text-purple-300 uppercase tracking-wider text-xs">How this constituency figure is calculated</p>
+              <p className="font-bold text-purple-300 uppercase tracking-wider text-xs">The metrics shown in the table below are calculated uniformly across every parliamentary seat using the following transparent parameters:</p>
               <div className="space-y-2">
                 <p><strong className="text-teal-400">Dataset:</strong> Active companies filing full statutory accounts with Profit Before Tax disclosed via Companies House API. We exclude micro-entity, small, abridged, dormant, and companies with no P&amp;L filed. Example: Cities of London &amp; Westminster shows 6,312 companies meeting criteria from ∼25,000+ active companies on the register.</p>
                 <p><strong className="text-teal-400">ETR (Effective Tax Rate):</strong> Actual % of Profit Before Tax paid in corporation tax after reliefs.</p>
