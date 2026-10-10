@@ -603,6 +603,19 @@ export default function App() {
               </div>
             </div>
 
+            {/* Methodology & Modeled Disclaimer Box (Distinct Full-Width Card) */}
+            <div className="p-5 rounded-2xl border border-purple-800/50 bg-slate-900/90 space-y-3 text-xs text-slate-300 shadow-lg">
+              <p className="font-bold text-purple-300 uppercase tracking-wider text-xs">How this constituency figure is calculated</p>
+              <div className="space-y-2">
+                <p><strong className="text-teal-400">Dataset:</strong> Active companies filing full statutory accounts with Profit Before Tax disclosed via Companies House API. We exclude micro-entity, small, abridged, dormant, and companies with no P&amp;L filed. Example: Cities of London &amp; Westminster shows 6,312 companies meeting criteria from ∼25,000+ active companies on the register.</p>
+                <p><strong className="text-teal-400">ETR (Effective Tax Rate):</strong> Actual % of Profit Before Tax paid in corporation tax after reliefs.</p>
+                <p><strong className="text-teal-400">Expected tax:</strong> We apply official UK rates: 19% for profits ≤£50k (Small Profits Rate), 25% for profits &gt;£250k (Main Rate), and HMRC marginal relief formula with fraction 3/200 for profits between £50k-£250k to taper liability.</p>
+                <p><strong className="text-teal-400">ETR Risk Target:</strong> A company where modelled ETR is &gt;5 percentage points below expected statutory rate. This indicates divergence, not fraud. Example: 252 risk targets = 4.0% of 6,312 full-account companies in this seat.</p>
+                <p><strong className="text-teal-400">Estimated Tax Loss (£166.52m):</strong> Two parts combined: (1) apportioned share of HMRC's official £59.2bn tax gap (2024-25) by active company density, and (2) modelled corporation tax divergence from our ETR analysis. This is an educational modelled estimate, not an HMRC audit or accusation against any specific business.</p>
+                <p><strong className="text-teal-400">Sources:</strong> Companies House API, HMRC Measuring Tax Gaps 2024-25, OBR.</p>
+              </div>
+            </div>
+
             {/* Search Filter Bar */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="relative w-full sm:w-96">
