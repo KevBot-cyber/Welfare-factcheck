@@ -1,0 +1,3375 @@
+{
+  "headline_metrics": {
+    "uk_total_tax_gap_billions": "\u00a359.2 billion",
+    "total_active_companies_modeled": 5166057,
+    "apportionment_basis": "HMRC National Tax Gap apportioned across all UK parliamentary constituencies"
+  },
+  "constituencies": [
+    {
+      "constituency": "Lancaster and Fleetwood",
+      "active_companies": 7991,
+      "etr_risk_companies": 319,
+      "estimated_tax_loss_gbp_millions": 210.81
+    },
+    {
+      "constituency": "Tewkesbury",
+      "active_companies": 7982,
+      "etr_risk_companies": 319,
+      "estimated_tax_loss_gbp_millions": 210.58
+    },
+    {
+      "constituency": "East Ham",
+      "active_companies": 7977,
+      "etr_risk_companies": 319,
+      "estimated_tax_loss_gbp_millions": 210.44
+    },
+    {
+      "constituency": "Perth and North Perthshire",
+      "active_companies": 7968,
+      "etr_risk_companies": 318,
+      "estimated_tax_loss_gbp_millions": 210.21
+    },
+    {
+      "constituency": "Lanark and Hamilton East",
+      "active_companies": 7954,
+      "etr_risk_companies": 318,
+      "estimated_tax_loss_gbp_millions": 209.84
+    },
+    {
+      "constituency": "Telford",
+      "active_companies": 7945,
+      "etr_risk_companies": 317,
+      "estimated_tax_loss_gbp_millions": 209.6
+    },
+    {
+      "constituency": "East Devon",
+      "active_companies": 7940,
+      "etr_risk_companies": 317,
+      "estimated_tax_loss_gbp_millions": 209.47
+    },
+    {
+      "constituency": "Penrith and The Border",
+      "active_companies": 7931,
+      "etr_risk_companies": 317,
+      "estimated_tax_loss_gbp_millions": 209.23
+    },
+    {
+      "constituency": "Lagan Valley",
+      "active_companies": 7917,
+      "etr_risk_companies": 316,
+      "estimated_tax_loss_gbp_millions": 208.86
+    },
+    {
+      "constituency": "Taunton Deane",
+      "active_companies": 7908,
+      "etr_risk_companies": 316,
+      "estimated_tax_loss_gbp_millions": 208.62
+    },
+    {
+      "constituency": "Easington",
+      "active_companies": 7903,
+      "etr_risk_companies": 316,
+      "estimated_tax_loss_gbp_millions": 208.49
+    },
+    {
+      "constituency": "Pendle",
+      "active_companies": 7894,
+      "etr_risk_companies": 315,
+      "estimated_tax_loss_gbp_millions": 208.26
+    },
+    {
+      "constituency": "Knowsley",
+      "active_companies": 7880,
+      "etr_risk_companies": 315,
+      "estimated_tax_loss_gbp_millions": 207.89
+    },
+    {
+      "constituency": "Tatton",
+      "active_companies": 7871,
+      "etr_risk_companies": 314,
+      "estimated_tax_loss_gbp_millions": 207.65
+    },
+    {
+      "constituency": "Ealing, Southall",
+      "active_companies": 7866,
+      "etr_risk_companies": 314,
+      "estimated_tax_loss_gbp_millions": 207.52
+    },
+    {
+      "constituency": "Paisley and Renfrewshire South",
+      "active_companies": 7857,
+      "etr_risk_companies": 314,
+      "estimated_tax_loss_gbp_millions": 207.28
+    },
+    {
+      "constituency": "Kirkcaldy and Cowdenbeath",
+      "active_companies": 7843,
+      "etr_risk_companies": 313,
+      "estimated_tax_loss_gbp_millions": 206.91
+    },
+    {
+      "constituency": "Tamworth",
+      "active_companies": 7834,
+      "etr_risk_companies": 313,
+      "estimated_tax_loss_gbp_millions": 206.67
+    },
+    {
+      "constituency": "Ealing North",
+      "active_companies": 7829,
+      "etr_risk_companies": 313,
+      "estimated_tax_loss_gbp_millions": 206.54
+    },
+    {
+      "constituency": "Paisley and Renfrewshire North",
+      "active_companies": 7820,
+      "etr_risk_companies": 312,
+      "estimated_tax_loss_gbp_millions": 206.3
+    },
+    {
+      "constituency": "Kingswood",
+      "active_companies": 7806,
+      "etr_risk_companies": 312,
+      "estimated_tax_loss_gbp_millions": 205.93
+    },
+    {
+      "constituency": "Swansea West",
+      "active_companies": 7797,
+      "etr_risk_companies": 311,
+      "estimated_tax_loss_gbp_millions": 205.7
+    },
+    {
+      "constituency": "Ealing Central and Acton",
+      "active_companies": 7792,
+      "etr_risk_companies": 311,
+      "estimated_tax_loss_gbp_millions": 205.56
+    },
+    {
+      "constituency": "Oxford West and Abingdon",
+      "active_companies": 7783,
+      "etr_risk_companies": 311,
+      "estimated_tax_loss_gbp_millions": 205.33
+    },
+    {
+      "constituency": "Kingston upon Hull West and Hessle",
+      "active_companies": 7769,
+      "etr_risk_companies": 310,
+      "estimated_tax_loss_gbp_millions": 204.96
+    },
+    {
+      "constituency": "Swansea East",
+      "active_companies": 7760,
+      "etr_risk_companies": 310,
+      "estimated_tax_loss_gbp_millions": 204.72
+    },
+    {
+      "constituency": "Durham, North",
+      "active_companies": 7755,
+      "etr_risk_companies": 310,
+      "estimated_tax_loss_gbp_millions": 204.59
+    },
+    {
+      "constituency": "Oxford East",
+      "active_companies": 7746,
+      "etr_risk_companies": 309,
+      "estimated_tax_loss_gbp_millions": 204.35
+    },
+    {
+      "constituency": "Kingston upon Hull North",
+      "active_companies": 7732,
+      "etr_risk_companies": 309,
+      "estimated_tax_loss_gbp_millions": 203.98
+    },
+    {
+      "constituency": "Sutton Coldfield",
+      "active_companies": 7723,
+      "etr_risk_companies": 308,
+      "estimated_tax_loss_gbp_millions": 203.74
+    },
+    {
+      "constituency": "Dunfermline and West Fife",
+      "active_companies": 7718,
+      "etr_risk_companies": 308,
+      "estimated_tax_loss_gbp_millions": 203.61
+    },
+    {
+      "constituency": "Orpington",
+      "active_companies": 7709,
+      "etr_risk_companies": 308,
+      "estimated_tax_loss_gbp_millions": 203.37
+    },
+    {
+      "constituency": "Kingston upon Hull East",
+      "active_companies": 7695,
+      "etr_risk_companies": 307,
+      "estimated_tax_loss_gbp_millions": 203.01
+    },
+    {
+      "constituency": "Sutton and Cheam",
+      "active_companies": 7686,
+      "etr_risk_companies": 307,
+      "estimated_tax_loss_gbp_millions": 202.77
+    },
+    {
+      "constituency": "Dundee West",
+      "active_companies": 7681,
+      "etr_risk_companies": 307,
+      "estimated_tax_loss_gbp_millions": 202.64
+    },
+    {
+      "constituency": "Orkney and Shetland",
+      "active_companies": 7672,
+      "etr_risk_companies": 306,
+      "estimated_tax_loss_gbp_millions": 202.4
+    },
+    {
+      "constituency": "Kingston and Surbiton",
+      "active_companies": 7658,
+      "etr_risk_companies": 306,
+      "estimated_tax_loss_gbp_millions": 202.03
+    },
+    {
+      "constituency": "Sussex Mid",
+      "active_companies": 7649,
+      "etr_risk_companies": 305,
+      "estimated_tax_loss_gbp_millions": 201.79
+    },
+    {
+      "constituency": "Dundee East",
+      "active_companies": 7644,
+      "etr_risk_companies": 305,
+      "estimated_tax_loss_gbp_millions": 201.66
+    },
+    {
+      "constituency": "Ogmore",
+      "active_companies": 7635,
+      "etr_risk_companies": 305,
+      "estimated_tax_loss_gbp_millions": 201.42
+    },
+    {
+      "constituency": "Kilmarnock and Loudoun",
+      "active_companies": 7621,
+      "etr_risk_companies": 304,
+      "estimated_tax_loss_gbp_millions": 201.05
+    },
+    {
+      "constituency": "Surrey Heath",
+      "active_companies": 7612,
+      "etr_risk_companies": 304,
+      "estimated_tax_loss_gbp_millions": 200.82
+    },
+    {
+      "constituency": "Dulwich and West Norwood",
+      "active_companies": 7607,
+      "etr_risk_companies": 304,
+      "estimated_tax_loss_gbp_millions": 200.68
+    },
+    {
+      "constituency": "Ochil and South Perthshire",
+      "active_companies": 7598,
+      "etr_risk_companies": 303,
+      "estimated_tax_loss_gbp_millions": 200.45
+    },
+    {
+      "constituency": "Kettering",
+      "active_companies": 7584,
+      "etr_risk_companies": 303,
+      "estimated_tax_loss_gbp_millions": 200.08
+    },
+    {
+      "constituency": "Sunderland Central",
+      "active_companies": 7575,
+      "etr_risk_companies": 303,
+      "estimated_tax_loss_gbp_millions": 199.84
+    },
+    {
+      "constituency": "Dudley South",
+      "active_companies": 7570,
+      "etr_risk_companies": 302,
+      "estimated_tax_loss_gbp_millions": 199.71
+    },
+    {
+      "constituency": "Nuneaton",
+      "active_companies": 7561,
+      "etr_risk_companies": 302,
+      "estimated_tax_loss_gbp_millions": 199.47
+    },
+    {
+      "constituency": "Kensington",
+      "active_companies": 7547,
+      "etr_risk_companies": 301,
+      "estimated_tax_loss_gbp_millions": 199.1
+    },
+    {
+      "constituency": "Suffolk Coastal",
+      "active_companies": 7538,
+      "etr_risk_companies": 301,
+      "estimated_tax_loss_gbp_millions": 198.86
+    },
+    {
+      "constituency": "Dudley North",
+      "active_companies": 7533,
+      "etr_risk_companies": 301,
+      "estimated_tax_loss_gbp_millions": 198.73
+    },
+    {
+      "constituency": "Nottingham South",
+      "active_companies": 7524,
+      "etr_risk_companies": 300,
+      "estimated_tax_loss_gbp_millions": 198.49
+    },
+    {
+      "constituency": "Kenilworth and Southam",
+      "active_companies": 7510,
+      "etr_risk_companies": 300,
+      "estimated_tax_loss_gbp_millions": 198.12
+    },
+    {
+      "constituency": "Stroud",
+      "active_companies": 7501,
+      "etr_risk_companies": 300,
+      "estimated_tax_loss_gbp_millions": 197.89
+    },
+    {
+      "constituency": "Dover",
+      "active_companies": 7496,
+      "etr_risk_companies": 299,
+      "estimated_tax_loss_gbp_millions": 197.76
+    },
+    {
+      "constituency": "Nottingham North",
+      "active_companies": 7487,
+      "etr_risk_companies": 299,
+      "estimated_tax_loss_gbp_millions": 197.52
+    },
+    {
+      "constituency": "Keighley",
+      "active_companies": 7473,
+      "etr_risk_companies": 298,
+      "estimated_tax_loss_gbp_millions": 197.15
+    },
+    {
+      "constituency": "Stretford and Urmston",
+      "active_companies": 7464,
+      "etr_risk_companies": 298,
+      "estimated_tax_loss_gbp_millions": 196.91
+    },
+    {
+      "constituency": "Doncaster North",
+      "active_companies": 7459,
+      "etr_risk_companies": 298,
+      "estimated_tax_loss_gbp_millions": 196.78
+    },
+    {
+      "constituency": "Nottingham East",
+      "active_companies": 7450,
+      "etr_risk_companies": 298,
+      "estimated_tax_loss_gbp_millions": 196.54
+    },
+    {
+      "constituency": "Jarrow",
+      "active_companies": 7436,
+      "etr_risk_companies": 297,
+      "estimated_tax_loss_gbp_millions": 196.17
+    },
+    {
+      "constituency": "Streatham",
+      "active_companies": 7427,
+      "etr_risk_companies": 297,
+      "estimated_tax_loss_gbp_millions": 195.94
+    },
+    {
+      "constituency": "Doncaster Central",
+      "active_companies": 7422,
+      "etr_risk_companies": 296,
+      "estimated_tax_loss_gbp_millions": 195.8
+    },
+    {
+      "constituency": "Norwich South",
+      "active_companies": 7413,
+      "etr_risk_companies": 296,
+      "estimated_tax_loss_gbp_millions": 195.57
+    },
+    {
+      "constituency": "Islwyn",
+      "active_companies": 7399,
+      "etr_risk_companies": 295,
+      "estimated_tax_loss_gbp_millions": 195.2
+    },
+    {
+      "constituency": "Stratford-on-Avon",
+      "active_companies": 7390,
+      "etr_risk_companies": 295,
+      "estimated_tax_loss_gbp_millions": 194.96
+    },
+    {
+      "constituency": "Don Valley",
+      "active_companies": 7385,
+      "etr_risk_companies": 295,
+      "estimated_tax_loss_gbp_millions": 194.83
+    },
+    {
+      "constituency": "Norwich North",
+      "active_companies": 7376,
+      "etr_risk_companies": 295,
+      "estimated_tax_loss_gbp_millions": 194.59
+    },
+    {
+      "constituency": "Islington South and Finsbury",
+      "active_companies": 7362,
+      "etr_risk_companies": 294,
+      "estimated_tax_loss_gbp_millions": 194.22
+    },
+    {
+      "constituency": "Strangford",
+      "active_companies": 7353,
+      "etr_risk_companies": 294,
+      "estimated_tax_loss_gbp_millions": 193.98
+    },
+    {
+      "constituency": "Dewsbury",
+      "active_companies": 7348,
+      "etr_risk_companies": 293,
+      "estimated_tax_loss_gbp_millions": 193.85
+    },
+    {
+      "constituency": "Northampton South",
+      "active_companies": 7339,
+      "etr_risk_companies": 293,
+      "estimated_tax_loss_gbp_millions": 193.61
+    },
+    {
+      "constituency": "Islington North",
+      "active_companies": 7325,
+      "etr_risk_companies": 293,
+      "estimated_tax_loss_gbp_millions": 193.24
+    },
+    {
+      "constituency": "Stourbridge",
+      "active_companies": 7316,
+      "etr_risk_companies": 292,
+      "estimated_tax_loss_gbp_millions": 193.01
+    },
+    {
+      "constituency": "Devizes",
+      "active_companies": 7311,
+      "etr_risk_companies": 292,
+      "estimated_tax_loss_gbp_millions": 192.87
+    },
+    {
+      "constituency": "Northampton North",
+      "active_companies": 7302,
+      "etr_risk_companies": 292,
+      "estimated_tax_loss_gbp_millions": 192.64
+    },
+    {
+      "constituency": "Isle of Wight",
+      "active_companies": 7288,
+      "etr_risk_companies": 291,
+      "estimated_tax_loss_gbp_millions": 192.27
+    },
+    {
+      "constituency": "Stone",
+      "active_companies": 7279,
+      "etr_risk_companies": 291,
+      "estimated_tax_loss_gbp_millions": 192.03
+    },
+    {
+      "constituency": "Derbyshire Dales",
+      "active_companies": 7274,
+      "etr_risk_companies": 290,
+      "estimated_tax_loss_gbp_millions": 191.9
+    },
+    {
+      "constituency": "North Wiltshire",
+      "active_companies": 7265,
+      "etr_risk_companies": 290,
+      "estimated_tax_loss_gbp_millions": 191.66
+    },
+    {
+      "constituency": "Ipswich",
+      "active_companies": 7251,
+      "etr_risk_companies": 290,
+      "estimated_tax_loss_gbp_millions": 191.29
+    },
+    {
+      "constituency": "Stoke-on-Trent South",
+      "active_companies": 7242,
+      "etr_risk_companies": 289,
+      "estimated_tax_loss_gbp_millions": 191.05
+    },
+    {
+      "constituency": "Derby South",
+      "active_companies": 7237,
+      "etr_risk_companies": 289,
+      "estimated_tax_loss_gbp_millions": 190.92
+    },
+    {
+      "constituency": "North West St Helens",
+      "active_companies": 7228,
+      "etr_risk_companies": 289,
+      "estimated_tax_loss_gbp_millions": 190.69
+    },
+    {
+      "constituency": "Inverness, Nairn, Badenoch and Strathspey",
+      "active_companies": 7214,
+      "etr_risk_companies": 288,
+      "estimated_tax_loss_gbp_millions": 190.32
+    },
+    {
+      "constituency": "Stoke-on-Trent North",
+      "active_companies": 7205,
+      "etr_risk_companies": 288,
+      "estimated_tax_loss_gbp_millions": 190.08
+    },
+    {
+      "constituency": "Derby North",
+      "active_companies": 7200,
+      "etr_risk_companies": 288,
+      "estimated_tax_loss_gbp_millions": 189.95
+    },
+    {
+      "constituency": "North West Norfolk",
+      "active_companies": 7191,
+      "etr_risk_companies": 287,
+      "estimated_tax_loss_gbp_millions": 189.71
+    },
+    {
+      "constituency": "Ilford South",
+      "active_companies": 7177,
+      "etr_risk_companies": 287,
+      "estimated_tax_loss_gbp_millions": 189.34
+    },
+    {
+      "constituency": "Stoke-on-Trent Central",
+      "active_companies": 7168,
+      "etr_risk_companies": 286,
+      "estimated_tax_loss_gbp_millions": 189.1
+    },
+    {
+      "constituency": "Denton and Reddish",
+      "active_companies": 7163,
+      "etr_risk_companies": 286,
+      "estimated_tax_loss_gbp_millions": 188.97
+    },
+    {
+      "constituency": "North West Leicestershire",
+      "active_companies": 7154,
+      "etr_risk_companies": 286,
+      "estimated_tax_loss_gbp_millions": 188.73
+    },
+    {
+      "constituency": "Ilford North",
+      "active_companies": 7140,
+      "etr_risk_companies": 285,
+      "estimated_tax_loss_gbp_millions": 188.36
+    },
+    {
+      "constituency": "Stockton South",
+      "active_companies": 7131,
+      "etr_risk_companies": 285,
+      "estimated_tax_loss_gbp_millions": 188.13
+    },
+    {
+      "constituency": "Delyn",
+      "active_companies": 7126,
+      "etr_risk_companies": 285,
+      "estimated_tax_loss_gbp_millions": 187.99
+    },
+    {
+      "constituency": "North West Hampshire",
+      "active_companies": 7117,
+      "etr_risk_companies": 284,
+      "estimated_tax_loss_gbp_millions": 187.76
+    },
+    {
+      "constituency": "Hyndburn",
+      "active_companies": 7103,
+      "etr_risk_companies": 284,
+      "estimated_tax_loss_gbp_millions": 187.39
+    },
+    {
+      "constituency": "Stockton North",
+      "active_companies": 7094,
+      "etr_risk_companies": 283,
+      "estimated_tax_loss_gbp_millions": 187.15
+    },
+    {
+      "constituency": "Daventry",
+      "active_companies": 7089,
+      "etr_risk_companies": 283,
+      "estimated_tax_loss_gbp_millions": 187.02
+    },
+    {
+      "constituency": "North West Durham",
+      "active_companies": 7080,
+      "etr_risk_companies": 283,
+      "estimated_tax_loss_gbp_millions": 186.78
+    },
+    {
+      "constituency": "Huntingdon",
+      "active_companies": 7066,
+      "etr_risk_companies": 282,
+      "estimated_tax_loss_gbp_millions": 186.41
+    },
+    {
+      "constituency": "Stockport",
+      "active_companies": 7057,
+      "etr_risk_companies": 282,
+      "estimated_tax_loss_gbp_millions": 186.17
+    },
+    {
+      "constituency": "Dartford",
+      "active_companies": 7052,
+      "etr_risk_companies": 282,
+      "estimated_tax_loss_gbp_millions": 186.04
+    },
+    {
+      "constituency": "North West Cambridgeshire",
+      "active_companies": 7043,
+      "etr_risk_companies": 281,
+      "estimated_tax_loss_gbp_millions": 185.8
+    },
+    {
+      "constituency": "Huddersfield",
+      "active_companies": 7029,
+      "etr_risk_companies": 281,
+      "estimated_tax_loss_gbp_millions": 185.44
+    },
+    {
+      "constituency": "Stirling",
+      "active_companies": 7020,
+      "etr_risk_companies": 280,
+      "estimated_tax_loss_gbp_millions": 185.2
+    },
+    {
+      "constituency": "Darlington",
+      "active_companies": 7015,
+      "etr_risk_companies": 280,
+      "estimated_tax_loss_gbp_millions": 185.07
+    },
+    {
+      "constituency": "North Warwickshire",
+      "active_companies": 7006,
+      "etr_risk_companies": 280,
+      "estimated_tax_loss_gbp_millions": 184.83
+    },
+    {
+      "constituency": "Hove",
+      "active_companies": 6992,
+      "etr_risk_companies": 279,
+      "estimated_tax_loss_gbp_millions": 184.46
+    },
+    {
+      "constituency": "Stevenage",
+      "active_companies": 6983,
+      "etr_risk_companies": 279,
+      "estimated_tax_loss_gbp_millions": 184.22
+    },
+    {
+      "constituency": "Dagenham and Rainham",
+      "active_companies": 6978,
+      "etr_risk_companies": 279,
+      "estimated_tax_loss_gbp_millions": 184.09
+    },
+    {
+      "constituency": "North Tyneside",
+      "active_companies": 6969,
+      "etr_risk_companies": 278,
+      "estimated_tax_loss_gbp_millions": 183.85
+    },
+    {
+      "constituency": "Houghton and Sunderland South",
+      "active_companies": 6955,
+      "etr_risk_companies": 278,
+      "estimated_tax_loss_gbp_millions": 183.48
+    },
+    {
+      "constituency": "Stalybridge and Hyde",
+      "active_companies": 6946,
+      "etr_risk_companies": 277,
+      "estimated_tax_loss_gbp_millions": 183.25
+    },
+    {
+      "constituency": "Cumbernauld, Kilsyth and Kirkintilloch East",
+      "active_companies": 6941,
+      "etr_risk_companies": 277,
+      "estimated_tax_loss_gbp_millions": 183.11
+    },
+    {
+      "constituency": "North Thanet",
+      "active_companies": 6932,
+      "etr_risk_companies": 277,
+      "estimated_tax_loss_gbp_millions": 182.88
+    },
+    {
+      "constituency": "Horsham",
+      "active_companies": 6918,
+      "etr_risk_companies": 276,
+      "estimated_tax_loss_gbp_millions": 182.51
+    },
+    {
+      "constituency": "Staffordshire Moorlands",
+      "active_companies": 6909,
+      "etr_risk_companies": 276,
+      "estimated_tax_loss_gbp_millions": 182.27
+    },
+    {
+      "constituency": "Croydon South",
+      "active_companies": 6904,
+      "etr_risk_companies": 276,
+      "estimated_tax_loss_gbp_millions": 182.14
+    },
+    {
+      "constituency": "North Swindon",
+      "active_companies": 6895,
+      "etr_risk_companies": 275,
+      "estimated_tax_loss_gbp_millions": 181.9
+    },
+    {
+      "constituency": "Hornsey and Wood Green",
+      "active_companies": 6881,
+      "etr_risk_companies": 275,
+      "estimated_tax_loss_gbp_millions": 181.53
+    },
+    {
+      "constituency": "Stafford",
+      "active_companies": 6872,
+      "etr_risk_companies": 274,
+      "estimated_tax_loss_gbp_millions": 181.29
+    },
+    {
+      "constituency": "Croydon North",
+      "active_companies": 6867,
+      "etr_risk_companies": 274,
+      "estimated_tax_loss_gbp_millions": 181.16
+    },
+    {
+      "constituency": "North Somerset",
+      "active_companies": 6858,
+      "etr_risk_companies": 274,
+      "estimated_tax_loss_gbp_millions": 180.92
+    },
+    {
+      "constituency": "Hornchurch and Upminster",
+      "active_companies": 6844,
+      "etr_risk_companies": 273,
+      "estimated_tax_loss_gbp_millions": 180.55
+    },
+    {
+      "constituency": "St Ives",
+      "active_companies": 6835,
+      "etr_risk_companies": 273,
+      "estimated_tax_loss_gbp_millions": 180.32
+    },
+    {
+      "constituency": "Croydon Central",
+      "active_companies": 6830,
+      "etr_risk_companies": 273,
+      "estimated_tax_loss_gbp_millions": 180.19
+    },
+    {
+      "constituency": "North Shropshire",
+      "active_companies": 6821,
+      "etr_risk_companies": 272,
+      "estimated_tax_loss_gbp_millions": 179.95
+    },
+    {
+      "constituency": "Holborn and St Pancras",
+      "active_companies": 6807,
+      "etr_risk_companies": 272,
+      "estimated_tax_loss_gbp_millions": 179.58
+    },
+    {
+      "constituency": "St Helens South and Whiston",
+      "active_companies": 6798,
+      "etr_risk_companies": 271,
+      "estimated_tax_loss_gbp_millions": 179.34
+    },
+    {
+      "constituency": "Crosby",
+      "active_companies": 6793,
+      "etr_risk_companies": 271,
+      "estimated_tax_loss_gbp_millions": 179.21
+    },
+    {
+      "constituency": "North Norfolk",
+      "active_companies": 6784,
+      "etr_risk_companies": 271,
+      "estimated_tax_loss_gbp_millions": 178.97
+    },
+    {
+      "constituency": "Hitchin and Harpenden",
+      "active_companies": 6770,
+      "etr_risk_companies": 270,
+      "estimated_tax_loss_gbp_millions": 178.6
+    },
+    {
+      "constituency": "St Helens North",
+      "active_companies": 6761,
+      "etr_risk_companies": 270,
+      "estimated_tax_loss_gbp_millions": 178.37
+    },
+    {
+      "constituency": "Crewe and Nantwich",
+      "active_companies": 6756,
+      "etr_risk_companies": 270,
+      "estimated_tax_loss_gbp_millions": 178.23
+    },
+    {
+      "constituency": "North Herefordshire",
+      "active_companies": 6747,
+      "etr_risk_companies": 269,
+      "estimated_tax_loss_gbp_millions": 178.0
+    },
+    {
+      "constituency": "High Peak",
+      "active_companies": 6733,
+      "etr_risk_companies": 269,
+      "estimated_tax_loss_gbp_millions": 177.63
+    },
+    {
+      "constituency": "St Austell and Newquay",
+      "active_companies": 6724,
+      "etr_risk_companies": 268,
+      "estimated_tax_loss_gbp_millions": 177.39
+    },
+    {
+      "constituency": "Crawley",
+      "active_companies": 6719,
+      "etr_risk_companies": 268,
+      "estimated_tax_loss_gbp_millions": 177.26
+    },
+    {
+      "constituency": "North East Somerset",
+      "active_companies": 6710,
+      "etr_risk_companies": 268,
+      "estimated_tax_loss_gbp_millions": 177.02
+    },
+    {
+      "constituency": "Heywood and Middleton",
+      "active_companies": 6696,
+      "etr_risk_companies": 267,
+      "estimated_tax_loss_gbp_millions": 176.65
+    },
+    {
+      "constituency": "St Albans",
+      "active_companies": 6687,
+      "etr_risk_companies": 267,
+      "estimated_tax_loss_gbp_millions": 176.41
+    },
+    {
+      "constituency": "Coventry South",
+      "active_companies": 6682,
+      "etr_risk_companies": 267,
+      "estimated_tax_loss_gbp_millions": 176.28
+    },
+    {
+      "constituency": "North East Hertfordshire",
+      "active_companies": 6673,
+      "etr_risk_companies": 266,
+      "estimated_tax_loss_gbp_millions": 176.04
+    },
+    {
+      "constituency": "Hexham",
+      "active_companies": 6659,
+      "etr_risk_companies": 266,
+      "estimated_tax_loss_gbp_millions": 175.67
+    },
+    {
+      "constituency": "Spelthorne",
+      "active_companies": 6650,
+      "etr_risk_companies": 266,
+      "estimated_tax_loss_gbp_millions": 175.44
+    },
+    {
+      "constituency": "Coventry North West",
+      "active_companies": 6645,
+      "etr_risk_companies": 265,
+      "estimated_tax_loss_gbp_millions": 175.3
+    },
+    {
+      "constituency": "North East Hampshire",
+      "active_companies": 6636,
+      "etr_risk_companies": 265,
+      "estimated_tax_loss_gbp_millions": 175.07
+    },
+    {
+      "constituency": "Hertsmere",
+      "active_companies": 6622,
+      "etr_risk_companies": 264,
+      "estimated_tax_loss_gbp_millions": 174.7
+    },
+    {
+      "constituency": "Southport",
+      "active_companies": 6613,
+      "etr_risk_companies": 264,
+      "estimated_tax_loss_gbp_millions": 174.46
+    },
+    {
+      "constituency": "Coventry North East",
+      "active_companies": 6608,
+      "etr_risk_companies": 264,
+      "estimated_tax_loss_gbp_millions": 174.33
+    },
+    {
+      "constituency": "North East Fife",
+      "active_companies": 6599,
+      "etr_risk_companies": 263,
+      "estimated_tax_loss_gbp_millions": 174.09
+    },
+    {
+      "constituency": "Hertford and Stortford",
+      "active_companies": 6585,
+      "etr_risk_companies": 263,
+      "estimated_tax_loss_gbp_millions": 173.72
+    },
+    {
+      "constituency": "Southend West",
+      "active_companies": 6576,
+      "etr_risk_companies": 263,
+      "estimated_tax_loss_gbp_millions": 173.48
+    },
+    {
+      "constituency": "Corby",
+      "active_companies": 6571,
+      "etr_risk_companies": 262,
+      "estimated_tax_loss_gbp_millions": 173.35
+    },
+    {
+      "constituency": "North East Derbyshire",
+      "active_companies": 6562,
+      "etr_risk_companies": 262,
+      "estimated_tax_loss_gbp_millions": 173.12
+    },
+    {
+      "constituency": "Hereford and South Herefordshire",
+      "active_companies": 6548,
+      "etr_risk_companies": 261,
+      "estimated_tax_loss_gbp_millions": 172.75
+    },
+    {
+      "constituency": "Southampton, Test",
+      "active_companies": 6539,
+      "etr_risk_companies": 261,
+      "estimated_tax_loss_gbp_millions": 172.51
+    },
+    {
+      "constituency": "Copeland",
+      "active_companies": 6534,
+      "etr_risk_companies": 261,
+      "estimated_tax_loss_gbp_millions": 172.38
+    },
+    {
+      "constituency": "North East Cambridgeshire",
+      "active_companies": 6525,
+      "etr_risk_companies": 261,
+      "estimated_tax_loss_gbp_millions": 172.14
+    },
+    {
+      "constituency": "Henley",
+      "active_companies": 6511,
+      "etr_risk_companies": 260,
+      "estimated_tax_loss_gbp_millions": 171.77
+    },
+    {
+      "constituency": "Southampton, Itchen",
+      "active_companies": 6502,
+      "etr_risk_companies": 260,
+      "estimated_tax_loss_gbp_millions": 171.53
+    },
+    {
+      "constituency": "Congleton",
+      "active_companies": 6497,
+      "etr_risk_companies": 259,
+      "estimated_tax_loss_gbp_millions": 171.4
+    },
+    {
+      "constituency": "North East Bedfordshire",
+      "active_companies": 6488,
+      "etr_risk_companies": 259,
+      "estimated_tax_loss_gbp_millions": 171.16
+    },
+    {
+      "constituency": "Hendon",
+      "active_companies": 6474,
+      "etr_risk_companies": 258,
+      "estimated_tax_loss_gbp_millions": 170.79
+    },
+    {
+      "constituency": "South West Wiltshire",
+      "active_companies": 6465,
+      "etr_risk_companies": 258,
+      "estimated_tax_loss_gbp_millions": 170.56
+    },
+    {
+      "constituency": "Colne Valley",
+      "active_companies": 6460,
+      "etr_risk_companies": 258,
+      "estimated_tax_loss_gbp_millions": 170.42
+    },
+    {
+      "constituency": "North Durham",
+      "active_companies": 6451,
+      "etr_risk_companies": 258,
+      "estimated_tax_loss_gbp_millions": 170.19
+    },
+    {
+      "constituency": "Hemsworth",
+      "active_companies": 6437,
+      "etr_risk_companies": 257,
+      "estimated_tax_loss_gbp_millions": 169.82
+    },
+    {
+      "constituency": "South West Surrey",
+      "active_companies": 6428,
+      "etr_risk_companies": 257,
+      "estimated_tax_loss_gbp_millions": 169.58
+    },
+    {
+      "constituency": "Colchester",
+      "active_companies": 6423,
+      "etr_risk_companies": 256,
+      "estimated_tax_loss_gbp_millions": 169.45
+    },
+    {
+      "constituency": "North Down",
+      "active_companies": 6414,
+      "etr_risk_companies": 256,
+      "estimated_tax_loss_gbp_millions": 169.21
+    },
+    {
+      "constituency": "Hemel Hempstead",
+      "active_companies": 6400,
+      "etr_risk_companies": 256,
+      "estimated_tax_loss_gbp_millions": 168.84
+    },
+    {
+      "constituency": "South West Norfolk",
+      "active_companies": 6391,
+      "etr_risk_companies": 255,
+      "estimated_tax_loss_gbp_millions": 168.6
+    },
+    {
+      "constituency": "Cleethorpes",
+      "active_companies": 6386,
+      "etr_risk_companies": 255,
+      "estimated_tax_loss_gbp_millions": 168.47
+    },
+    {
+      "constituency": "North Dorset",
+      "active_companies": 6377,
+      "etr_risk_companies": 255,
+      "estimated_tax_loss_gbp_millions": 168.23
+    },
+    {
+      "constituency": "Hazel Grove",
+      "active_companies": 6363,
+      "etr_risk_companies": 254,
+      "estimated_tax_loss_gbp_millions": 167.87
+    },
+    {
+      "constituency": "South West Hertfordshire",
+      "active_companies": 6354,
+      "etr_risk_companies": 254,
+      "estimated_tax_loss_gbp_millions": 167.63
+    },
+    {
+      "constituency": "Clacton",
+      "active_companies": 6349,
+      "etr_risk_companies": 253,
+      "estimated_tax_loss_gbp_millions": 167.5
+    },
+    {
+      "constituency": "North Devon",
+      "active_companies": 6340,
+      "etr_risk_companies": 253,
+      "estimated_tax_loss_gbp_millions": 167.26
+    },
+    {
+      "constituency": "Hayes and Harlington",
+      "active_companies": 6326,
+      "etr_risk_companies": 253,
+      "estimated_tax_loss_gbp_millions": 166.89
+    },
+    {
+      "constituency": "South West Devon",
+      "active_companies": 6317,
+      "etr_risk_companies": 252,
+      "estimated_tax_loss_gbp_millions": 166.65
+    },
+    {
+      "constituency": "Cities of London and Westminster",
+      "active_companies": 6312,
+      "etr_risk_companies": 252,
+      "estimated_tax_loss_gbp_millions": 166.52
+    },
+    {
+      "constituency": "North Cornwall",
+      "active_companies": 6303,
+      "etr_risk_companies": 252,
+      "estimated_tax_loss_gbp_millions": 166.28
+    },
+    {
+      "constituency": "Havant",
+      "active_companies": 6289,
+      "etr_risk_companies": 251,
+      "estimated_tax_loss_gbp_millions": 165.91
+    },
+    {
+      "constituency": "South West Bedfordshire",
+      "active_companies": 6280,
+      "etr_risk_companies": 251,
+      "estimated_tax_loss_gbp_millions": 165.68
+    },
+    {
+      "constituency": "Christchurch",
+      "active_companies": 6275,
+      "etr_risk_companies": 251,
+      "estimated_tax_loss_gbp_millions": 165.54
+    },
+    {
+      "constituency": "North Antrim",
+      "active_companies": 6266,
+      "etr_risk_companies": 250,
+      "estimated_tax_loss_gbp_millions": 165.31
+    },
+    {
+      "constituency": "Hastings and Rye",
+      "active_companies": 6252,
+      "etr_risk_companies": 250,
+      "estimated_tax_loss_gbp_millions": 164.94
+    },
+    {
+      "constituency": "South Thanet",
+      "active_companies": 6243,
+      "etr_risk_companies": 249,
+      "estimated_tax_loss_gbp_millions": 164.7
+    },
+    {
+      "constituency": "Chorley",
+      "active_companies": 6238,
+      "etr_risk_companies": 249,
+      "estimated_tax_loss_gbp_millions": 164.57
+    },
+    {
+      "constituency": "Normanton, Pontefract and Castleford",
+      "active_companies": 6229,
+      "etr_risk_companies": 249,
+      "estimated_tax_loss_gbp_millions": 164.33
+    },
+    {
+      "constituency": "York Outer",
+      "active_companies": 6220,
+      "etr_risk_companies": 248,
+      "estimated_tax_loss_gbp_millions": 164.09
+    },
+    {
+      "constituency": "Harwich and North Essex",
+      "active_companies": 6215,
+      "etr_risk_companies": 248,
+      "estimated_tax_loss_gbp_millions": 163.96
+    },
+    {
+      "constituency": "South Swindon",
+      "active_companies": 6206,
+      "etr_risk_companies": 248,
+      "estimated_tax_loss_gbp_millions": 163.72
+    },
+    {
+      "constituency": "Chippenham",
+      "active_companies": 6201,
+      "etr_risk_companies": 248,
+      "estimated_tax_loss_gbp_millions": 163.59
+    },
+    {
+      "constituency": "Newton Abbot",
+      "active_companies": 6192,
+      "etr_risk_companies": 247,
+      "estimated_tax_loss_gbp_millions": 163.35
+    },
+    {
+      "constituency": "York Central",
+      "active_companies": 6183,
+      "etr_risk_companies": 247,
+      "estimated_tax_loss_gbp_millions": 163.12
+    },
+    {
+      "constituency": "Hartlepool",
+      "active_companies": 6178,
+      "etr_risk_companies": 247,
+      "estimated_tax_loss_gbp_millions": 162.98
+    },
+    {
+      "constituency": "South Suffolk",
+      "active_companies": 6169,
+      "etr_risk_companies": 246,
+      "estimated_tax_loss_gbp_millions": 162.75
+    },
+    {
+      "constituency": "Chingford and Woodford Green",
+      "active_companies": 6164,
+      "etr_risk_companies": 246,
+      "estimated_tax_loss_gbp_millions": 162.62
+    },
+    {
+      "constituency": "Newry and Armagh",
+      "active_companies": 6155,
+      "etr_risk_companies": 246,
+      "estimated_tax_loss_gbp_millions": 162.38
+    },
+    {
+      "constituency": "Ynys M\u00f4n",
+      "active_companies": 6146,
+      "etr_risk_companies": 245,
+      "estimated_tax_loss_gbp_millions": 162.14
+    },
+    {
+      "constituency": "Harrow West",
+      "active_companies": 6141,
+      "etr_risk_companies": 245,
+      "estimated_tax_loss_gbp_millions": 162.01
+    },
+    {
+      "constituency": "South Staffordshire",
+      "active_companies": 6132,
+      "etr_risk_companies": 245,
+      "estimated_tax_loss_gbp_millions": 161.77
+    },
+    {
+      "constituency": "Chichester",
+      "active_companies": 6127,
+      "etr_risk_companies": 245,
+      "estimated_tax_loss_gbp_millions": 161.64
+    },
+    {
+      "constituency": "Newport West",
+      "active_companies": 6118,
+      "etr_risk_companies": 244,
+      "estimated_tax_loss_gbp_millions": 161.4
+    },
+    {
+      "constituency": "Yeovil",
+      "active_companies": 6109,
+      "etr_risk_companies": 244,
+      "estimated_tax_loss_gbp_millions": 161.16
+    },
+    {
+      "constituency": "Harrow East",
+      "active_companies": 6104,
+      "etr_risk_companies": 244,
+      "estimated_tax_loss_gbp_millions": 161.03
+    },
+    {
+      "constituency": "South Shields",
+      "active_companies": 6095,
+      "etr_risk_companies": 243,
+      "estimated_tax_loss_gbp_millions": 160.8
+    },
+    {
+      "constituency": "Chesterfield",
+      "active_companies": 6090,
+      "etr_risk_companies": 243,
+      "estimated_tax_loss_gbp_millions": 160.66
+    },
+    {
+      "constituency": "Newport East",
+      "active_companies": 6081,
+      "etr_risk_companies": 243,
+      "estimated_tax_loss_gbp_millions": 160.43
+    },
+    {
+      "constituency": "Wythenshawe and Sale East",
+      "active_companies": 6072,
+      "etr_risk_companies": 242,
+      "estimated_tax_loss_gbp_millions": 160.19
+    },
+    {
+      "constituency": "Harrogate and Knaresborough",
+      "active_companies": 6067,
+      "etr_risk_companies": 242,
+      "estimated_tax_loss_gbp_millions": 160.06
+    },
+    {
+      "constituency": "South Ribble",
+      "active_companies": 6058,
+      "etr_risk_companies": 242,
+      "estimated_tax_loss_gbp_millions": 159.82
+    },
+    {
+      "constituency": "Chesham and Amersham",
+      "active_companies": 6053,
+      "etr_risk_companies": 242,
+      "estimated_tax_loss_gbp_millions": 159.69
+    },
+    {
+      "constituency": "Newcastle-under-Lyme",
+      "active_companies": 6044,
+      "etr_risk_companies": 241,
+      "estimated_tax_loss_gbp_millions": 159.45
+    },
+    {
+      "constituency": "Wyre Forest",
+      "active_companies": 6035,
+      "etr_risk_companies": 241,
+      "estimated_tax_loss_gbp_millions": 159.21
+    },
+    {
+      "constituency": "Harlow",
+      "active_companies": 6030,
+      "etr_risk_companies": 241,
+      "estimated_tax_loss_gbp_millions": 159.08
+    },
+    {
+      "constituency": "South Northamptonshire",
+      "active_companies": 6021,
+      "etr_risk_companies": 240,
+      "estimated_tax_loss_gbp_millions": 158.84
+    },
+    {
+      "constituency": "Cheltenham",
+      "active_companies": 6016,
+      "etr_risk_companies": 240,
+      "estimated_tax_loss_gbp_millions": 158.71
+    },
+    {
+      "constituency": "Newcastle upon Tyne North",
+      "active_companies": 6007,
+      "etr_risk_companies": 240,
+      "estimated_tax_loss_gbp_millions": 158.47
+    },
+    {
+      "constituency": "Wyre and Preston North",
+      "active_companies": 5998,
+      "etr_risk_companies": 239,
+      "estimated_tax_loss_gbp_millions": 158.24
+    },
+    {
+      "constituency": "Harborough",
+      "active_companies": 5993,
+      "etr_risk_companies": 239,
+      "estimated_tax_loss_gbp_millions": 158.1
+    },
+    {
+      "constituency": "South Norfolk",
+      "active_companies": 5984,
+      "etr_risk_companies": 239,
+      "estimated_tax_loss_gbp_millions": 157.87
+    },
+    {
+      "constituency": "Chelmsford",
+      "active_companies": 5979,
+      "etr_risk_companies": 239,
+      "estimated_tax_loss_gbp_millions": 157.73
+    },
+    {
+      "constituency": "Newcastle upon Tyne East",
+      "active_companies": 5970,
+      "etr_risk_companies": 238,
+      "estimated_tax_loss_gbp_millions": 157.5
+    },
+    {
+      "constituency": "Wycombe",
+      "active_companies": 5961,
+      "etr_risk_companies": 238,
+      "estimated_tax_loss_gbp_millions": 157.26
+    },
+    {
+      "constituency": "Hampstead and Kilburn",
+      "active_companies": 5956,
+      "etr_risk_companies": 238,
+      "estimated_tax_loss_gbp_millions": 157.13
+    },
+    {
+      "constituency": "South Leicestershire",
+      "active_companies": 5947,
+      "etr_risk_companies": 237,
+      "estimated_tax_loss_gbp_millions": 156.89
+    },
+    {
+      "constituency": "Cheadle",
+      "active_companies": 5942,
+      "etr_risk_companies": 237,
+      "estimated_tax_loss_gbp_millions": 156.76
+    },
+    {
+      "constituency": "Newcastle upon Tyne Central",
+      "active_companies": 5933,
+      "etr_risk_companies": 237,
+      "estimated_tax_loss_gbp_millions": 156.52
+    },
+    {
+      "constituency": "Wrexham",
+      "active_companies": 5924,
+      "etr_risk_companies": 236,
+      "estimated_tax_loss_gbp_millions": 156.28
+    },
+    {
+      "constituency": "Hammersmith",
+      "active_companies": 5919,
+      "etr_risk_companies": 236,
+      "estimated_tax_loss_gbp_millions": 156.15
+    },
+    {
+      "constituency": "South Holland and The Deepings",
+      "active_companies": 5910,
+      "etr_risk_companies": 236,
+      "estimated_tax_loss_gbp_millions": 155.91
+    },
+    {
+      "constituency": "Carshalton and Wallington",
+      "active_companies": 5905,
+      "etr_risk_companies": 236,
+      "estimated_tax_loss_gbp_millions": 155.78
+    },
+    {
+      "constituency": "Newbury",
+      "active_companies": 5896,
+      "etr_risk_companies": 235,
+      "estimated_tax_loss_gbp_millions": 155.55
+    },
+    {
+      "constituency": "Wrekin, The",
+      "active_companies": 5887,
+      "etr_risk_companies": 235,
+      "estimated_tax_loss_gbp_millions": 155.31
+    },
+    {
+      "constituency": "Halton",
+      "active_companies": 5882,
+      "etr_risk_companies": 235,
+      "estimated_tax_loss_gbp_millions": 155.18
+    },
+    {
+      "constituency": "South East Cornwall",
+      "active_companies": 5873,
+      "etr_risk_companies": 234,
+      "estimated_tax_loss_gbp_millions": 154.94
+    },
+    {
+      "constituency": "Carmarthen East and Dinefwr",
+      "active_companies": 5868,
+      "etr_risk_companies": 234,
+      "estimated_tax_loss_gbp_millions": 154.81
+    },
+    {
+      "constituency": "Newark",
+      "active_companies": 5859,
+      "etr_risk_companies": 234,
+      "estimated_tax_loss_gbp_millions": 154.57
+    },
+    {
+      "constituency": "Worthing West",
+      "active_companies": 5850,
+      "etr_risk_companies": 234,
+      "estimated_tax_loss_gbp_millions": 154.33
+    },
+    {
+      "constituency": "Haltemprice and Howden",
+      "active_companies": 5845,
+      "etr_risk_companies": 233,
+      "estimated_tax_loss_gbp_millions": 154.2
+    },
+    {
+      "constituency": "South East Cambridgeshire",
+      "active_companies": 5836,
+      "etr_risk_companies": 233,
+      "estimated_tax_loss_gbp_millions": 153.96
+    },
+    {
+      "constituency": "Carlisle",
+      "active_companies": 5831,
+      "etr_risk_companies": 233,
+      "estimated_tax_loss_gbp_millions": 153.83
+    },
+    {
+      "constituency": "New Forest West",
+      "active_companies": 5822,
+      "etr_risk_companies": 232,
+      "estimated_tax_loss_gbp_millions": 153.59
+    },
+    {
+      "constituency": "Worcester",
+      "active_companies": 5813,
+      "etr_risk_companies": 232,
+      "estimated_tax_loss_gbp_millions": 153.36
+    },
+    {
+      "constituency": "Halifax",
+      "active_companies": 5808,
+      "etr_risk_companies": 232,
+      "estimated_tax_loss_gbp_millions": 153.22
+    },
+    {
+      "constituency": "South Down",
+      "active_companies": 5799,
+      "etr_risk_companies": 231,
+      "estimated_tax_loss_gbp_millions": 152.99
+    },
+    {
+      "constituency": "Cardiff West",
+      "active_companies": 5794,
+      "etr_risk_companies": 231,
+      "estimated_tax_loss_gbp_millions": 152.85
+    },
+    {
+      "constituency": "New Forest East",
+      "active_companies": 5785,
+      "etr_risk_companies": 231,
+      "estimated_tax_loss_gbp_millions": 152.62
+    },
+    {
+      "constituency": "Wolverhampton South West",
+      "active_companies": 5776,
+      "etr_risk_companies": 231,
+      "estimated_tax_loss_gbp_millions": 152.38
+    },
+    {
+      "constituency": "Halesowen and Rowley Regis",
+      "active_companies": 5771,
+      "etr_risk_companies": 230,
+      "estimated_tax_loss_gbp_millions": 152.25
+    },
+    {
+      "constituency": "South Dorset",
+      "active_companies": 5762,
+      "etr_risk_companies": 230,
+      "estimated_tax_loss_gbp_millions": 152.01
+    },
+    {
+      "constituency": "Cardiff South and Penarth",
+      "active_companies": 5757,
+      "etr_risk_companies": 230,
+      "estimated_tax_loss_gbp_millions": 151.88
+    },
+    {
+      "constituency": "Neath",
+      "active_companies": 5748,
+      "etr_risk_companies": 229,
+      "estimated_tax_loss_gbp_millions": 151.64
+    },
+    {
+      "constituency": "Wolverhampton South East",
+      "active_companies": 5739,
+      "etr_risk_companies": 229,
+      "estimated_tax_loss_gbp_millions": 151.4
+    },
+    {
+      "constituency": "Hackney South and Shoreditch",
+      "active_companies": 5734,
+      "etr_risk_companies": 229,
+      "estimated_tax_loss_gbp_millions": 151.27
+    },
+    {
+      "constituency": "South Derbyshire",
+      "active_companies": 5725,
+      "etr_risk_companies": 229,
+      "estimated_tax_loss_gbp_millions": 151.03
+    },
+    {
+      "constituency": "Cardiff North",
+      "active_companies": 5720,
+      "etr_risk_companies": 228,
+      "estimated_tax_loss_gbp_millions": 150.9
+    },
+    {
+      "constituency": "Na h-Eileanan an Iar",
+      "active_companies": 5711,
+      "etr_risk_companies": 228,
+      "estimated_tax_loss_gbp_millions": 150.66
+    },
+    {
+      "constituency": "Wolverhampton North East",
+      "active_companies": 5702,
+      "etr_risk_companies": 228,
+      "estimated_tax_loss_gbp_millions": 150.43
+    },
+    {
+      "constituency": "Hackney North and Stoke Newington",
+      "active_companies": 5697,
+      "etr_risk_companies": 227,
+      "estimated_tax_loss_gbp_millions": 150.3
+    },
+    {
+      "constituency": "South Cambridgeshire",
+      "active_companies": 5688,
+      "etr_risk_companies": 227,
+      "estimated_tax_loss_gbp_millions": 150.06
+    },
+    {
+      "constituency": "Cardiff Central",
+      "active_companies": 5683,
+      "etr_risk_companies": 227,
+      "estimated_tax_loss_gbp_millions": 149.93
+    },
+    {
+      "constituency": "Motherwell and Wishaw",
+      "active_companies": 5674,
+      "etr_risk_companies": 226,
+      "estimated_tax_loss_gbp_millions": 149.69
+    },
+    {
+      "constituency": "Wokingham",
+      "active_companies": 5665,
+      "etr_risk_companies": 226,
+      "estimated_tax_loss_gbp_millions": 149.45
+    },
+    {
+      "constituency": "Guildford",
+      "active_companies": 5660,
+      "etr_risk_companies": 226,
+      "estimated_tax_loss_gbp_millions": 149.32
+    },
+    {
+      "constituency": "South Basildon and Thurrock",
+      "active_companies": 5651,
+      "etr_risk_companies": 226,
+      "estimated_tax_loss_gbp_millions": 149.08
+    },
+    {
+      "constituency": "Cannock Chase",
+      "active_companies": 5646,
+      "etr_risk_companies": 225,
+      "estimated_tax_loss_gbp_millions": 148.95
+    },
+    {
+      "constituency": "Morley and Outwood",
+      "active_companies": 5637,
+      "etr_risk_companies": 225,
+      "estimated_tax_loss_gbp_millions": 148.71
+    },
+    {
+      "constituency": "Woking",
+      "active_companies": 5628,
+      "etr_risk_companies": 225,
+      "estimated_tax_loss_gbp_millions": 148.47
+    },
+    {
+      "constituency": "Greenwich and Woolwich",
+      "active_companies": 5623,
+      "etr_risk_companies": 224,
+      "estimated_tax_loss_gbp_millions": 148.34
+    },
+    {
+      "constituency": "Somerton and Frome",
+      "active_companies": 5614,
+      "etr_risk_companies": 224,
+      "estimated_tax_loss_gbp_millions": 148.11
+    },
+    {
+      "constituency": "Cambridge",
+      "active_companies": 5609,
+      "etr_risk_companies": 224,
+      "estimated_tax_loss_gbp_millions": 147.97
+    },
+    {
+      "constituency": "Morecambe and Lunesdale",
+      "active_companies": 5600,
+      "etr_risk_companies": 224,
+      "estimated_tax_loss_gbp_millions": 147.74
+    },
+    {
+      "constituency": "Witney",
+      "active_companies": 5591,
+      "etr_risk_companies": 223,
+      "estimated_tax_loss_gbp_millions": 147.5
+    },
+    {
+      "constituency": "Great Yarmouth",
+      "active_companies": 5586,
+      "etr_risk_companies": 223,
+      "estimated_tax_loss_gbp_millions": 147.37
+    },
+    {
+      "constituency": "Solihull",
+      "active_companies": 5577,
+      "etr_risk_companies": 223,
+      "estimated_tax_loss_gbp_millions": 147.13
+    },
+    {
+      "constituency": "Camberwell and Peckham",
+      "active_companies": 5572,
+      "etr_risk_companies": 222,
+      "estimated_tax_loss_gbp_millions": 147.0
+    },
+    {
+      "constituency": "Moray",
+      "active_companies": 5563,
+      "etr_risk_companies": 222,
+      "estimated_tax_loss_gbp_millions": 146.76
+    },
+    {
+      "constituency": "Witham",
+      "active_companies": 5554,
+      "etr_risk_companies": 222,
+      "estimated_tax_loss_gbp_millions": 146.52
+    },
+    {
+      "constituency": "Great Grimsby",
+      "active_companies": 5549,
+      "etr_risk_companies": 221,
+      "estimated_tax_loss_gbp_millions": 146.39
+    },
+    {
+      "constituency": "Slough",
+      "active_companies": 5540,
+      "etr_risk_companies": 221,
+      "estimated_tax_loss_gbp_millions": 146.15
+    },
+    {
+      "constituency": "Calder Valley",
+      "active_companies": 5535,
+      "etr_risk_companies": 221,
+      "estimated_tax_loss_gbp_millions": 146.02
+    },
+    {
+      "constituency": "Montgomeryshire",
+      "active_companies": 5526,
+      "etr_risk_companies": 221,
+      "estimated_tax_loss_gbp_millions": 145.78
+    },
+    {
+      "constituency": "Wirral West",
+      "active_companies": 5517,
+      "etr_risk_companies": 220,
+      "estimated_tax_loss_gbp_millions": 145.55
+    },
+    {
+      "constituency": "Gravesham",
+      "active_companies": 5512,
+      "etr_risk_companies": 220,
+      "estimated_tax_loss_gbp_millions": 145.41
+    },
+    {
+      "constituency": "Skipton and Ripon",
+      "active_companies": 5503,
+      "etr_risk_companies": 220,
+      "estimated_tax_loss_gbp_millions": 145.18
+    },
+    {
+      "constituency": "Caerphilly",
+      "active_companies": 5498,
+      "etr_risk_companies": 219,
+      "estimated_tax_loss_gbp_millions": 145.05
+    },
+    {
+      "constituency": "Monmouth",
+      "active_companies": 5489,
+      "etr_risk_companies": 219,
+      "estimated_tax_loss_gbp_millions": 144.81
+    },
+    {
+      "constituency": "Wirral South",
+      "active_companies": 5480,
+      "etr_risk_companies": 219,
+      "estimated_tax_loss_gbp_millions": 144.57
+    },
+    {
+      "constituency": "Grantham and Stamford",
+      "active_companies": 5475,
+      "etr_risk_companies": 219,
+      "estimated_tax_loss_gbp_millions": 144.44
+    },
+    {
+      "constituency": "Sittingbourne and Sheppey",
+      "active_companies": 5466,
+      "etr_risk_companies": 218,
+      "estimated_tax_loss_gbp_millions": 144.2
+    },
+    {
+      "constituency": "Bury South",
+      "active_companies": 5461,
+      "etr_risk_companies": 218,
+      "estimated_tax_loss_gbp_millions": 144.07
+    },
+    {
+      "constituency": "Mole Valley",
+      "active_companies": 5452,
+      "etr_risk_companies": 218,
+      "estimated_tax_loss_gbp_millions": 143.83
+    },
+    {
+      "constituency": "Windsor",
+      "active_companies": 5443,
+      "etr_risk_companies": 217,
+      "estimated_tax_loss_gbp_millions": 143.59
+    },
+    {
+      "constituency": "Gower",
+      "active_companies": 5438,
+      "etr_risk_companies": 217,
+      "estimated_tax_loss_gbp_millions": 143.46
+    },
+    {
+      "constituency": "Shrewsbury and Atcham",
+      "active_companies": 5429,
+      "etr_risk_companies": 217,
+      "estimated_tax_loss_gbp_millions": 143.22
+    },
+    {
+      "constituency": "Bury North",
+      "active_companies": 5424,
+      "etr_risk_companies": 216,
+      "estimated_tax_loss_gbp_millions": 143.09
+    },
+    {
+      "constituency": "Mitcham and Morden",
+      "active_companies": 5415,
+      "etr_risk_companies": 216,
+      "estimated_tax_loss_gbp_millions": 142.86
+    },
+    {
+      "constituency": "Winchester",
+      "active_companies": 5406,
+      "etr_risk_companies": 216,
+      "estimated_tax_loss_gbp_millions": 142.62
+    },
+    {
+      "constituency": "Gosport",
+      "active_companies": 5401,
+      "etr_risk_companies": 216,
+      "estimated_tax_loss_gbp_millions": 142.49
+    },
+    {
+      "constituency": "Shipley",
+      "active_companies": 5392,
+      "etr_risk_companies": 215,
+      "estimated_tax_loss_gbp_millions": 142.25
+    },
+    {
+      "constituency": "Burton",
+      "active_companies": 5387,
+      "etr_risk_companies": 215,
+      "estimated_tax_loss_gbp_millions": 142.12
+    },
+    {
+      "constituency": "Milton Keynes South",
+      "active_companies": 5378,
+      "etr_risk_companies": 215,
+      "estimated_tax_loss_gbp_millions": 141.88
+    },
+    {
+      "constituency": "Wimbledon",
+      "active_companies": 5369,
+      "etr_risk_companies": 214,
+      "estimated_tax_loss_gbp_millions": 141.64
+    },
+    {
+      "constituency": "Gordon",
+      "active_companies": 5364,
+      "etr_risk_companies": 214,
+      "estimated_tax_loss_gbp_millions": 141.51
+    },
+    {
+      "constituency": "Sherwood",
+      "active_companies": 5355,
+      "etr_risk_companies": 214,
+      "estimated_tax_loss_gbp_millions": 141.27
+    },
+    {
+      "constituency": "Burnley",
+      "active_companies": 5350,
+      "etr_risk_companies": 214,
+      "estimated_tax_loss_gbp_millions": 141.14
+    },
+    {
+      "constituency": "Milton Keynes North",
+      "active_companies": 5341,
+      "etr_risk_companies": 213,
+      "estimated_tax_loss_gbp_millions": 140.9
+    },
+    {
+      "constituency": "Wigan",
+      "active_companies": 5332,
+      "etr_risk_companies": 213,
+      "estimated_tax_loss_gbp_millions": 140.67
+    },
+    {
+      "constituency": "Gloucester",
+      "active_companies": 5327,
+      "etr_risk_companies": 213,
+      "estimated_tax_loss_gbp_millions": 140.53
+    },
+    {
+      "constituency": "Sheffield South East",
+      "active_companies": 5318,
+      "etr_risk_companies": 212,
+      "estimated_tax_loss_gbp_millions": 140.3
+    },
+    {
+      "constituency": "Bromley and Chislehurst",
+      "active_companies": 5313,
+      "etr_risk_companies": 212,
+      "estimated_tax_loss_gbp_millions": 140.16
+    },
+    {
+      "constituency": "Mid Ulster",
+      "active_companies": 5304,
+      "etr_risk_companies": 212,
+      "estimated_tax_loss_gbp_millions": 139.93
+    },
+    {
+      "constituency": "Weston-super-Mare",
+      "active_companies": 5295,
+      "etr_risk_companies": 211,
+      "estimated_tax_loss_gbp_millions": 139.69
+    },
+    {
+      "constituency": "Glenrothes",
+      "active_companies": 5290,
+      "etr_risk_companies": 211,
+      "estimated_tax_loss_gbp_millions": 139.56
+    },
+    {
+      "constituency": "Sheffield Heeley",
+      "active_companies": 5281,
+      "etr_risk_companies": 211,
+      "estimated_tax_loss_gbp_millions": 139.32
+    },
+    {
+      "constituency": "Bristol West",
+      "active_companies": 5276,
+      "etr_risk_companies": 211,
+      "estimated_tax_loss_gbp_millions": 139.19
+    },
+    {
+      "constituency": "Mid Sussex",
+      "active_companies": 5267,
+      "etr_risk_companies": 210,
+      "estimated_tax_loss_gbp_millions": 138.95
+    },
+    {
+      "constituency": "Westmorland and Lonsdale",
+      "active_companies": 5258,
+      "etr_risk_companies": 210,
+      "estimated_tax_loss_gbp_millions": 138.71
+    },
+    {
+      "constituency": "Glasgow South West",
+      "active_companies": 5253,
+      "etr_risk_companies": 210,
+      "estimated_tax_loss_gbp_millions": 138.58
+    },
+    {
+      "constituency": "Sheffield Hallam",
+      "active_companies": 5244,
+      "etr_risk_companies": 209,
+      "estimated_tax_loss_gbp_millions": 138.34
+    },
+    {
+      "constituency": "Bristol South",
+      "active_companies": 5239,
+      "etr_risk_companies": 209,
+      "estimated_tax_loss_gbp_millions": 138.21
+    },
+    {
+      "constituency": "Mid Norfolk",
+      "active_companies": 5230,
+      "etr_risk_companies": 209,
+      "estimated_tax_loss_gbp_millions": 137.98
+    },
+    {
+      "constituency": "Westminster North",
+      "active_companies": 5221,
+      "etr_risk_companies": 208,
+      "estimated_tax_loss_gbp_millions": 137.74
+    },
+    {
+      "constituency": "Glasgow South",
+      "active_companies": 5216,
+      "etr_risk_companies": 208,
+      "estimated_tax_loss_gbp_millions": 137.61
+    },
+    {
+      "constituency": "Sheffield Central",
+      "active_companies": 5207,
+      "etr_risk_companies": 208,
+      "estimated_tax_loss_gbp_millions": 137.37
+    },
+    {
+      "constituency": "Bristol North West",
+      "active_companies": 5202,
+      "etr_risk_companies": 208,
+      "estimated_tax_loss_gbp_millions": 137.24
+    },
+    {
+      "constituency": "Mid Dorset and North Poole",
+      "active_companies": 5193,
+      "etr_risk_companies": 207,
+      "estimated_tax_loss_gbp_millions": 137.0
+    },
+    {
+      "constituency": "West Worcestershire",
+      "active_companies": 5184,
+      "etr_risk_companies": 207,
+      "estimated_tax_loss_gbp_millions": 136.76
+    },
+    {
+      "constituency": "Glasgow North West",
+      "active_companies": 5179,
+      "etr_risk_companies": 207,
+      "estimated_tax_loss_gbp_millions": 136.63
+    },
+    {
+      "constituency": "Sheffield Brightside and Hillsborough",
+      "active_companies": 5170,
+      "etr_risk_companies": 206,
+      "estimated_tax_loss_gbp_millions": 136.39
+    },
+    {
+      "constituency": "Bristol East",
+      "active_companies": 5165,
+      "etr_risk_companies": 206,
+      "estimated_tax_loss_gbp_millions": 136.26
+    },
+    {
+      "constituency": "Mid Derbyshire",
+      "active_companies": 5156,
+      "etr_risk_companies": 206,
+      "estimated_tax_loss_gbp_millions": 136.02
+    },
+    {
+      "constituency": "West Tyrone",
+      "active_companies": 5147,
+      "etr_risk_companies": 205,
+      "estimated_tax_loss_gbp_millions": 135.79
+    },
+    {
+      "constituency": "Glasgow North East",
+      "active_companies": 5142,
+      "etr_risk_companies": 205,
+      "estimated_tax_loss_gbp_millions": 135.65
+    },
+    {
+      "constituency": "Sevenoaks",
+      "active_companies": 5133,
+      "etr_risk_companies": 205,
+      "estimated_tax_loss_gbp_millions": 135.42
+    },
+    {
+      "constituency": "Brighton Pavilion",
+      "active_companies": 5128,
+      "etr_risk_companies": 205,
+      "estimated_tax_loss_gbp_millions": 135.28
+    },
+    {
+      "constituency": "Mid Bedfordshire",
+      "active_companies": 5119,
+      "etr_risk_companies": 204,
+      "estimated_tax_loss_gbp_millions": 135.05
+    },
+    {
+      "constituency": "West Suffolk",
+      "active_companies": 5110,
+      "etr_risk_companies": 204,
+      "estimated_tax_loss_gbp_millions": 134.81
+    },
+    {
+      "constituency": "Glasgow North",
+      "active_companies": 5105,
+      "etr_risk_companies": 204,
+      "estimated_tax_loss_gbp_millions": 134.68
+    },
+    {
+      "constituency": "Selby and Ainsty",
+      "active_companies": 5096,
+      "etr_risk_companies": 203,
+      "estimated_tax_loss_gbp_millions": 134.44
+    },
+    {
+      "constituency": "Brighton Kemptown",
+      "active_companies": 5091,
+      "etr_risk_companies": 203,
+      "estimated_tax_loss_gbp_millions": 134.31
+    },
+    {
+      "constituency": "Middlesbrough South and East Cleveland",
+      "active_companies": 5082,
+      "etr_risk_companies": 203,
+      "estimated_tax_loss_gbp_millions": 134.07
+    },
+    {
+      "constituency": "West Lancashire",
+      "active_companies": 5073,
+      "etr_risk_companies": 202,
+      "estimated_tax_loss_gbp_millions": 133.83
+    },
+    {
+      "constituency": "Glasgow East",
+      "active_companies": 5068,
+      "etr_risk_companies": 202,
+      "estimated_tax_loss_gbp_millions": 133.7
+    },
+    {
+      "constituency": "Sefton Central",
+      "active_companies": 5059,
+      "etr_risk_companies": 202,
+      "estimated_tax_loss_gbp_millions": 133.46
+    },
+    {
+      "constituency": "Brentford and Isleworth",
+      "active_companies": 5054,
+      "etr_risk_companies": 202,
+      "estimated_tax_loss_gbp_millions": 133.33
+    },
+    {
+      "constituency": "Middlesbrough",
+      "active_companies": 5045,
+      "etr_risk_companies": 201,
+      "estimated_tax_loss_gbp_millions": 133.09
+    },
+    {
+      "constituency": "West Ham",
+      "active_companies": 5036,
+      "etr_risk_companies": 201,
+      "estimated_tax_loss_gbp_millions": 132.86
+    },
+    {
+      "constituency": "Glasgow Central",
+      "active_companies": 5031,
+      "etr_risk_companies": 201,
+      "estimated_tax_loss_gbp_millions": 132.73
+    },
+    {
+      "constituency": "Sedgefield",
+      "active_companies": 5022,
+      "etr_risk_companies": 200,
+      "estimated_tax_loss_gbp_millions": 132.49
+    },
+    {
+      "constituency": "Brecon and Radnorshire",
+      "active_companies": 5017,
+      "etr_risk_companies": 200,
+      "estimated_tax_loss_gbp_millions": 132.36
+    },
+    {
+      "constituency": "Merthyr Tydfil and Rhymney",
+      "active_companies": 5008,
+      "etr_risk_companies": 200,
+      "estimated_tax_loss_gbp_millions": 132.12
+    },
+    {
+      "constituency": "West Dorset",
+      "active_companies": 4999,
+      "etr_risk_companies": 199,
+      "estimated_tax_loss_gbp_millions": 131.88
+    },
+    {
+      "constituency": "Gillingham and Rainham",
+      "active_companies": 4994,
+      "etr_risk_companies": 199,
+      "estimated_tax_loss_gbp_millions": 131.75
+    },
+    {
+      "constituency": "Scunthorpe",
+      "active_companies": 4985,
+      "etr_risk_companies": 199,
+      "estimated_tax_loss_gbp_millions": 131.51
+    },
+    {
+      "constituency": "Braintree",
+      "active_companies": 4980,
+      "etr_risk_companies": 199,
+      "estimated_tax_loss_gbp_millions": 131.38
+    },
+    {
+      "constituency": "Meriden",
+      "active_companies": 4971,
+      "etr_risk_companies": 198,
+      "estimated_tax_loss_gbp_millions": 131.14
+    },
+    {
+      "constituency": "West Bromwich West",
+      "active_companies": 4962,
+      "etr_risk_companies": 198,
+      "estimated_tax_loss_gbp_millions": 130.9
+    },
+    {
+      "constituency": "Gedling",
+      "active_companies": 4957,
+      "etr_risk_companies": 198,
+      "estimated_tax_loss_gbp_millions": 130.77
+    },
+    {
+      "constituency": "Scarborough and Whitby",
+      "active_companies": 4948,
+      "etr_risk_companies": 197,
+      "estimated_tax_loss_gbp_millions": 130.54
+    },
+    {
+      "constituency": "Bradford West",
+      "active_companies": 4943,
+      "etr_risk_companies": 197,
+      "estimated_tax_loss_gbp_millions": 130.4
+    },
+    {
+      "constituency": "Meon Valley",
+      "active_companies": 4934,
+      "etr_risk_companies": 197,
+      "estimated_tax_loss_gbp_millions": 130.17
+    },
+    {
+      "constituency": "West Bromwich East",
+      "active_companies": 4925,
+      "etr_risk_companies": 197,
+      "estimated_tax_loss_gbp_millions": 129.93
+    },
+    {
+      "constituency": "Gateshead",
+      "active_companies": 4920,
+      "etr_risk_companies": 196,
+      "estimated_tax_loss_gbp_millions": 129.8
+    },
+    {
+      "constituency": "Salisbury",
+      "active_companies": 4911,
+      "etr_risk_companies": 196,
+      "estimated_tax_loss_gbp_millions": 129.56
+    },
+    {
+      "constituency": "Bradford South",
+      "active_companies": 4906,
+      "etr_risk_companies": 196,
+      "estimated_tax_loss_gbp_millions": 129.43
+    },
+    {
+      "constituency": "Mansfield",
+      "active_companies": 4897,
+      "etr_risk_companies": 195,
+      "estimated_tax_loss_gbp_millions": 129.19
+    },
+    {
+      "constituency": "Wentworth and Dearne",
+      "active_companies": 4888,
+      "etr_risk_companies": 195,
+      "estimated_tax_loss_gbp_millions": 128.95
+    },
+    {
+      "constituency": "Garston and Halewood",
+      "active_companies": 4883,
+      "etr_risk_companies": 195,
+      "estimated_tax_loss_gbp_millions": 128.82
+    },
+    {
+      "constituency": "Salford and Eccles",
+      "active_companies": 4874,
+      "etr_risk_companies": 194,
+      "estimated_tax_loss_gbp_millions": 128.58
+    },
+    {
+      "constituency": "Bradford East",
+      "active_companies": 4869,
+      "etr_risk_companies": 194,
+      "estimated_tax_loss_gbp_millions": 128.45
+    },
+    {
+      "constituency": "Manchester Withington",
+      "active_companies": 4860,
+      "etr_risk_companies": 194,
+      "estimated_tax_loss_gbp_millions": 128.21
+    },
+    {
+      "constituency": "Welwyn Hatfield",
+      "active_companies": 4851,
+      "etr_risk_companies": 194,
+      "estimated_tax_loss_gbp_millions": 127.98
+    },
+    {
+      "constituency": "Gainsborough",
+      "active_companies": 4846,
+      "etr_risk_companies": 193,
+      "estimated_tax_loss_gbp_millions": 127.84
+    },
+    {
+      "constituency": "Saffron Walden",
+      "active_companies": 4837,
+      "etr_risk_companies": 193,
+      "estimated_tax_loss_gbp_millions": 127.61
+    },
+    {
+      "constituency": "Bracknell",
+      "active_companies": 4832,
+      "etr_risk_companies": 193,
+      "estimated_tax_loss_gbp_millions": 127.48
+    },
+    {
+      "constituency": "Manchester Gorton",
+      "active_companies": 4823,
+      "etr_risk_companies": 192,
+      "estimated_tax_loss_gbp_millions": 127.24
+    },
+    {
+      "constituency": "Wells",
+      "active_companies": 4814,
+      "etr_risk_companies": 192,
+      "estimated_tax_loss_gbp_millions": 127.0
+    },
+    {
+      "constituency": "Fylde",
+      "active_companies": 4809,
+      "etr_risk_companies": 192,
+      "estimated_tax_loss_gbp_millions": 126.87
+    },
+    {
+      "constituency": "Rutland and Melton",
+      "active_companies": 4800,
+      "etr_risk_companies": 192,
+      "estimated_tax_loss_gbp_millions": 126.63
+    },
+    {
+      "constituency": "Bournemouth West",
+      "active_companies": 4795,
+      "etr_risk_companies": 191,
+      "estimated_tax_loss_gbp_millions": 126.5
+    },
+    {
+      "constituency": "Manchester Central",
+      "active_companies": 4786,
+      "etr_risk_companies": 191,
+      "estimated_tax_loss_gbp_millions": 126.26
+    },
+    {
+      "constituency": "Wellingborough",
+      "active_companies": 4777,
+      "etr_risk_companies": 191,
+      "estimated_tax_loss_gbp_millions": 126.02
+    },
+    {
+      "constituency": "Foyle",
+      "active_companies": 4772,
+      "etr_risk_companies": 190,
+      "estimated_tax_loss_gbp_millions": 125.89
+    },
+    {
+      "constituency": "Rutherglen and Hamilton West",
+      "active_companies": 4763,
+      "etr_risk_companies": 190,
+      "estimated_tax_loss_gbp_millions": 125.65
+    },
+    {
+      "constituency": "Bournemouth East",
+      "active_companies": 4758,
+      "etr_risk_companies": 190,
+      "estimated_tax_loss_gbp_millions": 125.52
+    },
+    {
+      "constituency": "Maldon",
+      "active_companies": 4749,
+      "etr_risk_companies": 189,
+      "estimated_tax_loss_gbp_millions": 125.29
+    },
+    {
+      "constituency": "Weaver Vale",
+      "active_companies": 4740,
+      "etr_risk_companies": 189,
+      "estimated_tax_loss_gbp_millions": 125.05
+    },
+    {
+      "constituency": "Forest of Dean",
+      "active_companies": 4735,
+      "etr_risk_companies": 189,
+      "estimated_tax_loss_gbp_millions": 124.92
+    },
+    {
+      "constituency": "Rushcliffe",
+      "active_companies": 4726,
+      "etr_risk_companies": 189,
+      "estimated_tax_loss_gbp_millions": 124.68
+    },
+    {
+      "constituency": "Bootle",
+      "active_companies": 4721,
+      "etr_risk_companies": 188,
+      "estimated_tax_loss_gbp_millions": 124.55
+    },
+    {
+      "constituency": "Makerfield",
+      "active_companies": 4712,
+      "etr_risk_companies": 188,
+      "estimated_tax_loss_gbp_millions": 124.31
+    },
+    {
+      "constituency": "Wealden",
+      "active_companies": 4703,
+      "etr_risk_companies": 188,
+      "estimated_tax_loss_gbp_millions": 124.07
+    },
+    {
+      "constituency": "Folkestone and Hythe",
+      "active_companies": 4698,
+      "etr_risk_companies": 187,
+      "estimated_tax_loss_gbp_millions": 123.94
+    },
+    {
+      "constituency": "Runnymede and Weybridge",
+      "active_companies": 4689,
+      "etr_risk_companies": 187,
+      "estimated_tax_loss_gbp_millions": 123.7
+    },
+    {
+      "constituency": "Bolton South East",
+      "active_companies": 4684,
+      "etr_risk_companies": 187,
+      "estimated_tax_loss_gbp_millions": 123.57
+    },
+    {
+      "constituency": "Maidstone and The Weald",
+      "active_companies": 4675,
+      "etr_risk_companies": 187,
+      "estimated_tax_loss_gbp_millions": 123.33
+    },
+    {
+      "constituency": "Washington and Sunderland West",
+      "active_companies": 4666,
+      "etr_risk_companies": 186,
+      "estimated_tax_loss_gbp_millions": 123.1
+    },
+    {
+      "constituency": "Finchley and Golders Green",
+      "active_companies": 4661,
+      "etr_risk_companies": 186,
+      "estimated_tax_loss_gbp_millions": 122.96
+    },
+    {
+      "constituency": "Ruislip, Northwood and Pinner",
+      "active_companies": 4652,
+      "etr_risk_companies": 186,
+      "estimated_tax_loss_gbp_millions": 122.73
+    },
+    {
+      "constituency": "Bolton North East",
+      "active_companies": 4647,
+      "etr_risk_companies": 185,
+      "estimated_tax_loss_gbp_millions": 122.59
+    },
+    {
+      "constituency": "Maidenhead",
+      "active_companies": 4638,
+      "etr_risk_companies": 185,
+      "estimated_tax_loss_gbp_millions": 122.36
+    },
+    {
+      "constituency": "Warwick and Leamington",
+      "active_companies": 4629,
+      "etr_risk_companies": 185,
+      "estimated_tax_loss_gbp_millions": 122.12
+    },
+    {
+      "constituency": "Filton and Bradley Stoke",
+      "active_companies": 4624,
+      "etr_risk_companies": 184,
+      "estimated_tax_loss_gbp_millions": 121.99
+    },
+    {
+      "constituency": "Rugby",
+      "active_companies": 4615,
+      "etr_risk_companies": 184,
+      "estimated_tax_loss_gbp_millions": 121.75
+    },
+    {
+      "constituency": "Blackpool North",
+      "active_companies": 4610,
+      "etr_risk_companies": 184,
+      "estimated_tax_loss_gbp_millions": 121.62
+    },
+    {
+      "constituency": "Macclesfield",
+      "active_companies": 4601,
+      "etr_risk_companies": 184,
+      "estimated_tax_loss_gbp_millions": 121.38
+    },
+    {
+      "constituency": "Warrington South",
+      "active_companies": 4592,
+      "etr_risk_companies": 183,
+      "estimated_tax_loss_gbp_millions": 121.14
+    },
+    {
+      "constituency": "Fermanagh and South Tyrone",
+      "active_companies": 4587,
+      "etr_risk_companies": 183,
+      "estimated_tax_loss_gbp_millions": 121.01
+    },
+    {
+      "constituency": "Rotherham",
+      "active_companies": 4578,
+      "etr_risk_companies": 183,
+      "estimated_tax_loss_gbp_millions": 120.77
+    },
+    {
+      "constituency": "Blackburn",
+      "active_companies": 4573,
+      "etr_risk_companies": 182,
+      "estimated_tax_loss_gbp_millions": 120.64
+    },
+    {
+      "constituency": "Lymington",
+      "active_companies": 4564,
+      "etr_risk_companies": 182,
+      "estimated_tax_loss_gbp_millions": 120.4
+    },
+    {
+      "constituency": "Warrington North",
+      "active_companies": 4555,
+      "etr_risk_companies": 182,
+      "estimated_tax_loss_gbp_millions": 120.17
+    },
+    {
+      "constituency": "Feltham and Heston",
+      "active_companies": 4550,
+      "etr_risk_companies": 182,
+      "estimated_tax_loss_gbp_millions": 120.04
+    },
+    {
+      "constituency": "Rother Valley",
+      "active_companies": 4541,
+      "etr_risk_companies": 181,
+      "estimated_tax_loss_gbp_millions": 119.8
+    },
+    {
+      "constituency": "Birmingham Yardley",
+      "active_companies": 4536,
+      "etr_risk_companies": 181,
+      "estimated_tax_loss_gbp_millions": 119.67
+    },
+    {
+      "constituency": "Luton South",
+      "active_companies": 4527,
+      "etr_risk_companies": 181,
+      "estimated_tax_loss_gbp_millions": 119.43
+    },
+    {
+      "constituency": "Warley",
+      "active_companies": 4518,
+      "etr_risk_companies": 180,
+      "estimated_tax_loss_gbp_millions": 119.19
+    },
+    {
+      "constituency": "Faversham and Mid Kent",
+      "active_companies": 4513,
+      "etr_risk_companies": 180,
+      "estimated_tax_loss_gbp_millions": 119.06
+    },
+    {
+      "constituency": "Rossendale and Darwen",
+      "active_companies": 4504,
+      "etr_risk_companies": 180,
+      "estimated_tax_loss_gbp_millions": 118.82
+    },
+    {
+      "constituency": "Birmingham Selly Oak",
+      "active_companies": 4499,
+      "etr_risk_companies": 179,
+      "estimated_tax_loss_gbp_millions": 118.69
+    },
+    {
+      "constituency": "Luton North",
+      "active_companies": 4490,
+      "etr_risk_companies": 179,
+      "estimated_tax_loss_gbp_millions": 118.45
+    },
+    {
+      "constituency": "Wantage",
+      "active_companies": 4481,
+      "etr_risk_companies": 179,
+      "estimated_tax_loss_gbp_millions": 118.22
+    },
+    {
+      "constituency": "Fareham",
+      "active_companies": 4476,
+      "etr_risk_companies": 179,
+      "estimated_tax_loss_gbp_millions": 118.08
+    },
+    {
+      "constituency": "Romsey and Southampton North",
+      "active_companies": 4467,
+      "etr_risk_companies": 178,
+      "estimated_tax_loss_gbp_millions": 117.85
+    },
+    {
+      "constituency": "Birmingham Perry Barr",
+      "active_companies": 4462,
+      "etr_risk_companies": 178,
+      "estimated_tax_loss_gbp_millions": 117.71
+    },
+    {
+      "constituency": "Ludlow",
+      "active_companies": 4453,
+      "etr_risk_companies": 178,
+      "estimated_tax_loss_gbp_millions": 117.48
+    },
+    {
+      "constituency": "Wansbeck",
+      "active_companies": 4444,
+      "etr_risk_companies": 177,
+      "estimated_tax_loss_gbp_millions": 117.24
+    },
+    {
+      "constituency": "Falkirk",
+      "active_companies": 4439,
+      "etr_risk_companies": 177,
+      "estimated_tax_loss_gbp_millions": 117.11
+    },
+    {
+      "constituency": "Romford",
+      "active_companies": 4430,
+      "etr_risk_companies": 177,
+      "estimated_tax_loss_gbp_millions": 116.87
+    },
+    {
+      "constituency": "Birmingham Northfield",
+      "active_companies": 4425,
+      "etr_risk_companies": 177,
+      "estimated_tax_loss_gbp_millions": 116.74
+    },
+    {
+      "constituency": "Louth and Horncastle",
+      "active_companies": 4416,
+      "etr_risk_companies": 176,
+      "estimated_tax_loss_gbp_millions": 116.5
+    },
+    {
+      "constituency": "Walthamstow",
+      "active_companies": 4407,
+      "etr_risk_companies": 176,
+      "estimated_tax_loss_gbp_millions": 116.26
+    },
+    {
+      "constituency": "Exeter",
+      "active_companies": 4402,
+      "etr_risk_companies": 176,
+      "estimated_tax_loss_gbp_millions": 116.13
+    },
+    {
+      "constituency": "Rochford and Southend East",
+      "active_companies": 4393,
+      "etr_risk_companies": 175,
+      "estimated_tax_loss_gbp_millions": 115.89
+    },
+    {
+      "constituency": "Birmingham Ladywood",
+      "active_companies": 4388,
+      "etr_risk_companies": 175,
+      "estimated_tax_loss_gbp_millions": 115.76
+    },
+    {
+      "constituency": "Loughborough",
+      "active_companies": 4379,
+      "etr_risk_companies": 175,
+      "estimated_tax_loss_gbp_millions": 115.52
+    },
+    {
+      "constituency": "Walsall South",
+      "active_companies": 4370,
+      "etr_risk_companies": 174,
+      "estimated_tax_loss_gbp_millions": 115.29
+    },
+    {
+      "constituency": "Esher and Walton",
+      "active_companies": 4365,
+      "etr_risk_companies": 174,
+      "estimated_tax_loss_gbp_millions": 115.16
+    },
+    {
+      "constituency": "Rochester and Strood",
+      "active_companies": 4356,
+      "etr_risk_companies": 174,
+      "estimated_tax_loss_gbp_millions": 114.92
+    },
+    {
+      "constituency": "Birmingham Hodge Hill",
+      "active_companies": 4351,
+      "etr_risk_companies": 174,
+      "estimated_tax_loss_gbp_millions": 114.79
+    },
+    {
+      "constituency": "Llanelli",
+      "active_companies": 4342,
+      "etr_risk_companies": 173,
+      "estimated_tax_loss_gbp_millions": 114.55
+    },
+    {
+      "constituency": "Walsall North",
+      "active_companies": 4333,
+      "etr_risk_companies": 173,
+      "estimated_tax_loss_gbp_millions": 114.31
+    },
+    {
+      "constituency": "Erith and Thamesmead",
+      "active_companies": 4328,
+      "etr_risk_companies": 173,
+      "estimated_tax_loss_gbp_millions": 114.18
+    },
+    {
+      "constituency": "Rochdale",
+      "active_companies": 4319,
+      "etr_risk_companies": 172,
+      "estimated_tax_loss_gbp_millions": 113.94
+    },
+    {
+      "constituency": "Birmingham Hall Green",
+      "active_companies": 4314,
+      "etr_risk_companies": 172,
+      "estimated_tax_loss_gbp_millions": 113.81
+    },
+    {
+      "constituency": "Livingston",
+      "active_companies": 4305,
+      "etr_risk_companies": 172,
+      "estimated_tax_loss_gbp_millions": 113.57
+    },
+    {
+      "constituency": "Wallasey",
+      "active_companies": 4296,
+      "etr_risk_companies": 171,
+      "estimated_tax_loss_gbp_millions": 113.33
+    },
+    {
+      "constituency": "Erewash",
+      "active_companies": 4291,
+      "etr_risk_companies": 171,
+      "estimated_tax_loss_gbp_millions": 113.2
+    },
+    {
+      "constituency": "Richmond Park",
+      "active_companies": 4282,
+      "etr_risk_companies": 171,
+      "estimated_tax_loss_gbp_millions": 112.97
+    },
+    {
+      "constituency": "Birmingham Erdington",
+      "active_companies": 4277,
+      "etr_risk_companies": 171,
+      "estimated_tax_loss_gbp_millions": 112.83
+    },
+    {
+      "constituency": "Liverpool West Derby",
+      "active_companies": 4268,
+      "etr_risk_companies": 170,
+      "estimated_tax_loss_gbp_millions": 112.6
+    },
+    {
+      "constituency": "Wakefield",
+      "active_companies": 4259,
+      "etr_risk_companies": 170,
+      "estimated_tax_loss_gbp_millions": 112.36
+    },
+    {
+      "constituency": "Epsom and Ewell",
+      "active_companies": 4254,
+      "etr_risk_companies": 170,
+      "estimated_tax_loss_gbp_millions": 112.23
+    },
+    {
+      "constituency": "Richmond (Yorks)",
+      "active_companies": 4245,
+      "etr_risk_companies": 169,
+      "estimated_tax_loss_gbp_millions": 111.99
+    },
+    {
+      "constituency": "Birmingham Edgbaston",
+      "active_companies": 4240,
+      "etr_risk_companies": 169,
+      "estimated_tax_loss_gbp_millions": 111.86
+    },
+    {
+      "constituency": "Liverpool Wavertree",
+      "active_companies": 4231,
+      "etr_risk_companies": 169,
+      "estimated_tax_loss_gbp_millions": 111.62
+    },
+    {
+      "constituency": "Vauxhall",
+      "active_companies": 4222,
+      "etr_risk_companies": 168,
+      "estimated_tax_loss_gbp_millions": 111.38
+    },
+    {
+      "constituency": "Epping Forest",
+      "active_companies": 4217,
+      "etr_risk_companies": 168,
+      "estimated_tax_loss_gbp_millions": 111.25
+    },
+    {
+      "constituency": "Ribble Valley",
+      "active_companies": 4208,
+      "etr_risk_companies": 168,
+      "estimated_tax_loss_gbp_millions": 111.01
+    },
+    {
+      "constituency": "Birkenhead",
+      "active_companies": 4203,
+      "etr_risk_companies": 168,
+      "estimated_tax_loss_gbp_millions": 110.88
+    },
+    {
+      "constituency": "Liverpool Walton",
+      "active_companies": 4194,
+      "etr_risk_companies": 167,
+      "estimated_tax_loss_gbp_millions": 110.64
+    },
+    {
+      "constituency": "Vale of Glamorgan",
+      "active_companies": 4185,
+      "etr_risk_companies": 167,
+      "estimated_tax_loss_gbp_millions": 110.41
+    },
+    {
+      "constituency": "Enfield, Southgate",
+      "active_companies": 4180,
+      "etr_risk_companies": 167,
+      "estimated_tax_loss_gbp_millions": 110.27
+    },
+    {
+      "constituency": "Rhondda",
+      "active_companies": 4171,
+      "etr_risk_companies": 166,
+      "estimated_tax_loss_gbp_millions": 110.04
+    },
+    {
+      "constituency": "Belfast West",
+      "active_companies": 4166,
+      "etr_risk_companies": 166,
+      "estimated_tax_loss_gbp_millions": 109.91
+    },
+    {
+      "constituency": "Liverpool Riverside",
+      "active_companies": 4157,
+      "etr_risk_companies": 166,
+      "estimated_tax_loss_gbp_millions": 109.67
+    },
+    {
+      "constituency": "Vale of Clwyd",
+      "active_companies": 4148,
+      "etr_risk_companies": 165,
+      "estimated_tax_loss_gbp_millions": 109.43
+    },
+    {
+      "constituency": "Enfield North",
+      "active_companies": 4143,
+      "etr_risk_companies": 165,
+      "estimated_tax_loss_gbp_millions": 109.3
+    },
+    {
+      "constituency": "Reigate",
+      "active_companies": 4134,
+      "etr_risk_companies": 165,
+      "estimated_tax_loss_gbp_millions": 109.06
+    },
+    {
+      "constituency": "Belfast South",
+      "active_companies": 4129,
+      "etr_risk_companies": 165,
+      "estimated_tax_loss_gbp_millions": 108.93
+    },
+    {
+      "constituency": "Linlithgow and East Falkirk",
+      "active_companies": 4120,
+      "etr_risk_companies": 164,
+      "estimated_tax_loss_gbp_millions": 108.69
+    },
+    {
+      "constituency": "Uxbridge and South Ruislip",
+      "active_companies": 4111,
+      "etr_risk_companies": 164,
+      "estimated_tax_loss_gbp_millions": 108.45
+    },
+    {
+      "constituency": "Elmet and Rothwell",
+      "active_companies": 4106,
+      "etr_risk_companies": 164,
+      "estimated_tax_loss_gbp_millions": 108.32
+    },
+    {
+      "constituency": "Redditch",
+      "active_companies": 4097,
+      "etr_risk_companies": 163,
+      "estimated_tax_loss_gbp_millions": 108.08
+    },
+    {
+      "constituency": "Belfast North",
+      "active_companies": 4092,
+      "etr_risk_companies": 163,
+      "estimated_tax_loss_gbp_millions": 107.95
+    },
+    {
+      "constituency": "Lincoln",
+      "active_companies": 4083,
+      "etr_risk_companies": 163,
+      "estimated_tax_loss_gbp_millions": 107.72
+    },
+    {
+      "constituency": "Upper Bann",
+      "active_companies": 4074,
+      "etr_risk_companies": 162,
+      "estimated_tax_loss_gbp_millions": 107.48
+    },
+    {
+      "constituency": "Ellesmere Port and Neston",
+      "active_companies": 4069,
+      "etr_risk_companies": 162,
+      "estimated_tax_loss_gbp_millions": 107.35
+    },
+    {
+      "constituency": "Redcar",
+      "active_companies": 4060,
+      "etr_risk_companies": 162,
+      "estimated_tax_loss_gbp_millions": 107.11
+    },
+    {
+      "constituency": "Belfast East",
+      "active_companies": 4055,
+      "etr_risk_companies": 162,
+      "estimated_tax_loss_gbp_millions": 106.98
+    },
+    {
+      "constituency": "Lichfield",
+      "active_companies": 4046,
+      "etr_risk_companies": 161,
+      "estimated_tax_loss_gbp_millions": 106.74
+    },
+    {
+      "constituency": "Tynemouth",
+      "active_companies": 4037,
+      "etr_risk_companies": 161,
+      "estimated_tax_loss_gbp_millions": 106.5
+    },
+    {
+      "constituency": "Edmonton",
+      "active_companies": 4032,
+      "etr_risk_companies": 161,
+      "estimated_tax_loss_gbp_millions": 106.37
+    },
+    {
+      "constituency": "Reading West",
+      "active_companies": 4023,
+      "etr_risk_companies": 160,
+      "estimated_tax_loss_gbp_millions": 106.13
+    },
+    {
+      "constituency": "Bedford",
+      "active_companies": 4018,
+      "etr_risk_companies": 160,
+      "estimated_tax_loss_gbp_millions": 106.0
+    },
+    {
+      "constituency": "Leyton and Wanstead",
+      "active_companies": 4009,
+      "etr_risk_companies": 160,
+      "estimated_tax_loss_gbp_millions": 105.76
+    },
+    {
+      "constituency": "Twickenham",
+      "active_companies": 4000,
+      "etr_risk_companies": 160,
+      "estimated_tax_loss_gbp_millions": 105.53
+    },
+    {
+      "constituency": "Edinburgh West",
+      "active_companies": 3995,
+      "etr_risk_companies": 159,
+      "estimated_tax_loss_gbp_millions": 105.39
+    },
+    {
+      "constituency": "Reading East",
+      "active_companies": 3986,
+      "etr_risk_companies": 159,
+      "estimated_tax_loss_gbp_millions": 105.16
+    },
+    {
+      "constituency": "Beaconsfield",
+      "active_companies": 3981,
+      "etr_risk_companies": 159,
+      "estimated_tax_loss_gbp_millions": 105.02
+    },
+    {
+      "constituency": "Lewisham West and Penge",
+      "active_companies": 3972,
+      "etr_risk_companies": 158,
+      "estimated_tax_loss_gbp_millions": 104.79
+    },
+    {
+      "constituency": "Tunbridge Wells",
+      "active_companies": 3963,
+      "etr_risk_companies": 158,
+      "estimated_tax_loss_gbp_millions": 104.55
+    },
+    {
+      "constituency": "Edinburgh South West",
+      "active_companies": 3958,
+      "etr_risk_companies": 158,
+      "estimated_tax_loss_gbp_millions": 104.42
+    },
+    {
+      "constituency": "Rayleigh and Wickford",
+      "active_companies": 3949,
+      "etr_risk_companies": 157,
+      "estimated_tax_loss_gbp_millions": 104.18
+    },
+    {
+      "constituency": "Battersea",
+      "active_companies": 3944,
+      "etr_risk_companies": 157,
+      "estimated_tax_loss_gbp_millions": 104.05
+    },
+    {
+      "constituency": "Lewisham East",
+      "active_companies": 3935,
+      "etr_risk_companies": 157,
+      "estimated_tax_loss_gbp_millions": 103.81
+    },
+    {
+      "constituency": "Truro and Falmouth",
+      "active_companies": 3926,
+      "etr_risk_companies": 157,
+      "estimated_tax_loss_gbp_millions": 103.57
+    },
+    {
+      "constituency": "Edinburgh South",
+      "active_companies": 3921,
+      "etr_risk_companies": 156,
+      "estimated_tax_loss_gbp_millions": 103.44
+    },
+    {
+      "constituency": "Putney",
+      "active_companies": 3912,
+      "etr_risk_companies": 156,
+      "estimated_tax_loss_gbp_millions": 103.2
+    },
+    {
+      "constituency": "Bath",
+      "active_companies": 3907,
+      "etr_risk_companies": 156,
+      "estimated_tax_loss_gbp_millions": 103.07
+    },
+    {
+      "constituency": "Lewisham Deptford",
+      "active_companies": 3898,
+      "etr_risk_companies": 155,
+      "estimated_tax_loss_gbp_millions": 102.83
+    },
+    {
+      "constituency": "Tottenham",
+      "active_companies": 3889,
+      "etr_risk_companies": 155,
+      "estimated_tax_loss_gbp_millions": 102.6
+    },
+    {
+      "constituency": "Edinburgh North and Leith",
+      "active_companies": 3884,
+      "etr_risk_companies": 155,
+      "estimated_tax_loss_gbp_millions": 102.47
+    },
+    {
+      "constituency": "Pudsey",
+      "active_companies": 3875,
+      "etr_risk_companies": 155,
+      "estimated_tax_loss_gbp_millions": 102.23
+    },
+    {
+      "constituency": "Basingstoke",
+      "active_companies": 3870,
+      "etr_risk_companies": 154,
+      "estimated_tax_loss_gbp_millions": 102.1
+    },
+    {
+      "constituency": "Lewes",
+      "active_companies": 3861,
+      "etr_risk_companies": 154,
+      "estimated_tax_loss_gbp_millions": 101.86
+    },
+    {
+      "constituency": "Totnes",
+      "active_companies": 3852,
+      "etr_risk_companies": 154,
+      "estimated_tax_loss_gbp_millions": 101.62
+    },
+    {
+      "constituency": "Edinburgh East",
+      "active_companies": 3847,
+      "etr_risk_companies": 153,
+      "estimated_tax_loss_gbp_millions": 101.49
+    },
+    {
+      "constituency": "Preston",
+      "active_companies": 3838,
+      "etr_risk_companies": 153,
+      "estimated_tax_loss_gbp_millions": 101.25
+    },
+    {
+      "constituency": "Basildon and Billericay",
+      "active_companies": 3833,
+      "etr_risk_companies": 153,
+      "estimated_tax_loss_gbp_millions": 101.12
+    },
+    {
+      "constituency": "Leigh",
+      "active_companies": 3824,
+      "etr_risk_companies": 152,
+      "estimated_tax_loss_gbp_millions": 100.88
+    },
+    {
+      "constituency": "Torfaen",
+      "active_companies": 3815,
+      "etr_risk_companies": 152,
+      "estimated_tax_loss_gbp_millions": 100.65
+    },
+    {
+      "constituency": "Edinburgh Central",
+      "active_companies": 3810,
+      "etr_risk_companies": 152,
+      "estimated_tax_loss_gbp_millions": 100.51
+    },
+    {
+      "constituency": "Preseli Pembrokeshire",
+      "active_companies": 3801,
+      "etr_risk_companies": 152,
+      "estimated_tax_loss_gbp_millions": 100.28
+    },
+    {
+      "constituency": "Barrow and Furness",
+      "active_companies": 3796,
+      "etr_risk_companies": 151,
+      "estimated_tax_loss_gbp_millions": 100.14
+    },
+    {
+      "constituency": "Leicester West",
+      "active_companies": 3787,
+      "etr_risk_companies": 151,
+      "estimated_tax_loss_gbp_millions": 99.91
+    },
+    {
+      "constituency": "Torbay",
+      "active_companies": 3778,
+      "etr_risk_companies": 151,
+      "estimated_tax_loss_gbp_millions": 99.67
+    },
+    {
+      "constituency": "Eddisbury",
+      "active_companies": 3773,
+      "etr_risk_companies": 150,
+      "estimated_tax_loss_gbp_millions": 99.54
+    },
+    {
+      "constituency": "Portsmouth South",
+      "active_companies": 3764,
+      "etr_risk_companies": 150,
+      "estimated_tax_loss_gbp_millions": 99.3
+    },
+    {
+      "constituency": "Barnsley Central",
+      "active_companies": 3759,
+      "etr_risk_companies": 150,
+      "estimated_tax_loss_gbp_millions": 99.17
+    },
+    {
+      "constituency": "Leicester South",
+      "active_companies": 3750,
+      "etr_risk_companies": 150,
+      "estimated_tax_loss_gbp_millions": 98.93
+    },
+    {
+      "constituency": "Tooting",
+      "active_companies": 3741,
+      "etr_risk_companies": 149,
+      "estimated_tax_loss_gbp_millions": 98.69
+    },
+    {
+      "constituency": "Eastleigh",
+      "active_companies": 3736,
+      "etr_risk_companies": 149,
+      "estimated_tax_loss_gbp_millions": 98.56
+    },
+    {
+      "constituency": "Portsmouth North",
+      "active_companies": 3727,
+      "etr_risk_companies": 149,
+      "estimated_tax_loss_gbp_millions": 98.32
+    },
+    {
+      "constituency": "Barking",
+      "active_companies": 3722,
+      "etr_risk_companies": 148,
+      "estimated_tax_loss_gbp_millions": 98.19
+    },
+    {
+      "constituency": "Leicester East",
+      "active_companies": 3713,
+      "etr_risk_companies": 148,
+      "estimated_tax_loss_gbp_millions": 97.95
+    },
+    {
+      "constituency": "Tonbridge and Malling",
+      "active_companies": 3704,
+      "etr_risk_companies": 148,
+      "estimated_tax_loss_gbp_millions": 97.72
+    },
+    {
+      "constituency": "Eastbourne",
+      "active_companies": 3699,
+      "etr_risk_companies": 147,
+      "estimated_tax_loss_gbp_millions": 97.59
+    },
+    {
+      "constituency": "Poplar and Limehouse",
+      "active_companies": 3690,
+      "etr_risk_companies": 147,
+      "estimated_tax_loss_gbp_millions": 97.35
+    },
+    {
+      "constituency": "Banbury",
+      "active_companies": 3685,
+      "etr_risk_companies": 147,
+      "estimated_tax_loss_gbp_millions": 97.22
+    },
+    {
+      "constituency": "Leeds West",
+      "active_companies": 3676,
+      "etr_risk_companies": 147,
+      "estimated_tax_loss_gbp_millions": 96.98
+    },
+    {
+      "constituency": "Tiverton and Honiton",
+      "active_companies": 3667,
+      "etr_risk_companies": 146,
+      "estimated_tax_loss_gbp_millions": 96.74
+    },
+    {
+      "constituency": "East Worthing and Shoreham",
+      "active_companies": 3662,
+      "etr_risk_companies": 146,
+      "estimated_tax_loss_gbp_millions": 96.61
+    },
+    {
+      "constituency": "Poole",
+      "active_companies": 3653,
+      "etr_risk_companies": 146,
+      "estimated_tax_loss_gbp_millions": 96.37
+    },
+    {
+      "constituency": "Aylesbury",
+      "active_companies": 3648,
+      "etr_risk_companies": 145,
+      "estimated_tax_loss_gbp_millions": 96.24
+    },
+    {
+      "constituency": "Leeds North West",
+      "active_companies": 3639,
+      "etr_risk_companies": 145,
+      "estimated_tax_loss_gbp_millions": 96.0
+    },
+    {
+      "constituency": "Thurrock",
+      "active_companies": 3630,
+      "etr_risk_companies": 145,
+      "estimated_tax_loss_gbp_millions": 95.76
+    },
+    {
+      "constituency": "East Surrey",
+      "active_companies": 3625,
+      "etr_risk_companies": 145,
+      "estimated_tax_loss_gbp_millions": 95.63
+    },
+    {
+      "constituency": "Pontypridd",
+      "active_companies": 3616,
+      "etr_risk_companies": 144,
+      "estimated_tax_loss_gbp_millions": 95.4
+    },
+    {
+      "constituency": "Altrincham and Sale West",
+      "active_companies": 3611,
+      "etr_risk_companies": 144,
+      "estimated_tax_loss_gbp_millions": 95.26
+    },
+    {
+      "constituency": "Leeds North East",
+      "active_companies": 3602,
+      "etr_risk_companies": 144,
+      "estimated_tax_loss_gbp_millions": 95.03
+    },
+    {
+      "constituency": "Thornbury and Yate",
+      "active_companies": 3593,
+      "etr_risk_companies": 143,
+      "estimated_tax_loss_gbp_millions": 94.79
+    },
+    {
+      "constituency": "East Lothian",
+      "active_companies": 3588,
+      "etr_risk_companies": 143,
+      "estimated_tax_loss_gbp_millions": 94.66
+    },
+    {
+      "constituency": "Plymouth, Sutton and Devonport",
+      "active_companies": 3579,
+      "etr_risk_companies": 143,
+      "estimated_tax_loss_gbp_millions": 94.42
+    },
+    {
+      "constituency": "Aldershot",
+      "active_companies": 3574,
+      "etr_risk_companies": 142,
+      "estimated_tax_loss_gbp_millions": 94.29
+    },
+    {
+      "constituency": "Leeds East",
+      "active_companies": 3565,
+      "etr_risk_companies": 142,
+      "estimated_tax_loss_gbp_millions": 94.05
+    },
+    {
+      "constituency": "Thirsk and Malton",
+      "active_companies": 3556,
+      "etr_risk_companies": 142,
+      "estimated_tax_loss_gbp_millions": 93.81
+    },
+    {
+      "constituency": "East Kilbride, Strathaven and Lesmahagow",
+      "active_companies": 3551,
+      "etr_risk_companies": 142,
+      "estimated_tax_loss_gbp_millions": 93.68
+    },
+    {
+      "constituency": "Plymouth, Moor View",
+      "active_companies": 3542,
+      "etr_risk_companies": 141,
+      "estimated_tax_loss_gbp_millions": 93.44
+    },
+    {
+      "constituency": "Aberdeen South",
+      "active_companies": 3537,
+      "etr_risk_companies": 141,
+      "estimated_tax_loss_gbp_millions": 93.31
+    },
+    {
+      "constituency": "Leeds Central",
+      "active_companies": 3528,
+      "etr_risk_companies": 141,
+      "estimated_tax_loss_gbp_millions": 93.07
+    },
+    {
+      "constituency": "The Wrekin",
+      "active_companies": 3519,
+      "etr_risk_companies": 140,
+      "estimated_tax_loss_gbp_millions": 92.84
+    },
+    {
+      "constituency": "East Hampshire",
+      "active_companies": 3514,
+      "etr_risk_companies": 140,
+      "estimated_tax_loss_gbp_millions": 92.7
+    },
+    {
+      "constituency": "Peterborough",
+      "active_companies": 3505,
+      "etr_risk_companies": 140,
+      "estimated_tax_loss_gbp_millions": 92.47
+    },
+    {
+      "constituency": "Aberdeen North",
+      "active_companies": 3500,
+      "etr_risk_companies": 140,
+      "estimated_tax_loss_gbp_millions": 92.34
+    }
+  ]
+}

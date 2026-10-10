@@ -97,7 +97,7 @@ export const LEADERBOARD_RAW_DATA = {
           sourceUrl: "https://www.bbc.co.uk/sounds/play/m0021l1p",
           sourceType: "BBC Radio 4 Today",
           category: "Welfare Spending Cuts",
-          quote: "Proposed welfare reforms would immediately cut £3 billion from the active PIP budget.",
+          quote: "Proposed welfare reforms would immediately cut Â£3 billion from the active PIP budget.",
           factCheck: "The Universal Credit Act explicitly removed proposed PIP assessment point cuts before enactment. No direct statutory cut to active PIP awards was passed."
         },
         {
