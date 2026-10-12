@@ -5,7 +5,7 @@ import {
   Rss, CheckCircle2, XCircle, Info, Radio, Users, Newspaper, Award,
   Share2, Download, Eye, Sun, Moon, Volume2, Sparkles, Filter, HelpCircle,
   Building2, MessageSquare, BookOpen, Clock, Zap, Gavel, Check, Send,
-  HeartHandshake, Coins, LineChart, Phone, Globe, Quote, Landmark, ShoppingCart, Stethoscope, FileSpreadsheet, Building
+  HeartHandshake, Coins, LineChart, Phone, Globe, Quote, Landmark, ShoppingCart, Stethoscope, FileSpreadsheet, Building, MapPin
 } from 'lucide-react';
 import html2canvas from 'html2canvas';
 
@@ -19,6 +19,7 @@ import { KNOW_YOUR_RIGHTS_CONTENT } from './constants/knowyourrights';
 import LegalAndStandards from './constants/legalandstandards';
 import MPBriefingModule from './constants/mpBriefingModule';
 import constituencyDataJSON from './constants/constituency_tax_risk.json';
+import ConstituencyMap from './components/ConstituencyMap';
 
 // Helper to format keys like "DailyLivingStandard" to "Daily Living Standard"
 const formatCamelCase = (str) => {
@@ -532,6 +533,7 @@ export default function App() {
           <div className="max-w-7xl mx-auto flex overflow-x-auto gap-1 py-2 scrollbar-thin scrollbar-thumb-purple-600/50 scrollbar-track-slate-950">
             {[
               { id: 'taxLeaderboard', label: 'UK Tax-Avoidance Risk', icon: Building, badge: 'Live DB' },
+              { id: 'jobsMap', label: 'Jobs Gap Map 650', icon: MapPin, badge: 'NEW' },
               { id: 'leaderboard', label: 'Top 10 Hall of Fame', icon: Award, badge: 'New' },
               { id: 'analyzer', label: 'BS Meter & Analyzer', icon: Zap },
               { id: 'spending', label: 'Spending & Contribution Debunk', icon: BarChart3, badge: 'NEW' },
@@ -566,6 +568,28 @@ export default function App() {
       </div>
 
       <main className="max-w-7xl mx-auto px-4 py-6 space-y-8">
+        {/* NEW: JOBS GAP MAP 650 TAB - INTEGRATED - KEEPS ALL OTHER TABS BYTE-FOR-BYTE */}
+        {activeTab === 'jobsMap' && (
+          <div className="space-y-6">
+            <div className="p-6 rounded-2xl border border-purple-800/40 bg-gradient-to-r from-slate-900 via-purple-950/30 to-slate-900">
+              <div className="flex items-center gap-2 text-teal-400 text-xs font-bold uppercase tracking-wider mb-2">
+                <MapPin className="w-4 h-4" />
+                <span>Labour Market Truth - 650 Constituencies</span>
+              </div>
+              <h2 className="text-2xl font-black">Where There Are Not Enough Jobs - Official vs True Gap</h2>
+              <p className="text-sm text-slate-300 mt-2">
+                Official claimant count 1.69m (Aug 2026, House of Commons Library CBP-8748) is administrative data (JSA + UC searching for work) and robust at constituency level. ILO unemployed 1.78m is Labour Force Survey-based and volatile locally. True job seekers = claimant (1.69m) + economically inactive who want a job (1.8m of 9.12m inactive, ONS INAC01) = ∼3.5m. ONS vacancies ∼820k (VACS02). Red circles = job deserts where vacancies &lt; seekers.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-slate-800 overflow-hidden bg-slate-900">
+              <ConstituencyMap />
+            </div>
+            <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-400">
+              <b>Methodology:</b> Claimant = JSA + UC required to seek work. Inactive want job from ONS 9.12m inactive. AI risk: ONS 1.5m high-risk 7.4% baseline + Centre for Cities up to 29% in Mansfield, Sunderland, Wakefield. OSM tiles (no API key). Data scaled to ONS totals - replace with live ONS CC02 CSV for monthly updates.
+            </div>
+          </div>
+        )}
+
         {/* TAX AVOIDANCE RISK LEADERBOARD TAB */}
         {activeTab === 'taxLeaderboard' && (
           <div className="space-y-6">
