@@ -532,6 +532,7 @@ export default function App() {
         <nav className={`border-b ${highContrast ? 'border-yellow-400 bg-black' : 'border-slate-800 bg-slate-900/95'} px-4 backdrop-blur-md shadow-lg`}>
           <div className="max-w-7xl mx-auto flex overflow-x-auto gap-1 py-2 scrollbar-thin scrollbar-thumb-purple-600/50 scrollbar-track-slate-950">
             {[
+              { id: 'fullReport', label: 'Full Report PDF', icon: FileText, badge: 'PDF' },
               { id: 'taxLeaderboard', label: 'UK Tax-Avoidance Risk', icon: Building, badge: 'Live DB' },
               { id: 'jobsMap', label: 'Jobs Gap Map 650', icon: MapPin, badge: 'NEW' },
               { id: 'leaderboard', label: 'Top 10 Hall of Fame', icon: Award, badge: 'New' },
@@ -568,6 +569,67 @@ export default function App() {
       </div>
 
       <main className="max-w-7xl mx-auto px-4 py-6 space-y-8">
+
+        {activeTab === 'fullReport' && (
+  <div className="space-y-6">
+    <div className="space-y-4">
+      <div className="flex items-center gap-2 text-teal-400">
+        <span className="text-xs font-black uppercase tracking-widest">Official Full Report - 63 Pages - Systemic Audit</span>
+      </div>
+
+      <h2 className="text-3xl font-black tracking-tighter leading-[0.9]">
+        ARCHITECTURES OF <span className="text-white">NEGLECT.</span><br/><span className="text-slate-400">THE ROOT CAUSES OF POVERTY AND WELFARE.</span>
+      </h2>
+
+      <p className="text-base font-bold text-white leading-tight">
+        Britain does not have a dependency problem. <span className="text-teal-400">Britain has a systems problem.</span>
+      </p>
+
+      <div className="bg-black/50 border border-slate-800 rounded-xl p-4 space-y-3 text-sm text-slate-300 leading-snug">
+        <p>
+          <strong className="text-white">Why this report was carried out:</strong> The Centre for Social Justice State of Dependency (Oct 2026) describes a £136bn working-age welfare bill and a £27,400 inactivity trap. This forensic counter-report tests those claims against primary data: DWP Benefit Tables 2026, OBR, ONS, HMRC, HMT PESA 2025 and NAO. What we found is not individual dependency - it is systemic failure.
+        </p>
+        <p>
+          <strong className="text-white">This report looks at root causes of poverty and welfare - how the issues are structural and systemic, built over 20 years, not by claimants.</strong>
+        </p>
+        
+        <div className="grid gap-2 pt-2 text-xs">
+          <div><span className="font-black text-teal-400">1. PRIVATISATION COST - 466.2BN INDICATIVE:</span> Energy 76.2BN excess (WACC gap), Water 61.6BN (debt + dividends), Rail 51.3BN profit extraction, Housing 247.9BN RTB lost rent + HB to private landlords, Gold/RBS 29.2BN. Structural transfer of public value.</div>
+          <div><span className="font-black text-amber-400">2. TAX GAP - 707.8BN (2006-24):</span> HMRC Measuring Tax Gaps corrected sum. Average 37.25BN per year. Evasion 103BN, avoidance 47BN, self-assessment 192BN. The fiscal space exists.</div>
+          <div><span className="font-black text-white">3. ASSESSMENT SYSTEM:</span> WCA and PIP - 70 percent rejections overturned at HMCTS. Points to deliberate underscoring, assessments cruel by design. Genuine strain and neurodevelopmental reality confirmed in DWP-commissioned review.</div>
+          <div><span className="font-black text-white">4. HOUSING SYSTEM:</span> Council stock not replaced, 30th percentile rents drive HB. Not a benefit trap - a housing supply trap.</div>
+          <div><span className="font-black text-white">5. INVESTMENT SYSTEM:</span> CSJ compares 1.6TN welfare (2006-24) vs 1.1TN public investment. Economy-wide investment was 6.6TN. Welfare is an automatic stabiliser, not a crowd-out. Decades of austerity, cuts, underinvestment in health, social care, transport, housing, education, skills and job growth is the root cause.</div>
+        </div>
+
+        <p className="font-bold text-white pt-2">
+          Combined indicative lost value: 1.174 TRILLION. Verified across 650 constituencies - Gosport, Knowsley, Blaenau Gwent show same pattern. Poverty follows cuts, infrastructure, health, and housing gaps - not claimant behaviour.
+        </p>
+
+        <p className="text-xs text-slate-400 pt-1">
+          Bipartisan finding: This is not left vs right. It is system vs people. The data holds regardless of party - structural failures drive welfare demand.
+        </p>
+      </div>
+    </div>
+
+    <div className="flex flex-wrap gap-3 mt-6">
+      <a
+        href="/ARCHITECTURES_OF_NEGLECT_UPDATED_FULL.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="px-5 py-3 rounded-xl bg-teal-500 text-slate-950 font-bold text-sm flex items-center gap-2"
+      >
+        Open Full 70-Page PDF Report (New Tab)
+      </a>
+      <a
+        href="/ARCHITECTURES_OF_NEGLECT_UPDATED_FULL.pdf"
+        download
+        className="px-5 py-3 rounded-xl bg-slate-800 text-white font-bold text-sm border border-slate-700 flex items-center gap-2"
+      >
+        Download PDF
+      </a>
+    </div>
+  </div>
+)}
         {/* NEW: JOBS GAP MAP 650 TAB - INTEGRATED - KEEPS ALL OTHER TABS BYTE-FOR-BYTE */}
         {activeTab === 'jobsMap' && (
           <div className="space-y-6">
