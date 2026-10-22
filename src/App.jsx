@@ -21,6 +21,35 @@ import MPBriefingModule from './constants/mpBriefingModule';
 import constituencyDataJSON from './constants/constituency_tax_risk.json';
 import ConstituencyMap from './components/ConstituencyMap';
 
+// --- REPORTS LIBRARY - ADD ALL YOUR PDFs HERE ---
+const REPORTS_LIBRARY = [
+  {
+    id: 'architectures',
+    title: 'ARCHITECTURES OF NEGLECT',
+    subtitle: 'The Root Causes of Poverty and Welfare - 70 Pages',
+    file: '/ARCHITECTURES_OF_NEGLECT_UPDATED_FULL.pdf',
+    size: '3.54 MB',
+    date: 'Oct 2026',
+    tag: 'Systemic Audit',
+    tagColor: 'bg-teal-500/20 text-teal-300 border-teal-500/30',
+    summary: 'Forensic counter to CSJ State of Dependency. Privatisation cost 466.2BN, Tax Gap 707.8BN, WCA/PIP 70% overturn rate. Combined lost value 1.174 TRILLION across 650 constituencies.',
+    featured: true
+  },
+  {
+    id: 'dwp_sanctions',
+    title: 'DWP Sanctions and Tipping Points',
+    subtitle: 'Sanctions, Suicides, and Systemic Harm - NEW REPORT',
+    file: '/DWP_Sanctions_and_Tipping_Points_REPORT.pdf',
+    size: '547 KB',
+    date: '21 Oct 2026',
+    tag: 'NEW - DWP Harm',
+    tagColor: 'bg-rose-500/20 text-rose-300 border-rose-500/30',
+    summary: 'Your new report - Add your 2-sentence summary here in this field. What does this report prove about sanctions triggering homelessness, foodbank use, and mental health crisis.',
+    featured: false
+  },
+  // TO ADD REPORT 3 - JUST COPY THE BLOCK ABOVE
+];
+
 // Helper to format keys like "DailyLivingStandard" to "Daily Living Standard"
 const formatCamelCase = (str) => {
   if (!str) return '';
@@ -233,6 +262,8 @@ export default function App() {
   // State for Tax-Avoidance Risk Leaderboard Tab
   const [taxSearch, setTaxSearch] = useState('');
   const [selectedTaxConstituency, setSelectedTaxConstituency] = useState(null);
+
+  const [selectedReport, setSelectedReport] = useState(REPORTS_LIBRARY[0]);
 
   const toggleMacroAccordion = (id) => {
     setExpandedMacroId((prev) => (prev === id ? null : id));
@@ -572,61 +603,105 @@ export default function App() {
 
         {activeTab === 'fullReport' && (
   <div className="space-y-6">
-    <div className="space-y-4">
-      <div className="flex items-center gap-2 text-teal-400">
-        <span className="text-xs font-black uppercase tracking-widest">Official Full Report - 63 Pages - Systemic Audit</span>
+    {/* Header */}
+    <div className="p-6 rounded-2xl border border-purple-800/40 bg-gradient-to-r from-slate-900 via-purple-950/30 to-slate-900">
+      <div className="flex items-center gap-2 text-teal-400 text-xs font-black uppercase tracking-widest mb-2">
+        <FileText className="w-4 h-4" /> Reports Library - 2 Forensic Audits
       </div>
-
-      <h2 className="text-3xl font-black tracking-tighter leading-[0.9]">
-        ARCHITECTURES OF <span className="text-white">NEGLECT.</span><br/><span className="text-slate-400">THE ROOT CAUSES OF POVERTY AND WELFARE.</span>
-      </h2>
-
-      <p className="text-base font-bold text-white leading-tight">
-        Britain does not have a dependency problem. <span className="text-teal-400">Britain has a systems problem.</span>
-      </p>
-
-      <div className="bg-black/50 border border-slate-800 rounded-xl p-4 space-y-3 text-sm text-slate-300 leading-snug">
-        <p>
-          <strong className="text-white">Why this report was carried out:</strong> The Centre for Social Justice State of Dependency (Oct 2026) describes a £136bn working-age welfare bill and a £27,400 inactivity trap. This forensic counter-report tests those claims against primary data: DWP Benefit Tables 2026, OBR, ONS, HMRC, HMT PESA 2025 and NAO. What we found is not individual dependency - it is systemic failure.
-        </p>
-        <p>
-          <strong className="text-white">This report looks at root causes of poverty and welfare - how the issues are structural and systemic, built over 20 years, not by claimants.</strong>
-        </p>
-        
-        <div className="grid gap-2 pt-2 text-xs">
-          <div><span className="font-black text-teal-400">1. PRIVATISATION COST - 466.2BN INDICATIVE:</span> Energy 76.2BN excess (WACC gap), Water 61.6BN (debt + dividends), Rail 51.3BN profit extraction, Housing 247.9BN RTB lost rent + HB to private landlords, Gold/RBS 29.2BN. Structural transfer of public value.</div>
-          <div><span className="font-black text-amber-400">2. TAX GAP - 707.8BN (2006-24):</span> HMRC Measuring Tax Gaps corrected sum. Average 37.25BN per year. Evasion 103BN, avoidance 47BN, self-assessment 192BN. The fiscal space exists.</div>
-          <div><span className="font-black text-white">3. ASSESSMENT SYSTEM:</span> WCA and PIP - 70 percent rejections overturned at HMCTS. Points to deliberate underscoring, assessments cruel by design. Genuine strain and neurodevelopmental reality confirmed in DWP-commissioned review.</div>
-          <div><span className="font-black text-white">4. HOUSING SYSTEM:</span> Council stock not replaced, 30th percentile rents drive HB. Not a benefit trap - a housing supply trap.</div>
-          <div><span className="font-black text-white">5. INVESTMENT SYSTEM:</span> CSJ compares 1.6TN welfare (2006-24) vs 1.1TN public investment. Economy-wide investment was 6.6TN. Welfare is an automatic stabiliser, not a crowd-out. Decades of austerity, cuts, underinvestment in health, social care, transport, housing, education, skills and job growth is the root cause.</div>
-        </div>
-
-        <p className="font-bold text-white pt-2">
-          Combined indicative lost value: 1.174 TRILLION. Verified across 650 constituencies - Gosport, Knowsley, Blaenau Gwent show same pattern. Poverty follows cuts, infrastructure, health, and housing gaps - not claimant behaviour.
-        </p>
-
-        <p className="text-xs text-slate-400 pt-1">
-          Bipartisan finding: This is not left vs right. It is system vs people. The data holds regardless of party - structural failures drive welfare demand.
-        </p>
-      </div>
+      <h2 className="text-3xl font-black tracking-tighter">ARCHITECTURE & <span className="text-rose-400">TIPPING POINT</span></h2>
+      <p className="text-sm text-slate-300 mt-2">Click a report on the left. Add future reports by just adding to REPORTS_LIBRARY array - no code changes needed.</p>
     </div>
 
-    <div className="flex flex-wrap gap-3 mt-6">
-      <a
-        href="/ARCHITECTURES_OF_NEGLECT_UPDATED_FULL.pdf"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="px-5 py-3 rounded-xl bg-teal-500 text-slate-950 font-bold text-sm flex items-center gap-2"
-      >
-        Open Full 70-Page PDF Report (New Tab)
-      </a>
-      <a
-        href="/ARCHITECTURES_OF_NEGLECT_UPDATED_FULL.pdf"
-        download
-        className="px-5 py-3 rounded-xl bg-slate-800 text-white font-bold text-sm border border-slate-700 flex items-center gap-2"
-      >
-        Download PDF
-      </a>
+    <div className="grid lg:grid-cols-3 gap-6">
+      {/* LEFT MENU */}
+      <div className="lg:col-span-1 space-y-3">
+        {[
+          {
+            id: 'sanctions',
+            title: 'The Tipping Point Report',
+            subtitle: 'Does Sanctioning Work?',
+            file: '/DWP_Sanctions_and_Tipping_Points_REPORT.pdf',
+            size: '547 KB',
+            date: '21 Oct 2026',
+            badge: 'NEW • 475 EST • £2.13BN LOSS',
+            color: 'border-rose-500/50 bg-rose-950/20',
+            headline: '829k sanctioned • 475 excess suicides • 41k-124k at risk'
+          },
+          {
+            id: 'architectures',
+            title: 'Architectures of Neglect',
+            subtitle: 'Root Causes of Poverty & Welfare - 63 Pages',
+            file: '/ARCHITECTURES_OF_NEGLECT_UPDATED_FULL.pdf',
+            size: '3.54 MB',
+            date: '17 Oct 2026',
+            badge: 'SYSTEMS AUDIT • 1.174 TRILLION',
+            color: 'border-teal-500/30 bg-slate-900',
+            headline: 'Privatisation 466.2BN + Tax Gap 707.8BN'
+          }
+        ].map((r) => (
+          <button
+            key={r.id}
+            onClick={() => setSelectedReport(r)}
+            className={`w-full text-left p-4 rounded-xl border-2 text-sm transition ${selectedReport.id === r.id ? 'border-purple-500 bg-purple-600/20' : r.color + ' hover:border-slate-600'}`}
+          >
+            <div className="text-[10px] font-black px-2 py-0.5 rounded-full bg-black/50 border border-white/10 inline-block mb-2">{r.badge}</div>
+            <div className="font-black text-white leading-tight">{r.title}</div>
+            <div className="text-xs text-slate-400">{r.subtitle}</div>
+            <div className="text-[11px] font-bold text-teal-300 mt-2">{r.headline}</div>
+            <div className="text-[10px] text-slate-500 mt-1">{r.size} • {r.date}</div>
+          </button>
+        ))}
+      </div>
+
+      {/* RIGHT VIEWER - AUTO UPDATES */}
+      <div className="lg:col-span-2 space-y-4">
+        {selectedReport.id === 'sanctions' && (
+          <div className="p-6 rounded-2xl bg-black/60 border border-rose-900/40 space-y-4">
+            <div className="flex gap-2">
+              <span className="text-[10px] px-2 py-1 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30 font-black">SUPPRESSED DWP EVIDENCE INCLUDED</span>
+              <span className="text-[10px] px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">BARR ET AL JECH 2015 ANCHORED</span>
+            </div>
+            <h2 className="text-2xl font-black">The Tipping Point Report — Does Sanctioning Work?</h2>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div className="p-3 rounded-xl bg-slate-950 border border-slate-800"><div className="text-rose-400 font-black text-xl">829k</div><div className="text-[10px] text-slate-400">people sanctioned May16-Aug24<br/>2.07m events</div></div>
+              <div className="p-3 rounded-xl bg-slate-950 border border-slate-800"><div className="text-white font-black text-xl">475</div><div className="text-[10px] text-slate-400">excess suicides est.<br/>Rate 0.0005728 CI 177-788</div></div>
+              <div className="p-3 rounded-xl bg-slate-950 border border-slate-800"><div className="text-amber-400 font-black text-xl">41k-124k</div><div className="text-[10px] text-slate-400">put at risk<br/>5% / 10% / 15% of 829k</div></div>
+              <div className="p-3 rounded-xl bg-rose-950/40 border border-rose-900/40"><div className="text-rose-400 font-black text-xl">£2.13bn</div><div className="text-[10px] text-slate-400">net loss<br/>£2.81bn costs vs £679m saved</div></div>
+            </div>
+
+            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs space-y-2 leading-relaxed">
+              <p><strong className="text-white">Executive Summary:</strong> Definitive synthesis of four cost streams, mental-health lag, suicide risk modelling anchored to Barr et al (JECH 2015), employment outcomes from DWP's own suppressed evidence. Conclusion: conditionality does not increase higher-paid work, reduces earnings, creates £2.13bn fiscal loss while putting 41k-124k at risk.</p>
+              <p className="text-amber-300 font-bold">KEY FINDING - SUPPRESSED APRIL 2023: "Impact is to decrease rate of exit into higher paid work, while exit rate into some kind of work not greatly affected" + "sanctions cause to exit less quickly into earnings and to earn less upon exiting"</p>
+              <p><strong>2023 Snapshot:</strong> 535,660 sanctions = £175.5m saved (mid) vs £880m public costs = -£704m net. NAO withheld £132m. Peaks 2022 458,770 + 2023 465,985 = 924k in two years.</p>
+              <p><strong>What Would Prove Causality:</strong> Individual-level linked: sanction date → DWP benefit exit → HMRC RTI earnings → NHS BSA MH records → ONS mortality. Current uses ecological correlation threshold 186 per 100k where r rises 0.08 → 0.21 in high-sanction LAs, lagged r peak 0.133 in 2022.</p>
+            </div>
+
+            <div className="flex gap-3">
+              <a href="/DWP_Sanctions_and_Tipping_Points_REPORT.pdf" target="_blank" rel="noopener noreferrer" className="px-5 py-3 rounded-xl bg-rose-500 text-white font-bold text-sm flex items-center gap-2"><Eye className="w-4 h-4"/> Open Full 8-Page PDF</a>
+              <a href="/DWP_Sanctions_and_Tipping_Points_REPORT.pdf" download className="px-5 py-3 rounded-xl bg-slate-800 text-white font-bold text-sm border border-slate-700 flex items-center gap-2"><Download className="w-4 h-4"/> Download 547 KB</a>
+            </div>
+
+            <div className="h-[700px] rounded-xl overflow-hidden border border-slate-800 bg-slate-900">
+              <iframe src="/DWP_Sanctions_and_Tipping_Points_REPORT.pdf" className="w-full h-full" title="Tipping Point Report" />
+            </div>
+          </div>
+        )}
+
+        {selectedReport.id === 'architectures' && (
+          <div className="p-6 rounded-2xl bg-black/50 border border-slate-800 space-y-4">
+            <h2 className="text-2xl font-black">ARCHITECTURES OF NEGLECT</h2>
+            <p className="text-sm text-slate-300">Britain does not have a dependency problem. Britain has a systems problem. Privatisation cost 466.2BN, Tax Gap 707.8BN (2006-24), combined 1.174 TRILLION lost value.</p>
+            <div className="flex gap-3">
+              <a href="/ARCHITECTURES_OF_NEGLECT_UPDATED_FULL.pdf" target="_blank" rel="noopener noreferrer" className="px-5 py-3 rounded-xl bg-teal-500 text-slate-950 font-bold text-sm flex items-center gap-2"><Eye className="w-4 h-4"/> Open 70-Page PDF</a>
+              <a href="/ARCHITECTURES_OF_NEGLECT_UPDATED_FULL.pdf" download className="px-5 py-3 rounded-xl bg-slate-800 text-white font-bold text-sm border border-slate-700 flex items-center gap-2"><Download className="w-4 h-4"/> Download</a>
+            </div>
+            <div className="h-[700px] rounded-xl overflow-hidden border border-slate-800 bg-slate-900">
+              <iframe src="/ARCHITECTURES_OF_NEGLECT_UPDATED_FULL.pdf" className="w-full h-full" title="Architectures" />
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   </div>
 )}
