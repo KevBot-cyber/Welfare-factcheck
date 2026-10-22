@@ -24,6 +24,18 @@ import ConstituencyMap from './components/ConstituencyMap';
 // --- REPORTS LIBRARY - ADD ALL YOUR PDFs HERE ---
 const REPORTS_LIBRARY = [
   {
+  id: 'national_statement',
+  title: 'NATIONAL STATEMENT',
+  subtitle: 'Against Further Welfare Cuts and Decades of Neglect - Oct 2026',
+  file: '/Welfare_Facts_National_Statement_FULL.pdf',
+  size: '1.2 MB',
+  date: '22 Oct 2026',
+  tag: 'NATIONAL STATEMENT - NO CUTS',
+  tagColor: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
+  summary: 'No More Cuts Without Consequences. Forensic response to CSJ State of Dependency. Tax gap £39.8bn vs benefit fraud £4.0bn (10x larger), 900k vacancies vs 5.7m seekers (1 per 6.3, 1 per 16 in Blaenau Gwent), real wages flat since 2008, correct spend 96.4%. 10 demands: jobs, homes, fair taxation, end wasteful reassessments, strengthen HMRC.',
+  featured: true
+},
+  {
     id: 'architectures',
     title: 'ARCHITECTURES OF NEGLECT',
     subtitle: 'The Root Causes of Poverty and Welfare - 70 Pages',
@@ -44,7 +56,7 @@ const REPORTS_LIBRARY = [
     date: '21 Oct 2026',
     tag: 'NEW - DWP Harm',
     tagColor: 'bg-rose-500/20 text-rose-300 border-rose-500/30',
-    summary: 'Your new report - Add your 2-sentence summary here in this field. What does this report prove about sanctions triggering homelessness, foodbank use, and mental health crisis.',
+    summary: 'Sanctions Report -The report demonstrates that benefit sanctions create a £2.13bn net fiscal loss by displacing costs to public services, including £1.15bn for homelessness and widespread food bank reliance where 61% of sanctioned individuals required parcels. Furthermore, sanction peaks in already deprived areas strongly correlate with severe mental health crises, contributing to record antidepressant usage, increased crisis line calls, and an estimated 475 excess suicides among the 829,056 uniquely vulnerable people in the 2,072,639 claimants sanctioned. Furthermore this creates a tipping point and doubles the risk of self harm and suicide compared to claimants in areas of low deprivation. ',
     featured: false
   },
   // TO ADD REPORT 3 - JUST COPY THE BLOCK ABOVE
@@ -615,30 +627,7 @@ export default function App() {
     <div className="grid lg:grid-cols-3 gap-6">
       {/* LEFT MENU */}
       <div className="lg:col-span-1 space-y-3">
-        {[
-          {
-            id: 'sanctions',
-            title: 'The Tipping Point Report',
-            subtitle: 'Does Sanctioning Work?',
-            file: '/DWP_Sanctions_and_Tipping_Points_REPORT.pdf',
-            size: '547 KB',
-            date: '21 Oct 2026',
-            badge: 'NEW • 475 EST • £2.13BN LOSS',
-            color: 'border-rose-500/50 bg-rose-950/20',
-            headline: '829k sanctioned • 475 excess suicides • 41k-124k at risk'
-          },
-          {
-            id: 'architectures',
-            title: 'Architectures of Neglect',
-            subtitle: 'Root Causes of Poverty & Welfare - 63 Pages',
-            file: '/ARCHITECTURES_OF_NEGLECT_UPDATED_FULL.pdf',
-            size: '3.54 MB',
-            date: '17 Oct 2026',
-            badge: 'SYSTEMS AUDIT • 1.174 TRILLION',
-            color: 'border-teal-500/30 bg-slate-900',
-            headline: 'Privatisation 466.2BN + Tax Gap 707.8BN'
-          }
-        ].map((r) => (
+          {REPORTS_LIBRARY.map((r) => (
           <button
             key={r.id}
             onClick={() => setSelectedReport(r)}
@@ -653,58 +642,30 @@ export default function App() {
         ))}
       </div>
 
-      {/* RIGHT VIEWER - AUTO UPDATES */}
-      <div className="lg:col-span-2 space-y-4">
-        {selectedReport.id === 'sanctions' && (
-          <div className="p-6 rounded-2xl bg-black/60 border border-rose-900/40 space-y-4">
-            <div className="flex gap-2">
-              <span className="text-[10px] px-2 py-1 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30 font-black">SUPPRESSED DWP EVIDENCE INCLUDED</span>
-              <span className="text-[10px] px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">BARR ET AL JECH 2015 ANCHORED</span>
-            </div>
-            <h2 className="text-2xl font-black">The Tipping Point Report — Does Sanctioning Work?</h2>
-            
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              <div className="p-3 rounded-xl bg-slate-950 border border-slate-800"><div className="text-rose-400 font-black text-xl">829k</div><div className="text-[10px] text-slate-400">people sanctioned May16-Aug24<br/>2.07m events</div></div>
-              <div className="p-3 rounded-xl bg-slate-950 border border-slate-800"><div className="text-white font-black text-xl">475</div><div className="text-[10px] text-slate-400">excess suicides est.<br/>Rate 0.0005728 CI 177-788</div></div>
-              <div className="p-3 rounded-xl bg-slate-950 border border-slate-800"><div className="text-amber-400 font-black text-xl">41k-124k</div><div className="text-[10px] text-slate-400">put at risk<br/>5% / 10% / 15% of 829k</div></div>
-              <div className="p-3 rounded-xl bg-rose-950/40 border border-rose-900/40"><div className="text-rose-400 font-black text-xl">£2.13bn</div><div className="text-[10px] text-slate-400">net loss<br/>£2.81bn costs vs £679m saved</div></div>
-            </div>
+      {/* RIGHT VIEWER - AUTO UPDATES - GENERIC */}
+<div className="lg:col-span-2 space-y-4">
+  <div className="p-6 rounded-2xl bg-black/60 border border-purple-900/40 space-y-4">
+    <div className="flex gap-2 flex-wrap">
+      <span className={`text-[10px] px-2 py-1 rounded border font-black ${selectedReport.tagColor}`}>{selectedReport.tag}</span>
+      <span className="text-[10px] px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">{selectedReport.date} • {selectedReport.size}</span>
+    </div>
+    <h2 className="text-2xl font-black">{selectedReport.title}</h2>
+    <p className="text-sm text-slate-300">{selectedReport.subtitle}</p>
+    <p className="text-xs text-slate-400 leading-relaxed">{selectedReport.summary}</p>
+    
+    <div className="flex gap-3">
+      <a href={selectedReport.file} target="_blank" rel="noopener noreferrer" className="px-5 py-3 rounded-xl bg-purple-600 text-white font-bold text-sm flex items-center gap-2">Open Full PDF</a>
+      <a href={selectedReport.file} download className="px-5 py-3 rounded-xl bg-slate-800 text-white font-bold text-sm border border-slate-700 flex items-center gap-2">Download</a>
+    </div>
 
-            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs space-y-2 leading-relaxed">
-              <p><strong className="text-white">Executive Summary:</strong> Definitive synthesis of four cost streams, mental-health lag, suicide risk modelling anchored to Barr et al (JECH 2015), employment outcomes from DWP's own suppressed evidence. Conclusion: conditionality does not increase higher-paid work, reduces earnings, creates £2.13bn fiscal loss while putting 41k-124k at risk.</p>
-              <p className="text-amber-300 font-bold">KEY FINDING - SUPPRESSED APRIL 2023: "Impact is to decrease rate of exit into higher paid work, while exit rate into some kind of work not greatly affected" + "sanctions cause to exit less quickly into earnings and to earn less upon exiting"</p>
-              <p><strong>2023 Snapshot:</strong> 535,660 sanctions = £175.5m saved (mid) vs £880m public costs = -£704m net. NAO withheld £132m. Peaks 2022 458,770 + 2023 465,985 = 924k in two years.</p>
-              <p><strong>What Would Prove Causality:</strong> Individual-level linked: sanction date → DWP benefit exit → HMRC RTI earnings → NHS BSA MH records → ONS mortality. Current uses ecological correlation threshold 186 per 100k where r rises 0.08 → 0.21 in high-sanction LAs, lagged r peak 0.133 in 2022.</p>
-            </div>
-
-            <div className="flex gap-3">
-              <a href="/DWP_Sanctions_and_Tipping_Points_REPORT.pdf" target="_blank" rel="noopener noreferrer" className="px-5 py-3 rounded-xl bg-rose-500 text-white font-bold text-sm flex items-center gap-2"><Eye className="w-4 h-4"/> Open Full 8-Page PDF</a>
-              <a href="/DWP_Sanctions_and_Tipping_Points_REPORT.pdf" download className="px-5 py-3 rounded-xl bg-slate-800 text-white font-bold text-sm border border-slate-700 flex items-center gap-2"><Download className="w-4 h-4"/> Download 547 KB</a>
-            </div>
-
-            <div className="h-[700px] rounded-xl overflow-hidden border border-slate-800 bg-slate-900">
-              <iframe src="/DWP_Sanctions_and_Tipping_Points_REPORT.pdf" className="w-full h-full" title="Tipping Point Report" />
-            </div>
-          </div>
-        )}
-
-        {selectedReport.id === 'architectures' && (
-          <div className="p-6 rounded-2xl bg-black/50 border border-slate-800 space-y-4">
-            <h2 className="text-2xl font-black">ARCHITECTURES OF NEGLECT</h2>
-            <p className="text-sm text-slate-300">Britain does not have a dependency problem. Britain has a systems problem. Privatisation cost 466.2BN, Tax Gap 707.8BN (2006-24), combined 1.174 TRILLION lost value.</p>
-            <div className="flex gap-3">
-              <a href="/ARCHITECTURES_OF_NEGLECT_UPDATED_FULL.pdf" target="_blank" rel="noopener noreferrer" className="px-5 py-3 rounded-xl bg-teal-500 text-slate-950 font-bold text-sm flex items-center gap-2"><Eye className="w-4 h-4"/> Open 70-Page PDF</a>
-              <a href="/ARCHITECTURES_OF_NEGLECT_UPDATED_FULL.pdf" download className="px-5 py-3 rounded-xl bg-slate-800 text-white font-bold text-sm border border-slate-700 flex items-center gap-2"><Download className="w-4 h-4"/> Download</a>
-            </div>
-            <div className="h-[700px] rounded-xl overflow-hidden border border-slate-800 bg-slate-900">
-              <iframe src="/ARCHITECTURES_OF_NEGLECT_UPDATED_FULL.pdf" className="w-full h-full" title="Architectures" />
-            </div>
-          </div>
-        )}
-      </div>
+    <div className="h-[700px] rounded-xl overflow-hidden border border-slate-800 bg-slate-900">
+      <iframe src={selectedReport.file} className="w-full h-full" title={selectedReport.title} />
     </div>
   </div>
-)}
+</div>
+</div>
+</div>
+        )}
         {/* NEW: JOBS GAP MAP 650 TAB - INTEGRATED - KEEPS ALL OTHER TABS BYTE-FOR-BYTE */}
         {activeTab === 'jobsMap' && (
           <div className="space-y-6">
