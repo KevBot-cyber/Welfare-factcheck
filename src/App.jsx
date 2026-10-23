@@ -23,6 +23,18 @@ import ConstituencyMap from './components/ConstituencyMap';
 
 // --- REPORTS LIBRARY - ADD ALL YOUR PDFs HERE ---
 const REPORTS_LIBRARY = [
+    {
+    id: 'dwp_impact_assessment',
+    title: 'DWP SANCTIONS, ESA MIGRATION & CLAIMANT IMPACT',
+    subtitle: 'Comprehensive Longitudinal Analysis (2016-2024)',
+    file: '/DWP_Sanctions_ESA_Migration_Claimant_Impact_Assessment.pdf',
+    size: '1.15 MB',
+    date: '23 Oct 2026',
+    tag: 'NEW - EMPIRICAL AUDIT',
+    tagColor: 'bg-rose-500/20 text-rose-300 border-rose-500/30',
+    summary: 'Independent research report modeling the 10.1 million additional NHS mental health contacts, £3.26bn excess NHS costs, temporary accommodation surges (£717m/year), and net fiscal losses to the public purse resulting from benefit sanctions and ESA migration programs.',
+    featured: true
+  },
   {
   id: 'national_statement',
   title: 'NATIONAL STATEMENT',
