@@ -630,10 +630,10 @@ export default function App() {
     {/* Header */}
     <div className="p-6 rounded-2xl border border-purple-800/40 bg-gradient-to-r from-slate-900 via-purple-950/30 to-slate-900">
       <div className="flex items-center gap-2 text-teal-400 text-xs font-black uppercase tracking-widest mb-2">
-        <FileText className="w-4 h-4" /> Reports Library - 2 Forensic Audits
+        <FileText className="w-4 h-4" /> Reports Library - Forensic Audit Reports
       </div>
-      <h2 className="text-3xl font-black tracking-tighter">ARCHITECTURE & <span className="text-rose-400">TIPPING POINT</span></h2>
-      <p className="text-sm text-slate-300 mt-2">Click a report on the left. Add future reports by just adding to REPORTS_LIBRARY array - no code changes needed.</p>
+      <h2 className="text-3xl font-black tracking-tighter">ARCHITECTURE, Tipping Point, <span className="text-rose-400">National Statement Against Welfare Cuts & DWP Sanctions Impact Assessment</span></h2>
+      <p className="text-sm text-slate-300 mt-2">Click a report to appear in the viewing pane, open in a new page or download as a PDF.</p>
     </div>
 
     <div className="grid lg:grid-cols-3 gap-6">
