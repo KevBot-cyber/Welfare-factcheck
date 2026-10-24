@@ -20,6 +20,7 @@ import LegalAndStandards from './constants/legalandstandards';
 import MPBriefingModule from './constants/mpBriefingModule';
 import constituencyDataJSON from './constants/constituency_tax_risk.json';
 import ConstituencyMap from './components/ConstituencyMap';
+import FundingDisparityMap from './components/FundingDisparityMap';
 
 // --- REPORTS LIBRARY - ADD ALL YOUR PDFs HERE ---
 const REPORTS_LIBRARY = [
@@ -588,6 +589,7 @@ export default function App() {
           <div className="max-w-7xl mx-auto flex overflow-x-auto gap-1 py-2 scrollbar-thin scrollbar-thumb-purple-600/50 scrollbar-track-slate-950">
             {[
               { id: 'fullReport', label: 'Full Report PDF', icon: FileText, badge: 'PDF' },
+              { id: 'fundingMap', label: 'Funding Disparity Map', icon: MapPin, badge: 'NEW' },
               { id: 'taxLeaderboard', label: 'UK Tax-Avoidance Risk', icon: Building, badge: 'Live DB' },
               { id: 'jobsMap', label: 'Jobs Gap Map 650', icon: MapPin, badge: 'NEW' },
               { id: 'leaderboard', label: 'Top 10 Hall of Fame', icon: Award, badge: 'New' },
@@ -699,6 +701,8 @@ export default function App() {
             </div>
           </div>
         )}
+
+        {activeTab === 'fundingMap' && <FundingDisparityMap />}
 
         {/* TAX AVOIDANCE RISK LEADERBOARD TAB */}
         {activeTab === 'taxLeaderboard' && (
