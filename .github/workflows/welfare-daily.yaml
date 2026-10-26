@@ -1,36 +1,29 @@
 name: Welfare Watch Daily Auto-Scan
-
 on:
   schedule:
-    - cron: '0 6 * * *' # 6am UTC daily = 7am UK
-  workflow_dispatch: # lets you click "Run workflow" manually to test
+    - cron: '0 6 * * *'
+  workflow_dispatch:
 
 jobs:
-  daily-scan:
+  scan:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-
-      - name: Run daily welfare scan
+          node-version: 20
+      - run: npm ci
+      - run: node scripts/daily-scan.js
         env:
-          GUARDIAN_KEY: ${{ secrets.GUARDIAN_KEY }}
           GNEWS_KEY: ${{ secrets.GNEWS_KEY }}
+          GUARDIAN_KEY: ${{ secrets.GUARDIAN_KEY }}
           CURRENTS_KEY: ${{ secrets.CURRENTS_KEY }}
-        run: |
-          node scripts/daily-scan.js
-
+          NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
       - name: Commit updated archive
         run: |
           git config user.name "welfare-watch-bot"
-          git config user.email "bot@welfarewatch.local"
-          git add public/data/welfare-archive.json public/data/welfare-today.json
-          git diff --staged --quiet || git commit -m "chore: daily welfare scan $(date -u +%Y-%m-%d)"
+          git config user.email "bot@welfaretruth.index"
+          git add public/data/welfare-archive.json
+          git add public/data/ || true
+          git commit -m "Daily welfare scan $(date -u +%Y-%m-%d)" || echo "No changes to commit"
           git push
