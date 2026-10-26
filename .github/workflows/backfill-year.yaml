@@ -1,0 +1,21 @@
+name: Backfill Year Welfare + Hansard
+on: workflow_dispatch:
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+            - run: npm install
+            - run: node scripts/backfill-year.js
+        env:
+          GNEWS_KEY: ${{ secrets.GNEWS_KEY }}
+          GUARDIAN_KEY: ${{ secrets.GUARDIAN_KEY }}
+          NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
+            - run: |
+          git config user.name "welfare-watch-bot"
+          git config user.email "bot@welfaretruth.index"
+          git add public/data/welfare-year-archive.json public/data/hansard-welfare-pmqs.json public/data/welfare-archive.json
+          git commit -m "Backfill year welfare + Hansard PMQs $(date -u +%Y-%m-%d)" || echo "No changes"
+          git push
