@@ -12,7 +12,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm ci
+      - run: npm install
       - run: node scripts/daily-scan.js
         env:
           GNEWS_KEY: ${{ secrets.GNEWS_KEY }}
