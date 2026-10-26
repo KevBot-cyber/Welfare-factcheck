@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-25T23:00:00Z",
+  "lastUpdated": "2026-10-26T11:46:33.274Z",
   "todayCount": 2,
   "totalCount": 2,
   "today": [
@@ -9,8 +9,12 @@
       "title": "Budget will unveil 70 billion borrowing to pay welfare bill, city experts warns",
       "url": "https://www.dailymail.co.uk/",
       "stigmaScore": 9,
-      "rhetoricTypes": ["Economic Scapegoating"],
-      "rhetoricHits": ["welfare bill"],
+      "rhetoricTypes": [
+        "Economic Scapegoating"
+      ],
+      "rhetoricHits": [
+        "welfare bill"
+      ],
       "debunk": "DWP total 309.5bn but 146.2bn is State Pension (47%). UC 424.90/mo. Borrowing driven by interest rates/growth/tax, not claimants. PIP fraud 0.4%."
     },
     {
@@ -19,10 +23,22 @@
       "title": "John Healey plans to send 2,000 anti-fraud experts into Jobcentres to claw back 1.4bn from benefits cheats",
       "url": "https://www.dailymail.co.uk/",
       "stigmaScore": 8,
-      "rhetoricTypes": ["Fraud Hyperbole","Generalisation"],
-      "rhetoricHits": ["benefits cheats"],
+      "rhetoricTypes": [
+        "Fraud Hyperbole",
+        "Generalisation"
+      ],
+      "rhetoricHits": [
+        "benefits cheats"
+      ],
       "debunk": "1.4bn = 0.45% of 309.5bn spend. Fraud & error ~2.8% (mostly error). PIP fraud 0.4%. Taper 55%, WA 427/710. 70% PIP tribunals overturn DWP. 19bn unclaimed vs 1.4bn target."
     }
   ],
-  "leaderboard": { "Daily Mail": { "count": 2, "totalStigma": 17 } }
+  "leaderboard": {
+    "Daily Mail": {
+      "count": 2,
+      "totalStigma": 17
+    }
+  },
+  "yearBackfillCount": 306,
+  "hansardCount": 0
 }
