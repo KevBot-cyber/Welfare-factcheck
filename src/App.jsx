@@ -21,6 +21,8 @@ import MPBriefingModule from './constants/mpBriefingModule';
 import constituencyDataJSON from './constants/constituency_tax_risk.json';
 import ConstituencyMap from './components/ConstituencyMap';
 import FundingDisparityMap from './components/FundingDisparityMap';
+import WelfareWatchLive from './components/WelfareWatchLive'
+import HansardStigmaChart from './components/HansardStigmaChart';
 
 // --- REPORTS LIBRARY - ADD ALL YOUR PDFs HERE ---
 const REPORTS_LIBRARY = [
@@ -602,6 +604,8 @@ export default function App() {
               { id: 'rights', label: 'Know Your Rights', icon: ShieldCheck, badge: 'Info' },
               { id: 'legal', label: 'Legal & Standards', icon: Scale },
               { id: 'support', label: 'Disability Help & Advocacy', icon: Users },
+              { id: 'welfareWatch', label: 'Welfare Watch Live', icon: Eye, badge: 'Auto' },
+              { id: 'stigmaTracker', label: 'Hansard Stigma Tracker', icon: AlertTriangle, badge: '5-Yr Audit' },
             ].map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -1933,6 +1937,11 @@ export default function App() {
             </div>
           </div>
         )}
+
+        {activeTab === 'welfareWatch' && <WelfareWatchLive />}
+
+        {activeTab === 'stigmaTracker' && <HansardStigmaChart/>}
+
       </main>
 
       {/* Selected Constituency Details Modal */}
