@@ -1,0 +1,235 @@
+{
+  "lastUpdated": "2026-10-26T20:50:08.474Z",
+  "totalCount": 0,
+  "from": "2025-10-26",
+  "to": "2026-10-26",
+  "mode": "recent",
+  "runId": "run-1793047438459",
+  "taxonomyVersion": "3.2 - 30 categories with 2025-2026 political framing + volume",
+  "termsCount": 309,
+  "categories": [
+    "01_Benefit_Fraud_Dishonesty",
+    "02_Disability_Fraud_Malingering",
+    "03_Mental_Health_Scepticism",
+    "04_Chronic_Pain_Fatigue",
+    "05_PIP_Assessment_Rhetoric",
+    "06_ESA_UC_LCWRA",
+    "07_WCA_Fitness_Disputes",
+    "08_Sanctions_Conditionality",
+    "09_Laziness_Moral",
+    "10_Skiver_Shirker_Scrounger",
+    "11_Benefits_Vs_Work",
+    "12_Welfare_Expenditure_Burden",
+    "13_Dependency_Culture",
+    "14_Motability_Free_Cars",
+    "15_Lifestyle_Consumption",
+    "16_Sick_Notes_Absence",
+    "17_Employment_Productivity",
+    "18_Housing_Benefit",
+    "19_Child_Poverty",
+    "20_Carers",
+    "21_Pensioner",
+    "22_DLA_Attendance",
+    "23_Fraud_Stats",
+    "24_Caps_Uprating",
+    "25_Incentives_Labour",
+    "26_Reform_Eligibility",
+    "27_Misleading_Headlines",
+    "28_Counter_Rhetoric",
+    "29_Current_Political_2025_2026",
+    "30_Volume_Broad_Welfare_Coverage"
+  ],
+  "sources": [
+    "Guardian Open Platform",
+    "GDELT Project",
+    "GNews",
+    "Currents API",
+    "UK News RSS 15 outlets",
+    "Hansard Commons"
+  ],
+  "searchRuns": [
+    {
+      "query": "welfare bubble",
+      "error": "Please limit requests to one every 5 seconds or contact kalev.leetaru5@gmail.com for larger queries. All high-traffic users should switch to our ngrams dataset: https://blog.gdeltproject.org/using-the-new-web-ngrams-dataset-to-find-relevant-coverage/. For trend analysis, please see our daily newslet",
+      "items": 0
+    },
+    {
+      "query": "moral crusade benefits",
+      "error": "Please limit requests to one every 5 seconds or contact kalev.leetaru5@gmail.com for larger queries. All high-traffic users should switch to our ngrams dataset: https://blog.gdeltproject.org/using-the-new-web-ngrams-dataset-to-find-relevant-coverage/. For trend analysis, please see our daily newslet",
+      "items": 0
+    },
+    {
+      "query": "fraud squads job centre",
+      "items": 0
+    },
+    {
+      "query": "cut 50 billion welfare",
+      "error": "Please limit requests to one every 5 seconds or contact kalev.leetaru5@gmail.com for larger queries. All high-traffic users should switch to our ngrams dataset: https://blog.gdeltproject.org/using-the-new-web-ngrams-dataset-to-find-relevant-coverage/. For trend analysis, please see our daily newslet",
+      "items": 0
+    },
+    {
+      "query": "signed off work welfare",
+      "error": "Please limit requests to one every 5 seconds or contact kalev.leetaru5@gmail.com for larger queries. All high-traffic users should switch to our ngrams dataset: https://blog.gdeltproject.org/using-the-new-web-ngrams-dataset-to-find-relevant-coverage/. For trend analysis, please see our daily newslet",
+      "items": 0
+    },
+    {
+      "query": "handed PIP benefits",
+      "error": "",
+      "items": 0
+    },
+    {
+      "query": "striver vs scrounger",
+      "error": "Please limit requests to one every 5 seconds or contact kalev.leetaru5@gmail.com for larger queries. All high-traffic users should switch to our ngrams dataset: https://blog.gdeltproject.org/using-the-new-web-ngrams-dataset-to-find-relevant-coverage/. For trend analysis, please see our daily newslet",
+      "items": 0
+    },
+    {
+      "query": "welfare bill out of control",
+      "error": "Please limit requests to one every 5 seconds or contact kalev.leetaru5@gmail.com for larger queries. All high-traffic users should switch to our ngrams dataset: https://blog.gdeltproject.org/using-the-new-web-ngrams-dataset-to-find-relevant-coverage/. For trend analysis, please see our daily newslet",
+      "items": 0
+    },
+    {
+      "query": "benefits bill soaring",
+      "error": "Please limit requests to one every 5 seconds or contact kalev.leetaru5@gmail.com for larger queries. All high-traffic users should switch to our ngrams dataset: https://blog.gdeltproject.org/using-the-new-web-ngrams-dataset-to-find-relevant-coverage/. For trend analysis, please see our daily newslet",
+      "items": 0
+    },
+    {
+      "query": "culture of dependency welfare",
+      "error": "Please limit requests to one every 5 seconds or contact kalev.leetaru5@gmail.com for larger queries. All high-traffic users should switch to our ngrams dataset: https://blog.gdeltproject.org/using-the-new-web-ngrams-dataset-to-find-relevant-coverage/. For trend analysis, please see our daily newslet",
+      "items": 0
+    },
+    {
+      "query": "welfare disability benefits",
+      "error": "{\"errors\":[\"You have reached your request limit for today, the next reset will be tomorrow at 00:00 UTC. If you need more requests, you can upgrade your subscription here: https:\\/\\/gnews.io\\/change-plan\"]}",
+      "items": 0
+    },
+    {
+      "query": "welfare bubble moral crusade",
+      "error": "{\"errors\":[\"You have reached your request limit for today, the next reset will be tomorrow at 00:00 UTC. If you need more requests, you can upgrade your subscription here: https:\\/\\/gnews.io\\/change-plan\"]}",
+      "items": 0
+    },
+    {
+      "query": "cut 50 billion welfare",
+      "error": "{\"errors\":[\"You have reached your request limit for today, the next reset will be tomorrow at 00:00 UTC. If you need more requests, you can upgrade your subscription here: https:\\/\\/gnews.io\\/change-plan\"]}",
+      "items": 0
+    },
+    {
+      "query": "welfare disability benefits",
+      "resultCount": 5,
+      "status": "ok"
+    },
+    {
+      "query": "welfare bubble fraud squads",
+      "resultCount": 0,
+      "status": "ok"
+    },
+    {
+      "query": "BBC News UK",
+      "resultCount": 0,
+      "status": "ok"
+    },
+    {
+      "query": "Sky News UK",
+      "status": "error",
+      "error": 404
+    },
+    {
+      "query": "Guardian UK",
+      "resultCount": 0,
+      "status": "ok"
+    },
+    {
+      "query": "Telegraph UK",
+      "resultCount": 0,
+      "status": "ok"
+    },
+    {
+      "query": "Daily Mail UK",
+      "resultCount": 0,
+      "status": "ok"
+    },
+    {
+      "query": "The Sun UK",
+      "resultCount": 0,
+      "status": "ok"
+    },
+    {
+      "query": "Mirror UK",
+      "resultCount": 0,
+      "status": "ok"
+    },
+    {
+      "query": "Express UK",
+      "resultCount": 0,
+      "status": "ok"
+    },
+    {
+      "query": "Independent UK",
+      "resultCount": 1,
+      "status": "ok"
+    },
+    {
+      "query": "ITV News",
+      "status": "error",
+      "error": 404
+    },
+    {
+      "query": "Metro UK",
+      "resultCount": 0,
+      "status": "ok"
+    },
+    {
+      "query": "Coventry Telegraph",
+      "resultCount": 0,
+      "status": "ok"
+    },
+    {
+      "query": "Birmingham Mail",
+      "resultCount": 5,
+      "status": "ok"
+    },
+    {
+      "query": "Manchester Evening News",
+      "resultCount": 0,
+      "status": "ok"
+    },
+    {
+      "query": "Daily Record",
+      "resultCount": 0,
+      "status": "ok"
+    },
+    {
+      "query": "welfare bubble",
+      "resultCount": 0,
+      "status": "ok"
+    },
+    {
+      "query": "moral crusade",
+      "status": "error"
+    },
+    {
+      "query": "fraud squads",
+      "status": "error"
+    },
+    {
+      "query": "public consent welfare",
+      "status": "error"
+    },
+    {
+      "query": "cut 50 billion welfare",
+      "status": "error"
+    },
+    {
+      "query": "signed off work",
+      "status": "error"
+    },
+    {
+      "query": "welfare bill",
+      "status": "error"
+    },
+    {
+      "query": "benefits bill",
+      "status": "error"
+    }
+  ],
+  "items": []
+}

@@ -1,0 +1,15 @@
+{
+  "lastUpdated": "2026-10-26T20:50:08.480Z",
+  "from": "2025-10-26",
+  "to": "2026-10-26",
+  "mode": "recent",
+  "methodology": "Guardian=Guardian only. GDELT=free unlimited all UK outlets (Mail, Telegraph, Sun, Times, Mirror, Express). RSS=15 outlets live. To get thousands/year like 2024 1000% spike monitors, need GDELT + RSS + paid NewsAPI. Free Guardian alone will never show thousands because Telegraph/Mail not in it.",
+  "totalRaw": 3211,
+  "totalClassified": 0,
+  "deduped": 0,
+  "broadWelfareVolume": 0,
+  "stigmaLikely": 0,
+  "gdeltFromMailTelegraphSun": 0,
+  "breakdownByOutlet": {},
+  "note": "Recent mode: 0 stigma/political. Run --mode=volume to see broad welfare baseline of thousands."
+}
