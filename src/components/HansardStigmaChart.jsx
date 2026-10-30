@@ -6301,7 +6301,7 @@ export default function HansardStigmaChart() {
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-rose-400 text-xs font-bold uppercase tracking-wider"><AlertTriangle className="w-4 h-4" /><span>Parliamentary Rhetoric Audit (Last 5 Years)</span></div>
             <h2 className="text-2xl font-black text-slate-100">House of Commons Stigma Tracker</h2>
-            <p className="text-sm text-slate-300 max-w-2xl">Tracking the use of derogatory, generalising, and stigmatising terms directed at disabled people and welfare claimants on the official parliamentary record.</p>
+            <p className="text-sm text-slate-300 max-w-2xl">Tracking the use of derogatory, generalising, and stigmatising terms directed at disabled people and welfare claimants on the official parliamentary record (Hansard). This project studied stereotypes and stigma using keyword searches via the GDELT BigQuery project. Disclaimer: Some flagged speeches may be using stigmatising terms whilst condemning the treatment of welfare claimants or disabled people. In particular, left-leaning politicians flagged as using such terms may be using them to condemn the language and challenge policy, as opposed to using them in a derogatory way. Please ensure you check the full context via the official Hansard transcript before citation.</p>
           </div>
           <button onClick={handleDownloadAllCSV} className="px-4 py-2.5 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 rounded-xl text-xs font-bold flex items-center gap-2">
             <Download className="w-4 h-4" /> Download Full Dataset CSV ({INCIDENTS_DATA.length})
