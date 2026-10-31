@@ -1,0 +1,142 @@
+{
+  "lastUpdated": "2026-10-31T04:52:28.744545",
+  "totalIncidents": 3,
+  "byTerm": {
+    "scrounger": 1,
+    "benefits bill": 1,
+    "better off on benefits": 1
+  },
+  "byCategory": {
+    "Classic_DWP_Slurs": 1,
+    "Economic_Scapegoating_Bill": 1,
+    "Economic_Envy_Better_Off": 1
+  },
+  "incidents": [
+    {
+      "term": "scrounger",
+      "category": "Classic_DWP_Slurs",
+      "title": "Comment: scrounger narrative in Sun on Sunday PIP analysis",
+      "link": "#",
+      "date": "2026-10-31T04:52:28.744545"
+    },
+    {
+      "term": "benefits bill",
+      "category": "Economic_Scapegoating_Bill",
+      "title": "Reform UK benefits for foreign nationals: the \u00a312bn ban",
+      "link": "#",
+      "date": "2026-10-31T04:52:28.744545"
+    }
+  ],
+  "articles": [
+    {
+      "id": "dwp_272day",
+      "title": "DWP gives new update on '272-day wait' for Universal Credit reassessments",
+      "link": "https://www.edinburghlive.co.uk/news/uk-world-news/dwp-gives-new-update-272-301",
+      "source": "Edinburgh Live",
+      "outlet": "Edinburgh Live",
+      "published": "2026-10-30T04:52:28.744545",
+      "summary": "Department confirms average waiting time for Work Capability Assessment reassessment was 272 working days as of Oct 1, 2026.",
+      "category": "UC",
+      "ago": "1d ago"
+    },
+    {
+      "id": "pip_uturn_delay",
+      "title": "Major update to DWP payments announced as government U-turn confirmed",
+      "link": "https://www.birminghammail.co.uk/news/midlands-news/major-update-dwp-payments-announced-301",
+      "source": "BBC",
+      "outlet": "BBC News",
+      "published": "2026-10-30T04:52:28.744545",
+      "summary": "Government confirms changes to restrict eligibility for Personal Independence Payment (PIP) could be delayed until after review, instead of November 2026.",
+      "category": "PIP",
+      "ago": "1d ago"
+    },
+    {
+      "id": "uc_overpayment",
+      "title": "DWP confirms tough Universal Credit overpayment rules after helpline errors",
+      "link": "https://www.britbrief.co.uk/dwp-confirms-tough-universal-credit-overpayment-rules",
+      "source": "DWP",
+      "outlet": "BritBrief",
+      "published": "2026-10-31T00:52:28.744545",
+      "summary": "DWP says Universal Credit overpayments, including those caused by incorrect helpline advice, must be recovered wherever possible. Minister Timms response Oct 23.",
+      "category": "DWP",
+      "ago": "4h ago"
+    },
+    {
+      "id": "pip_checkins",
+      "title": "DWP issues PIP update on regular 'check-ins' for claimants",
+      "link": "https://www.britbrief.co.uk/dwp-issues-pip-update-on-regular-check-ins",
+      "source": "Resolution Foundation",
+      "outlet": "BritBrief",
+      "published": "2026-10-29T04:52:28.744545",
+      "summary": "Department addresses proposals for more regular check-ins via app or online, similar to UC journal, after report on claimant experiences.",
+      "category": "PIP",
+      "ago": "2d ago"
+    },
+    {
+      "id": "pip_hidden_report",
+      "title": "DWP ORDERED TO REVEAL HIDDEN PIP ASSESSMENT REPORT",
+      "link": "https://www.disabilitynewsservice.com",
+      "source": "DNS",
+      "outlet": "Disability News Service",
+      "published": "2026-10-28T04:52:28.744545",
+      "summary": "Information Commissioner orders DWP to release withheld information concerning quality of PIP telephone assessments, ruling dated 6 Oct 2026.",
+      "category": "PIP",
+      "ago": "3d ago"
+    },
+    {
+      "id": "uc_unclaimed",
+      "title": "DWP: up to \u00a312.7bn of Universal Credit went unclaimed, averaging \u00a34,700 per family",
+      "link": "https://www.thamescompass.com/dwp-12-7bn-unclaimed",
+      "source": "DWP",
+      "outlet": "Thames Compass",
+      "published": "2026-10-30T22:52:28.744545",
+      "summary": "DWP publishes take-up stats for financial year ending 2025. \u00a312.7bn of UC went unclaimed.",
+      "category": "UC",
+      "ago": "6h ago"
+    },
+    {
+      "id": "pip_oneoff",
+      "title": "New DWP PIP update as claimants could get 'one-off' payment - review this autumn",
+      "link": "https://www.edinburghlive.co.uk",
+      "source": "Edinburgh Live",
+      "outlet": "Edinburgh Live",
+      "published": "2026-10-27T04:52:28.744545",
+      "summary": "Spending on PIP stood at \u00a316.3bn in 2019-20 rising to \u00a327.3bn by 2024-25. Review expected autumn 2026.",
+      "category": "PIP",
+      "ago": "4d ago"
+    },
+    {
+      "id": "lha_freeze",
+      "title": "Autumn Budget: LHA freeze continues despite rents up 9% - Resolution Foundation warning",
+      "link": "https://www.rightsnet.org.uk",
+      "source": "Rightsnet",
+      "outlet": "Rightsnet",
+      "published": "2026-10-26T04:52:28.744545",
+      "summary": "Housing charities warn 120k families face arrears as Local Housing Allowance frozen for third year.",
+      "category": "Budget",
+      "ago": "5d ago"
+    },
+    {
+      "id": "sanctions_foi",
+      "title": "DWP sanctions data shows 42% of Universal Credit claims sanctioned in 2025 - FOI",
+      "link": "https://www.disabilitynewsservice.com",
+      "source": "DNS",
+      "outlet": "Disability News Service",
+      "published": "2026-10-25T04:52:28.744545",
+      "summary": "Food bank network reports 61% of sanctioned claimants needed emergency parcels, sanctions correlate with deprived areas.",
+      "category": "DWP",
+      "ago": "6d ago"
+    },
+    {
+      "id": "carers_allowance",
+      "title": "Carer's Allowance overpayments: DWP writes off \u00a320m after admin errors",
+      "link": "https://www.theguardian.com/society",
+      "source": "Guardian",
+      "outlet": "The Guardian",
+      "published": "2026-10-29T04:52:28.744545",
+      "summary": "Select committee hears carers pursued for thousands due to earnings threshold breach they were not told about.",
+      "category": "DWP",
+      "ago": "2d ago"
+    }
+  ]
+}
