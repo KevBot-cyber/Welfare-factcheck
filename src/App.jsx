@@ -23,6 +23,7 @@ import ConstituencyMap from './components/ConstituencyMap';
 import FundingDisparityMap from './components/FundingDisparityMap';
 import WelfareWatchLive from './components/WelfareWatchLive'
 import HansardStigmaChart from './components/HansardStigmaChart';
+import WelfareNewsLiveTab from './pages/WelfareNewsLiveTab';
 
 // --- REPORTS LIBRARY - ADD ALL YOUR PDFs HERE ---
 const REPORTS_LIBRARY = [
@@ -606,6 +607,7 @@ export default function App() {
               { id: 'support', label: 'Disability Help & Advocacy', icon: Users },
               { id: 'welfareWatch', label: 'Welfare Watch Live', icon: Eye, badge: 'Auto' },
               { id: 'stigmaTracker', label: 'Hansard Stigma Tracker', icon: AlertTriangle, badge: '5-Yr Audit' },
+              { id: 'welfareNewsLive', label: 'Latest Welfare News', icon: Newspaper, badge: 'LIVE' },
             ].map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -1941,6 +1943,8 @@ export default function App() {
         {activeTab === 'welfareWatch' && <WelfareWatchLive />}
 
         {activeTab === 'stigmaTracker' && <HansardStigmaChart/>}
+
+        {activeTab === 'welfareNewsLive' && <WelfareNewsLiveTab />}
 
       </main>
 
