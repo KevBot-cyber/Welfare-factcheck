@@ -1,12 +1,12 @@
 {
-  "totalIncidents": 30,
+  "totalIncidents": 29,
   "byTerm": {
-    "welfare bill": 28,
+    "welfare bill": 27,
     "scrounger": 1,
     "handouts": 1
   },
   "byCategory": {
-    "Economic_Scapegoating_Bill": 28,
+    "Economic_Scapegoating_Bill": 27,
     "Classic_DWP_Slurs": 1,
     "Free_Money_Handouts": 1
   },
@@ -242,14 +242,6 @@
       "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQLTRIOXhKSXBlSEJMd3pteTkwbXExRGNoTG1pdTJYeDVZTndIemFJWWY3SnRaaU1UbGtHYUNWdXBEdjRiX3VKTGJocGlTVzRtNjEyUzJ6UnlPTEI2OVh3aXlvZGNNR2VMRkNfajd6UE96cUNkWDhzQ04zTkZ1QS0yUHFwZjAzNHVrdzdVT1FtcUZUcGxQSFNj?oc=5",
       "date": "2026-10-20T07:00:00.000Z",
       "source": "Google News"
-    },
-    {
-      "term": "welfare bill",
-      "category": "Economic_Scapegoating_Bill",
-      "title": "UK's disability welfare bill tops £100 billion, exceeding defence spending by a third - The Standard (HK)",
-      "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxOTW9tU0NxWGpUUW1iUjVvam1UUHJPS0lBQ25FcENGRlpqSEI2Y21XNlYwNlZRYmp4TXl4NWJ3YWpRY0kxQW5QQ0M5c1RWZXlUVkNIb2luSjh4X2V3Vk9SS0N2YmRXMVJWTFFqTERXa3p1SEMzYzA3MXBmZ2hMYkZCUGZROW9MZ3llcW93OFktczFqcEJXN3NIdzcwRXpyLUhkMU91NDZ3eFhWaW5mdThNUjJqUzZHZUgxQ2pvempyQU0zR3VGQ3RCYXYzcjY3Tk0?oc=5",
-      "date": "2026-10-15T07:00:00.000Z",
-      "source": "Google News"
     }
   ],
   "articles": [
@@ -384,6 +376,17 @@
       "summary": "New DWP bank checks begin for people claiming three benefits  The Northern Echo",
       "category": "DWP",
       "ago": "0d ago"
+    },
+    {
+      "id": "CBMimwFBVV95cUxPeVhxUFNsYW5YbHMtSENBTnMzUTIzZFFSRlNVVjY2UFJrNExCaHE3WnljaVlSVTRWQ0dHeXlnVXBXQmQxd2VXSjE1WmVBaWRjMzRuUmxrSU5Qb0ZJM3cya3JLa3ljTTNLNjhHMXVqUlVhSy1XU2JRc0pDSTR2b1VYbE1Ma3BUMWVEczlBVVdoeDNlNm9fZXBwMEhxWdIBoAFBVV95cUxNOVpHbUZjNEZXWEZoeVd3NFFWQmxSOFR0QVVkczVMY1dOV2gwWFJFR2w3TDBaSGUwbEFiaEFMTnJYQzRoT3RGRnlDSVVOUE81WmRiakljX0FtMzZvbUtLYWNOU0h1bXQzLU12cDJHRy1UcVFfSE1nWFVGbTZGcURfakRYTjBxSVZOb2w5QkN6ZnNaYm1TcFFlZExtVzBIRVBV",
+      "title": "DWP confirms full rules as £25 cash set for households on four benefits from tomorrow - Manchester Evening News",
+      "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPeVhxUFNsYW5YbHMtSENBTnMzUTIzZFFSRlNVVjY2UFJrNExCaHE3WnljaVlSVTRWQ0dHeXlnVXBXQmQxd2VXSjE1WmVBaWRjMzRuUmxrSU5Qb0ZJM3cya3JLa3ljTTNLNjhHMXVqUlVhSy1XU2JRc0pDSTR2b1VYbE1Ma3BUMWVEczlBVVdoeDNlNm9fZXBwMEhxWdIBoAFBVV95cUxNOVpHbUZjNEZXWEZoeVd3NFFWQmxSOFR0QVVkczVMY1dOV2gwWFJFR2w3TDBaSGUwbEFiaEFMTnJYQzRoT3RGRnlDSVVOUE81WmRiakljX0FtMzZvbUtLYWNOU0h1bXQzLU12cDJHRy1UcVFfSE1nWFVGbTZGcURfakRYTjBxSVZOb2w5QkN6ZnNaYm1TcFFlZExtVzBIRVBV?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-10-31T07:26:00.000Z",
+      "summary": "DWP confirms full rules as £25 cash set for households on four benefits from tomorrow  Manchester Evening News",
+      "category": "DWP",
+      "ago": "3d ago"
     },
     {
       "id": "CBMikwFBVV95cUxPcWdtb1BJZHRGbnl4WlVoajFvWFlmSGNsX2lwV2g2cFFSYWNqclFYbzV5SEItQW44SENObGljdHFtc01RWG5uTlNXZk9iMHFaSloxNFYwVzVZRUpfclNaSFVEOXBaSFBzZ2ZZc0Y1QVFuUm1RRi1zQTkwc29qcmpDVjBtTHp0cWRDdjFkVEpmUmZnbzDSAZgBQVVfeXFMTjVLaTBXV2lLTGtjUGFUanUzZEVGcEZIR0QzMkhCby13SVdHWlE5VjBQVGlWc3drQ2JaQW55UHZmd0xhMmFUa3lrZ3FzQXFRajZPVy1tcjZsR0pIa1VqSkRob1pXckRxcDM1MjIxOGdJTVdtMGpFVjlFa2ZTX0xCSG9SNHZPZXc2d2V0aGU3TzJ2ZktPMmpsbDE",
@@ -958,6 +961,17 @@
       "ago": "4d ago"
     },
     {
+      "id": "CBMilgFBVV95cUxNTXdxTmtZeko3YlhUVWRWZ2Q3QnNiZlUwM1B0V3NVQjBuZnhnQldhVDBCMTg1cjBabFFhSWpDVTlWY201bUVGbGtEZ0NsNVFPTURBRTRwaFVlR1dCNWZ1aDZQRkE4U2VxWXpYa2J1cnFtV0IxN05Va29QbU5SdGpzYThBakoxbnVKT3BlUUo4M2EwSXdWYlE",
+      "title": "DWP confirms five groups who won't get Winter Fuel Payment in 2026 - Lincolnshire Live",
+      "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNTXdxTmtZeko3YlhUVWRWZ2Q3QnNiZlUwM1B0V3NVQjBuZnhnQldhVDBCMTg1cjBabFFhSWpDVTlWY201bUVGbGtEZ0NsNVFPTURBRTRwaFVlR1dCNWZ1aDZQRkE4U2VxWXpYa2J1cnFtV0IxN05Va29QbU5SdGpzYThBakoxbnVKT3BlUUo4M2EwSXdWYlE?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-10-27T06:16:00.000Z",
+      "summary": "DWP confirms five groups who won't get Winter Fuel Payment in 2026  Lincolnshire Live",
+      "category": "DWP",
+      "ago": "7d ago"
+    },
+    {
       "id": "CBMilgFBVV95cUxOamI2RFVYUUVBZVJoYWwwaWZwdklaMUYtREkzNkxmS0ZmR3lZYjF6WllFTUNMaUxzX0I3NFZkM3JjbDZWU0Z4SWtkRElBOU5LbWE0QXNGejVQTjNnN1c4Rm9DbzVpenJ4bUhZb0xvaU55Wl80OGdnQURhdF9lV2VzQ3UtZnFpMmtTb18yZzAxaHZxUklfMWc",
       "title": "Reforming PIP: The Clinician's Role in Assessments - Medscape",
       "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxOamI2RFVYUUVBZVJoYWwwaWZwdklaMUYtREkzNkxmS0ZmR3lZYjF6WllFTUNMaUxzX0I3NFZkM3JjbDZWU0Z4SWtkRElBOU5LbWE0QXNGejVQTjNnN1c4Rm9DbzVpenJ4bUhZb0xvaU55Wl80OGdnQURhdF9lV2VzQ3UtZnFpMmtTb18yZzAxaHZxUklfMWc?oc=5",
@@ -1044,6 +1058,17 @@
       "summary": "Personal independence payment and other disability benefits and linked schemes  House of Lords Library",
       "category": "PIP",
       "ago": "8d ago"
+    },
+    {
+      "id": "CBMilAFBVV95cUxPbVI2SXU3ZGY0WW5rOER3emV5VGpWRTZCdUM0MHFtSHNlRmN1dENvYWhUNl9SVmxIQ0toNXl0a21HTFkyRXNVc01NY3pfb0xRQ2pjSGU2NXY1NXNQaW41LWRSdWU1d2sxT1Nxd1VCVTRZVHh5WTVPdjBKMkF1MGs0NmhkRFhMbnhkYk1CVXBaSy1HazhS0gGaAUFVX3lxTE81Y2dpblpiT2Yxd2NpdGNGeTBmQWRUdk13RUJIemZ3ZDBTeGtsdENNb2paX2doYWN0cjEtNG9FUHF0SmZCMEFKbE5VbDRVY0dGYk50MFB2QTFqejRyak9XVllBc3NQRUZUX0Q3YmdkcGFqRk1HQ1dHT2hJdGNvQ3Zha2gwTlZiMzdud1lTOG0wVEVCZWpoYktOd1E",
+      "title": "November 2026 DWP payment dates confirmed - full list of benefits to be paid out next month - Wales Online",
+      "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPbVI2SXU3ZGY0WW5rOER3emV5VGpWRTZCdUM0MHFtSHNlRmN1dENvYWhUNl9SVmxIQ0toNXl0a21HTFkyRXNVc01NY3pfb0xRQ2pjSGU2NXY1NXNQaW41LWRSdWU1d2sxT1Nxd1VCVTRZVHh5WTVPdjBKMkF1MGs0NmhkRFhMbnhkYk1CVXBaSy1HazhS0gGaAUFVX3lxTE81Y2dpblpiT2Yxd2NpdGNGeTBmQWRUdk13RUJIemZ3ZDBTeGtsdENNb2paX2doYWN0cjEtNG9FUHF0SmZCMEFKbE5VbDRVY0dGYk50MFB2QTFqejRyak9XVllBc3NQRUZUX0Q3YmdkcGFqRk1HQ1dHT2hJdGNvQ3Zha2gwTlZiMzdud1lTOG0wVEVCZWpoYktOd1E?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-10-23T07:00:00.000Z",
+      "summary": "November 2026 DWP payment dates confirmed - full list of benefits to be paid out next month  Wales Online",
+      "category": "DWP",
+      "ago": "11d ago"
     },
     {
       "id": "https://www.disabilitynewsservice.com/?p=35112",
@@ -1319,40 +1344,7 @@
       "summary": "The Norfolk town where the benefits bill is growing 10 times quicker than wages  Great Yarmouth Mercury",
       "category": "Budget",
       "ago": "12d ago"
-    },
-    {
-      "id": "CBMitAFBVV95cUxNdzR2c2JMQ3o3TDdPMExxSGlHZFRoNHVaQXQ4VTJpM2ZMU2E3SHJ2YlNyNWI2OU4zdTAxWGVsTDQwVF9WeTA0YnFwRlA0Y3lFSWNNNmhSdFRJX1k2bi1YenIxTWJhQ3lHdHFxd3FrQ2N1MTN0SmxaU2JPX21IU0lPQXROMEwwZXRwZ0VOTFBKT3NoUVVuZV9PMjJTVjlQczN3WUFDU2k4YWVFbmJudkZKa1FfeHc",
-      "title": "DWP reveals exact information banks have to share about benefit claimants - The Independent",
-      "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNdzR2c2JMQ3o3TDdPMExxSGlHZFRoNHVaQXQ4VTJpM2ZMU2E3SHJ2YlNyNWI2OU4zdTAxWGVsTDQwVF9WeTA0YnFwRlA0Y3lFSWNNNmhSdFRJX1k2bi1YenIxTWJhQ3lHdHFxd3FrQ2N1MTN0SmxaU2JPX21IU0lPQXROMEwwZXRwZ0VOTFBKT3NoUVVuZV9PMjJTVjlQczN3WUFDU2k4YWVFbmJudkZKa1FfeHc?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-10-19T07:00:00.000Z",
-      "summary": "DWP reveals exact information banks have to share about benefit claimants  The Independent",
-      "category": "DWP",
-      "ago": "14d ago"
-    },
-    {
-      "id": "CBMizwFBVV95cUxOTW9tU0NxWGpUUW1iUjVvam1UUHJPS0lBQ25FcENGRlpqSEI2Y21XNlYwNlZRYmp4TXl4NWJ3YWpRY0kxQW5QQ0M5c1RWZXlUVkNIb2luSjh4X2V3Vk9SS0N2YmRXMVJWTFFqTERXa3p1SEMzYzA3MXBmZ2hMYkZCUGZROW9MZ3llcW93OFktczFqcEJXN3NIdzcwRXpyLUhkMU91NDZ3eFhWaW5mdThNUjJqUzZHZUgxQ2pvempyQU0zR3VGQ3RCYXYzcjY3Tk0",
-      "title": "UK's disability welfare bill tops £100 billion, exceeding defence spending by a third - The Standard (HK)",
-      "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxOTW9tU0NxWGpUUW1iUjVvam1UUHJPS0lBQ25FcENGRlpqSEI2Y21XNlYwNlZRYmp4TXl4NWJ3YWpRY0kxQW5QQ0M5c1RWZXlUVkNIb2luSjh4X2V3Vk9SS0N2YmRXMVJWTFFqTERXa3p1SEMzYzA3MXBmZ2hMYkZCUGZROW9MZ3llcW93OFktczFqcEJXN3NIdzcwRXpyLUhkMU91NDZ3eFhWaW5mdThNUjJqUzZHZUgxQ2pvempyQU0zR3VGQ3RCYXYzcjY3Tk0?oc=5",
-      "source": "Google News",
-      "outlet": "Google News Welfare Bill",
-      "published": "2026-10-15T07:00:00.000Z",
-      "summary": "UK's disability welfare bill tops £100 billion, exceeding defence spending by a third  The Standard (HK)",
-      "category": "Budget",
-      "ago": "16d ago"
-    },
-    {
-      "id": "CBMingFBVV95cUxPS3NsbUR5ZWVEaldMNXI0M2RoWGZFaGc5QjIzWDIwcGYwaFRuRzduWFhVeDhQVHIxTnFQOWdtMm4wLWFXMURQdEYtcU5WT2VwTGtvd3pEUGxQWGNYbGd2bW1lUXBadGJpNXZMNk91bk5CbHNpSW14TWRqOVV0VDhIcElTRTVObE1yTncyTWFlUnNSQlhUOEE2ZG14Z1dndw",
-      "title": "Stopping Pip for ADHD or autism would not make big savings, says thinktank - The Guardian",
-      "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxPS3NsbUR5ZWVEaldMNXI0M2RoWGZFaGc5QjIzWDIwcGYwaFRuRzduWFhVeDhQVHIxTnFQOWdtMm4wLWFXMURQdEYtcU5WT2VwTGtvd3pEUGxQWGNYbGd2bW1lUXBadGJpNXZMNk91bk5CbHNpSW14TWRqOVV0VDhIcElTRTVObE1yTncyTWFlUnNSQlhUOEE2ZG14Z1dndw?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-10-14T07:00:00.000Z",
-      "summary": "Stopping Pip for ADHD or autism would not make big savings, says thinktank  The Guardian",
-      "category": "PIP",
-      "ago": "17d ago"
     }
   ],
-  "lastUpdated": "2026-11-02T16:54:37.897Z"
+  "lastUpdated": "2026-11-03T07:53:24.953Z"
 }
