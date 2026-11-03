@@ -1,16 +1,24 @@
 {
-  "totalIncidents": 29,
+  "totalIncidents": 30,
   "byTerm": {
-    "welfare bill": 27,
+    "welfare bill": 28,
     "scrounger": 1,
     "handouts": 1
   },
   "byCategory": {
-    "Economic_Scapegoating_Bill": 27,
+    "Economic_Scapegoating_Bill": 28,
     "Classic_DWP_Slurs": 1,
     "Free_Money_Handouts": 1
   },
   "incidents": [
+    {
+      "term": "welfare bill",
+      "category": "Economic_Scapegoating_Bill",
+      "title": "Mahmood admits migrant U-turn will increase welfare bill - The Telegraph",
+      "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPWFpyaDI3bVhTTG51eEZVRWtIRnRKS2htbkliQW53RjV3cFM5Z3FTaXVrWjBsclVWNnJ1LTBmb0tUcWw3TzIxRG8zc0dLSDVIYWVYV0huWG1Iak5obVZxRDVlLVFXM05IR05mOElSbTJ5aU9lLUJvbk5Pc2VfVjdFWmk3Y3hPYnc1U3NGeDdEMFc2ZmlaS3ZsemhtN0RHaDBQTUE?oc=5",
+      "date": "2026-11-03T09:35:00.000Z",
+      "source": "Google News"
+    },
     {
       "term": "welfare bill",
       "category": "Economic_Scapegoating_Bill",
@@ -245,6 +253,39 @@
     }
   ],
   "articles": [
+    {
+      "id": "CBMiwAFBVV95cUxQR1ZneThMY1Y3TGg0eDU3QjE5clljVHNvcWpGaTgtWGxSWHpkQUZicDk4dGJ1Q2FDTlBYYmJOZmNHZzltWHB2N2EwSHFxQWEtSGlHNEpNa3F0YXZDb3pqaDRGWVJ1bzNHQUcyWnYtQnFuU0dJaS1aQ3NNU1JiODdHZmJybnFYdEx2WW5RMnlseDNheGNtN21ranJtcGNQTk1fMkZ4UE1TOUtfRVA4bmtHdVBzRE85ME1SYjJZbGNxZk0",
+      "title": "DWP, TPR and FCA launch consultation on guided retirement to help 'resurrect' pensions - Professional Pensions",
+      "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQR1ZneThMY1Y3TGg0eDU3QjE5clljVHNvcWpGaTgtWGxSWHpkQUZicDk4dGJ1Q2FDTlBYYmJOZmNHZzltWHB2N2EwSHFxQWEtSGlHNEpNa3F0YXZDb3pqaDRGWVJ1bzNHQUcyWnYtQnFuU0dJaS1aQ3NNU1JiODdHZmJybnFYdEx2WW5RMnlseDNheGNtN21ranJtcGNQTk1fMkZ4UE1TOUtfRVA4bmtHdVBzRE85ME1SYjJZbGNxZk0?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-03T10:45:16.000Z",
+      "summary": "DWP, TPR and FCA launch consultation on guided retirement to help 'resurrect' pensions  Professional Pensions",
+      "category": "DWP",
+      "ago": "0d ago"
+    },
+    {
+      "id": "CBMiogFBVV95cUxPWFpyaDI3bVhTTG51eEZVRWtIRnRKS2htbkliQW53RjV3cFM5Z3FTaXVrWjBsclVWNnJ1LTBmb0tUcWw3TzIxRG8zc0dLSDVIYWVYV0huWG1Iak5obVZxRDVlLVFXM05IR05mOElSbTJ5aU9lLUJvbk5Pc2VfVjdFWmk3Y3hPYnc1U3NGeDdEMFc2ZmlaS3ZsemhtN0RHaDBQTUE",
+      "title": "Mahmood admits migrant U-turn will increase welfare bill - The Telegraph",
+      "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPWFpyaDI3bVhTTG51eEZVRWtIRnRKS2htbkliQW53RjV3cFM5Z3FTaXVrWjBsclVWNnJ1LTBmb0tUcWw3TzIxRG8zc0dLSDVIYWVYV0huWG1Iak5obVZxRDVlLVFXM05IR05mOElSbTJ5aU9lLUJvbk5Pc2VfVjdFWmk3Y3hPYnc1U3NGeDdEMFc2ZmlaS3ZsemhtN0RHaDBQTUE?oc=5",
+      "source": "Google News",
+      "outlet": "Google News Welfare Bill",
+      "published": "2026-11-03T09:35:00.000Z",
+      "summary": "Mahmood admits migrant U-turn will increase welfare bill  The Telegraph",
+      "category": "Budget",
+      "ago": "0d ago"
+    },
+    {
+      "id": "CBMihgFBVV95cUxQUFRDVHpCVXVuMGpEU0laN3NDUHVfOXl5Ym5uUG0yNkFlLVdqeVVYdmtQazhBVTBKQTExVDI2cEY2eXNaNV9oUkotNFN6SzlyNFRMNkVQTnVLTFB0NHNNVWd1MVpjc3dsdUZRZGRtNzYwREkzMndlTTNJUTN1VU5ucHROUlFZQQ",
+      "title": "People on Universal Credit with health issues could be due up to £1,203 a month - Yahoo Life UK",
+      "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQUFRDVHpCVXVuMGpEU0laN3NDUHVfOXl5Ym5uUG0yNkFlLVdqeVVYdmtQazhBVTBKQTExVDI2cEY2eXNaNV9oUkotNFN6SzlyNFRMNkVQTnVLTFB0NHNNVWd1MVpjc3dsdUZRZGRtNzYwREkzMndlTTNJUTN1VU5ucHROUlFZQQ?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-02T13:56:39.000Z",
+      "summary": "People on Universal Credit with health issues could be due up to £1,203 a month  Yahoo Life UK",
+      "category": "UC",
+      "ago": "1d ago"
+    },
     {
       "id": "CBMihgFBVV95cUxOLUNYSDFGTW5EX25yM19vTU9YaDlCZEJLZmZYMThSZ3A4T3I3bm02WGUtRWVFSTdwWEpKMjZEbFdqWVozdnM0ZHVXdDBBQzJtT0Q3NUNwRkNjTTZJX1pPOEtGUDQ2RW5uMmwyT3h5WnJNNGVLc3ZpUnA0Z2NYeW1NZVJfSVJwQdIBiwFBVV95cUxPeDhCZWJ1VTVpeURvaGVCaDZGU040MVlJbmVCRmZPUHJIaEdzajktdU5FdFN6WGRwWldjQkc5NjFKOXJ6Z21Nb1NpTG9yODNWV2YzeVp4WUUxYlF6TUt6VkZ4Z2ZNQUNOeC14cDVvOWtjYXVodkl2elVQcEI5ZURQbDRKMjl6d2s5cGdv",
       "title": "DWP to pay up to £1,485 to UK households before Christmas - how much you could get - Chronicle Live",
@@ -950,6 +991,17 @@
       "ago": "4d ago"
     },
     {
+      "id": "CBMirAFBVV95cUxNUVpTc191ay1JcUNfQVBWdXJEM0pBLTF0VjNfSkU4ajRtY05USUIyZFZzSXg0Z0gwWDNZMk9vSDdfbnFLaVVtWVRnRHV2Y0xHakVldi1LZ08xdWdSejNEakhFYVpOcjNIeDlubXQ1d1RzU3ExbDk5aFJFWWdHVkhWaE1oUUpDV0ZEUlNNaWUxNmlBdkl4bzJLdWlYalRwWkh4bE9aWHVRMGtuNDBh",
+      "title": "Budget shake-up expected to bring major DWP benefit changes for households - Hampshire Chronicle",
+      "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNUVpTc191ay1JcUNfQVBWdXJEM0pBLTF0VjNfSkU4ajRtY05USUIyZFZzSXg0Z0gwWDNZMk9vSDdfbnFLaVVtWVRnRHV2Y0xHakVldi1LZ08xdWdSejNEakhFYVpOcjNIeDlubXQ1d1RzU3ExbDk5aFJFWWdHVkhWaE1oUUpDV0ZEUlNNaWUxNmlBdkl4bzJLdWlYalRwWkh4bE9aWHVRMGtuNDBh?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-10-27T13:34:30.000Z",
+      "summary": "Budget shake-up expected to bring major DWP benefit changes for households  Hampshire Chronicle",
+      "category": "Budget",
+      "ago": "7d ago"
+    },
+    {
       "id": "CBMikgFBVV95cUxOLU1QVVZzYmRrWE5lS2IzUDZINHppbm02ejktM3dHUWtwTTBVanh2QkY3TERvaVRrVUNxaGZIRVB2eGNwQkZxWjlRemFVSzNXZGFzZ2ZqRmdJalU1R1k5d1FzRUpBVmJvbDhCeEF3MnlTdU5Jb3lablhwVlRpRlk5UUhDX3Z2U2Y3LVFZOEZxeXpDZw",
       "title": "Carers under 25 owe as much as £18,000 to DWP – here’s what to know - The i Paper",
       "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOLU1QVVZzYmRrWE5lS2IzUDZINHppbm02ejktM3dHUWtwTTBVanh2QkY3TERvaVRrVUNxaGZIRVB2eGNwQkZxWjlRemFVSzNXZGFzZ2ZqRmdJalU1R1k5d1FzRUpBVmJvbDhCeEF3MnlTdU5Jb3lablhwVlRpRlk5UUhDX3Z2U2Y3LVFZOEZxeXpDZw?oc=5",
@@ -1300,51 +1352,7 @@
       "summary": "Welfare bill to rise despite Labour reforms  The Telegraph",
       "category": "Budget",
       "ago": "12d ago"
-    },
-    {
-      "id": "CBMizgFBVV95cUxQT0Z3ckktdWtyWWlXUUVlazlaNzNBblM5MjVSS2NOQTJSeEFOMlBwdTRZX2NnUTFja1hUX01MYm9uUUk3VjJ5WDgxNzk2UEwtcW1pSHZOQnlUZnhsdVU5bExEUTFkclcxUTRFTm1CcTBhMEg1NS1JODVnRkZHeTR6VnNPUlBCVVBqZXNrNnNUQUNpVlRYWlhPb2thbUptbHZ4UVdzMEJzaVNkRDd5aFVaeGdFbnk4OXFudDFRYXhiTG1nZFdDZUN3UDdJUUhCQQ",
-      "title": "Teens and young adults account for almost a third of anxiety disorder PIP claimants, data suggests - Sky News",
-      "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxQT0Z3ckktdWtyWWlXUUVlazlaNzNBblM5MjVSS2NOQTJSeEFOMlBwdTRZX2NnUTFja1hUX01MYm9uUUk3VjJ5WDgxNzk2UEwtcW1pSHZOQnlUZnhsdVU5bExEUTFkclcxUTRFTm1CcTBhMEg1NS1JODVnRkZHeTR6VnNPUlBCVVBqZXNrNnNUQUNpVlRYWlhPb2thbUptbHZ4UVdzMEJzaVNkRDd5aFVaeGdFbnk4OXFudDFRYXhiTG1nZFdDZUN3UDdJUUhCQQ?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-10-19T07:00:00.000Z",
-      "summary": "Teens and young adults account for almost a third of anxiety disorder PIP claimants, data suggests  Sky News",
-      "category": "PIP",
-      "ago": "12d ago"
-    },
-    {
-      "id": "CBMimgFBVV95cUxNdUtsMFRMVEpreHp3a1JZcXNtY0ZMSWRvVzlOM0RDdTlGRS1UZ1JnLThUQjlqMW5XSVFpWUNtbS00NFlIVVBhdnNsU2Z0a1ZZQkJWaXBNZGU2VFltcjJHS1VsVlpQWGNJQWpRdmszWi1ESlRZRDlna3o0bzZqME5DNHFMSG9Fa3h5NkdfNTRzcWFrOTBQMDRySDVB",
-      "title": "What new DWP powers mean for UK benefit claimants - The Independent",
-      "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNdUtsMFRMVEpreHp3a1JZcXNtY0ZMSWRvVzlOM0RDdTlGRS1UZ1JnLThUQjlqMW5XSVFpWUNtbS00NFlIVVBhdnNsU2Z0a1ZZQkJWaXBNZGU2VFltcjJHS1VsVlpQWGNJQWpRdmszWi1ESlRZRDlna3o0bzZqME5DNHFMSG9Fa3h5NkdfNTRzcWFrOTBQMDRySDVB?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-10-19T07:00:00.000Z",
-      "summary": "What new DWP powers mean for UK benefit claimants  The Independent",
-      "category": "DWP",
-      "ago": "12d ago"
-    },
-    {
-      "id": "CBMijgFBVV95cUxPemhTUjMtVHhwRldXX25sb21GMHFseFRXUU9QZTUtdHYtMTd3OGlIZ0FIcV93X0tzdXc3Si12elU5SDZNYmJXTFlPQVRBcnNfNUU3TW80cW5waWlMSUZKNDF4TmJEYWNOOG5obWhmM1dLN3dvOUNpMWNvY2lpR1VyTGp6N3IyZ1NwdkdsX3JR",
-      "title": "Can the DWP really check your bank account? - Which?",
-      "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPemhTUjMtVHhwRldXX25sb21GMHFseFRXUU9QZTUtdHYtMTd3OGlIZ0FIcV93X0tzdXc3Si12elU5SDZNYmJXTFlPQVRBcnNfNUU3TW80cW5waWlMSUZKNDF4TmJEYWNOOG5obWhmM1dLN3dvOUNpMWNvY2lpR1VyTGp6N3IyZ1NwdkdsX3JR?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-10-19T07:00:00.000Z",
-      "summary": "Can the DWP really check your bank account?  Which?",
-      "category": "DWP",
-      "ago": "12d ago"
-    },
-    {
-      "id": "CBMirgFBVV95cUxNNjVkdWlkS0dyUkEtTzBuSVFucnNaTkpUdWc4c0JVWndLUEdkS2w3LXZJNUNBU1UtZ1hnOERUaXI3b2xMNDlJc3U1UG9ndXpTOWtlWXhFdlZIbjMySXJPLUotTUxEdk9MLWVhRi1SYkJ4c0lkVHFVM2FwSDB0NExHMnlaS2FuYmZJQW9MaV90S2VJVXpndFh2QTBPejcyWXdxS25FcTNhejUzVXljVlE",
-      "title": "The Norfolk town where the benefits bill is growing 10 times quicker than wages - Great Yarmouth Mercury",
-      "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNNjVkdWlkS0dyUkEtTzBuSVFucnNaTkpUdWc4c0JVWndLUEdkS2w3LXZJNUNBU1UtZ1hnOERUaXI3b2xMNDlJc3U1UG9ndXpTOWtlWXhFdlZIbjMySXJPLUotTUxEdk9MLWVhRi1SYkJ4c0lkVHFVM2FwSDB0NExHMnlaS2FuYmZJQW9MaV90S2VJVXpndFh2QTBPejcyWXdxS25FcTNhejUzVXljVlE?oc=5",
-      "source": "Google News",
-      "outlet": "Google News Welfare Bill",
-      "published": "2026-10-19T07:00:00.000Z",
-      "summary": "The Norfolk town where the benefits bill is growing 10 times quicker than wages  Great Yarmouth Mercury",
-      "category": "Budget",
-      "ago": "12d ago"
     }
   ],
-  "lastUpdated": "2026-11-03T07:53:24.953Z"
+  "lastUpdated": "2026-11-03T14:55:26.876Z"
 }
