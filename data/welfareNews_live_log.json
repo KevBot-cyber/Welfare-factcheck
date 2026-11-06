@@ -1,14 +1,12 @@
 {
   "totalIncidents": 33,
   "byTerm": {
-    "welfare bill": 31,
-    "scrounger": 1,
-    "handouts": 1
+    "welfare bill": 32,
+    "scrounger": 1
   },
   "byCategory": {
-    "Economic_Scapegoating_Bill": 31,
-    "Classic_DWP_Slurs": 1,
-    "Free_Money_Handouts": 1
+    "Economic_Scapegoating_Bill": 32,
+    "Classic_DWP_Slurs": 1
   },
   "incidents": [
     {
@@ -174,6 +172,14 @@
     {
       "term": "welfare bill",
       "category": "Economic_Scapegoating_Bill",
+      "title": "Burnham says he wants to cut welfare bill 'as soon as we possibly can' - AOL.co.uk",
+      "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPY2JKTV9rOTFGS01kcU53QlVzak15RW8tSlM3bUJpUDRuWlBjVmJ2SU1IdTRzcGJGbXoydHB1SkcyaGZpMDF2eE5Bb3E1N3BFbUllYlowOGJra2xrM0JsZlZQODBYXzU4MVlTbE1ILXFTMzNCN1ZFZDFZX19IV1BDYUNB?oc=5",
+      "date": "2026-10-29T15:43:00.000Z",
+      "source": "Google News"
+    },
+    {
+      "term": "welfare bill",
+      "category": "Economic_Scapegoating_Bill",
       "title": "Burnham says he wants to cut welfare bill 'as soon as we possibly can' - BBC",
       "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFAxMnBCbjBvS2l1UUpHWlF6TVE0aWVlcV9PRll3dmFKdmN2N3JhM0h5bHRvVFZoVDBUQ3d4dkZOaEx4czMxd3VfMlpWOTR4c0o5SUNPWld5cXpEQTFGN2c?oc=5",
       "date": "2026-10-29T15:42:56.000Z",
@@ -266,17 +272,42 @@
       "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOSzZpU3c2OHJSTWF6REwtYlF0Q2JxeDNTelBsV2RtU0NtVEM2Y21WQzV2X0NDU3ltRzFjQTk3akhtUEVyS250TVhaQWNqUjcxamludHNKckpCU1ZwekxDWnZWeXZuelVvVWhJaFV0eXJkV0lnektmRXdiT3RKYVY0SmtORnlkWUN3d2JZd0p4VHdydDd4UldKQklnUVZ2TFA5YnhLaTBVLUlveW1oM19sSENTdXM4XzQ?oc=5",
       "date": "2026-10-28T13:36:00.000Z",
       "source": "Google News"
-    },
-    {
-      "term": "handouts",
-      "category": "Free_Money_Handouts",
-      "title": "I was a PIP assessor. Cutting handouts for young people won’t work - The i Paper",
-      "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPazlubC1JZ1ZpVDA2b1VEcHhyMXFTWEJRVHZycmtYZWF3RFVrR1dpdDlKenQtYnRqVlEwR1FldXFOLVEyempPOE5VVTdLbnVTSW5xVkVTVlQ1b0ZmVUtyY3h4WkRYTUQwdW5kdGFVelZnQ21IVWR2bS12MWpOQXl1VGtXVHVGNnJZV1VLT0l2Yw?oc=5",
-      "date": "2026-10-27T16:23:28.000Z",
-      "source": "Google News"
     }
   ],
   "articles": [
+    {
+      "id": "https://www.disabilitynewsservice.com/?p=35147",
+      "title": "Access to Work figures appear to show spending cuts, but DWP insists there is an explanation",
+      "link": "https://www.disabilitynewsservice.com/access-to-work-figures-appear-to-show-spending-cuts-but-dwp-insists-there-is-an-explanation/",
+      "source": "DNS",
+      "outlet": "Disability News Service",
+      "published": "2026-11-05T17:09:10.000Z",
+      "summary": "New government figures appear to show significant cuts to spending on the flagship Access to Work scheme, just as Labour ministers are insisting they want to support more disabled people into work. The government figures",
+      "category": "DWP",
+      "ago": "1d ago"
+    },
+    {
+      "id": "https://www.disabilitynewsservice.com/?p=35143",
+      "title": "New DWP figures fail again to provide clarity on employment disadvantage faced by disabled people",
+      "link": "https://www.disabilitynewsservice.com/new-dwp-figures-fail-again-to-provide-clarity-on-employment-disadvantage-faced-by-disabled-people/",
+      "source": "DNS",
+      "outlet": "Disability News Service",
+      "published": "2026-11-05T17:03:15.000Z",
+      "summary": "The government’s annual publication of figures on disability employment has failed yet again to show how disabled people’s experience in the jobs market has changed over the last year. The “main points” of yesterday’s (W",
+      "category": "DWP",
+      "ago": "1d ago"
+    },
+    {
+      "id": "CBMingFBVV95cUxOalV3UVAyUFpPcUlQUWRzRkdjTmRBTEFJdk1KLUJGd2JVMVJjc0p2WVRJb01ZQnFiSjhpMnZUX1Fja3E2YnFmdDdjUGdVelRTZUt3N3VzWEFfczVpRkpfME16ME1ibG1ZNGFRZUM4SkRjdDFFX19TdUc3OGhsMm1UVlBuNmlkVzNucE0zUFZlVGFDN2NKTTNDX2FHeVBCd9IBowFBVV95cUxQQ1BHc1lrQ0dOdi1IRS0wZGF3aTVoZENjbXZBM0NPU21MNDRtNWhnYk80VlFBR0NSRE5lOVExQy1rdEVUYjRqMXFJTXo4azJoV1RaSXY3YVhQUmFBSzdrMEdiT3VxOXlpSmd0bndGU2RxdjM1aVFJUFlTV1RNMXY1V3hmUXJpTnZrQ19jT19Kc2VQOEoyOFZVa1ZnVjB2SS1SdlY0",
+      "title": "DWP Universal Credit claimants could get one-off £815 before Christmas - Liverpool Echo",
+      "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxOalV3UVAyUFpPcUlQUWRzRkdjTmRBTEFJdk1KLUJGd2JVMVJjc0p2WVRJb01ZQnFiSjhpMnZUX1Fja3E2YnFmdDdjUGdVelRTZUt3N3VzWEFfczVpRkpfME16ME1ibG1ZNGFRZUM4SkRjdDFFX19TdUc3OGhsMm1UVlBuNmlkVzNucE0zUFZlVGFDN2NKTTNDX2FHeVBCd9IBowFBVV95cUxQQ1BHc1lrQ0dOdi1IRS0wZGF3aTVoZENjbXZBM0NPU21MNDRtNWhnYk80VlFBR0NSRE5lOVExQy1rdEVUYjRqMXFJTXo4azJoV1RaSXY3YVhQUmFBSzdrMEdiT3VxOXlpSmd0bndGU2RxdjM1aVFJUFlTV1RNMXY1V3hmUXJpTnZrQ19jT19Kc2VQOEoyOFZVa1ZnVjB2SS1SdlY0?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-05T14:32:00.000Z",
+      "summary": "DWP Universal Credit claimants could get one-off £815 before Christmas  Liverpool Echo",
+      "category": "UC",
+      "ago": "1d ago"
+    },
     {
       "id": "CBMisgFBVV95cUxOeEg4d2hhdkNXU2RBVjQtLThOSGM0VXhsQzV4WVZ0NzVsRFZ1OTRIMWZ5NVRTazUzOFZ6M1BlZFgwSVZNX2ZFNUhjN3hBMEtIWWczZG5tbExJNkJyTy15UlA5c244V0Z6dTk0eHNlemVNWXVFSlRONl9IMlJWdEhWcExZWFp3UDlNVVk0NUxfeXphUXpYRngycjl6a3M3c09KN2tFNml2SndQYzJMd0tKYUxR",
       "title": "UK. DWP Winter Fuel Payment threshold warning over pensioners’ incomes - Pension Policy International",
@@ -377,6 +408,17 @@
       "ago": "0d ago"
     },
     {
+      "id": "CBMigwFBVV95cUxONUxZaXlBNjlOUjNfbk9UVzVVb29CblQ1YzRTcTdjX3duTDVFMEdQQUc1YmFlaXpZZEtWMkQ5X0dWc3haY2ZoRnJNTjNvUDRkNWFwYWV4NlA5YWMzdXdiWTBEMzMteWxDM3V4UjJaVEZKSzJjWXZSX1psWTRlcFVOMDlCQQ",
+      "title": "DWP confirms plans to close unfair Universal Credit ‘loophole' - AOL.co.uk",
+      "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxONUxZaXlBNjlOUjNfbk9UVzVVb29CblQ1YzRTcTdjX3duTDVFMEdQQUc1YmFlaXpZZEtWMkQ5X0dWc3haY2ZoRnJNTjNvUDRkNWFwYWV4NlA5YWMzdXdiWTBEMzMteWxDM3V4UjJaVEZKSzJjWXZSX1psWTRlcFVOMDlCQQ?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-04T22:19:48.000Z",
+      "summary": "DWP confirms plans to close unfair Universal Credit ‘loophole'  AOL.co.uk",
+      "category": "UC",
+      "ago": "2d ago"
+    },
+    {
       "id": "CBMi2wFBVV95cUxQTzVjLXBJMGpVSFFxRWplbmZraDhGXzNoY2laVjQ2dXctNGlNZExCcEhxcjYxRGwzTV8tdTh3WW1sZGdiMV9xZVFmZFRJMERlWW9YRWotOHQ5NWxMbnVwR0R4NWVMTk02cFVnVkNlOXRnamltWVdnQUxYcXJFSC1oY083QnVzY0NoOHZwamVVdDBubTljSGc3eDZkOFQzazVpcVhYTTMxSHUtdzRDbzNMTmo5YlJlNjUwUVd3cFlhTTNVMnhJc29VVHRDZng0RFVYenZBUEFmVFhpNnM",
       "title": "DWP confirms when state pension age changes as some to get free bus pass - Facebook",
       "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxQTzVjLXBJMGpVSFFxRWplbmZraDhGXzNoY2laVjQ2dXctNGlNZExCcEhxcjYxRGwzTV8tdTh3WW1sZGdiMV9xZVFmZFRJMERlWW9YRWotOHQ5NWxMbnVwR0R4NWVMTk02cFVnVkNlOXRnamltWVdnQUxYcXJFSC1oY083QnVzY0NoOHZwamVVdDBubTljSGc3eDZkOFQzazVpcVhYTTMxSHUtdzRDbzNMTmo5YlJlNjUwUVd3cFlhTTNVMnhJc29VVHRDZng0RFVYenZBUEFmVFhpNnM?oc=5",
@@ -408,6 +450,17 @@
       "summary": "DWP update for JobCentres across the UK as 6 ‘steps’ confirmed  Cambridge News",
       "category": "DWP",
       "ago": "0d ago"
+    },
+    {
+      "id": "CBMilAFBVV95cUxOSmFaS3I3YlBuWlpoTVBqbW5KNlpiSExtNk5nbUJhSkxNdEYzemNfWDFPRHlQQ2Z0Y3J2T0l1bExHNm5CWDl6UVpnbk1kT3EtUzVHQk1MZkJKSU5mcmxtVmh2cTRrQzJselo0Q095Ym9xV3hkM3d1ajd1eEJ0OEs5dU9Ca2RhX1VSSjlvcFlmQ2FSV3RC0gGaAUFVX3lxTE96R3RCZFJIOTJQd0E1Uk1ZWTh1U01ybFNwNnE3VU9UWnlqa0t4SmZ4ZHI3bVBXd1VqNE13S0x1RVBqSFJ3RVZkcDZnc3lBYVp2a2RveGl2QlZMR24tN1F4MVl4ZEpIRWZldXRwWUh5RXpSekVmN09idGo1Yk9DdkZBUjhHbzhsWGFaV2hvOTR5QzVCVUFpdVl1dkE",
+      "title": "DWP update for JobCentres across the UK as 6 ‘steps’ confirmed - Wales Online",
+      "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOSmFaS3I3YlBuWlpoTVBqbW5KNlpiSExtNk5nbUJhSkxNdEYzemNfWDFPRHlQQ2Z0Y3J2T0l1bExHNm5CWDl6UVpnbk1kT3EtUzVHQk1MZkJKSU5mcmxtVmh2cTRrQzJselo0Q095Ym9xV3hkM3d1ajd1eEJ0OEs5dU9Ca2RhX1VSSjlvcFlmQ2FSV3RC0gGaAUFVX3lxTE96R3RCZFJIOTJQd0E1Uk1ZWTh1U01ybFNwNnE3VU9UWnlqa0t4SmZ4ZHI3bVBXd1VqNE13S0x1RVBqSFJ3RVZkcDZnc3lBYVp2a2RveGl2QlZMR24tN1F4MVl4ZEpIRWZldXRwWUh5RXpSekVmN09idGo1Yk9DdkZBUjhHbzhsWGFaV2hvOTR5QzVCVUFpdVl1dkE?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-04T14:34:00.000Z",
+      "summary": "DWP update for JobCentres across the UK as 6 ‘steps’ confirmed  Wales Online",
+      "category": "DWP",
+      "ago": "2d ago"
     },
     {
       "id": "CBMiugFBVV95cUxOMERPMXY3S1VXZmxSVXIwR191aXBMT0Y3Yml4OS1LZlhMbTRpNTNNR0xmb2NTX05OaXF2WHh0NjVGUmdkZEFJYXQxQXRldmRpNEUxa3FkSGo4eC1LaWtxVVRNbG9BeDl3SjlwWkduWHhmeEJuUF81clZoWWFXbS1BLURaaEE5cV9CWmNaNEhCYlJPQkJwVHM2RFktYWhUNU9FV0cyNkhxMlpKbXVMR3lFOVRpQ1ZWSDJicEE",
@@ -1070,6 +1123,17 @@
       "ago": "2d ago"
     },
     {
+      "id": "CBMiggFBVV95cUxPY2JKTV9rOTFGS01kcU53QlVzak15RW8tSlM3bUJpUDRuWlBjVmJ2SU1IdTRzcGJGbXoydHB1SkcyaGZpMDF2eE5Bb3E1N3BFbUllYlowOGJra2xrM0JsZlZQODBYXzU4MVlTbE1ILXFTMzNCN1ZFZDFZX19IV1BDYUNB",
+      "title": "Burnham says he wants to cut welfare bill 'as soon as we possibly can' - AOL.co.uk",
+      "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPY2JKTV9rOTFGS01kcU53QlVzak15RW8tSlM3bUJpUDRuWlBjVmJ2SU1IdTRzcGJGbXoydHB1SkcyaGZpMDF2eE5Bb3E1N3BFbUllYlowOGJra2xrM0JsZlZQODBYXzU4MVlTbE1ILXFTMzNCN1ZFZDFZX19IV1BDYUNB?oc=5",
+      "source": "Google News",
+      "outlet": "Google News Welfare Bill",
+      "published": "2026-10-29T15:43:00.000Z",
+      "summary": "Burnham says he wants to cut welfare bill 'as soon as we possibly can'  AOL.co.uk",
+      "category": "Budget",
+      "ago": "8d ago"
+    },
+    {
       "id": "CBMiXkFVX3lxTFAxMnBCbjBvS2l1UUpHWlF6TVE0aWVlcV9PRll3dmFKdmN2N3JhM0h5bHRvVFZoVDBUQ3d4dkZOaEx4czMxd3VfMlpWOTR4c0o5SUNPWld5cXpEQTFGN2c",
       "title": "Burnham says he wants to cut welfare bill 'as soon as we possibly can' - BBC",
       "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFAxMnBCbjBvS2l1UUpHWlF6TVE0aWVlcV9PRll3dmFKdmN2N3JhM0h5bHRvVFZoVDBUQ3d4dkZOaEx4czMxd3VfMlpWOTR4c0o5SUNPWld5cXpEQTFGN2c?oc=5",
@@ -1310,73 +1374,7 @@
       "summary": "Pip payment denied for terminally ill mum with cancer  BBC",
       "category": "PIP",
       "ago": "3d ago"
-    },
-    {
-      "id": "CBMilgFBVV95cUxNU0xENXM4cFR4Z200YTRYNXJJcDlBdGlmZ3hYdVhXOVhGbE9ZVFE2bWF3dDIyN1BwdTRQUWk3NEc4eDRlSF9kY0YyLXVtRUxZMUJjVnFsRFMxbm5FYXdDQkFkTnpKZnAxb3hfb3d4QnFsTGJDVTB2RVdoVjVQaGpMWUlyMi02MmxGay05aTFENlZqd1RFSXc",
-      "title": "DWP benefit increases April 2027, State Pension, Universal Credit and PIP rises expected - North Wales Live",
-      "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNU0xENXM4cFR4Z200YTRYNXJJcDlBdGlmZ3hYdVhXOVhGbE9ZVFE2bWF3dDIyN1BwdTRQUWk3NEc4eDRlSF9kY0YyLXVtRUxZMUJjVnFsRFMxbm5FYXdDQkFkTnpKZnAxb3hfb3d4QnFsTGJDVTB2RVdoVjVQaGpMWUlyMi02MmxGay05aTFENlZqd1RFSXc?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-10-28T08:47:00.000Z",
-      "summary": "DWP benefit increases April 2027, State Pension, Universal Credit and PIP rises expected  North Wales Live",
-      "category": "PIP",
-      "ago": "3d ago"
-    },
-    {
-      "id": "CBMinwFBVV95cUxQMnZnczBYenpVbW5kdHctVE81cmtZUEJWZ1ZOMDExVHM2aUFha1dHS21MMERudU1nNkVsR1N4WDN4NUJUODRaVWJVemk5aFY1UEljcFdrOTY0Mm16STV0a0M5andrczVNNVJNUjRIdDZBbWpBSjlGN0tzODFVOFpBb3RMam5CUXFKalpXQ3paazltVW1FNFBncVFUVGtEUTA",
-      "title": "DWP Carer's Allowance reform delayed until 2030 - what it means for unpaid carers - Lincolnshire Live",
-      "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQMnZnczBYenpVbW5kdHctVE81cmtZUEJWZ1ZOMDExVHM2aUFha1dHS21MMERudU1nNkVsR1N4WDN4NUJUODRaVWJVemk5aFY1UEljcFdrOTY0Mm16STV0a0M5andrczVNNVJNUjRIdDZBbWpBSjlGN0tzODFVOFpBb3RMam5CUXFKalpXQ3paazltVW1FNFBncVFUVGtEUTA?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-10-28T06:20:00.000Z",
-      "summary": "DWP Carer's Allowance reform delayed until 2030 - what it means for unpaid carers  Lincolnshire Live",
-      "category": "DWP",
-      "ago": "3d ago"
-    },
-    {
-      "id": "https://www.theguardian.com/commentisfree/2026/oct/27/the-guardian-view-on-supporting-carers-the-dwps-problem-is-deeper-than-it",
-      "title": "The Guardian view on supporting carers: the DWP’s problem is deeper than IT | Editorial",
-      "link": "https://www.theguardian.com/commentisfree/2026/oct/27/the-guardian-view-on-supporting-carers-the-dwps-problem-is-deeper-than-it",
-      "source": "Guardian",
-      "outlet": "Guardian Society",
-      "published": "2026-10-27T18:30:40.000Z",
-      "summary": "A taper is much better than a cliff-edge. But problems with carer’s allowance should have been solved years ago \nThe reform of carer’s allowance – a benefit paid to people who spend 35 or more hours a week caring for a d",
-      "category": "DWP",
-      "ago": "4d ago"
-    },
-    {
-      "id": "https://www.theguardian.com/uk-news/2026/oct/27/lack-of-a-protective-ring-around-care-homes-meant-our-loved-ones-died-of-covid",
-      "title": "Lack of a ‘protective ring’ around care homes meant our loved ones died of Covid | Letters",
-      "link": "https://www.theguardian.com/uk-news/2026/oct/27/lack-of-a-protective-ring-around-care-homes-meant-our-loved-ones-died-of-covid",
-      "source": "Guardian",
-      "outlet": "Guardian Society",
-      "published": "2026-10-27T17:55:11.000Z",
-      "summary": "Diane La Rosa and Teresa Pacey-Devlin on the deaths of their fathers during the pandemic. Plus more letters responding to the Covid inquiry from John Robinson, David Flood and James Townsend\nMy dad was in a care home whe",
-      "category": "DWP",
-      "ago": "4d ago"
-    },
-    {
-      "id": "CBMijwFBVV95cUxPazlubC1JZ1ZpVDA2b1VEcHhyMXFTWEJRVHZycmtYZWF3RFVrR1dpdDlKenQtYnRqVlEwR1FldXFOLVEyempPOE5VVTdLbnVTSW5xVkVTVlQ1b0ZmVUtyY3h4WkRYTUQwdW5kdGFVelZnQ21IVWR2bS12MWpOQXl1VGtXVHVGNnJZV1VLT0l2Yw",
-      "title": "I was a PIP assessor. Cutting handouts for young people won’t work - The i Paper",
-      "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPazlubC1JZ1ZpVDA2b1VEcHhyMXFTWEJRVHZycmtYZWF3RFVrR1dpdDlKenQtYnRqVlEwR1FldXFOLVEyempPOE5VVTdLbnVTSW5xVkVTVlQ1b0ZmVUtyY3h4WkRYTUQwdW5kdGFVelZnQ21IVWR2bS12MWpOQXl1VGtXVHVGNnJZV1VLT0l2Yw?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-10-27T16:23:28.000Z",
-      "summary": "I was a PIP assessor. Cutting handouts for young people won’t work  The i Paper",
-      "category": "PIP",
-      "ago": "6d ago"
-    },
-    {
-      "id": "CBMipgFBVV95cUxORVJQM1JmcUx1d0pnUDFwdUNmVTlYWW5taXJGUWhwSkdqMF95Zk5Jb3AxVkFjdzA3Rkd5dW1lRUwzUlk3N3BGcFBCUTl0ME9LX1NlcXNtX1E2LUFHcmJDVXBPaTJncWExWjlpRWc0TDhHTGRGZ0JlZXMwMHFya2Q0dk9pSm14SkExZTBYN2tyRFk3TFByMmFNTzNUbE5fUGw1YjRTaUFR0gGrAUFVX3lxTE5NenRkNm9relF4R2ppVzh2dEZaTkk3RkwzREx1Q1lCOFlFX2ZnM2dTbllwMzd1bElaRU5YVVptQ0pub3p0ck91VWlXSzdSblVJVFp3TDkxX1d0MEQ5ak94ZkZyQk1OSjBOMVdLX2Q2czBiRml6cTFYYjFGUm9PTW9hWFlXTGxCcVZhck5hd0FiMWJsSll1M0I1SU83T24wY0cxX29vaVVFTHpHTQ",
-      "title": "DWP State Pension, UC, PIP and other benefit increases expected from April 2027 - Manchester Evening News",
-      "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxORVJQM1JmcUx1d0pnUDFwdUNmVTlYWW5taXJGUWhwSkdqMF95Zk5Jb3AxVkFjdzA3Rkd5dW1lRUwzUlk3N3BGcFBCUTl0ME9LX1NlcXNtX1E2LUFHcmJDVXBPaTJncWExWjlpRWc0TDhHTGRGZ0JlZXMwMHFya2Q0dk9pSm14SkExZTBYN2tyRFk3TFByMmFNTzNUbE5fUGw1YjRTaUFR0gGrAUFVX3lxTE5NenRkNm9relF4R2ppVzh2dEZaTkk3RkwzREx1Q1lCOFlFX2ZnM2dTbllwMzd1bElaRU5YVVptQ0pub3p0ck91VWlXSzdSblVJVFp3TDkxX1d0MEQ5ak94ZkZyQk1OSjBOMVdLX2Q2czBiRml6cTFYYjFGUm9PTW9hWFlXTGxCcVZhck5hd0FiMWJsSll1M0I1SU83T24wY0cxX29vaVVFTHpHTQ?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-10-27T16:21:00.000Z",
-      "summary": "DWP State Pension, UC, PIP and other benefit increases expected from April 2027  Manchester Evening News",
-      "category": "PIP",
-      "ago": "4d ago"
     }
   ],
-  "lastUpdated": "2026-11-05T15:15:46.796Z"
+  "lastUpdated": "2026-11-06T14:51:49.801Z"
 }
