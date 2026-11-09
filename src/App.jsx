@@ -24,6 +24,7 @@ import FundingDisparityMap from './components/FundingDisparityMap';
 import WelfareWatchLive from './components/WelfareWatchLive'
 import HansardStigmaChart from './components/HansardStigmaChart';
 import WelfareNewsLiveTab from './pages/WelfareNewsLiveTab';
+import FoodbankFinder from './pages/FoodbankFinder';
 
 // --- REPORTS LIBRARY - ADD ALL YOUR PDFs HERE ---
 const REPORTS_LIBRARY = [
@@ -593,6 +594,7 @@ export default function App() {
             {[
               { id: 'fullReport', label: 'Full Report PDF', icon: FileText, badge: 'PDF' },
               { id: 'fundingMap', label: 'Funding Disparity Map', icon: MapPin, badge: 'NEW' },
+              { id: 'foodbankFinder', label: 'Foodbank Finder', icon: MapPin, badge: 'NEW' },
               { id: 'taxLeaderboard', label: 'UK Tax-Avoidance Risk', icon: Building, badge: 'Live DB' },
               { id: 'jobsMap', label: 'Jobs Gap Map 650', icon: MapPin, badge: 'NEW' },
               { id: 'leaderboard', label: 'Top 10 Hall of Fame', icon: Award, badge: 'New' },
@@ -709,6 +711,8 @@ export default function App() {
         )}
 
         {activeTab === 'fundingMap' && <FundingDisparityMap />}
+
+        {activeTab === 'foodbankFinder' && <FoodbankFinder />}
 
         {/* TAX AVOIDANCE RISK LEADERBOARD TAB */}
         {activeTab === 'taxLeaderboard' && (
