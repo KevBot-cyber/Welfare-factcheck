@@ -1,14 +1,22 @@
 {
-  "totalIncidents": 30,
+  "totalIncidents": 22,
   "byTerm": {
-    "welfare bill": 29,
+    "welfare bill": 21,
     "scrounger": 1
   },
   "byCategory": {
-    "Economic_Scapegoating_Bill": 29,
+    "Economic_Scapegoating_Bill": 21,
     "Classic_DWP_Slurs": 1
   },
   "incidents": [
+    {
+      "term": "welfare bill",
+      "category": "Economic_Scapegoating_Bill",
+      "title": "MAPPED: The UK areas paid more in benefits than they pay in tax as welfare bill soars - Daily Express",
+      "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOdVpmTFlLbGlkbmpJVllldzBPd29JX0dVZnN6TWc2c1FIVnA3MzVPd2N0MENiS0RzM3JWYWNIVmYtaWVHcDlMTHp3NHZLOEdGWGdrN3ZFRExqMHNMal9kMFpLT1NOMFZXR2VSaXdtWHQyUUZ2UFhvTkVSa2dwcGRvTVc1ZFl4SmlSbFgtNnNEX2ppSk0zNGppb9IBngFBVV95cUxQTEZqT3VsU3QzN3IxVmVZQk5ieU9NSlRGdi14dmZYTDJBOHRBT0tqUmdUNlowdXdJSngwbWF1V0tXUUFiZFczcEU4S2JyTW9qU2RrR2oxSmQzZUFFN2lVMnBndWlZd2plZ1pyeWNxcFNpYlZSUE5FckxYYU9jQV9CTTNTaDVPeXZVd0ppVThuQTRyNHBZSFk2Nlg5VWo2Zw?oc=5",
+      "date": "2026-11-08T18:56:00.000Z",
+      "source": "Google News"
+    },
     {
       "term": "welfare bill",
       "category": "Economic_Scapegoating_Bill",
@@ -30,6 +38,14 @@
       "category": "Economic_Scapegoating_Bill",
       "title": "Fact check: Data suggests working-age welfare bill is under £150bn - The Independent",
       "link": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQMG9VRVJzVmVrZkdWTV94SzRUdXc5bXY4NTBEV3djcDhkSlpGaFlKbUo3dnVFbW1GdF9tOXVoNWZuRGZfY0VacmZRM3lZZWhKWHo3TWttTEdaQmlZVXZIZkI2eU1oV0JsV1FJZGhiVnl5VktGaHZNSS1rSkJ0cFp5aTQzeE83VXc3YTVQb2VXcjN4TExrb1BxV0lLN0lXUWlHdmZqV1p0Sjh3ZXpidmw4ZE9OU0owLXl6cjNjajY2WkxpOXozMGFSdE1ZNjNOSF9BWVJNQWlPWHpIMkswLThkRHNZWFdMdVAwdE4tcw?oc=5",
+      "date": "2026-11-06T17:47:00.000Z",
+      "source": "Google News"
+    },
+    {
+      "term": "welfare bill",
+      "category": "Economic_Scapegoating_Bill",
+      "title": "Fact check: Data suggests working-age welfare bill is under £150bn - Express and Star",
+      "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNU0xBajRGVzlzenBlWXdXeG05NV9sY3J2bnNEZXBRVXlyOEN6VHJybFVmajU4X1BuRW4zNk5wekJNS3pXN0pCMkhHVTFqT2lIZ0dfWkx6M3ByUDZqckNZZWo0YnVJeUdGTHVVUDdvNk1tamFTaUI3b1E3ZjAtLWUtYktiMHpkWHdNdFcxdm5OUGQ5MUxfbTV2ejQyNVR4cU5kcjBqUW43TFhZdjdGWnpDSGFlbw?oc=5",
       "date": "2026-11-06T17:47:00.000Z",
       "source": "Google News"
     },
@@ -168,89 +184,119 @@
       "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPdUM0aWd4dFNBQ0xQVkdHSW0tV3J5VnVIR3h4ZWd3aXl6bkNRMHFpWjNxZHJkLVBvd29iWGZ5azhmWUV0Y2NlX195aENIVk1aRWVPMUVfX21Xa2dzTlVTaUhxTUxOQ29Oc243WDVULWJHV3JPMmYzNEZQNHFEaHR4MWtfR0UybmVLaktnRkppWDQ?oc=5",
       "date": "2026-10-29T18:59:49.000Z",
       "source": "Google News"
-    },
-    {
-      "term": "welfare bill",
-      "category": "Economic_Scapegoating_Bill",
-      "title": "UK chancellor says gov't will not cut welfare bill - Breakingthenews.net",
-      "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNcl85Y3lSQTBUNmxXSFhMSjlpS256dG0zM2R5WkZDYWkyZWRhTW5qRUZxSUxicURpM3Y5U2VwWEp6dDhQT25udVV5SlpLT2E5VzZkdFhINENNT1VXLTFIeE56dVFTUEtOVHRCdVdjaVJUcTZ5REF5aXkyWHZQUkFZSzFTeGtSTnRrNVdkc0lWTTJRRF92Z3gtSHc0SQ?oc=5",
-      "date": "2026-10-29T17:25:00.000Z",
-      "source": "Google News"
-    },
-    {
-      "term": "welfare bill",
-      "category": "Economic_Scapegoating_Bill",
-      "title": "UK chancellor says gov't will not cut welfare bill - Breakingthenews.net",
-      "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNcTBJRDhMZThmMnB1bTlpYnQ1ZERVU0Qtb3QyODB6UUc3TW8wS3pSUlY1VmZBYlRTcU5qQmp1TGFRUHRQSGtPWnhTTnc0MktZSTU3UzA0WXBEOVQ5dzhWbE5TMkJQWGl1ZmJpLTB5SWZ2bERrWGNOX3R0OEY3RHdKU3c4UnNxUVpfUkV1UjZsaWNKTmt4MThqVlYzV0NMa3E4UG9fRURFLWJPQjgyYWsw?oc=5",
-      "date": "2026-10-29T17:25:00.000Z",
-      "source": "Google News"
-    },
-    {
-      "term": "welfare bill",
-      "category": "Economic_Scapegoating_Bill",
-      "title": "UK premier says working hard to cut welfare bill 'as soon as we possibly can' - Anadolu Ajansı",
-      "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQRkxvRlRXYUxvS3VKeWhZX1Ywc0E2alFoRnFMODRpT2VyN3hBZU9BNDVhQkNvN1ZSY3ltTWxfOGRjTjcyb0ZBcGljeEI0Mk9oNVlEdmZtZ2dYR2lOU0RXTWxOLS1kR1JCeFlrRmdqSFhNUHl4TVZiN1VtVnA4a2lPQ2gwRFA1cVBzSVFESUNxUGJZWmJGelVncTVqRWNvMDJWY19YY1Z2ZU9yaXpkWjdHdGNDX2xRZw?oc=5",
-      "date": "2026-10-29T17:09:50.000Z",
-      "source": "Google News"
-    },
-    {
-      "term": "welfare bill",
-      "category": "Economic_Scapegoating_Bill",
-      "title": "Burnham says he wants to cut welfare bill 'as soon as we possibly can' - AOL.co.uk",
-      "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPY2JKTV9rOTFGS01kcU53QlVzak15RW8tSlM3bUJpUDRuWlBjVmJ2SU1IdTRzcGJGbXoydHB1SkcyaGZpMDF2eE5Bb3E1N3BFbUllYlowOGJra2xrM0JsZlZQODBYXzU4MVlTbE1ILXFTMzNCN1ZFZDFZX19IV1BDYUNB?oc=5",
-      "date": "2026-10-29T15:43:00.000Z",
-      "source": "Google News"
-    },
-    {
-      "term": "welfare bill",
-      "category": "Economic_Scapegoating_Bill",
-      "title": "Burnham says he wants to cut welfare bill 'as soon as we possibly can' - BBC",
-      "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFAxMnBCbjBvS2l1UUpHWlF6TVE0aWVlcV9PRll3dmFKdmN2N3JhM0h5bHRvVFZoVDBUQ3d4dkZOaEx4czMxd3VfMlpWOTR4c0o5SUNPWld5cXpEQTFGN2c?oc=5",
-      "date": "2026-10-29T15:42:56.000Z",
-      "source": "Google News"
-    },
-    {
-      "term": "welfare bill",
-      "category": "Economic_Scapegoating_Bill",
-      "title": "Burnham says government is working 'flat out' to cut welfare bill after Budget cost warnings - LBC",
-      "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPWXVReThRYlh6NWI3ZE5uX1pXZzMydS0xRV9neURSakJLcXpDcVk4T2t4UGlvdmZJWVRXQ1pKbWpXYWx2M2xyLTlQeU83TE43bTNJN01zUS1NMnN2QU9IaldqaEZtcnJ3N0x6S2hUbDBFWnk1eHAxSGo3N0hRcXg5ck1feTJiVERhNGdzd2puQ2ZrT1pLWEVFOUs2YWtzaUF3czl2aEVBMjM0Mjh5bXJ3N180T2FBRURTcHRqbHVn?oc=5",
-      "date": "2026-10-29T15:21:24.000Z",
-      "source": "Google News"
-    },
-    {
-      "term": "welfare bill",
-      "category": "Economic_Scapegoating_Bill",
-      "title": "Burnham at Rolls-Royce visit: 'We want to get the welfare bill down' - Sky News",
-      "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOX2pySVZ5R0k1R1p1MHdEWDdkUnZEcU4zVjlTM184N1pzd3oyN3ZlbTA3QS1LOGdRSVhYTVAzbERPc1NDRDNyazRjcEdXb3p3bzVkNm14dHFtTEl1NGprRWd5bHhVa1duU1BwVkg5N0ZtcGhYSjAzdktoSThsWTlUejBmczVXa3ZkS1VqOHMyQ3BKaUFMUGNpVF9JRTJFQkd0WHBr?oc=5",
-      "date": "2026-10-29T13:40:06.000Z",
-      "source": "Google News"
-    },
-    {
-      "term": "welfare bill",
-      "category": "Economic_Scapegoating_Bill",
-      "title": "Government working flat out to reduce welfare bill, PM says after cost warnings - AOL.com",
-      "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNODRuSmlwV05sMWM5SFoyQ3hZWHo3WXBfTFo4Nmg4bDY4clJpeXlVMUYtc3hnOVBDUFdEa1RnNlZUMjI0a1VfOHRsR3JMZjlxRE5TZklDcUc4SXBQQ1Y4b3hOby1HcVR3Y1pHTDRsWS05NzR0Y0VIa3R0U3RBSTVadUhpVnktaU50NlBfcg?oc=5",
-      "date": "2026-10-29T13:23:57.000Z",
-      "source": "Google News"
-    },
-    {
-      "term": "welfare bill",
-      "category": "Economic_Scapegoating_Bill",
-      "title": "UK's Burnham says government working \"flat out\" to cut welfare bill - Devdiscourse",
-      "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQT2QxUlBSTXZQOWdlVHpwNm5KbmlRM2RYR2RrT094dzN1RnBsZ0hraUliS1pveWlCall3bHFaQXF6Zzh0M2hmUXVVaVJtS3Z2QW9fbTc4X29URVI4bEJ5ZWktZnYzbDZvUDBpN1dZN0YyekN0Nm03dkZuRjE3NTBXLURNLTFxQ25QdDJvRTN0dHRnR21zdGY0UnRZaS1IUzV1S3AwNko4cTUwMDgxX2l2dGtKeEZwTllGcHZqRGh2VDXSAcYBQVVfeXFMUDlqVDU4cm9RUXZJaklqOVVYYmFmWEF0bUprYVNHOW9Bd19rSWNLVTdqMTdzQ2l3dXZuTW5JOTA1Mk5YZ0xhUEs3MFBwX0d2UHRzdzdKdzk3cWtmcEJDcmtHWEF3ejZQSnNGblY3ZHJKUmZOSlNEQU5qRmFwUnBIQVJuWmJTOVhZbVdFcUEtdkFVMDBPU29WOGtsZ2Q1RmNpQjdpbkVrLWtyT2hqTzFBcnBjOG1oWk1aTG9uSG4tTl9UcVkxTDNB?oc=5",
-      "date": "2026-10-29T13:21:02.000Z",
-      "source": "Google News"
-    },
-    {
-      "term": "welfare bill",
-      "category": "Economic_Scapegoating_Bill",
-      "title": "UK PM BURNHAM: WE ARE WORKING HARD TO CUT THE WELFARE BILL AS SOON AS WE POSSIBLY CAN - CGTN",
-      "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTFBrTHNkTHJHV2VUaUV5VF85VEFDa3duQ29IVnlacm5aN0Z0dFAwY1pNOTZNOUNjenZmS0toWjhMM3U1R19kOURQb0pZX2lLOGtaVHRkOWNaenlVXzVEM0JwM3A1QmdnS1ZncW52aERn?oc=5",
-      "date": "2026-10-29T13:12:13.000Z",
-      "source": "Google News"
     }
   ],
   "articles": [
+    {
+      "id": "CBMinwFBVV95cUxPR2pncUJTbkZqLVl3dDBhMjhYbm1Ha0dtSTdMclBWZUtkY2xRX0RhV3lsT0U4OGpqcDBuMkZZNTNzOVVVWXJJcEMySVBfMVlxcnI2ZHhwLXVxUFBtNWRxeGwtN0JPTUVacjh6NEpERmQzeVl0S1hfZDVfU2lpeEtyZ1lOc1owNE96N3ZWNTFmWTJha0N1VW5tRjZTaGVsQjTSAaQBQVVfeXFMT2o5eUdmUko1c2ZLS0dHaTdsZkNMYnlaTzQ1R2JPWWJBOTJKd3RrVHlhYWotc2ZxWFlJWDhXcnQ1UUF2RjJmbFZCMWtOSTBieENxWGJkNEFJUG83ZjlNYjg1c09Udy1GNHZHSnNzZzdUNFhyU1pESEpVMXdBQm5ZRnkydmEwLTZWN0hHVGdvb2k3cTl2YjRwVkJyUm1ydldiSVFmOV8",
+      "title": "Andy Burnham government scraps plans for DWP bank account measures - Manchester Evening News",
+      "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPR2pncUJTbkZqLVl3dDBhMjhYbm1Ha0dtSTdMclBWZUtkY2xRX0RhV3lsT0U4OGpqcDBuMkZZNTNzOVVVWXJJcEMySVBfMVlxcnI2ZHhwLXVxUFBtNWRxeGwtN0JPTUVacjh6NEpERmQzeVl0S1hfZDVfU2lpeEtyZ1lOc1owNE96N3ZWNTFmWTJha0N1VW5tRjZTaGVsQjTSAaQBQVVfeXFMT2o5eUdmUko1c2ZLS0dHaTdsZkNMYnlaTzQ1R2JPWWJBOTJKd3RrVHlhYWotc2ZxWFlJWDhXcnQ1UUF2RjJmbFZCMWtOSTBieENxWGJkNEFJUG83ZjlNYjg1c09Udy1GNHZHSnNzZzdUNFhyU1pESEpVMXdBQm5ZRnkydmEwLTZWN0hHVGdvb2k3cTl2YjRwVkJyUm1ydldiSVFmOV8?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-09T13:04:00.000Z",
+      "summary": "Andy Burnham government scraps plans for DWP bank account measures  Manchester Evening News",
+      "category": "DWP",
+      "ago": "0d ago"
+    },
+    {
+      "id": "CBMilAFBVV95cUxPWi1XSTI1RzdoRjN4cU56LS0xQUF0S2hlNkgzYy1qT3BubXB2ZWVfUFpKSHd4MDhKMGZILUtpbDVONXVnM1F5RUJiVDZnWjEycklBSURuLXBLVlhhUVRidHlsZXgxU3FRM0E3QkRnbWx0NnRNM2JHM0VYcm12Vkd2UDlzbXNNbFc5c1p5dFpBNUkzQkEx0gGaAUFVX3lxTE94MG1STzJ5RlVYUXdzSGFBVmtjUFp0QmRjeUUwYUl1MlhmOU16NkV4QmtraW9pWDEwWEpHM21Ia19IRU5jZnNCRWpsZWZGRHBERUMtY1lqSDBEek5pVTFwOGZGSGU4dExhVGJXaHVjVmFLUzkyVUxTbmxDeGIwaWF4REI4aDBqU1p3MnJuUVFIeGtjS19TcnpyT2c",
+      "title": "DWP PIP 'replace cash with vouchers' update as review report imminent - Chronicle Live",
+      "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPWi1XSTI1RzdoRjN4cU56LS0xQUF0S2hlNkgzYy1qT3BubXB2ZWVfUFpKSHd4MDhKMGZILUtpbDVONXVnM1F5RUJiVDZnWjEycklBSURuLXBLVlhhUVRidHlsZXgxU3FRM0E3QkRnbWx0NnRNM2JHM0VYcm12Vkd2UDlzbXNNbFc5c1p5dFpBNUkzQkEx0gGaAUFVX3lxTE94MG1STzJ5RlVYUXdzSGFBVmtjUFp0QmRjeUUwYUl1MlhmOU16NkV4QmtraW9pWDEwWEpHM21Ia19IRU5jZnNCRWpsZWZGRHBERUMtY1lqSDBEek5pVTFwOGZGSGU4dExhVGJXaHVjVmFLUzkyVUxTbmxDeGIwaWF4REI4aDBqU1p3MnJuUVFIeGtjS19TcnpyT2c?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-09T10:46:00.000Z",
+      "summary": "DWP PIP 'replace cash with vouchers' update as review report imminent  Chronicle Live",
+      "category": "PIP",
+      "ago": "0d ago"
+    },
+    {
+      "id": "CBMivwFBVV95cUxOeU1FejVTTWUyd2w4MGFnaUtTWkVRR1JiYlJLWTNhRVpRbzdtUGJPV2VXZlhKU1dfNU9YWkJKdjVQM3NvUmdVMWJia2NiN1MzRXNhQXI5RnFxSFYtZlBtNmFkLWtxTlpId05uZ2pYLUdFaXZ4YXE2VjR1M1IyMGowb3dSV0k4SXRXdzh5dzZ3X1NUSGNVcndfMHFGbzJQcEZKcUYyWjFWS0dFcDVQTndZSjUxX3FTS29XTWFJN3dMNA",
+      "title": "Healey scraps welfare fraud crackdown as Labour’s benefits bill spirals towards £431 billion - Conservative Post",
+      "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOeU1FejVTTWUyd2w4MGFnaUtTWkVRR1JiYlJLWTNhRVpRbzdtUGJPV2VXZlhKU1dfNU9YWkJKdjVQM3NvUmdVMWJia2NiN1MzRXNhQXI5RnFxSFYtZlBtNmFkLWtxTlpId05uZ2pYLUdFaXZ4YXE2VjR1M1IyMGowb3dSV0k4SXRXdzh5dzZ3X1NUSGNVcndfMHFGbzJQcEZKcUYyWjFWS0dFcDVQTndZSjUxX3FTS29XTWFJN3dMNA?oc=5",
+      "source": "Google News",
+      "outlet": "Google News Welfare Bill",
+      "published": "2026-11-09T08:43:17.000Z",
+      "summary": "Healey scraps welfare fraud crackdown as Labour’s benefits bill spirals towards £431 billion  Conservative Post",
+      "category": "Budget",
+      "ago": "0d ago"
+    },
+    {
+      "id": "CBMitgFBVV95cUxNX1dzbE9NN3lqU1RpS2JQMTdDMUhJcl90aGNBMkV0cnN6TzVLbHVvenBoV3V3U0pYam1UeVF4MUIxb0szRDNKNEdFTF85WWptTmV6U0RPREtZdzluTHZVRG01NUxwYjJranhacjRQR3pBN1hSZkhvUmpTSTdkWGNLbW9JNzFxZkNOUTdENEhmU3U1RFlURzI5ZTlqcVNITXVOYk1HUW1zMzFoNDRiNENMUC03Sk5HQQ",
+      "title": "DWP benefit worth £86 a week could boost your State Pension as well as your income - InYourArea",
+      "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNX1dzbE9NN3lqU1RpS2JQMTdDMUhJcl90aGNBMkV0cnN6TzVLbHVvenBoV3V3U0pYam1UeVF4MUIxb0szRDNKNEdFTF85WWptTmV6U0RPREtZdzluTHZVRG01NUxwYjJranhacjRQR3pBN1hSZkhvUmpTSTdkWGNLbW9JNzFxZkNOUTdENEhmU3U1RFlURzI5ZTlqcVNITXVOYk1HUW1zMzFoNDRiNENMUC03Sk5HQQ?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-09T06:42:01.000Z",
+      "summary": "DWP benefit worth £86 a week could boost your State Pension as well as your income  InYourArea",
+      "category": "DWP",
+      "ago": "0d ago"
+    },
+    {
+      "id": "CBMihgFBVV95cUxNaVZBSlRXcDMtbWJDOVR6WE1LM0dqSDZTYTdwM1lQZzVDY0FHeGtZWW5BWElCNlJtazIxSGE3UkNMQ0lEQ3U5Tlk4STczMVM3MXRsbGNQQ20wNnFjOG9OTlVjWUhWNkRzSElXOW9MZ2I5X1Yzb01sOEY2OGpCNnBvTVJnQ2JHQdIBiwFBVV95cUxQQjlCZ1BIT3F6aXlwaXROQlpManN3YmRDa21vR2xXMXMtMDQwZHNBbHNGdkp3OEJJY2hsazVsTFdZWFEtNVBrWThObUczUFVtZEtjejR4a0NfQnNLNldCTWc5UU04UnR3bVhpejllSHVJUnZRRHh0YXhNckxDbGFBTm9HOGx2enliRWsw",
+      "title": "Major update on DWP plan to 'snoop' on bank accounts of benefit claimants - Wales Online",
+      "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxNaVZBSlRXcDMtbWJDOVR6WE1LM0dqSDZTYTdwM1lQZzVDY0FHeGtZWW5BWElCNlJtazIxSGE3UkNMQ0lEQ3U5Tlk4STczMVM3MXRsbGNQQ20wNnFjOG9OTlVjWUhWNkRzSElXOW9MZ2I5X1Yzb01sOEY2OGpCNnBvTVJnQ2JHQdIBiwFBVV95cUxQQjlCZ1BIT3F6aXlwaXROQlpManN3YmRDa21vR2xXMXMtMDQwZHNBbHNGdkp3OEJJY2hsazVsTFdZWFEtNVBrWThObUczUFVtZEtjejR4a0NfQnNLNldCTWc5UU04UnR3bVhpejllSHVJUnZRRHh0YXhNckxDbGFBTm9HOGx2enliRWsw?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-09T06:34:45.000Z",
+      "summary": "Major update on DWP plan to 'snoop' on bank accounts of benefit claimants  Wales Online",
+      "category": "DWP",
+      "ago": "0d ago"
+    },
+    {
+      "id": "CBMifkFVX3lxTE8zRVRpZVBaU0JGTWtXUXJ0MVQ0M3ZOS0Rzb3pMei1xSzdySmlQdFhRNDdYWVgxenR5SEtBQmJ2UDBkV3ExM0tpYWZweTBDTzhqLVlrM0E5RDk5UC1UWGtyLXlhM0VENE9QcDNDZFVSZzN6Y2UzMWVmNDhTMWRfUQ",
+      "title": "How your PIP may be cut – and what could replace it - The i Paper",
+      "link": "https://news.google.com/rss/articles/CBMifkFVX3lxTE8zRVRpZVBaU0JGTWtXUXJ0MVQ0M3ZOS0Rzb3pMei1xSzdySmlQdFhRNDdYWVgxenR5SEtBQmJ2UDBkV3ExM0tpYWZweTBDTzhqLVlrM0E5RDk5UC1UWGtyLXlhM0VENE9QcDNDZFVSZzN6Y2UzMWVmNDhTMWRfUQ?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-09T06:00:00.000Z",
+      "summary": "How your PIP may be cut – and what could replace it  The i Paper",
+      "category": "PIP",
+      "ago": "0d ago"
+    },
+    {
+      "id": "CBMijAFBVV95cUxPcGlBcF9CcHY0elhsUTdiRVJsalJJMkY2MTJiTkJaYUhoSUJDX2dFYUlNMXlHM2hKOUZVTFBBTDMzT2RUcXVUMEs2ZElHQklBRTJ3RTduSDRENV9CcUV1ZGxnUm5ELVFRTnItdFZERExTbmlQV2VLaFZ1V3JUV1RuMTlEemdjQXIyWGpCWtIBkgFBVV95cUxONDFnSkVjM2dIaGIxZmtjRnQ5Skk0OUhOWUlUNElKaEgwX3dOTThCTzRLNEs5elZpV1NtVHhPWHhTQjJ6d2lDQmtIMHBMbUUxbTBsdW9ZRzl0b3dPcndpbzY4dmh5YnltNWxIR1NQMk5tcGlJbGlwSWRZcFZtQUpqcDlSbUxaaWZGR1JOSC1wRjdHQQ",
+      "title": "DWP confirms state pension age rise from December 6 - check if you are affected - Chronicle Live",
+      "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPcGlBcF9CcHY0elhsUTdiRVJsalJJMkY2MTJiTkJaYUhoSUJDX2dFYUlNMXlHM2hKOUZVTFBBTDMzT2RUcXVUMEs2ZElHQklBRTJ3RTduSDRENV9CcUV1ZGxnUm5ELVFRTnItdFZERExTbmlQV2VLaFZ1V3JUV1RuMTlEemdjQXIyWGpCWtIBkgFBVV95cUxONDFnSkVjM2dIaGIxZmtjRnQ5Skk0OUhOWUlUNElKaEgwX3dOTThCTzRLNEs5elZpV1NtVHhPWHhTQjJ6d2lDQmtIMHBMbUUxbTBsdW9ZRzl0b3dPcndpbzY4dmh5YnltNWxIR1NQMk5tcGlJbGlwSWRZcFZtQUpqcDlSbUxaaWZGR1JOSC1wRjdHQQ?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-08T21:54:00.000Z",
+      "summary": "DWP confirms state pension age rise from December 6 - check if you are affected  Chronicle Live",
+      "category": "DWP",
+      "ago": "1d ago"
+    },
+    {
+      "id": "CBMi4gFBVV95cUxQcGdjVzRIQndwMTkwdWlkWGliZWlFQTdmUS1OaVFDWWN3VUVkdkRMQjFhbHdhVE1rSGQ3NndvNnJmSkxQVlRiZWtMTmdOZkxuVlFrVWVmMW05SUloQXQzVm1BNDhLSTdaMTdscjNGYU5ucmlLRjRuaGdiVGdfbU5BWnc3eUpEdXZMQkVQVHNmYnVfUl9yaExvR0hZckZiV3NVa1RicVlmSTJ1cVAzSWo1aFlhX3ZCWURCYmJyU2NKVzRPZkJvVUpsS0hCbFN4T09lVVpSaGhXT2dmR2tfMWxuX2tn",
+      "title": "DWP confirms 24 respiratory conditions that qualify for up to £114/week payment - Facebook",
+      "link": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxQcGdjVzRIQndwMTkwdWlkWGliZWlFQTdmUS1OaVFDWWN3VUVkdkRMQjFhbHdhVE1rSGQ3NndvNnJmSkxQVlRiZWtMTmdOZkxuVlFrVWVmMW05SUloQXQzVm1BNDhLSTdaMTdscjNGYU5ucmlLRjRuaGdiVGdfbU5BWnc3eUpEdXZMQkVQVHNmYnVfUl9yaExvR0hZckZiV3NVa1RicVlmSTJ1cVAzSWo1aFlhX3ZCWURCYmJyU2NKVzRPZkJvVUpsS0hCbFN4T09lVVpSaGhXT2dmR2tfMWxuX2tn?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-08T21:24:52.000Z",
+      "summary": "DWP confirms 24 respiratory conditions that qualify for up to £114/week payment  Facebook",
+      "category": "DWP",
+      "ago": "1d ago"
+    },
+    {
+      "id": "CBMimAFBVV95cUxOdVpmTFlLbGlkbmpJVllldzBPd29JX0dVZnN6TWc2c1FIVnA3MzVPd2N0MENiS0RzM3JWYWNIVmYtaWVHcDlMTHp3NHZLOEdGWGdrN3ZFRExqMHNMal9kMFpLT1NOMFZXR2VSaXdtWHQyUUZ2UFhvTkVSa2dwcGRvTVc1ZFl4SmlSbFgtNnNEX2ppSk0zNGppb9IBngFBVV95cUxQTEZqT3VsU3QzN3IxVmVZQk5ieU9NSlRGdi14dmZYTDJBOHRBT0tqUmdUNlowdXdJSngwbWF1V0tXUUFiZFczcEU4S2JyTW9qU2RrR2oxSmQzZUFFN2lVMnBndWlZd2plZ1pyeWNxcFNpYlZSUE5FckxYYU9jQV9CTTNTaDVPeXZVd0ppVThuQTRyNHBZSFk2Nlg5VWo2Zw",
+      "title": "MAPPED: The UK areas paid more in benefits than they pay in tax as welfare bill soars - Daily Express",
+      "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOdVpmTFlLbGlkbmpJVllldzBPd29JX0dVZnN6TWc2c1FIVnA3MzVPd2N0MENiS0RzM3JWYWNIVmYtaWVHcDlMTHp3NHZLOEdGWGdrN3ZFRExqMHNMal9kMFpLT1NOMFZXR2VSaXdtWHQyUUZ2UFhvTkVSa2dwcGRvTVc1ZFl4SmlSbFgtNnNEX2ppSk0zNGppb9IBngFBVV95cUxQTEZqT3VsU3QzN3IxVmVZQk5ieU9NSlRGdi14dmZYTDJBOHRBT0tqUmdUNlowdXdJSngwbWF1V0tXUUFiZFczcEU4S2JyTW9qU2RrR2oxSmQzZUFFN2lVMnBndWlZd2plZ1pyeWNxcFNpYlZSUE5FckxYYU9jQV9CTTNTaDVPeXZVd0ppVThuQTRyNHBZSFk2Nlg5VWo2Zw?oc=5",
+      "source": "Google News",
+      "outlet": "Google News Welfare Bill",
+      "published": "2026-11-08T18:56:00.000Z",
+      "summary": "MAPPED: The UK areas paid more in benefits than they pay in tax as welfare bill soars  Daily Express",
+      "category": "Budget",
+      "ago": "1d ago"
+    },
+    {
+      "id": "CBMigwFBVV95cUxPaHFiaG9feDQtYW1wR0YzMnFSYmdZV2wwNEJoZDlCQndLdWwzYU5INzlXYVBXakt0UWI4cGdSb1JYSlhZYjVabS1HUGtkclQyUkFEZ1I2S1JMS2thU2V3OHo3MnBqVzRUT2pLNUtxYVpTZVFlb1RQZWxjMm5EbzRNdTBxOA",
+      "title": "DWP alert over November payment change - ‘check your bank statements' - AOL.co.uk",
+      "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPaHFiaG9feDQtYW1wR0YzMnFSYmdZV2wwNEJoZDlCQndLdWwzYU5INzlXYVBXakt0UWI4cGdSb1JYSlhZYjVabS1HUGtkclQyUkFEZ1I2S1JMS2thU2V3OHo3MnBqVzRUT2pLNUtxYVpTZVFlb1RQZWxjMm5EbzRNdTBxOA?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-08T09:24:00.000Z",
+      "summary": "DWP alert over November payment change - ‘check your bank statements'  AOL.co.uk",
+      "category": "DWP",
+      "ago": "1d ago"
+    },
     {
       "id": "CBMinwFBVV95cUxPekt5MGpITEktOE00YUhIa0FKbW9QQXlObm10Nld1Z2dfXzA5c29uWTJhWlhNRFhQbmY2cWhLVlU3TDVXY1hPanI3LTktZTJMTmdrZ3dNaWI2aHlGeGxEZmh2a2lCT0k4TVk4RDhnUUZ1M1hhSWNYOXFPeEZFVHE5cGJGTkxoaVk1UlBuN0N4Z1phS1pmOGsyWlBibnNOVDDSAaQBQVVfeXFMT1BOQ1FJT3IwelVpVVFqdlMtTDRGWnduSnFmSUMxa0ktOTdzWElkV05jSG9tbTNzOFpWdnFwWGtiV0tUVmZmNmtaaUR1aWFqRVk5blJsTDRrRUYyQzRIc2Fha3NOUXFvRFJiVmJNYlRRSjg1enpoYnlIRjk1WDNQMU9jZDdPZTlJVVY4Ujg0LTVabi0ydWoza1d3REtIeE9iSU9mTkg",
       "title": "DWP confirms full list of people who will get up to £300 Winter Fuel Payment from this month - Manchester Evening News",
@@ -362,6 +408,17 @@
       "ago": "1d ago"
     },
     {
+      "id": "CBMiswFBVV95cUxNU0xBajRGVzlzenBlWXdXeG05NV9sY3J2bnNEZXBRVXlyOEN6VHJybFVmajU4X1BuRW4zNk5wekJNS3pXN0pCMkhHVTFqT2lIZ0dfWkx6M3ByUDZqckNZZWo0YnVJeUdGTHVVUDdvNk1tamFTaUI3b1E3ZjAtLWUtYktiMHpkWHdNdFcxdm5OUGQ5MUxfbTV2ejQyNVR4cU5kcjBqUW43TFhZdjdGWnpDSGFlbw",
+      "title": "Fact check: Data suggests working-age welfare bill is under £150bn - Express and Star",
+      "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNU0xBajRGVzlzenBlWXdXeG05NV9sY3J2bnNEZXBRVXlyOEN6VHJybFVmajU4X1BuRW4zNk5wekJNS3pXN0pCMkhHVTFqT2lIZ0dfWkx6M3ByUDZqckNZZWo0YnVJeUdGTHVVUDdvNk1tamFTaUI3b1E3ZjAtLWUtYktiMHpkWHdNdFcxdm5OUGQ5MUxfbTV2ejQyNVR4cU5kcjBqUW43TFhZdjdGWnpDSGFlbw?oc=5",
+      "source": "Google News",
+      "outlet": "Google News Welfare Bill",
+      "published": "2026-11-06T17:47:00.000Z",
+      "summary": "Fact check: Data suggests working-age welfare bill is under £150bn  Express and Star",
+      "category": "Budget",
+      "ago": "3d ago"
+    },
+    {
       "id": "CBMif0FVX3lxTE1EMmwtdk50aFR6bXgtQjBEMzVUQzQyemFNNl9nSUtlRUZWR0l1OEhHSHdlN3NTOWFCNVJfcnNhejZCTGR2Rzlmc25HLVZPMW9oV01NZ3pOc2ZiQmRrSUg0UU9LQ1NGOFR4dmFJaS1sd1FWOVVFYmFUSmFLajRuczA",
       "title": "Full list of 27 benefit changes people must report to DWP - AOL.co.uk",
       "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1EMmwtdk50aFR6bXgtQjBEMzVUQzQyemFNNl9nSUtlRUZWR0l1OEhHSHdlN3NTOWFCNVJfcnNhejZCTGR2Rzlmc25HLVZPMW9oV01NZ3pOc2ZiQmRrSUg0UU9LQ1NGOFR4dmFJaS1sd1FWOVVFYmFUSmFLajRuczA?oc=5",
@@ -371,6 +428,28 @@
       "summary": "Full list of 27 benefit changes people must report to DWP  AOL.co.uk",
       "category": "DWP",
       "ago": "1d ago"
+    },
+    {
+      "id": "CBMihAFBVV95cUxORTR0NjBFSy1JaDZka0c2c3I3VXMxSXpwN2MzM1MwMVJsMlJnWk9JUUlOeEV0WEZSLVhFV1d4dnpySE9GUk1fdjI0UzhDWFNWSXRrX050SU9ib21wQ1dIVWxKNnE0Yl93MnFCWGVfc1B6WEluNXp0T0F6RVpOR042ZnFORjY",
+      "title": "DWP confirms new £56,000 compensation payments for '300 families' each year - AOL.co.uk",
+      "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxORTR0NjBFSy1JaDZka0c2c3I3VXMxSXpwN2MzM1MwMVJsMlJnWk9JUUlOeEV0WEZSLVhFV1d4dnpySE9GUk1fdjI0UzhDWFNWSXRrX050SU9ib21wQ1dIVWxKNnE0Yl93MnFCWGVfc1B6WEluNXp0T0F6RVpOR042ZnFORjY?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-06T16:04:21.000Z",
+      "summary": "DWP confirms new £56,000 compensation payments for '300 families' each year  AOL.co.uk",
+      "category": "DWP",
+      "ago": "3d ago"
+    },
+    {
+      "id": "CBMiwwFBVV95cUxPTHRyX1hmS0l3Z05Zc3RvS0xRRW52RWlDWVliN3NzWVZWaGlfSmlKOUNVOG83b2ZXX1JMOWFhSWtfWVBuajZMNElnYlRXR05sWjI2Z0Via1Fqc3V1OFlWTTlEQTdCTVlFWUNjWFBQbWtRWEZYZk5NVy1oZGNMRXlTSDl5RmFJdHV0OVBOZ2IxQURBRXVwS0ZVZUhsSnRhTG9HS1pjTy1YbXY5NE1oNUt4RDkxU1J1OE5yXzFwQTBkeTBzNGs",
+      "title": "DWP issues urgent Universal Credit warning to pensioners who receive this letter - Telegraph and Argus",
+      "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxPTHRyX1hmS0l3Z05Zc3RvS0xRRW52RWlDWVliN3NzWVZWaGlfSmlKOUNVOG83b2ZXX1JMOWFhSWtfWVBuajZMNElnYlRXR05sWjI2Z0Via1Fqc3V1OFlWTTlEQTdCTVlFWUNjWFBQbWtRWEZYZk5NVy1oZGNMRXlTSDl5RmFJdHV0OVBOZ2IxQURBRXVwS0ZVZUhsSnRhTG9HS1pjTy1YbXY5NE1oNUt4RDkxU1J1OE5yXzFwQTBkeTBzNGs?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-06T15:04:16.000Z",
+      "summary": "DWP issues urgent Universal Credit warning to pensioners who receive this letter  Telegraph and Argus",
+      "category": "UC",
+      "ago": "3d ago"
     },
     {
       "id": "CBMikAFBVV95cUxPNnJMREg2eENBWXI5a2VWQlhPY1FFYVNxWGpjYVNCMFVpcUZVWnhZbDlaY2J1OXJFRGV0a09vY3J4NTBkbUhNR1RXcW1rb2NiZExKZW5oMHFlUjdMNE1VQkNlRl84Smc0NkQ3XzJZMW1fMnhUMzN3RUYtbl9zcEp0RHhuQ0VHYnh2dmdPcTktbEzSAZYBQVVfeXFMT1RKdlNZMExmTElwcWhub2Q4aFZRS3pkcjZHTTJTcFQwU0RqWHNlRnhwQVBYUm5EdkFISENjMG9RaTZnRlVlM1BodkNkNHQ4UUZLRllmUHZIM1oxc1VfUnlWcXBXYTVpVjI5MVBTU3ROdXAxS005RmJIQkRxdjVaa0o3aVVpcHhNd0wwOFpNNl9UNkIyM2Vn",
@@ -404,6 +483,17 @@
       "summary": "DWP confirms 10 main health conditions up to £429.80 extra a month  Wales Online",
       "category": "DWP",
       "ago": "1d ago"
+    },
+    {
+      "id": "CBMigwFBVV95cUxNX3YwQ2RTWm56RXY1RDJ5bVBEakcwVGY2R1M2b0laS2czazlVV0xxbGFMYXUxOEgxaHVGemJUbDVOOFVIdmxXZGtqWWxmWjdHNGNZNWdEMDhGRDhUTDZxendXUlEzRHdubTdoTGUzODlxN3pXQmtyNGNHZDBjU29iQWRDdw",
+      "title": "Mitie DWP Noticeboard - GMB Union",
+      "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNX3YwQ2RTWm56RXY1RDJ5bVBEakcwVGY2R1M2b0laS2czazlVV0xxbGFMYXUxOEgxaHVGemJUbDVOOFVIdmxXZGtqWWxmWjdHNGNZNWdEMDhGRDhUTDZxendXUlEzRHdubTdoTGUzODlxN3pXQmtyNGNHZDBjU29iQWRDdw?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-06T08:00:00.000Z",
+      "summary": "Mitie DWP Noticeboard  GMB Union",
+      "category": "DWP",
+      "ago": "3d ago"
     },
     {
       "id": "https://www.disabilitynewsservice.com/?p=35147",
@@ -1196,161 +1286,7 @@
       "summary": "Minister refuses to say when welfare bill will fall  Sky News",
       "category": "Budget",
       "ago": "2d ago"
-    },
-    {
-      "id": "https://www.disabilitynewsservice.com/?p=35130",
-      "title": "Alarm bells ringing after minister says all work is good for health, and he wants ‘everyone’ to get a job",
-      "link": "https://www.disabilitynewsservice.com/alarm-bells-ringing-after-minister-says-all-work-is-good-for-health-and-he-wants-everyone-to-get-a-job/",
-      "source": "DNS",
-      "outlet": "Disability News Service",
-      "published": "2026-10-29T17:45:36.000Z",
-      "summary": "The employment minister – backed by the Department for Work and Pensions (DWP) – appears to have trashed the government’s long-held position that only “good work” is good for your health, while also calling for “everyone",
-      "category": "DWP",
-      "ago": "2d ago"
-    },
-    {
-      "id": "https://www.disabilitynewsservice.com/?p=35128",
-      "title": "PIP review member delivers powerful rebuttal to research by colleague that called for cuts to child DLA",
-      "link": "https://www.disabilitynewsservice.com/pip-review-member-delivers-powerful-rebuttal-to-research-by-colleague-that-called-for-cuts-to-child-dla/",
-      "source": "DNS",
-      "outlet": "Disability News Service",
-      "published": "2026-10-29T17:41:45.000Z",
-      "summary": "A member of the steering group reviewing the future of personal independence payment (PIP) has delivered a powerful rebuttal to research – co-written by a fellow member – which called for spending on disability benefits ",
-      "category": "PIP",
-      "ago": "2d ago"
-    },
-    {
-      "id": "CBMimwFBVV95cUxNcl85Y3lSQTBUNmxXSFhMSjlpS256dG0zM2R5WkZDYWkyZWRhTW5qRUZxSUxicURpM3Y5U2VwWEp6dDhQT25udVV5SlpLT2E5VzZkdFhINENNT1VXLTFIeE56dVFTUEtOVHRCdVdjaVJUcTZ5REF5aXkyWHZQUkFZSzFTeGtSTnRrNVdkc0lWTTJRRF92Z3gtSHc0SQ",
-      "title": "UK chancellor says gov't will not cut welfare bill - Breakingthenews.net",
-      "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNcl85Y3lSQTBUNmxXSFhMSjlpS256dG0zM2R5WkZDYWkyZWRhTW5qRUZxSUxicURpM3Y5U2VwWEp6dDhQT25udVV5SlpLT2E5VzZkdFhINENNT1VXLTFIeE56dVFTUEtOVHRCdVdjaVJUcTZ5REF5aXkyWHZQUkFZSzFTeGtSTnRrNVdkc0lWTTJRRF92Z3gtSHc0SQ?oc=5",
-      "source": "Google News",
-      "outlet": "Google News Welfare Bill",
-      "published": "2026-10-29T17:25:00.000Z",
-      "summary": "UK chancellor says gov't will not cut welfare bill  Breakingthenews.net",
-      "category": "Budget",
-      "ago": "2d ago"
-    },
-    {
-      "id": "CBMirwFBVV95cUxNcTBJRDhMZThmMnB1bTlpYnQ1ZERVU0Qtb3QyODB6UUc3TW8wS3pSUlY1VmZBYlRTcU5qQmp1TGFRUHRQSGtPWnhTTnc0MktZSTU3UzA0WXBEOVQ5dzhWbE5TMkJQWGl1ZmJpLTB5SWZ2bERrWGNOX3R0OEY3RHdKU3c4UnNxUVpfUkV1UjZsaWNKTmt4MThqVlYzV0NMa3E4UG9fRURFLWJPQjgyYWsw",
-      "title": "UK chancellor says gov't will not cut welfare bill - Breakingthenews.net",
-      "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNcTBJRDhMZThmMnB1bTlpYnQ1ZERVU0Qtb3QyODB6UUc3TW8wS3pSUlY1VmZBYlRTcU5qQmp1TGFRUHRQSGtPWnhTTnc0MktZSTU3UzA0WXBEOVQ5dzhWbE5TMkJQWGl1ZmJpLTB5SWZ2bERrWGNOX3R0OEY3RHdKU3c4UnNxUVpfUkV1UjZsaWNKTmt4MThqVlYzV0NMa3E4UG9fRURFLWJPQjgyYWsw?oc=5",
-      "source": "Google News",
-      "outlet": "Google News Welfare Bill",
-      "published": "2026-10-29T17:25:00.000Z",
-      "summary": "UK chancellor says gov't will not cut welfare bill  Breakingthenews.net",
-      "category": "Budget",
-      "ago": "4d ago"
-    },
-    {
-      "id": "CBMitgFBVV95cUxQRkxvRlRXYUxvS3VKeWhZX1Ywc0E2alFoRnFMODRpT2VyN3hBZU9BNDVhQkNvN1ZSY3ltTWxfOGRjTjcyb0ZBcGljeEI0Mk9oNVlEdmZtZ2dYR2lOU0RXTWxOLS1kR1JCeFlrRmdqSFhNUHl4TVZiN1VtVnA4a2lPQ2gwRFA1cVBzSVFESUNxUGJZWmJGelVncTVqRWNvMDJWY19YY1Z2ZU9yaXpkWjdHdGNDX2xRZw",
-      "title": "UK premier says working hard to cut welfare bill 'as soon as we possibly can' - Anadolu Ajansı",
-      "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQRkxvRlRXYUxvS3VKeWhZX1Ywc0E2alFoRnFMODRpT2VyN3hBZU9BNDVhQkNvN1ZSY3ltTWxfOGRjTjcyb0ZBcGljeEI0Mk9oNVlEdmZtZ2dYR2lOU0RXTWxOLS1kR1JCeFlrRmdqSFhNUHl4TVZiN1VtVnA4a2lPQ2gwRFA1cVBzSVFESUNxUGJZWmJGelVncTVqRWNvMDJWY19YY1Z2ZU9yaXpkWjdHdGNDX2xRZw?oc=5",
-      "source": "Google News",
-      "outlet": "Google News Welfare Bill",
-      "published": "2026-10-29T17:09:50.000Z",
-      "summary": "UK premier says working hard to cut welfare bill 'as soon as we possibly can'  Anadolu Ajansı",
-      "category": "Budget",
-      "ago": "2d ago"
-    },
-    {
-      "id": "CBMinAFBVV95cUxOZHVpeXRIendSZ0o0bXhNNjRWNW05TmJLbFIwLUNBZjBzZDhPS2hKNWhDM0JZUzU3dGF0ZWRQNXJLVUhmQjNfZWVud3Z3cHhkM0w0X1Joa0QzTlhUTDhCVThnbHNsSWpHa0dKNE5QQnZncEd3NXlMbnBoMlFicDR5aFFhajA5Njg0Z2tqQVFBcWl0cEhBbWNGU3VzOGjSAaIBQVVfeXFMTVBsVzVGem9jb0FKV0t3U3R3dzFzNW5SNU1helNkNElpRklWUFhiVk9kek9xckstZkl6c3hSZFY5czdBMlRaR3o0aGdTZGNQWXZXRFJlUXVfNU01RnZUeGhnaWhVR0ctWnhuRzBZVTFDNVNzN184bFFxUEV1U1V5bmItbkdNSFNjb2JzcUJjSHNpeThmX2JxT3BjdE1GekpfQnRn",
-      "title": "DWP rule change in Budget 2026 set to impact 48,000 people claiming £86 a week benefit - Manchester Evening News",
-      "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxOZHVpeXRIendSZ0o0bXhNNjRWNW05TmJLbFIwLUNBZjBzZDhPS2hKNWhDM0JZUzU3dGF0ZWRQNXJLVUhmQjNfZWVud3Z3cHhkM0w0X1Joa0QzTlhUTDhCVThnbHNsSWpHa0dKNE5QQnZncEd3NXlMbnBoMlFicDR5aFFhajA5Njg0Z2tqQVFBcWl0cEhBbWNGU3VzOGjSAaIBQVVfeXFMTVBsVzVGem9jb0FKV0t3U3R3dzFzNW5SNU1helNkNElpRklWUFhiVk9kek9xckstZkl6c3hSZFY5czdBMlRaR3o0aGdTZGNQWXZXRFJlUXVfNU01RnZUeGhnaWhVR0ctWnhuRzBZVTFDNVNzN184bFFxUEV1U1V5bmItbkdNSFNjb2JzcUJjSHNpeThmX2JxT3BjdE1GekpfQnRn?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-10-29T16:43:00.000Z",
-      "summary": "DWP rule change in Budget 2026 set to impact 48,000 people claiming £86 a week benefit  Manchester Evening News",
-      "category": "Budget",
-      "ago": "2d ago"
-    },
-    {
-      "id": "CBMiggFBVV95cUxPY2JKTV9rOTFGS01kcU53QlVzak15RW8tSlM3bUJpUDRuWlBjVmJ2SU1IdTRzcGJGbXoydHB1SkcyaGZpMDF2eE5Bb3E1N3BFbUllYlowOGJra2xrM0JsZlZQODBYXzU4MVlTbE1ILXFTMzNCN1ZFZDFZX19IV1BDYUNB",
-      "title": "Burnham says he wants to cut welfare bill 'as soon as we possibly can' - AOL.co.uk",
-      "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPY2JKTV9rOTFGS01kcU53QlVzak15RW8tSlM3bUJpUDRuWlBjVmJ2SU1IdTRzcGJGbXoydHB1SkcyaGZpMDF2eE5Bb3E1N3BFbUllYlowOGJra2xrM0JsZlZQODBYXzU4MVlTbE1ILXFTMzNCN1ZFZDFZX19IV1BDYUNB?oc=5",
-      "source": "Google News",
-      "outlet": "Google News Welfare Bill",
-      "published": "2026-10-29T15:43:00.000Z",
-      "summary": "Burnham says he wants to cut welfare bill 'as soon as we possibly can'  AOL.co.uk",
-      "category": "Budget",
-      "ago": "8d ago"
-    },
-    {
-      "id": "CBMiXkFVX3lxTFAxMnBCbjBvS2l1UUpHWlF6TVE0aWVlcV9PRll3dmFKdmN2N3JhM0h5bHRvVFZoVDBUQ3d4dkZOaEx4czMxd3VfMlpWOTR4c0o5SUNPWld5cXpEQTFGN2c",
-      "title": "Burnham says he wants to cut welfare bill 'as soon as we possibly can' - BBC",
-      "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFAxMnBCbjBvS2l1UUpHWlF6TVE0aWVlcV9PRll3dmFKdmN2N3JhM0h5bHRvVFZoVDBUQ3d4dkZOaEx4czMxd3VfMlpWOTR4c0o5SUNPWld5cXpEQTFGN2c?oc=5",
-      "source": "Google News",
-      "outlet": "Google News Welfare Bill",
-      "published": "2026-10-29T15:42:56.000Z",
-      "summary": "Burnham says he wants to cut welfare bill 'as soon as we possibly can'  BBC",
-      "category": "Budget",
-      "ago": "2d ago"
-    },
-    {
-      "id": "CBMivgFBVV95cUxPWXVReThRYlh6NWI3ZE5uX1pXZzMydS0xRV9neURSakJLcXpDcVk4T2t4UGlvdmZJWVRXQ1pKbWpXYWx2M2xyLTlQeU83TE43bTNJN01zUS1NMnN2QU9IaldqaEZtcnJ3N0x6S2hUbDBFWnk1eHAxSGo3N0hRcXg5ck1feTJiVERhNGdzd2puQ2ZrT1pLWEVFOUs2YWtzaUF3czl2aEVBMjM0Mjh5bXJ3N180T2FBRURTcHRqbHVn",
-      "title": "Burnham says government is working 'flat out' to cut welfare bill after Budget cost warnings - LBC",
-      "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPWXVReThRYlh6NWI3ZE5uX1pXZzMydS0xRV9neURSakJLcXpDcVk4T2t4UGlvdmZJWVRXQ1pKbWpXYWx2M2xyLTlQeU83TE43bTNJN01zUS1NMnN2QU9IaldqaEZtcnJ3N0x6S2hUbDBFWnk1eHAxSGo3N0hRcXg5ck1feTJiVERhNGdzd2puQ2ZrT1pLWEVFOUs2YWtzaUF3czl2aEVBMjM0Mjh5bXJ3N180T2FBRURTcHRqbHVn?oc=5",
-      "source": "Google News",
-      "outlet": "Google News Welfare Bill",
-      "published": "2026-10-29T15:21:24.000Z",
-      "summary": "Burnham says government is working 'flat out' to cut welfare bill after Budget cost warnings  LBC",
-      "category": "Budget",
-      "ago": "2d ago"
-    },
-    {
-      "id": "CBMi5gFBVV95cUxOYU5zY1Y2UVVmTlg4MWtPSkEwTFNwRjhLNXVkSk9TY3hKWWhLQ20zVVdEWUVwMS1QcHFRQ2VTQjBENEVNb1R2b3ZZUXRfaVVFaTVvUmdYUXV0T2JEQ2tmZmNqOXpxeUFCSDJmZ2RFQWw3dmlVczB5eml2TmY4bjR3YUFMQ2I1MzJmUUxJbVhhY0k3aVo4WlVHNW9PYUdyaHdnaVczdURxS2lCUHlrOWZXQ3hRZWRTcERPTmhldnpEMWdGRlJqYVlNMC1DZklwV0M1cVE5VHdvWkY5dDZJekJmYTlfMHVZUQ",
-      "title": "🔴 Grandad living on food parcels and Universal Credit slams Andy Burnham's £100 payment - Facebook",
-      "link": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxOYU5zY1Y2UVVmTlg4MWtPSkEwTFNwRjhLNXVkSk9TY3hKWWhLQ20zVVdEWUVwMS1QcHFRQ2VTQjBENEVNb1R2b3ZZUXRfaVVFaTVvUmdYUXV0T2JEQ2tmZmNqOXpxeUFCSDJmZ2RFQWw3dmlVczB5eml2TmY4bjR3YUFMQ2I1MzJmUUxJbVhhY0k3aVo4WlVHNW9PYUdyaHdnaVczdURxS2lCUHlrOWZXQ3hRZWRTcERPTmhldnpEMWdGRlJqYVlNMC1DZklwV0M1cVE5VHdvWkY5dDZJekJmYTlfMHVZUQ?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-10-29T14:17:43.000Z",
-      "summary": "🔴 Grandad living on food parcels and Universal Credit slams Andy Burnham's £100 payment  Facebook",
-      "category": "UC",
-      "ago": "4d ago"
-    },
-    {
-      "id": "CBMiowFBVV95cUxOX2pySVZ5R0k1R1p1MHdEWDdkUnZEcU4zVjlTM184N1pzd3oyN3ZlbTA3QS1LOGdRSVhYTVAzbERPc1NDRDNyazRjcEdXb3p3bzVkNm14dHFtTEl1NGprRWd5bHhVa1duU1BwVkg5N0ZtcGhYSjAzdktoSThsWTlUejBmczVXa3ZkS1VqOHMyQ3BKaUFMUGNpVF9JRTJFQkd0WHBr",
-      "title": "Burnham at Rolls-Royce visit: 'We want to get the welfare bill down' - Sky News",
-      "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOX2pySVZ5R0k1R1p1MHdEWDdkUnZEcU4zVjlTM184N1pzd3oyN3ZlbTA3QS1LOGdRSVhYTVAzbERPc1NDRDNyazRjcEdXb3p3bzVkNm14dHFtTEl1NGprRWd5bHhVa1duU1BwVkg5N0ZtcGhYSjAzdktoSThsWTlUejBmczVXa3ZkS1VqOHMyQ3BKaUFMUGNpVF9JRTJFQkd0WHBr?oc=5",
-      "source": "Google News",
-      "outlet": "Google News Welfare Bill",
-      "published": "2026-10-29T13:40:06.000Z",
-      "summary": "Burnham at Rolls-Royce visit: 'We want to get the welfare bill down'  Sky News",
-      "category": "Budget",
-      "ago": "3d ago"
-    },
-    {
-      "id": "CBMijAFBVV95cUxNODRuSmlwV05sMWM5SFoyQ3hZWHo3WXBfTFo4Nmg4bDY4clJpeXlVMUYtc3hnOVBDUFdEa1RnNlZUMjI0a1VfOHRsR3JMZjlxRE5TZklDcUc4SXBQQ1Y4b3hOby1HcVR3Y1pHTDRsWS05NzR0Y0VIa3R0U3RBSTVadUhpVnktaU50NlBfcg",
-      "title": "Government working flat out to reduce welfare bill, PM says after cost warnings - AOL.com",
-      "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNODRuSmlwV05sMWM5SFoyQ3hZWHo3WXBfTFo4Nmg4bDY4clJpeXlVMUYtc3hnOVBDUFdEa1RnNlZUMjI0a1VfOHRsR3JMZjlxRE5TZklDcUc4SXBQQ1Y4b3hOby1HcVR3Y1pHTDRsWS05NzR0Y0VIa3R0U3RBSTVadUhpVnktaU50NlBfcg?oc=5",
-      "source": "Google News",
-      "outlet": "Google News Welfare Bill",
-      "published": "2026-10-29T13:23:57.000Z",
-      "summary": "Government working flat out to reduce welfare bill, PM says after cost warnings  AOL.com",
-      "category": "Budget",
-      "ago": "7d ago"
-    },
-    {
-      "id": "CBMiwAFBVV95cUxQT2QxUlBSTXZQOWdlVHpwNm5KbmlRM2RYR2RrT094dzN1RnBsZ0hraUliS1pveWlCall3bHFaQXF6Zzh0M2hmUXVVaVJtS3Z2QW9fbTc4X29URVI4bEJ5ZWktZnYzbDZvUDBpN1dZN0YyekN0Nm03dkZuRjE3NTBXLURNLTFxQ25QdDJvRTN0dHRnR21zdGY0UnRZaS1IUzV1S3AwNko4cTUwMDgxX2l2dGtKeEZwTllGcHZqRGh2VDXSAcYBQVVfeXFMUDlqVDU4cm9RUXZJaklqOVVYYmFmWEF0bUprYVNHOW9Bd19rSWNLVTdqMTdzQ2l3dXZuTW5JOTA1Mk5YZ0xhUEs3MFBwX0d2UHRzdzdKdzk3cWtmcEJDcmtHWEF3ejZQSnNGblY3ZHJKUmZOSlNEQU5qRmFwUnBIQVJuWmJTOVhZbVdFcUEtdkFVMDBPU29WOGtsZ2Q1RmNpQjdpbkVrLWtyT2hqTzFBcnBjOG1oWk1aTG9uSG4tTl9UcVkxTDNB",
-      "title": "UK's Burnham says government working \"flat out\" to cut welfare bill - Devdiscourse",
-      "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQT2QxUlBSTXZQOWdlVHpwNm5KbmlRM2RYR2RrT094dzN1RnBsZ0hraUliS1pveWlCall3bHFaQXF6Zzh0M2hmUXVVaVJtS3Z2QW9fbTc4X29URVI4bEJ5ZWktZnYzbDZvUDBpN1dZN0YyekN0Nm03dkZuRjE3NTBXLURNLTFxQ25QdDJvRTN0dHRnR21zdGY0UnRZaS1IUzV1S3AwNko4cTUwMDgxX2l2dGtKeEZwTllGcHZqRGh2VDXSAcYBQVVfeXFMUDlqVDU4cm9RUXZJaklqOVVYYmFmWEF0bUprYVNHOW9Bd19rSWNLVTdqMTdzQ2l3dXZuTW5JOTA1Mk5YZ0xhUEs3MFBwX0d2UHRzdzdKdzk3cWtmcEJDcmtHWEF3ejZQSnNGblY3ZHJKUmZOSlNEQU5qRmFwUnBIQVJuWmJTOVhZbVdFcUEtdkFVMDBPU29WOGtsZ2Q1RmNpQjdpbkVrLWtyT2hqTzFBcnBjOG1oWk1aTG9uSG4tTl9UcVkxTDNB?oc=5",
-      "source": "Google News",
-      "outlet": "Google News Welfare Bill",
-      "published": "2026-10-29T13:21:02.000Z",
-      "summary": "UK's Burnham says government working \"flat out\" to cut welfare bill  Devdiscourse",
-      "category": "Budget",
-      "ago": "2d ago"
-    },
-    {
-      "id": "CBMibkFVX3lxTFBrTHNkTHJHV2VUaUV5VF85VEFDa3duQ29IVnlacm5aN0Z0dFAwY1pNOTZNOUNjenZmS0toWjhMM3U1R19kOURQb0pZX2lLOGtaVHRkOWNaenlVXzVEM0JwM3A1QmdnS1ZncW52aERn",
-      "title": "UK PM BURNHAM: WE ARE WORKING HARD TO CUT THE WELFARE BILL AS SOON AS WE POSSIBLY CAN - CGTN",
-      "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTFBrTHNkTHJHV2VUaUV5VF85VEFDa3duQ29IVnlacm5aN0Z0dFAwY1pNOTZNOUNjenZmS0toWjhMM3U1R19kOURQb0pZX2lLOGtaVHRkOWNaenlVXzVEM0JwM3A1QmdnS1ZncW52aERn?oc=5",
-      "source": "Google News",
-      "outlet": "Google News Welfare Bill",
-      "published": "2026-10-29T13:12:13.000Z",
-      "summary": "UK PM BURNHAM: WE ARE WORKING HARD TO CUT THE WELFARE BILL AS SOON AS WE POSSIBLY CAN  CGTN",
-      "category": "Budget",
-      "ago": "3d ago"
     }
   ],
-  "lastUpdated": "2026-11-08T14:09:15.509Z"
+  "lastUpdated": "2026-11-09T17:16:34.563Z"
 }
