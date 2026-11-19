@@ -1,12 +1,20 @@
 {
-  "totalIncidents": 15,
+  "totalIncidents": 16,
   "byTerm": {
-    "welfare bill": 15
+    "welfare bill": 16
   },
   "byCategory": {
-    "Economic_Scapegoating_Bill": 15
+    "Economic_Scapegoating_Bill": 16
   },
   "incidents": [
+    {
+      "term": "welfare bill",
+      "category": "Economic_Scapegoating_Bill",
+      "title": "UK PM Burnham says he wants to cut welfare bill 'quickly' - London South East",
+      "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNdjFkeTN5UWRNbWE5bXRiRE9xeEFwSFNRdzJtUEc5MEVJa01NRkxGYmdua0sxSVhycEpPNzdwOFNWdkpnRzNPZTJaWFRHWUt0dVZ3ZWU0TkUxRm1KQ2JkZElXNEFXRVhwcDliWV9nZTFQUDFSbFY1UDVQN3lkS3N0MmtmLU1VbnltVV9JSU9zbHlXNE5nZDFnQVJVU2NNaFc0cUVFSmNMVQ?oc=5",
+      "date": "2026-11-18T12:11:00.000Z",
+      "source": "Google News"
+    },
     {
       "term": "welfare bill",
       "category": "Economic_Scapegoating_Bill",
@@ -130,6 +138,39 @@
   ],
   "articles": [
     {
+      "id": "CBMiiAFBVV95cUxNRW1EUm1LcEJ5YjFSLWt1aEx4YTBYM1Juc0tYaWFHMlRpamF2b2JOcVowM3dfYXZLUmIwT1p5MDItb3NJam14SS10QjdQTEh4bHp5SnozSHRJZWMybzJSRU5LbXYyaHdDLTFjdlFCVkpSX2ktdkhOeFBwb0pzZWQyRFR4RFk0Tzhz",
+      "title": "Reform reveals record 1.26 million foreign claimants on Universal Credit - Reform UK",
+      "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNRW1EUm1LcEJ5YjFSLWt1aEx4YTBYM1Juc0tYaWFHMlRpamF2b2JOcVowM3dfYXZLUmIwT1p5MDItb3NJam14SS10QjdQTEh4bHp5SnozSHRJZWMybzJSRU5LbXYyaHdDLTFjdlFCVkpSX2ktdkhOeFBwb0pzZWQyRFR4RFk0Tzhz?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-19T13:41:29.000Z",
+      "summary": "Reform reveals record 1.26 million foreign claimants on Universal Credit  Reform UK",
+      "category": "UC",
+      "ago": "0d ago"
+    },
+    {
+      "id": "CBMisgFBVV95cUxNUVU3WEg1T05aWWdwalR3YTB1RkpRbnc5Vk1RYnlKZEVOU2pySmxpMTAyLXNvT1pvcjRQOGxKWWRnYkdhRW5kcXBiaU9jRTFHc3NRb0RKQVpTa01fQjFrZW1ibFVQa01YZGdkRWdkMkZTMmg0WFZKMy1wdTd5VEQ0M3pXUDQ2dkE2TnVwMzU4djhtbjEtMTF1QlY2OUNTcmhaSGhmak41UjVmRkdrVDlFbVJR",
+      "title": "AI being used to target benefit claimants, DWP confirms - The Independent",
+      "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNUVU3WEg1T05aWWdwalR3YTB1RkpRbnc5Vk1RYnlKZEVOU2pySmxpMTAyLXNvT1pvcjRQOGxKWWRnYkdhRW5kcXBiaU9jRTFHc3NRb0RKQVpTa01fQjFrZW1ibFVQa01YZGdkRWdkMkZTMmg0WFZKMy1wdTd5VEQ0M3pXUDQ2dkE2TnVwMzU4djhtbjEtMTF1QlY2OUNTcmhaSGhmak41UjVmRkdrVDlFbVJR?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-18T20:17:00.000Z",
+      "summary": "AI being used to target benefit claimants, DWP confirms  The Independent",
+      "category": "DWP",
+      "ago": "1d ago"
+    },
+    {
+      "id": "CBMipAFBVV95cUxPa3ozLXFObE5COGU5Zy1qcVJsQWZhZG5yaTZxbnoweGcxX2pNVU0yWVpiTDBBTWxISk14Mi1HRi1OUDRRN0Z0OWtzZmk2dzJGSEtUbmZOd04xSzlFVlB6cU1QbXlETk5KZUVKbFZnajY3amg4MndEaWZrZmxldlgyMXAzRmZTMS14dnhjYlNKLUI4ZmgzY1BscC1NV3dIanVUbFFhVQ",
+      "title": "Andy Burnham STILL refusing to set date for cutting Britain's ballooning benefits bill: 'We can't wait!' - GB News",
+      "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPa3ozLXFObE5COGU5Zy1qcVJsQWZhZG5yaTZxbnoweGcxX2pNVU0yWVpiTDBBTWxISk14Mi1HRi1OUDRRN0Z0OWtzZmk2dzJGSEtUbmZOd04xSzlFVlB6cU1QbXlETk5KZUVKbFZnajY3amg4MndEaWZrZmxldlgyMXAzRmZTMS14dnhjYlNKLUI4ZmgzY1BscC1NV3dIanVUbFFhVQ?oc=5",
+      "source": "Google News",
+      "outlet": "Google News Welfare Bill",
+      "published": "2026-11-18T19:22:20.000Z",
+      "summary": "Andy Burnham STILL refusing to set date for cutting Britain's ballooning benefits bill: 'We can't wait!'  GB News",
+      "category": "Budget",
+      "ago": "1d ago"
+    },
+    {
       "id": "CBMirwFBVV95cUxQMzZyZmgtVGpRTHdJY0U3QzJiMGx4OVNZR1VaSHNQNGJ4R2pKNUp3S2V0ZXY1cm4wZEFXbEFIR1VTQW92ZG0zUi03NE9adlBhdXcxU1JKQWlOTHhoZFhiQ3FlZm00QXNyUnRHSXlZR2ZzNnBJUl91YnNNcVBGdUl1cVV1VUJNM3czRDNzMVl6cFBGSE1tdngzOUJYeVg0bEdDVHlpcGdSRXRMTmtBVEc0",
       "title": "Tories accuse Andy Burnham of creating ‘vibes’ of welfare reform without bringing down benefits bill - London Evening Standard",
       "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQMzZyZmgtVGpRTHdJY0U3QzJiMGx4OVNZR1VaSHNQNGJ4R2pKNUp3S2V0ZXY1cm4wZEFXbEFIR1VTQW92ZG0zUi03NE9adlBhdXcxU1JKQWlOTHhoZFhiQ3FlZm00QXNyUnRHSXlZR2ZzNnBJUl91YnNNcVBGdUl1cVV1VUJNM3czRDNzMVl6cFBGSE1tdngzOUJYeVg0bEdDVHlpcGdSRXRMTmtBVEc0?oc=5",
@@ -139,6 +180,17 @@
       "summary": "Tories accuse Andy Burnham of creating ‘vibes’ of welfare reform without bringing down benefits bill  London Evening Standard",
       "category": "Budget",
       "ago": "0d ago"
+    },
+    {
+      "id": "CBMipwFBVV95cUxNdjFkeTN5UWRNbWE5bXRiRE9xeEFwSFNRdzJtUEc5MEVJa01NRkxGYmdua0sxSVhycEpPNzdwOFNWdkpnRzNPZTJaWFRHWUt0dVZ3ZWU0TkUxRm1KQ2JkZElXNEFXRVhwcDliWV9nZTFQUDFSbFY1UDVQN3lkS3N0MmtmLU1VbnltVV9JSU9zbHlXNE5nZDFnQVJVU2NNaFc0cUVFSmNMVQ",
+      "title": "UK PM Burnham says he wants to cut welfare bill 'quickly' - London South East",
+      "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNdjFkeTN5UWRNbWE5bXRiRE9xeEFwSFNRdzJtUEc5MEVJa01NRkxGYmdua0sxSVhycEpPNzdwOFNWdkpnRzNPZTJaWFRHWUt0dVZ3ZWU0TkUxRm1KQ2JkZElXNEFXRVhwcDliWV9nZTFQUDFSbFY1UDVQN3lkS3N0MmtmLU1VbnltVV9JSU9zbHlXNE5nZDFnQVJVU2NNaFc0cUVFSmNMVQ?oc=5",
+      "source": "Google News",
+      "outlet": "Google News Welfare Bill",
+      "published": "2026-11-18T12:11:00.000Z",
+      "summary": "UK PM Burnham says he wants to cut welfare bill 'quickly'  London South East",
+      "category": "Budget",
+      "ago": "1d ago"
     },
     {
       "id": "CBMiwwFBVV95cUxNMV83b1N0aXJmb25NWWxFVFphN3BiTS1zaHVIeGM3bXR5TzNBR0FkWEc5dGZIUjAxTnEyQWNReVdtN2RGd2U5ZkhMa0QyZ0piQW9tWTI1azZ6R3pEckFNLWRmR1BUM1N5WG14amhkN2FRMWw2WTgxVW5JWV8yazMzRHBNRFBybWdZOXR2Z052Qjd3MGxPTHhQZFFnLTR4RUtRaTliaDg0eGNVYUMxcExmbVBuc04wS3ZuYnV2Wkw4WFUwc1U",
@@ -161,6 +213,17 @@
       "summary": "DWP has been urged to make major changes‼️  Facebook",
       "category": "DWP",
       "ago": "0d ago"
+    },
+    {
+      "id": "CBMihgFBVV95cUxOVzZZc2p0QU5oRVZMdnRlZHUyMFBadEhtdHJ4R3dXOFZ2ZVAxX0FxMGV3Zk9ZUjhoWGpJVVVPNjRlbzBENXdGUEREZ01iTDBWQjRkUFJEaEZHVjdLeU4zUWhpRWFqTFRVN0hNelpPU1BOd3RFTjlHWEMyZ3AtbEdhMFRIeGRQUQ",
+      "title": "DWP confirms pensioners with 55 health conditions could get up to £458 a month - AOL.co.uk",
+      "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOVzZZc2p0QU5oRVZMdnRlZHUyMFBadEhtdHJ4R3dXOFZ2ZVAxX0FxMGV3Zk9ZUjhoWGpJVVVPNjRlbzBENXdGUEREZ01iTDBWQjRkUFJEaEZHVjdLeU4zUWhpRWFqTFRVN0hNelpPU1BOd3RFTjlHWEMyZ3AtbEdhMFRIeGRQUQ?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-17T15:30:49.000Z",
+      "summary": "DWP confirms pensioners with 55 health conditions could get up to £458 a month  AOL.co.uk",
+      "category": "DWP",
+      "ago": "2d ago"
     },
     {
       "id": "CBMilAFBVV95cUxOUTlUQUlsQ1BnSUEwclhKSDZRNlk5UFhCaGlMNUF0VUs3RGpwNXBzMjB4VUZ4YWYxSDNCenMzOHdmNFRBNV95Y0JmOXNyYjJ3aHQyTFprbHVuT1QtZ1lnWURlWlE4dmdTN0NvSmpUa1Q5c2s1SjZXVlZLS0dtWjdTVzlORzhVdXlxVUw4SmRDQm55WmpX",
@@ -1173,62 +1236,7 @@
       "summary": "DWP State Pension age change begins this month – millions face longer wait  Telegraph and Argus",
       "category": "DWP",
       "ago": "1d ago"
-    },
-    {
-      "id": "CBMijwFBVV95cUxNSEpFZnBZdkxmZjVSSDljaXduZ1RjUzJ0eXdVMTJ3YWQtQ2c0bldYOWVablk0M2VCTVdRSXVaV1ZuZGZhcDZBWFA0TFVtYlM5MFZGRllVVGxpc2dTZ2tpaFdZQjJOWE9MOV9iMk1DaGJBcXRWTVNfUUR5Mk1IWE5BUnMwalFKdV9TSTFPUnZyQdIBlAFBVV95cUxQcTE3MmNwaVFXbjh0a2NLcEZjZVM0eFFmYk1CMWZBblFDbi0xZUlqWk1MRXlISXNJVFVLemxLREs0QThmYVl0dDNXZUg4Xzd6VHhNTVNWdldtbVNXd2lZeWR5ZWtUWjY1Z3JnRkRBOFN5SlBTT2Y3VmdoYVNCRlhGMFk2Y3FYR3UzSUlfdmV5V0wwSXhH",
-      "title": "DWP confirms 10 main health conditions up to £429.80 extra a month - Wales Online",
-      "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNSEpFZnBZdkxmZjVSSDljaXduZ1RjUzJ0eXdVMTJ3YWQtQ2c0bldYOWVablk0M2VCTVdRSXVaV1ZuZGZhcDZBWFA0TFVtYlM5MFZGRllVVGxpc2dTZ2tpaFdZQjJOWE9MOV9iMk1DaGJBcXRWTVNfUUR5Mk1IWE5BUnMwalFKdV9TSTFPUnZyQdIBlAFBVV95cUxQcTE3MmNwaVFXbjh0a2NLcEZjZVM0eFFmYk1CMWZBblFDbi0xZUlqWk1MRXlISXNJVFVLemxLREs0QThmYVl0dDNXZUg4Xzd6VHhNTVNWdldtbVNXd2lZeWR5ZWtUWjY1Z3JnRkRBOFN5SlBTT2Y3VmdoYVNCRlhGMFk2Y3FYR3UzSUlfdmV5V0wwSXhH?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-11-06T11:41:31.000Z",
-      "summary": "DWP confirms 10 main health conditions up to £429.80 extra a month  Wales Online",
-      "category": "DWP",
-      "ago": "1d ago"
-    },
-    {
-      "id": "CBMigwFBVV95cUxNX3YwQ2RTWm56RXY1RDJ5bVBEakcwVGY2R1M2b0laS2czazlVV0xxbGFMYXUxOEgxaHVGemJUbDVOOFVIdmxXZGtqWWxmWjdHNGNZNWdEMDhGRDhUTDZxendXUlEzRHdubTdoTGUzODlxN3pXQmtyNGNHZDBjU29iQWRDdw",
-      "title": "Mitie DWP Noticeboard - GMB Union",
-      "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNX3YwQ2RTWm56RXY1RDJ5bVBEakcwVGY2R1M2b0laS2czazlVV0xxbGFMYXUxOEgxaHVGemJUbDVOOFVIdmxXZGtqWWxmWjdHNGNZNWdEMDhGRDhUTDZxendXUlEzRHdubTdoTGUzODlxN3pXQmtyNGNHZDBjU29iQWRDdw?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-11-06T08:00:00.000Z",
-      "summary": "Mitie DWP Noticeboard  GMB Union",
-      "category": "DWP",
-      "ago": "3d ago"
-    },
-    {
-      "id": "https://www.disabilitynewsservice.com/?p=35147",
-      "title": "Access to Work figures appear to show spending cuts, but DWP insists there is an explanation",
-      "link": "https://www.disabilitynewsservice.com/access-to-work-figures-appear-to-show-spending-cuts-but-dwp-insists-there-is-an-explanation/",
-      "source": "DNS",
-      "outlet": "Disability News Service",
-      "published": "2026-11-05T17:09:10.000Z",
-      "summary": "New government figures appear to show significant cuts to spending on the flagship Access to Work scheme, just as Labour ministers are insisting they want to support more disabled people into work. The government figures",
-      "category": "DWP",
-      "ago": "1d ago"
-    },
-    {
-      "id": "https://www.disabilitynewsservice.com/?p=35143",
-      "title": "New DWP figures fail again to provide clarity on employment disadvantage faced by disabled people",
-      "link": "https://www.disabilitynewsservice.com/new-dwp-figures-fail-again-to-provide-clarity-on-employment-disadvantage-faced-by-disabled-people/",
-      "source": "DNS",
-      "outlet": "Disability News Service",
-      "published": "2026-11-05T17:03:15.000Z",
-      "summary": "The government’s annual publication of figures on disability employment has failed yet again to show how disabled people’s experience in the jobs market has changed over the last year. The “main points” of yesterday’s (W",
-      "category": "DWP",
-      "ago": "1d ago"
-    },
-    {
-      "id": "CBMingFBVV95cUxOalV3UVAyUFpPcUlQUWRzRkdjTmRBTEFJdk1KLUJGd2JVMVJjc0p2WVRJb01ZQnFiSjhpMnZUX1Fja3E2YnFmdDdjUGdVelRTZUt3N3VzWEFfczVpRkpfME16ME1ibG1ZNGFRZUM4SkRjdDFFX19TdUc3OGhsMm1UVlBuNmlkVzNucE0zUFZlVGFDN2NKTTNDX2FHeVBCd9IBowFBVV95cUxQQ1BHc1lrQ0dOdi1IRS0wZGF3aTVoZENjbXZBM0NPU21MNDRtNWhnYk80VlFBR0NSRE5lOVExQy1rdEVUYjRqMXFJTXo4azJoV1RaSXY3YVhQUmFBSzdrMEdiT3VxOXlpSmd0bndGU2RxdjM1aVFJUFlTV1RNMXY1V3hmUXJpTnZrQ19jT19Kc2VQOEoyOFZVa1ZnVjB2SS1SdlY0",
-      "title": "DWP Universal Credit claimants could get one-off £815 before Christmas - Liverpool Echo",
-      "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxOalV3UVAyUFpPcUlQUWRzRkdjTmRBTEFJdk1KLUJGd2JVMVJjc0p2WVRJb01ZQnFiSjhpMnZUX1Fja3E2YnFmdDdjUGdVelRTZUt3N3VzWEFfczVpRkpfME16ME1ibG1ZNGFRZUM4SkRjdDFFX19TdUc3OGhsMm1UVlBuNmlkVzNucE0zUFZlVGFDN2NKTTNDX2FHeVBCd9IBowFBVV95cUxQQ1BHc1lrQ0dOdi1IRS0wZGF3aTVoZENjbXZBM0NPU21MNDRtNWhnYk80VlFBR0NSRE5lOVExQy1rdEVUYjRqMXFJTXo4azJoV1RaSXY3YVhQUmFBSzdrMEdiT3VxOXlpSmd0bndGU2RxdjM1aVFJUFlTV1RNMXY1V3hmUXJpTnZrQ19jT19Kc2VQOEoyOFZVa1ZnVjB2SS1SdlY0?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-11-05T14:32:00.000Z",
-      "summary": "DWP Universal Credit claimants could get one-off £815 before Christmas  Liverpool Echo",
-      "category": "UC",
-      "ago": "1d ago"
     }
   ],
-  "lastUpdated": "2026-11-18T16:17:20.371Z"
+  "lastUpdated": "2026-11-19T16:25:43.686Z"
 }
