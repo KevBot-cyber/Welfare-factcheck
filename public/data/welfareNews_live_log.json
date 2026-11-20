@@ -1,10 +1,10 @@
 {
-  "totalIncidents": 16,
+  "totalIncidents": 12,
   "byTerm": {
-    "welfare bill": 16
+    "welfare bill": 12
   },
   "byCategory": {
-    "Economic_Scapegoating_Bill": 16
+    "Economic_Scapegoating_Bill": 12
   },
   "incidents": [
     {
@@ -102,41 +102,42 @@
       "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE1LS2ZGcWtaQ2VXMXRGM1Zsa1phTVFwdFIzQW1RLXNHU3JpTXgxQjU1cEg3UlhYZktwbWpJdjEzckw5aUFGZ08yZ0ptcWVKTnpkR2RvUU9TU1ZWMWRBY1hFUUtPRnFjWUF2UGQ3U3B1UmhjUQ?oc=5",
       "date": "2026-11-07T13:24:00.000Z",
       "source": "Google News"
-    },
-    {
-      "term": "welfare bill",
-      "category": "Economic_Scapegoating_Bill",
-      "title": "Labour was warned two years ago how to tackle Britain's soaring welfare bill - now it risks running out of time to act - The Sun",
-      "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOYXhyVnctY2tycjB6d3B4VWxmVTRySXpUQU9RN0d5X1ZOYVhDcE9kUjBIUEdsRnpVTXRmSzdRQTRrQTl4eUZvd1NfOGlsYnUtYzZUNjRNaDRLYmpnUjVXeGNFQnNtQnNTUEdpaU5zZG1Mb1dBZGNlMXFnS3h6TW9TTnJmbFNRNThD?oc=5",
-      "date": "2026-11-07T07:00:00.000Z",
-      "source": "Google News"
-    },
-    {
-      "term": "welfare bill",
-      "category": "Economic_Scapegoating_Bill",
-      "title": "Fact check: Data suggests working-age welfare bill is under £150bn - AOL.co.uk",
-      "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNTFg2V2RaR045dGZrTU5TV2lWdVY2SC1uYlE0c29TMlVKRVNJTmtScktaNkROT0tnaW5ReUZBQURTcVpveWlGdUV1U1pJOTlxR2hEUmtNQmhpcGxYTTRUSmN0ZHd3S0N6NzBtV0hpTVNiMjFtR0FfRjhqLXRDVWRSd3JQUEw?oc=5",
-      "date": "2026-11-06T17:47:12.000Z",
-      "source": "Google News"
-    },
-    {
-      "term": "welfare bill",
-      "category": "Economic_Scapegoating_Bill",
-      "title": "Fact check: Data suggests working-age welfare bill is under £150bn - The Independent",
-      "link": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQMG9VRVJzVmVrZkdWTV94SzRUdXc5bXY4NTBEV3djcDhkSlpGaFlKbUo3dnVFbW1GdF9tOXVoNWZuRGZfY0VacmZRM3lZZWhKWHo3TWttTEdaQmlZVXZIZkI2eU1oV0JsV1FJZGhiVnl5VktGaHZNSS1rSkJ0cFp5aTQzeE83VXc3YTVQb2VXcjN4TExrb1BxV0lLN0lXUWlHdmZqV1p0Sjh3ZXpidmw4ZE9OU0owLXl6cjNjajY2WkxpOXozMGFSdE1ZNjNOSF9BWVJNQWlPWHpIMkswLThkRHNZWFdMdVAwdE4tcw?oc=5",
-      "date": "2026-11-06T17:47:00.000Z",
-      "source": "Google News"
-    },
-    {
-      "term": "welfare bill",
-      "category": "Economic_Scapegoating_Bill",
-      "title": "Fact check: Data suggests working-age welfare bill is under £150bn - Express and Star",
-      "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNU0xBajRGVzlzenBlWXdXeG05NV9sY3J2bnNEZXBRVXlyOEN6VHJybFVmajU4X1BuRW4zNk5wekJNS3pXN0pCMkhHVTFqT2lIZ0dfWkx6M3ByUDZqckNZZWo0YnVJeUdGTHVVUDdvNk1tamFTaUI3b1E3ZjAtLWUtYktiMHpkWHdNdFcxdm5OUGQ5MUxfbTV2ejQyNVR4cU5kcjBqUW43TFhZdjdGWnpDSGFlbw?oc=5",
-      "date": "2026-11-06T17:47:00.000Z",
-      "source": "Google News"
     }
   ],
   "articles": [
+    {
+      "id": "CBMipwFBVV95cUxQa1ZuLUNsMk9mZkdZNzY4dUNzd0s1UmVNVFVSOWlmVEhSaXFiWGdSVzg5eXRZZWk3emJBM1BNMi00bGN3Ykw2OVVrWXdhUXZtbHFVM051T0RKT28xRXp1dTE2NVgzOEdxdGZVa21IZjBKb2NDYTJkWWlOSjNkekhOVWk0ekNFWFptY0F5MFNfdzJSMHk4eUtZMnJJa2tTSnFabFVPSW81NA",
+      "title": "Dewi Jenkins' Myfarian Pip tops Farmers Marts' Dolgellau working sheepdogs at £25,200 - The Scottish Farmer",
+      "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQa1ZuLUNsMk9mZkdZNzY4dUNzd0s1UmVNVFVSOWlmVEhSaXFiWGdSVzg5eXRZZWk3emJBM1BNMi00bGN3Ykw2OVVrWXdhUXZtbHFVM051T0RKT28xRXp1dTE2NVgzOEdxdGZVa21IZjBKb2NDYTJkWWlOSjNkekhOVWk0ekNFWFptY0F5MFNfdzJSMHk4eUtZMnJJa2tTSnFabFVPSW81NA?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-20T12:00:00.000Z",
+      "summary": "Dewi Jenkins' Myfarian Pip tops Farmers Marts' Dolgellau working sheepdogs at £25,200  The Scottish Farmer",
+      "category": "PIP",
+      "ago": "0d ago"
+    },
+    {
+      "id": "https://www.disabilitynewsservice.com/?p=35177",
+      "title": "Union report exposes how staffing crisis at DWP is harming ‘vulnerable’ claimants",
+      "link": "https://www.disabilitynewsservice.com/union-report-exposes-how-staffing-crisis-at-dwp-is-harming-vulnerable-claimants/",
+      "source": "DNS",
+      "outlet": "Disability News Service",
+      "published": "2026-11-19T17:32:40.000Z",
+      "summary": "A Department for Work and Pensions (DWP) understaffing crisis is exposing “vulnerable” claimants to inappropriate sanctions and poor support, just as the Milburn report has called for disabled young people to receive mor",
+      "category": "DWP",
+      "ago": "1d ago"
+    },
+    {
+      "id": "https://www.disabilitynewsservice.com/?p=35175",
+      "title": "Thousands of disabled people could benefit from activist’s universal credit and council tax court win",
+      "link": "https://www.disabilitynewsservice.com/thousands-of-disabled-people-could-benefit-from-activists-universal-credit-and-council-tax-court-win/",
+      "source": "DNS",
+      "outlet": "Disability News Service",
+      "published": "2026-11-19T17:30:19.000Z",
+      "summary": "Thousands of disabled people across England and Wales could benefit from an activist’s “significant” high court victory over a discriminatory council that unlawfully charged him more than £1,100 in council tax after he w",
+      "category": "UC",
+      "ago": "1d ago"
+    },
     {
       "id": "CBMiiAFBVV95cUxNRW1EUm1LcEJ5YjFSLWt1aEx4YTBYM1Juc0tYaWFHMlRpamF2b2JOcVowM3dfYXZLUmIwT1p5MDItb3NJam14SS10QjdQTEh4bHp5SnozSHRJZWMybzJSRU5LbXYyaHdDLTFjdlFCVkpSX2ktdkhOeFBwb0pzZWQyRFR4RFk0Tzhz",
       "title": "Reform reveals record 1.26 million foreign claimants on Universal Credit - Reform UK",
@@ -147,6 +148,50 @@
       "summary": "Reform reveals record 1.26 million foreign claimants on Universal Credit  Reform UK",
       "category": "UC",
       "ago": "0d ago"
+    },
+    {
+      "id": "CBMijgFBVV95cUxQVW5pc2czbkJyUTZFemlfcFhGU1VWSk9vX2ZRal9ybmsxWEk1b2hNdmlySloycFZxaTl5MjFIN3FQcTI4cnNnZWZtWGlPUlQxY2YwbE91SWtfR1pmZ2ZnUTVmbGdWQkJDSkM0RHUwQ3dLdzUxV0JEQl9UT1RaRGw4SW90NDcyb3Zpb1I3MUx3",
+      "title": "Reform reveals record 1.26 million foreign claimants on Universal Credit - Reform UK",
+      "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQVW5pc2czbkJyUTZFemlfcFhGU1VWSk9vX2ZRal9ybmsxWEk1b2hNdmlySloycFZxaTl5MjFIN3FQcTI4cnNnZWZtWGlPUlQxY2YwbE91SWtfR1pmZ2ZnUTVmbGdWQkJDSkM0RHUwQ3dLdzUxV0JEQl9UT1RaRGw4SW90NDcyb3Zpb1I3MUx3?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-19T13:41:29.000Z",
+      "summary": "Reform reveals record 1.26 million foreign claimants on Universal Credit  Reform UK",
+      "category": "UC",
+      "ago": "1d ago"
+    },
+    {
+      "id": "CBMifkFVX3lxTE42Um5RNVl2MVRlQ0hwS3R2a1RUSEV1ZU9kamd6MnRTZHBheGZfWFVFTHhxWTZXYjV4RExfZ0JqMnlsN052bTh4VWJPWE9pMXVZQW4zYjZWLTJzQ3FNZVpmQjZRS3J5bVl0cEllQ1ljNzRpYVhidWoxdUdHcWQ4QQ",
+      "title": "DWP lists 178 medical conditions that could qualify for £748 monthly PIP payment - Yahoo News UK",
+      "link": "https://news.google.com/rss/articles/CBMifkFVX3lxTE42Um5RNVl2MVRlQ0hwS3R2a1RUSEV1ZU9kamd6MnRTZHBheGZfWFVFTHhxWTZXYjV4RExfZ0JqMnlsN052bTh4VWJPWE9pMXVZQW4zYjZWLTJzQ3FNZVpmQjZRS3J5bVl0cEllQ1ljNzRpYVhidWoxdUdHcWQ4QQ?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-19T11:18:36.000Z",
+      "summary": "DWP lists 178 medical conditions that could qualify for £748 monthly PIP payment  Yahoo News UK",
+      "category": "PIP",
+      "ago": "1d ago"
+    },
+    {
+      "id": "CBMikAFBVV95cUxQeFlvaVE3NFlWWmpONEE1U3k3UzlSUmlqZG9GM2xCeklhbEZYeVJvX01XOEJtU0FfYmk5aFFRaGF3dDRZQ1pYVE9QRjZzU0c1Y3ZnNjVobWNJdHI2VV9HdHZjUDM5MXZtbks5WmtKamFJd09VRXJELWxzVHR1cFp5UWxfOVF6bkFTYzRvRVVJM0U",
+      "title": "DWP tests an AI model to choose Universal Credit reviews - Resultsense",
+      "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQeFlvaVE3NFlWWmpONEE1U3k3UzlSUmlqZG9GM2xCeklhbEZYeVJvX01XOEJtU0FfYmk5aFFRaGF3dDRZQ1pYVE9QRjZzU0c1Y3ZnNjVobWNJdHI2VV9HdHZjUDM5MXZtbks5WmtKamFJd09VRXJELWxzVHR1cFp5UWxfOVF6bkFTYzRvRVVJM0U?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-19T10:55:46.000Z",
+      "summary": "DWP tests an AI model to choose Universal Credit reviews  Resultsense",
+      "category": "UC",
+      "ago": "1d ago"
+    },
+    {
+      "id": "CBMilAFBVV95cUxQOWFUdXpYcktMOEdEcUhNaS0xV29CMmVMUzRNZVNhY3BtbVNnUWVsU0k1cVN2VHpPZjk0UVYxZXFMWUNjNEN1TE9IRHpJeUwyR2tLaXZ0dVllcXdHNzZ0RENPdWI3eWpKak1wYS1zREZXQnNtWkpaVy00ejNTS3l6VDViZWlXYndKSTB5Nnc1R056Mjl2",
+      "title": "DWP using AI to select Universal Credit claimants for case reviews - The Independent",
+      "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQOWFUdXpYcktMOEdEcUhNaS0xV29CMmVMUzRNZVNhY3BtbVNnUWVsU0k1cVN2VHpPZjk0UVYxZXFMWUNjNEN1TE9IRHpJeUwyR2tLaXZ0dVllcXdHNzZ0RENPdWI3eWpKak1wYS1zREZXQnNtWkpaVy00ejNTS3l6VDViZWlXYndKSTB5Nnc1R056Mjl2?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-18T20:27:00.000Z",
+      "summary": "DWP using AI to select Universal Credit claimants for case reviews  The Independent",
+      "category": "UC",
+      "ago": "2d ago"
     },
     {
       "id": "CBMisgFBVV95cUxNUVU3WEg1T05aWWdwalR3YTB1RkpRbnc5Vk1RYnlKZEVOU2pySmxpMTAyLXNvT1pvcjRQOGxKWWRnYkdhRW5kcXBiaU9jRTFHc3NRb0RKQVpTa01fQjFrZW1ibFVQa01YZGdkRWdkMkZTMmg0WFZKMy1wdTd5VEQ0M3pXUDQ2dkE2TnVwMzU4djhtbjEtMTF1QlY2OUNTcmhaSGhmak41UjVmRkdrVDlFbVJR",
@@ -160,6 +205,17 @@
       "ago": "1d ago"
     },
     {
+      "id": "CBMikgFBVV95cUxNRms4UkI2VmxrZldnLUlNS2pTVzBpeWh4S1hYVzJmNlNIeEg3WDRzdThjdDdHUGo5RGt6U2VaWDExRmt5YTdRX1pITHFEQ0FOMlpnY1pORVhuUzZqNDB0eGk2TE9mRHNjb09STVpvNjU2NzY1UjhvQ0cwVkhnUmRCcFBPdUlIeWczNlNWZEZyQjNEUQ",
+      "title": "Migrants on universal credit at record high - The Telegraph",
+      "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxNRms4UkI2VmxrZldnLUlNS2pTVzBpeWh4S1hYVzJmNlNIeEg3WDRzdThjdDdHUGo5RGt6U2VaWDExRmt5YTdRX1pITHFEQ0FOMlpnY1pORVhuUzZqNDB0eGk2TE9mRHNjb09STVpvNjU2NzY1UjhvQ0cwVkhnUmRCcFBPdUlIeWczNlNWZEZyQjNEUQ?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-18T19:30:00.000Z",
+      "summary": "Migrants on universal credit at record high  The Telegraph",
+      "category": "UC",
+      "ago": "2d ago"
+    },
+    {
       "id": "CBMipAFBVV95cUxPa3ozLXFObE5COGU5Zy1qcVJsQWZhZG5yaTZxbnoweGcxX2pNVU0yWVpiTDBBTWxISk14Mi1HRi1OUDRRN0Z0OWtzZmk2dzJGSEtUbmZOd04xSzlFVlB6cU1QbXlETk5KZUVKbFZnajY3amg4MndEaWZrZmxldlgyMXAzRmZTMS14dnhjYlNKLUI4ZmgzY1BscC1NV3dIanVUbFFhVQ",
       "title": "Andy Burnham STILL refusing to set date for cutting Britain's ballooning benefits bill: 'We can't wait!' - GB News",
       "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPa3ozLXFObE5COGU5Zy1qcVJsQWZhZG5yaTZxbnoweGcxX2pNVU0yWVpiTDBBTWxISk14Mi1HRi1OUDRRN0Z0OWtzZmk2dzJGSEtUbmZOd04xSzlFVlB6cU1QbXlETk5KZUVKbFZnajY3amg4MndEaWZrZmxldlgyMXAzRmZTMS14dnhjYlNKLUI4ZmgzY1BscC1NV3dIanVUbFFhVQ?oc=5",
@@ -169,6 +225,17 @@
       "summary": "Andy Burnham STILL refusing to set date for cutting Britain's ballooning benefits bill: 'We can't wait!'  GB News",
       "category": "Budget",
       "ago": "1d ago"
+    },
+    {
+      "id": "CBMisAFBVV95cUxORXd5YnNBNkFSRWVSUGdkbjNPRktYVlpjRnN3eEk2OFQxOUYzT19lbG8xdTBhdmZFWEZpdURVTHVSY3Zvcnkyek9fVXFUVDBzNm5LVkJncUdiLVFoQ0RuOW4yTFVlcE5kLTRrWExqLXlmR21ZTEdUcFNMYzRwOHBsZ2tUTldpUmVXMEIwTFAtUWFkdjdxdkYya3BnNUFXQWtaTERZaUNZb2c5aXJjN1dpUg",
+      "title": "The 178 conditions that could qualify for PIP - Facebook",
+      "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxORXd5YnNBNkFSRWVSUGdkbjNPRktYVlpjRnN3eEk2OFQxOUYzT19lbG8xdTBhdmZFWEZpdURVTHVSY3Zvcnkyek9fVXFUVDBzNm5LVkJncUdiLVFoQ0RuOW4yTFVlcE5kLTRrWExqLXlmR21ZTEdUcFNMYzRwOHBsZ2tUTldpUmVXMEIwTFAtUWFkdjdxdkYya3BnNUFXQWtaTERZaUNZb2c5aXJjN1dpUg?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-18T17:51:39.000Z",
+      "summary": "The 178 conditions that could qualify for PIP  Facebook",
+      "category": "PIP",
+      "ago": "2d ago"
     },
     {
       "id": "CBMirwFBVV95cUxQMzZyZmgtVGpRTHdJY0U3QzJiMGx4OVNZR1VaSHNQNGJ4R2pKNUp3S2V0ZXY1cm4wZEFXbEFIR1VTQW92ZG0zUi03NE9adlBhdXcxU1JKQWlOTHhoZFhiQ3FlZm00QXNyUnRHSXlZR2ZzNnBJUl91YnNNcVBGdUl1cVV1VUJNM3czRDNzMVl6cFBGSE1tdngzOUJYeVg0bEdDVHlpcGdSRXRMTmtBVEc0",
@@ -204,6 +271,17 @@
       "ago": "0d ago"
     },
     {
+      "id": "CBMi3gFBVV95cUxNV0NDcEdjaUxHXzNmdlZRdWdlenpKTG9SNWotYWpHTmVOYzhOMEZ1em5nUnhneDhMaUxhZDBHRjJXbjZmUnN2a1pYNEEzSkM2WGh0cExoRmJOUlBhbzhmcEdWS3dpTjcwYVlxYktZcVJZaXBCb1lwaWFSYlRjYkZud0h4RXF1akNOaW9IYWxXZ3JhWDdJbzRhXzRPRkpDcW5sVlpfSXQyaUZDWmZZeTJjcGo5RmViRkhIMERKdE1pQlFWOWJxQVNNZmdTeHVOTl9yR21wTm5rN0RmaEU2TEE",
+      "title": "Full list of 178 medical conditions that could qualify for monthly PIP payments - Facebook",
+      "link": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxNV0NDcEdjaUxHXzNmdlZRdWdlenpKTG9SNWotYWpHTmVOYzhOMEZ1em5nUnhneDhMaUxhZDBHRjJXbjZmUnN2a1pYNEEzSkM2WGh0cExoRmJOUlBhbzhmcEdWS3dpTjcwYVlxYktZcVJZaXBCb1lwaWFSYlRjYkZud0h4RXF1akNOaW9IYWxXZ3JhWDdJbzRhXzRPRkpDcW5sVlpfSXQyaUZDWmZZeTJjcGo5RmViRkhIMERKdE1pQlFWOWJxQVNNZmdTeHVOTl9yR21wTm5rN0RmaEU2TEE?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-18T09:00:35.000Z",
+      "summary": "Full list of 178 medical conditions that could qualify for monthly PIP payments  Facebook",
+      "category": "PIP",
+      "ago": "2d ago"
+    },
+    {
       "id": "CBMivAFBVV95cUxOMWNxMTNjU3FjeVNwTFZxM0ZDTS1lZm1iWDQ4cW5qOFRVQXRTTjJsNGRrdlRKVnkwNjJpSWVEem5JaUNuNC1oQWFJVENZalJSZkdpTHBCSks3YncwXzhna0hVaTFuQ2syeThiUWgxNU9ZQzZyLUgxbEtPeHA3bXRoVnIyLVdwZ011enRyQ3M4bWs4c2E5anFRVE9UbzNnNnhwSVQ3V001dHBEYWdqNThuZkFYaGhlYUlNNUFfWQ",
       "title": "DWP has been urged to make major changes‼️ - Facebook",
       "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOMWNxMTNjU3FjeVNwTFZxM0ZDTS1lZm1iWDQ4cW5qOFRVQXRTTjJsNGRrdlRKVnkwNjJpSWVEem5JaUNuNC1oQWFJVENZalJSZkdpTHBCSks3YncwXzhna0hVaTFuQ2syeThiUWgxNU9ZQzZyLUgxbEtPeHA3bXRoVnIyLVdwZ011enRyQ3M4bWs4c2E5anFRVE9UbzNnNnhwSVQ3V001dHBEYWdqNThuZkFYaGhlYUlNNUFfWQ?oc=5",
@@ -224,6 +302,17 @@
       "summary": "DWP confirms pensioners with 55 health conditions could get up to £458 a month  AOL.co.uk",
       "category": "DWP",
       "ago": "2d ago"
+    },
+    {
+      "id": "CBMidEFVX3lxTE9zMnNuM29obVpheEtLbFZvbDE4Ylc5V2V4eV9EbTNFMG4wQ0N2aWF4cjc5VVdPWHF1RWcxY1pUSjVYTXNIa2lOYS1TWGUybDN5aDZoREZUSmd4YXRRQ0hrVHkxRTRKZ0NxZUtfdWpoNEJxNEYx",
+      "title": "DWP change could stop PIP payments for nearly 500,000 people - Yahoo News UK",
+      "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9zMnNuM29obVpheEtLbFZvbDE4Ylc5V2V4eV9EbTNFMG4wQ0N2aWF4cjc5VVdPWHF1RWcxY1pUSjVYTXNIa2lOYS1TWGUybDN5aDZoREZUSmd4YXRRQ0hrVHkxRTRKZ0NxZUtfdWpoNEJxNEYx?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-17T14:34:12.000Z",
+      "summary": "DWP change could stop PIP payments for nearly 500,000 people  Yahoo News UK",
+      "category": "PIP",
+      "ago": "3d ago"
     },
     {
       "id": "CBMilAFBVV95cUxOUTlUQUlsQ1BnSUEwclhKSDZRNlk5UFhCaGlMNUF0VUs3RGpwNXBzMjB4VUZ4YWYxSDNCenMzOHdmNFRBNV95Y0JmOXNyYjJ3aHQyTFprbHVuT1QtZ1lnWURlWlE4dmdTN0NvSmpUa1Q5c2s1SjZXVlZLS0dtWjdTVzlORzhVdXlxVUw4SmRDQm55WmpX",
@@ -281,6 +370,17 @@
       "ago": "0d ago"
     },
     {
+      "id": "CBMiekFVX3lxTE5OOF9HRV9hM3FiYjRfempXLUFTd2xkNldDUjQ5eHJ2dWtVYkZOQ1lUM1dWU195a1hlRlREUUZHXzZrbDRtazFYTm5LVE9ZWnBsZjBMX2tLRWt1RkFVeFpReUFickV3a3lZUHVCWFdrRlBLWnFoT0hFdmV3",
+      "title": "DWP reveals 4 rules that mean pensioners must give back £300 - AOL.co.uk",
+      "link": "https://news.google.com/rss/articles/CBMiekFVX3lxTE5OOF9HRV9hM3FiYjRfempXLUFTd2xkNldDUjQ5eHJ2dWtVYkZOQ1lUM1dWU195a1hlRlREUUZHXzZrbDRtazFYTm5LVE9ZWnBsZjBMX2tLRWt1RkFVeFpReUFickV3a3lZUHVCWFdrRlBLWnFoT0hFdmV3?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-17T11:07:26.000Z",
+      "summary": "DWP reveals 4 rules that mean pensioners must give back £300  AOL.co.uk",
+      "category": "DWP",
+      "ago": "3d ago"
+    },
+    {
       "id": "CBMi_wFBVV95cUxQSU0yQWJMbXJtd1VFWE93RDNyUWdyTlphNnNILTBzdnBIaUt0cWdscTlsV1ktQWhFZVdFYTJHMXFOMThjUzhVeFJWOHE4YjZVQWI3c3NMQmhWT0tWc09SUUZmWVBmdWh5UDd0T3hoaHp2MzRZeXJfRW4zNXpXZGhTNjlReW1WdGQ2VTc5eUdsYXVRTk13MjliY0ZWd2Y5aURzcWVUNU1VUl9FTUVTZEEtVzRWRktYcXkxOS04S0sxaDlJbzB0VkhJd0dnbDJONGVwcVh0VDNka0pjSENPaHB2Yl9pM2YwcUpYS18tRUxObmdEX2k4b0VUVXo1V2dwclk",
       "title": "Universal Credit quarterly statistics, 29 April 2013 to 13 August 2026 - GOV.UK",
       "link": "https://news.google.com/rss/articles/CBMi_wFBVV95cUxQSU0yQWJMbXJtd1VFWE93RDNyUWdyTlphNnNILTBzdnBIaUt0cWdscTlsV1ktQWhFZVdFYTJHMXFOMThjUzhVeFJWOHE4YjZVQWI3c3NMQmhWT0tWc09SUUZmWVBmdWh5UDd0T3hoaHp2MzRZeXJfRW4zNXpXZGhTNjlReW1WdGQ2VTc5eUdsYXVRTk13MjliY0ZWd2Y5aURzcWVUNU1VUl9FTUVTZEEtVzRWRktYcXkxOS04S0sxaDlJbzB0VkhJd0dnbDJONGVwcVh0VDNka0pjSENPaHB2Yl9pM2YwcUpYS18tRUxObmdEX2k4b0VUVXo1V2dwclk?oc=5",
@@ -290,6 +390,17 @@
       "summary": "Universal Credit quarterly statistics, 29 April 2013 to 13 August 2026  GOV.UK",
       "category": "UC",
       "ago": "0d ago"
+    },
+    {
+      "id": "CBMinwFBVV95cUxPTVB2aFgzNEhvMloxVng3c3diZWFRUXZMSFQ3YWRBTDN2R2Jmc3hVR2J4ZEdtYjhITE15VkZ4RDgxMjRqbXpQUXFSNl9neXNwbnYyajNrSklBSlJVUGlnNTR2RzlEek9zc0g0WGhmeGdjS3lJTGp6NTUtVlppTmw0RlFKdUtoN2Y0WjBXQnBYYURHTEZHYnZtQUEwVnV5YU0",
+      "title": "DWP State pensioners over 80 to get extra cash boost on top of £374 annual rise - East Anglian Daily Times",
+      "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPTVB2aFgzNEhvMloxVng3c3diZWFRUXZMSFQ3YWRBTDN2R2Jmc3hVR2J4ZEdtYjhITE15VkZ4RDgxMjRqbXpQUXFSNl9neXNwbnYyajNrSklBSlJVUGlnNTR2RzlEek9zc0g0WGhmeGdjS3lJTGp6NTUtVlppTmw0RlFKdUtoN2Y0WjBXQnBYYURHTEZHYnZtQUEwVnV5YU0?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-17T09:49:29.000Z",
+      "summary": "DWP State pensioners over 80 to get extra cash boost on top of £374 annual rise  East Anglian Daily Times",
+      "category": "DWP",
+      "ago": "3d ago"
     },
     {
       "id": "CBMidkFVX3lxTE1fLVdRSzJqRXZIQ0JacWtHZklzRDdZZUZkQjJjdVVWLV9oN1pCaDFmaDlBMk1WV19NVWJmWTU3WGppdzVkX2VacERlR0dqNklFbVFSYlp1emZJRHM5ZnF2akNWV3dEWlFXeWZCM3lHMzFyYzVmZWc",
@@ -411,6 +522,17 @@
       "summary": "Full list of people who won't receive DWP's £300 Winter Fuel Payment revealed  Oxford Mail",
       "category": "DWP",
       "ago": "0d ago"
+    },
+    {
+      "id": "CBMiqAFBVV95cUxNeTI4MWRVbFZVNlY4RW9jbjNwYUNkNlVJS1lqQVZMcklwblJmd0hocjN4VEFKYXBRbzRaX0dkUzRYYzRnRGJzOVJhMzE0NnlZeUs5Qm9IZGxwY1NXZlFaSExoakVKZndfcU9uTmlUelRqRE5yOUR4NUQ5V2JNbEFtQXJhUnAyb3AzbHJpbVROZ1ExdjlfdnBISTlYRVV0TXZidEtvaWlYd3U",
+      "title": "DWP glitch threatens my partner’s leave to remain - The Guardian",
+      "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNeTI4MWRVbFZVNlY4RW9jbjNwYUNkNlVJS1lqQVZMcklwblJmd0hocjN4VEFKYXBRbzRaX0dkUzRYYzRnRGJzOVJhMzE0NnlZeUs5Qm9IZGxwY1NXZlFaSExoakVKZndfcU9uTmlUelRqRE5yOUR4NUQ5V2JNbEFtQXJhUnAyb3AzbHJpbVROZ1ExdjlfdnBISTlYRVV0TXZidEtvaWlYd3U?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-16T07:00:00.000Z",
+      "summary": "DWP glitch threatens my partner’s leave to remain  The Guardian",
+      "category": "DWP",
+      "ago": "4d ago"
     },
     {
       "id": "CBMihgFBVV95cUxPMUs4VXIxUmdVQ2FaSzdUbW05bXIwc0M2emNETmpaZXpWcUttTmE0TnJiRHBabFFudVdHemJoaGQ5VXViYVNOTXhZck4xWnhDR3lreG9ORUhuUnJDODJsc2RfaFhMRWxCbEtpQ3JoTUk5Q1dRcWtLZUJ0TjJQRmhOVEwtdE5Tdw",
@@ -1082,161 +1204,7 @@
       "summary": "Do you believe Labour can bring the welfare bill down? VOTE NOW  The Sun",
       "category": "Budget",
       "ago": "0d ago"
-    },
-    {
-      "id": "CBMijgFBVV95cUxQdFJUZTVBWldOUkczMGtvV2kxUXhLSHB2dzE1VE1WUFNrWWJaN3ZjOHZlQTVMSERfS1lHc2xRbXMyaXBuaGNiRG1hWnJSM2J4Z2NoVmlHVm12TGE1c2lETngyRHNpN0FHX3NtLWI2SUI1RjFiLWZ0ejFNS0EyMUhvX0JRRC1ZRnMxV0tnY0lB",
-      "title": "Alarm as Britain's disability benefits bill rockets by 109% - 'should be a wake-up call' - AOL.com",
-      "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQdFJUZTVBWldOUkczMGtvV2kxUXhLSHB2dzE1VE1WUFNrWWJaN3ZjOHZlQTVMSERfS1lHc2xRbXMyaXBuaGNiRG1hWnJSM2J4Z2NoVmlHVm12TGE1c2lETngyRHNpN0FHX3NtLWI2SUI1RjFiLWZ0ejFNS0EyMUhvX0JRRC1ZRnMxV0tnY0lB?oc=5",
-      "source": "Google News",
-      "outlet": "Google News Welfare Bill",
-      "published": "2026-11-07T13:23:57.000Z",
-      "summary": "Alarm as Britain's disability benefits bill rockets by 109% - 'should be a wake-up call'  AOL.com",
-      "category": "Budget",
-      "ago": "0d ago"
-    },
-    {
-      "id": "CBMikAFBVV95cUxQX0RrVy1yTFE2UmVMRnJEQ0tHazc0T2ktZHRVSzRPVTMzLUZQU1diSlYtZHNBTXNMc09oelIycEVqdm5nQ0VaOFpiSTU1MmhJaU84ZmdxYWhtbV8wUENRTUkxc3lCYlBRSkdscGQ3MHc3Y3RvRHNJNHhzMGcxTWswVk1tb2VxZlNzcEtTVTE5NkXSAZYBQVVfeXFMUEdCVDhyODZiR1EzZzhrYTdfaHNlMklFZkQ5Y2tsZmpHXzVUdWJERWptemQ4aWVYTE1kc1Z2d3M4emE5c0lDVmduOUk2TlR4MDZOQzFTM0tPZ2otdUtjdTdkbDA1Y05ybUFzb2tHREVlNVFYYXhYLTRJMUVLRFF1eC12SkZzaUNmX1NGUW1OZ0l3djFaQVV3",
-      "title": "Alarm as Britain's disability benefits bill rockets by 109% - 'should be a wake-up call' - Daily Express",
-      "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQX0RrVy1yTFE2UmVMRnJEQ0tHazc0T2ktZHRVSzRPVTMzLUZQU1diSlYtZHNBTXNMc09oelIycEVqdm5nQ0VaOFpiSTU1MmhJaU84ZmdxYWhtbV8wUENRTUkxc3lCYlBRSkdscGQ3MHc3Y3RvRHNJNHhzMGcxTWswVk1tb2VxZlNzcEtTVTE5NkXSAZYBQVVfeXFMUEdCVDhyODZiR1EzZzhrYTdfaHNlMklFZkQ5Y2tsZmpHXzVUdWJERWptemQ4aWVYTE1kc1Z2d3M4emE5c0lDVmduOUk2TlR4MDZOQzFTM0tPZ2otdUtjdTdkbDA1Y05ybUFzb2tHREVlNVFYYXhYLTRJMUVLRFF1eC12SkZzaUNmX1NGUW1OZ0l3djFaQVV3?oc=5",
-      "source": "Google News",
-      "outlet": "Google News Welfare Bill",
-      "published": "2026-11-07T13:23:00.000Z",
-      "summary": "Alarm as Britain's disability benefits bill rockets by 109% - 'should be a wake-up call'  Daily Express",
-      "category": "Budget",
-      "ago": "4d ago"
-    },
-    {
-      "id": "CBMilwFBVV95cUxNZ3ZZSkxzZFUxeU0zQkdaS0tESHVKLTNCSUx4V3VEYnF3d0xlclNJazZtd0xpa3E4YjNsWnMyRXRoUHotbUhBVFcxR05NUzh0WDYwdUpIWHI2dmRYRW5WRjQ4V0tpYzlEZkh3RmVhRUlPUy0zY3ppV2Y0blRqUEZLU0duZ1pRdHBPSDF3S2hSc2hlN09zdnRJ0gGcAUFVX3lxTE0zR2Z3WGdjSkxvRUlfeFhGOEZrUm9YZ0xIaFgzZEM5cy1nUTR3UFhvSW9GRV80RGRLamJodGFDUVBYakpmQV8wWWJMcG9qYjF5VkFIWl83LV95ZFZMUllwTGtEQTRvMkhlaTN0anhySW1jSlhoZ2RfOVV2dnBVQVUtaTkzdWNFRDE1UWNiSXpzTEFCWVdnMUZCcnRSUA",
-      "title": "DWP confirms 24 respiratory conditions that qualify for up to £114 weekly payment - Chronicle Live",
-      "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNZ3ZZSkxzZFUxeU0zQkdaS0tESHVKLTNCSUx4V3VEYnF3d0xlclNJazZtd0xpa3E4YjNsWnMyRXRoUHotbUhBVFcxR05NUzh0WDYwdUpIWHI2dmRYRW5WRjQ4V0tpYzlEZkh3RmVhRUlPUy0zY3ppV2Y0blRqUEZLU0duZ1pRdHBPSDF3S2hSc2hlN09zdnRJ0gGcAUFVX3lxTE0zR2Z3WGdjSkxvRUlfeFhGOEZrUm9YZ0xIaFgzZEM5cy1nUTR3UFhvSW9GRV80RGRLamJodGFDUVBYakpmQV8wWWJMcG9qYjF5VkFIWl83LV95ZFZMUllwTGtEQTRvMkhlaTN0anhySW1jSlhoZ2RfOVV2dnBVQVUtaTkzdWNFRDE1UWNiSXpzTEFCWVdnMUZCcnRSUA?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-11-07T09:33:00.000Z",
-      "summary": "DWP confirms 24 respiratory conditions that qualify for up to £114 weekly payment  Chronicle Live",
-      "category": "DWP",
-      "ago": "0d ago"
-    },
-    {
-      "id": "CBMihwFBVV95cUxOcXdRSkdRSGc2aW5pakQ2V05fbXJDcVA0cGkxb3pBdTN6Um9IMEZDUHEzc0NFN2NxZ2FlZkR3eDBaeUxpMTFyeWtqamhfVGp3YjA0ZjI1TkMtLWdkTV9GZVdPY1ptaE9hZ0lxdG1YV1FXNXBmV19OaGk5R0tTWEQzaEpqbTB0YzTSAYwBQVVfeXFMTnUyYllIb2JUU3NWZEl5eE5FTjNDQ2tXc0VCVEdjZ0F5alJUUjR3NU53RzdPUjY4T0E2Umo1bW16czlsWEUyNmtvWmhFT09lOHh1WDhOV0o0XzhzdFlKS1cwUktJX1BybG1VVDJnRmd2NVhoRXhSbUtlWFBZVFBQZmdiN0lNUHNLSlNZSDQ",
-      "title": "DWP update over future of PIP cash payments ahead of major disability benefits review - Chronicle Live",
-      "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxOcXdRSkdRSGc2aW5pakQ2V05fbXJDcVA0cGkxb3pBdTN6Um9IMEZDUHEzc0NFN2NxZ2FlZkR3eDBaeUxpMTFyeWtqamhfVGp3YjA0ZjI1TkMtLWdkTV9GZVdPY1ptaE9hZ0lxdG1YV1FXNXBmV19OaGk5R0tTWEQzaEpqbTB0YzTSAYwBQVVfeXFMTnUyYllIb2JUU3NWZEl5eE5FTjNDQ2tXc0VCVEdjZ0F5alJUUjR3NU53RzdPUjY4T0E2Umo1bW16czlsWEUyNmtvWmhFT09lOHh1WDhOV0o0XzhzdFlKS1cwUktJX1BybG1VVDJnRmd2NVhoRXhSbUtlWFBZVFBQZmdiN0lNUHNLSlNZSDQ?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-11-07T09:28:00.000Z",
-      "summary": "DWP update over future of PIP cash payments ahead of major disability benefits review  Chronicle Live",
-      "category": "PIP",
-      "ago": "0d ago"
-    },
-    {
-      "id": "CBMimgFBVV95cUxOM00xcGIwdmFWem9lTG1RUmx1QWh5LWlmSXk4bUNpRjlyV1k1LVMtcGFIdWNBQnRudjVIaGVxd0g3cVRBVnNGOEMyQXVENnJzbEtHMG9pbWF6OG9seGs0ajNwUzJkeDNBckJRU2hWUjJiMWlzbEFLV1o1Wms1T1pWTzNmOTdxSjVtLXM2VVlQSHhLX2VmTW9WMkZn0gGfAUFVX3lxTE5xRjdPRTJzbUhOQ3dzS1VBMVZoQUZVcVhweWY3NUVlWmo1djEzeERPM2VoVGFITWVCNVN1VUxEQ2trb2c3UERfQUFyekJrWGl4SnpnOHh0WVdTYmtFV2lyYkZXYWJqb3g5U1V3dEtiRl80RzlYNFpEMXR2bWZZZDVYWnhnMUpfTHlMam9PVy1Xa21GdmpGa1Zrb1RjZVdXUQ",
-      "title": "DWP confirms full list of 24 respiratory conditions that qualify for up to £114 weekly payment - Manchester Evening News",
-      "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxOM00xcGIwdmFWem9lTG1RUmx1QWh5LWlmSXk4bUNpRjlyV1k1LVMtcGFIdWNBQnRudjVIaGVxd0g3cVRBVnNGOEMyQXVENnJzbEtHMG9pbWF6OG9seGs0ajNwUzJkeDNBckJRU2hWUjJiMWlzbEFLV1o1Wms1T1pWTzNmOTdxSjVtLXM2VVlQSHhLX2VmTW9WMkZn0gGfAUFVX3lxTE5xRjdPRTJzbUhOQ3dzS1VBMVZoQUZVcVhweWY3NUVlWmo1djEzeERPM2VoVGFITWVCNVN1VUxEQ2trb2c3UERfQUFyekJrWGl4SnpnOHh0WVdTYmtFV2lyYkZXYWJqb3g5U1V3dEtiRl80RzlYNFpEMXR2bWZZZDVYWnhnMUpfTHlMam9PVy1Xa21GdmpGa1Zrb1RjZVdXUQ?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-11-07T08:13:00.000Z",
-      "summary": "DWP confirms full list of 24 respiratory conditions that qualify for up to £114 weekly payment  Manchester Evening News",
-      "category": "DWP",
-      "ago": "1d ago"
-    },
-    {
-      "id": "CBMiiAFBVV95cUxOYXhyVnctY2tycjB6d3B4VWxmVTRySXpUQU9RN0d5X1ZOYVhDcE9kUjBIUEdsRnpVTXRmSzdRQTRrQTl4eUZvd1NfOGlsYnUtYzZUNjRNaDRLYmpnUjVXeGNFQnNtQnNTUEdpaU5zZG1Mb1dBZGNlMXFnS3h6TW9TTnJmbFNRNThD",
-      "title": "Labour was warned two years ago how to tackle Britain's soaring welfare bill - now it risks running out of time to act - The Sun",
-      "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOYXhyVnctY2tycjB6d3B4VWxmVTRySXpUQU9RN0d5X1ZOYVhDcE9kUjBIUEdsRnpVTXRmSzdRQTRrQTl4eUZvd1NfOGlsYnUtYzZUNjRNaDRLYmpnUjVXeGNFQnNtQnNTUEdpaU5zZG1Mb1dBZGNlMXFnS3h6TW9TTnJmbFNRNThD?oc=5",
-      "source": "Google News",
-      "outlet": "Google News Welfare Bill",
-      "published": "2026-11-07T07:00:00.000Z",
-      "summary": "Labour was warned two years ago how to tackle Britain's soaring welfare bill - now it risks running out of time to act  The Sun",
-      "category": "Budget",
-      "ago": "0d ago"
-    },
-    {
-      "id": "CBMihAFBVV95cUxNTFg2V2RaR045dGZrTU5TV2lWdVY2SC1uYlE0c29TMlVKRVNJTmtScktaNkROT0tnaW5ReUZBQURTcVpveWlGdUV1U1pJOTlxR2hEUmtNQmhpcGxYTTRUSmN0ZHd3S0N6NzBtV0hpTVNiMjFtR0FfRjhqLXRDVWRSd3JQUEw",
-      "title": "Fact check: Data suggests working-age welfare bill is under £150bn - AOL.co.uk",
-      "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNTFg2V2RaR045dGZrTU5TV2lWdVY2SC1uYlE0c29TMlVKRVNJTmtScktaNkROT0tnaW5ReUZBQURTcVpveWlGdUV1U1pJOTlxR2hEUmtNQmhpcGxYTTRUSmN0ZHd3S0N6NzBtV0hpTVNiMjFtR0FfRjhqLXRDVWRSd3JQUEw?oc=5",
-      "source": "Google News",
-      "outlet": "Google News Welfare Bill",
-      "published": "2026-11-06T17:47:12.000Z",
-      "summary": "Fact check: Data suggests working-age welfare bill is under £150bn  AOL.co.uk",
-      "category": "Budget",
-      "ago": "6d ago"
-    },
-    {
-      "id": "CBMi7AFBVV95cUxQMG9VRVJzVmVrZkdWTV94SzRUdXc5bXY4NTBEV3djcDhkSlpGaFlKbUo3dnVFbW1GdF9tOXVoNWZuRGZfY0VacmZRM3lZZWhKWHo3TWttTEdaQmlZVXZIZkI2eU1oV0JsV1FJZGhiVnl5VktGaHZNSS1rSkJ0cFp5aTQzeE83VXc3YTVQb2VXcjN4TExrb1BxV0lLN0lXUWlHdmZqV1p0Sjh3ZXpidmw4ZE9OU0owLXl6cjNjajY2WkxpOXozMGFSdE1ZNjNOSF9BWVJNQWlPWHpIMkswLThkRHNZWFdMdVAwdE4tcw",
-      "title": "Fact check: Data suggests working-age welfare bill is under £150bn - The Independent",
-      "link": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQMG9VRVJzVmVrZkdWTV94SzRUdXc5bXY4NTBEV3djcDhkSlpGaFlKbUo3dnVFbW1GdF9tOXVoNWZuRGZfY0VacmZRM3lZZWhKWHo3TWttTEdaQmlZVXZIZkI2eU1oV0JsV1FJZGhiVnl5VktGaHZNSS1rSkJ0cFp5aTQzeE83VXc3YTVQb2VXcjN4TExrb1BxV0lLN0lXUWlHdmZqV1p0Sjh3ZXpidmw4ZE9OU0owLXl6cjNjajY2WkxpOXozMGFSdE1ZNjNOSF9BWVJNQWlPWHpIMkswLThkRHNZWFdMdVAwdE4tcw?oc=5",
-      "source": "Google News",
-      "outlet": "Google News Welfare Bill",
-      "published": "2026-11-06T17:47:00.000Z",
-      "summary": "Fact check: Data suggests working-age welfare bill is under £150bn  The Independent",
-      "category": "Budget",
-      "ago": "1d ago"
-    },
-    {
-      "id": "CBMiswFBVV95cUxNU0xBajRGVzlzenBlWXdXeG05NV9sY3J2bnNEZXBRVXlyOEN6VHJybFVmajU4X1BuRW4zNk5wekJNS3pXN0pCMkhHVTFqT2lIZ0dfWkx6M3ByUDZqckNZZWo0YnVJeUdGTHVVUDdvNk1tamFTaUI3b1E3ZjAtLWUtYktiMHpkWHdNdFcxdm5OUGQ5MUxfbTV2ejQyNVR4cU5kcjBqUW43TFhZdjdGWnpDSGFlbw",
-      "title": "Fact check: Data suggests working-age welfare bill is under £150bn - Express and Star",
-      "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNU0xBajRGVzlzenBlWXdXeG05NV9sY3J2bnNEZXBRVXlyOEN6VHJybFVmajU4X1BuRW4zNk5wekJNS3pXN0pCMkhHVTFqT2lIZ0dfWkx6M3ByUDZqckNZZWo0YnVJeUdGTHVVUDdvNk1tamFTaUI3b1E3ZjAtLWUtYktiMHpkWHdNdFcxdm5OUGQ5MUxfbTV2ejQyNVR4cU5kcjBqUW43TFhZdjdGWnpDSGFlbw?oc=5",
-      "source": "Google News",
-      "outlet": "Google News Welfare Bill",
-      "published": "2026-11-06T17:47:00.000Z",
-      "summary": "Fact check: Data suggests working-age welfare bill is under £150bn  Express and Star",
-      "category": "Budget",
-      "ago": "3d ago"
-    },
-    {
-      "id": "CBMif0FVX3lxTE1EMmwtdk50aFR6bXgtQjBEMzVUQzQyemFNNl9nSUtlRUZWR0l1OEhHSHdlN3NTOWFCNVJfcnNhejZCTGR2Rzlmc25HLVZPMW9oV01NZ3pOc2ZiQmRrSUg0UU9LQ1NGOFR4dmFJaS1sd1FWOVVFYmFUSmFLajRuczA",
-      "title": "Full list of 27 benefit changes people must report to DWP - AOL.co.uk",
-      "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1EMmwtdk50aFR6bXgtQjBEMzVUQzQyemFNNl9nSUtlRUZWR0l1OEhHSHdlN3NTOWFCNVJfcnNhejZCTGR2Rzlmc25HLVZPMW9oV01NZ3pOc2ZiQmRrSUg0UU9LQ1NGOFR4dmFJaS1sd1FWOVVFYmFUSmFLajRuczA?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-11-06T17:21:00.000Z",
-      "summary": "Full list of 27 benefit changes people must report to DWP  AOL.co.uk",
-      "category": "DWP",
-      "ago": "1d ago"
-    },
-    {
-      "id": "CBMihAFBVV95cUxORTR0NjBFSy1JaDZka0c2c3I3VXMxSXpwN2MzM1MwMVJsMlJnWk9JUUlOeEV0WEZSLVhFV1d4dnpySE9GUk1fdjI0UzhDWFNWSXRrX050SU9ib21wQ1dIVWxKNnE0Yl93MnFCWGVfc1B6WEluNXp0T0F6RVpOR042ZnFORjY",
-      "title": "DWP confirms new £56,000 compensation payments for '300 families' each year - AOL.co.uk",
-      "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxORTR0NjBFSy1JaDZka0c2c3I3VXMxSXpwN2MzM1MwMVJsMlJnWk9JUUlOeEV0WEZSLVhFV1d4dnpySE9GUk1fdjI0UzhDWFNWSXRrX050SU9ib21wQ1dIVWxKNnE0Yl93MnFCWGVfc1B6WEluNXp0T0F6RVpOR042ZnFORjY?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-11-06T16:04:21.000Z",
-      "summary": "DWP confirms new £56,000 compensation payments for '300 families' each year  AOL.co.uk",
-      "category": "DWP",
-      "ago": "3d ago"
-    },
-    {
-      "id": "CBMiwwFBVV95cUxPTHRyX1hmS0l3Z05Zc3RvS0xRRW52RWlDWVliN3NzWVZWaGlfSmlKOUNVOG83b2ZXX1JMOWFhSWtfWVBuajZMNElnYlRXR05sWjI2Z0Via1Fqc3V1OFlWTTlEQTdCTVlFWUNjWFBQbWtRWEZYZk5NVy1oZGNMRXlTSDl5RmFJdHV0OVBOZ2IxQURBRXVwS0ZVZUhsSnRhTG9HS1pjTy1YbXY5NE1oNUt4RDkxU1J1OE5yXzFwQTBkeTBzNGs",
-      "title": "DWP issues urgent Universal Credit warning to pensioners who receive this letter - Telegraph and Argus",
-      "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxPTHRyX1hmS0l3Z05Zc3RvS0xRRW52RWlDWVliN3NzWVZWaGlfSmlKOUNVOG83b2ZXX1JMOWFhSWtfWVBuajZMNElnYlRXR05sWjI2Z0Via1Fqc3V1OFlWTTlEQTdCTVlFWUNjWFBQbWtRWEZYZk5NVy1oZGNMRXlTSDl5RmFJdHV0OVBOZ2IxQURBRXVwS0ZVZUhsSnRhTG9HS1pjTy1YbXY5NE1oNUt4RDkxU1J1OE5yXzFwQTBkeTBzNGs?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-11-06T15:04:16.000Z",
-      "summary": "DWP issues urgent Universal Credit warning to pensioners who receive this letter  Telegraph and Argus",
-      "category": "UC",
-      "ago": "3d ago"
-    },
-    {
-      "id": "CBMikAFBVV95cUxPNnJMREg2eENBWXI5a2VWQlhPY1FFYVNxWGpjYVNCMFVpcUZVWnhZbDlaY2J1OXJFRGV0a09vY3J4NTBkbUhNR1RXcW1rb2NiZExKZW5oMHFlUjdMNE1VQkNlRl84Smc0NkQ3XzJZMW1fMnhUMzN3RUYtbl9zcEp0RHhuQ0VHYnh2dmdPcTktbEzSAZYBQVVfeXFMT1RKdlNZMExmTElwcWhub2Q4aFZRS3pkcjZHTTJTcFQwU0RqWHNlRnhwQVBYUm5EdkFISENjMG9RaTZnRlVlM1BodkNkNHQ4UUZLRllmUHZIM1oxc1VfUnlWcXBXYTVpVjI5MVBTU3ROdXAxS005RmJIQkRxdjVaa0o3aVVpcHhNd0wwOFpNNl9UNkIyM2Vn",
-      "title": "DWP update on future of PIP cash payments ahead of major benefits review - Liverpool Echo",
-      "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPNnJMREg2eENBWXI5a2VWQlhPY1FFYVNxWGpjYVNCMFVpcUZVWnhZbDlaY2J1OXJFRGV0a09vY3J4NTBkbUhNR1RXcW1rb2NiZExKZW5oMHFlUjdMNE1VQkNlRl84Smc0NkQ3XzJZMW1fMnhUMzN3RUYtbl9zcEp0RHhuQ0VHYnh2dmdPcTktbEzSAZYBQVVfeXFMT1RKdlNZMExmTElwcWhub2Q4aFZRS3pkcjZHTTJTcFQwU0RqWHNlRnhwQVBYUm5EdkFISENjMG9RaTZnRlVlM1BodkNkNHQ4UUZLRllmUHZIM1oxc1VfUnlWcXBXYTVpVjI5MVBTU3ROdXAxS005RmJIQkRxdjVaa0o3aVVpcHhNd0wwOFpNNl9UNkIyM2Vn?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-11-06T13:15:53.000Z",
-      "summary": "DWP update on future of PIP cash payments ahead of major benefits review  Liverpool Echo",
-      "category": "PIP",
-      "ago": "1d ago"
-    },
-    {
-      "id": "CBMiygFBVV95cUxQc2FaZS1McnRVcFBqaXpXZTRROHZvOHBMRUF5TWNUY0VVaU90SE5pZjZ3c2JqWkJiTUlWaXp2QWFISHpSdmkzdWJ5andfMlc1WVV3Yk1HdF9UOTVieFVvdi1wYVNZU3pZMlhORS1DS3VuazE1WkNvbE9RUllMdkI3aDdyRGhyOXJHNjJNV1ZzUjJqYkQwMDdDcEF5WG5oQjZ6Q05EcGFJaW1ZdGx0dzRXTTkxZ2RaSUllMDBLMXdKcV9JUm90aVBITU1B",
-      "title": "DWP State Pension age change begins this month – millions face longer wait - Telegraph and Argus",
-      "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQc2FaZS1McnRVcFBqaXpXZTRROHZvOHBMRUF5TWNUY0VVaU90SE5pZjZ3c2JqWkJiTUlWaXp2QWFISHpSdmkzdWJ5andfMlc1WVV3Yk1HdF9UOTVieFVvdi1wYVNZU3pZMlhORS1DS3VuazE1WkNvbE9RUllMdkI3aDdyRGhyOXJHNjJNV1ZzUjJqYkQwMDdDcEF5WG5oQjZ6Q05EcGFJaW1ZdGx0dzRXTTkxZ2RaSUllMDBLMXdKcV9JUm90aVBITU1B?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-11-06T12:03:38.000Z",
-      "summary": "DWP State Pension age change begins this month – millions face longer wait  Telegraph and Argus",
-      "category": "DWP",
-      "ago": "1d ago"
     }
   ],
-  "lastUpdated": "2026-11-19T16:25:43.686Z"
+  "lastUpdated": "2026-11-20T15:57:57.824Z"
 }
