@@ -29,6 +29,19 @@ import FoodbankFinder from './pages/FoodbankFinder';
 // --- REPORTS LIBRARY - ADD ALL YOUR PDFs HERE ---
 const REPORTS_LIBRARY = [
     {
+  id: 'milburn_under25_impact',
+  title: 'THE MILBURN REVIEW: UNDER-25 WELFARE REFORM IMPACT ASSESSMENT',
+  subtitle: 'FRS 2023/24 Microsimulation (2029/30) • UKDS SDC Compliant • NHS & GP Spillovers • Ex Ante Mortality Risk (Ages 18-24)',
+  file: '/Milburn_Review_Impact_Assessment.pdf',
+  size: '461 KB',
+  date: '25 Nov 2026',
+  tag: 'NEW - MILBURN REVIEW',
+  tagColor: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
+  headline: '£1.46bn/yr net saving • 370,700 households affected • £84.2m/yr NHS spillover',
+  summary: 'Microsimulation of abolishing UC Health (LCWRA) and PIP for under-25s in favour of Youth Allowance, a reduced Additional Costs Allowance (ACA), Severe & Complex Needs Insurance, and Child DLA extension to 18. Central 50% ACA scenario: £1.93bn gross cut, £1.46bn net realised saving a year, 132,700 lose Motability, 100,100 incident mental health cases, +24,200 households in poverty after housing costs. Mortality figure is an illustrative ex ante risk simulation, not a forecast.',
+  featured: true
+},
+    {
     id: 'dwp_impact_assessment',
     title: 'DWP SANCTIONS, ESA MIGRATION & CLAIMANT IMPACT',
     subtitle: 'Comprehensive Longitudinal Analysis (2016-2024)',
