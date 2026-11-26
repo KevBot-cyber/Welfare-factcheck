@@ -28,6 +28,19 @@ import FoodbankFinder from './pages/FoodbankFinder';
 
 // --- REPORTS LIBRARY - ADD ALL YOUR PDFs HERE ---
 const REPORTS_LIBRARY = [
+  {
+  id: 'timms_review_impact',
+  title: 'THE TIMMS REVIEW: PIP REBALANCING IMPACT ASSESSMENT',
+  subtitle: 'FRS 2023/24 Microsimulation • CP 1721 • WCA Abolition + PIP 4-Point Rule • 【entity-NHS¦canonical_name=NHS】 & GP Spillovers',
+  file: '/Timms_Review_Impact_Assessment.pdf',
+  size: '589 KB',
+  date: '26 Nov 2026',
+  tag: 'NEW - TIMMS REVIEW',
+  tagColor: 'bg-teal-500/20 text-teal-300 border-teal-500/30',
+  headline: '£10.34bn/yr net saving • 1,883,400 households losing • +297,700 in poverty (AHC)',
+  summary: 'Microsimulation of the Timms Review (CP 1721): abolishing WCA and gating UC Health on PIP, plus the new PIP 4-point rule for Daily Living. Central scenario: £8.09bn UC Health saving + £2.49bn PIP saving, offset by £1.34bn tax loss and £1.06bn contribution costs. 533,300 households face dual PIP + UC Health loss (mean £7,130/yr). 69.2% of losers have psychiatric or musculoskeletal conditions. Spillovers: 508,600 additional mental health cases, £427.7m/yr NHS & GP costs. Mortality figure is an illustrative ex ante risk simulation, not a forecast.',
+  featured: true
+},
     {
   id: 'milburn_under25_impact',
   title: 'THE MILBURN REVIEW: UNDER-25 WELFARE REFORM IMPACT ASSESSMENT',
