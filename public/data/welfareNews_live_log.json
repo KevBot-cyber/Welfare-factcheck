@@ -1,10 +1,10 @@
 {
-  "totalIncidents": 7,
+  "totalIncidents": 6,
   "byTerm": {
-    "welfare bill": 7
+    "welfare bill": 6
   },
   "byCategory": {
-    "Economic_Scapegoating_Bill": 7
+    "Economic_Scapegoating_Bill": 6
   },
   "incidents": [
     {
@@ -54,17 +54,119 @@
       "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQaVlOWktKOVNsYks5TjdQQS1TRkxKTVlHRndVZlUweDN0VTBWdlRMU2xCdGxxMXlQWnNNZmZsWWtxYXh3WFRmamNNTHBPNWU2bTZxYmh5UnN4Q2VhMGpSXzUxVkJYQWRoUC1odktSZk5BTFRRVWRtbVZMWC1oSDFRdXpuNXA3aDdVY1JnQWQ3cXlpRjdC?oc=5",
       "date": "2026-11-17T11:41:00.000Z",
       "source": "Google News"
-    },
-    {
-      "term": "welfare bill",
-      "category": "Economic_Scapegoating_Bill",
-      "title": "Youth unemployment plan could cut welfare bill before election, says Milburn, but overall savings will take years – UK politics live - cedarnews.net",
-      "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQdk9VRFhDYkNwRlptYXNUWmNXMGpxT3V2N3RlWHNqTXIzbTROd0YzLTlURklMbTZqMmZzTlB0NVBFOVpqcVFxVnlFVjBDcUQxcWpiYWNZemQ4cTkzV1Rqd3VTcXNqYU5VbWNOMDdBLWNndmFUekYwREZoaVJpb1MzLWl2SWZuYXk0MGRGS1QtUU4?oc=5",
-      "date": "2026-11-17T09:11:21.000Z",
-      "source": "Google News"
     }
   ],
   "articles": [
+    {
+      "id": "CBMilAFBVV95cUxQWjUtbWlnRDl6R3Q5aWhPT0pUQkV4YVpjRF9TVHNMNkdxa21DeEY5MTg0dk90Q0x2VVpmU0cxb25adkRmMm9zMFBPMTZwMGY2QlM1YmJVYUFJcmVxYVdOV2Nqa3VSdzdYVktqdnNzYmtHdzktd3hScFVjX1JRQ3ZEYlJkamhSeGlONElHdkFKM0R0dUtp",
+      "title": "Government told to ‘wake up’ to cyber threat after DWP hit by ‘serious’ incident - The Independent",
+      "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQWjUtbWlnRDl6R3Q5aWhPT0pUQkV4YVpjRF9TVHNMNkdxa21DeEY5MTg0dk90Q0x2VVpmU0cxb25adkRmMm9zMFBPMTZwMGY2QlM1YmJVYUFJcmVxYVdOV2Nqa3VSdzdYVktqdnNzYmtHdzktd3hScFVjX1JRQ3ZEYlJkamhSeGlONElHdkFKM0R0dUtp?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-27T15:55:00.000Z",
+      "summary": "Government told to ‘wake up’ to cyber threat after DWP hit by ‘serious’ incident  The Independent",
+      "category": "DWP",
+      "ago": "0d ago"
+    },
+    {
+      "id": "CBMiiwFBVV95cUxPeGsxNExjRTlqMFVDdHBsZEZhZUNaX0dXQ2s0YmFjMjZsS3FXYTczMGtOUEE3cHUtRGpvMFBTc0YtQ0pYVDVzZVlBTGc1MWxheHloRzdzcVhKLU9Ba2g4WkFUWXVrWFFUZEZuSzEtQk44b1hDXzdYZTNqWkpQX3V1NkpfUTM4U1c5UkJV",
+      "title": "Temporary disruption to some DWP online services - GOV.UK",
+      "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPeGsxNExjRTlqMFVDdHBsZEZhZUNaX0dXQ2s0YmFjMjZsS3FXYTczMGtOUEE3cHUtRGpvMFBTc0YtQ0pYVDVzZVlBTGc1MWxheHloRzdzcVhKLU9Ba2g4WkFUWXVrWFFUZEZuSzEtQk44b1hDXzdYZTNqWkpQX3V1NkpfUTM4U1c5UkJV?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-27T14:53:02.000Z",
+      "summary": "Temporary disruption to some DWP online services  GOV.UK",
+      "category": "DWP",
+      "ago": "0d ago"
+    },
+    {
+      "id": "CBMipgFBVV95cUxQUVExWnU0SGFrZjZPV3JQU3RUTno3QVBqOUhvcWRIV1ozaDZQY21oWndxUHZiXy0tTGpnMW1DdXhqZUxGTGlfRzVoaGlPXzBIQTZydF9VSjQxT1dPWEpEVEJUVlV1dDVXTk1Ndlg5TUxENTZWREJBQ3pYSjBYSFVKOEtRRkNBOWZFNHN5d1VldWhkMmRfemNQY1JOZ19kcVhSZ2gwYXpn",
+      "title": "Tell us: have you been affected by the DWP ‘cyber incident’ - The Guardian",
+      "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQUVExWnU0SGFrZjZPV3JQU3RUTno3QVBqOUhvcWRIV1ozaDZQY21oWndxUHZiXy0tTGpnMW1DdXhqZUxGTGlfRzVoaGlPXzBIQTZydF9VSjQxT1dPWEpEVEJUVlV1dDVXTk1Ndlg5TUxENTZWREJBQ3pYSjBYSFVKOEtRRkNBOWZFNHN5d1VldWhkMmRfemNQY1JOZ19kcVhSZ2gwYXpn?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-27T12:53:00.000Z",
+      "summary": "Tell us: have you been affected by the DWP ‘cyber incident’  The Guardian",
+      "category": "DWP",
+      "ago": "0d ago"
+    },
+    {
+      "id": "CBMiowFBVV95cUxNVjRodUZnSmpIemJYdmxRNUZyMjcxai1PbEV4NTI5TnZHOTZkWHR5RGtNcS1sR2Z0VFUydGtNc1ctcjRzTGxHVTRYTGRKbGgwU3ZIV1d0UklKVUgtdUFxTWhNUWlBLVRtbjVxMHlCbFJIZzRLZXR1S0FadkxlSGNpNjRXcWMzQ1hSLWJtNnJGeXJ0ODZJd0J1YXIwUWE1WnpfY3Fr",
+      "title": "DWP ‘cyber incident’ knocks almost all pensions and benefits systems offline - The Guardian",
+      "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNVjRodUZnSmpIemJYdmxRNUZyMjcxai1PbEV4NTI5TnZHOTZkWHR5RGtNcS1sR2Z0VFUydGtNc1ctcjRzTGxHVTRYTGRKbGgwU3ZIV1d0UklKVUgtdUFxTWhNUWlBLVRtbjVxMHlCbFJIZzRLZXR1S0FadkxlSGNpNjRXcWMzQ1hSLWJtNnJGeXJ0ODZJd0J1YXIwUWE1WnpfY3Fr?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-27T11:14:00.000Z",
+      "summary": "DWP ‘cyber incident’ knocks almost all pensions and benefits systems offline  The Guardian",
+      "category": "DWP",
+      "ago": "0d ago"
+    },
+    {
+      "id": "CBMinwFBVV95cUxPTFM1bjFzcHQ3SU9MTmUwLXg3Nm1kdS0wSkpqWGdFREg4ZzlfeDd6VUk2akpmbGtmMGEya1lic3F5Z3R4dVMwSEVmUFBad3VqMWVpNjVkeG56TEhFSi0xQVd4OGNDQV9ubExuRlNRelpqMGU5YUlLRERvWm5hLU4xX2VDWi00clBJQ0tnOFU1Z2o0RVNPeWdkdENfcFR1Skk",
+      "title": "DWP incident is latest cyber attack to hit UK public services - UKAuthority",
+      "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPTFM1bjFzcHQ3SU9MTmUwLXg3Nm1kdS0wSkpqWGdFREg4ZzlfeDd6VUk2akpmbGtmMGEya1lic3F5Z3R4dVMwSEVmUFBad3VqMWVpNjVkeG56TEhFSi0xQVd4OGNDQV9ubExuRlNRelpqMGU5YUlLRERvWm5hLU4xX2VDWi00clBJQ0tnOFU1Z2o0RVNPeWdkdENfcFR1Skk?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-27T10:45:44.000Z",
+      "summary": "DWP incident is latest cyber attack to hit UK public services  UKAuthority",
+      "category": "DWP",
+      "ago": "0d ago"
+    },
+    {
+      "id": "CBMiXkFVX3lxTE5qTlc4VnVELTJDUDV4Nlo3aGNCemZHSGpMcTA1aWFfdTRKNTRMRHBxeWd5eVNwRlc0dldoLXMteDlMSEh2cjVOY1A4SHdPYUh2UnM5M3lGdkoyMEx2aGc",
+      "title": "DWP: Millions lose access to benefits and pensions services after 'cyber incident' - BBC",
+      "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE5qTlc4VnVELTJDUDV4Nlo3aGNCemZHSGpMcTA1aWFfdTRKNTRMRHBxeWd5eVNwRlc0dldoLXMteDlMSEh2cjVOY1A4SHdPYUh2UnM5M3lGdkoyMEx2aGc?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-27T08:34:17.000Z",
+      "summary": "DWP: Millions lose access to benefits and pensions services after 'cyber incident'  BBC",
+      "category": "DWP",
+      "ago": "0d ago"
+    },
+    {
+      "id": "https://www.disabilitynewsservice.com/?p=35211",
+      "title": "Timms Review opens door to government cuts, despite its call for reformed PIP based on dignity and trust",
+      "link": "https://www.disabilitynewsservice.com/timms-review-opens-door-to-government-cuts-despite-its-call-for-reformed-pip-based-on-dignity-and-trust/",
+      "source": "DNS",
+      "outlet": "Disability News Service",
+      "published": "2026-11-26T17:53:07.000Z",
+      "summary": "The Timms Review of personal independence payment (PIP) has opened the door to government cuts to disabled people’s benefits, despite calling for an improved process that is more “accessible, consistent and transparent”.",
+      "category": "PIP",
+      "ago": "1d ago"
+    },
+    {
+      "id": "https://www.disabilitynewsservice.com/?p=35209",
+      "title": "Disabled people’s organisations warn Timms Review ‘is hiding PIP cuts’ but welcome ‘rehumanising’ approach",
+      "link": "https://www.disabilitynewsservice.com/disabled-peoples-organisations-warn-timms-review-is-hiding-pip-cuts-but-welcome-rehumanising-approach/",
+      "source": "DNS",
+      "outlet": "Disability News Service",
+      "published": "2026-11-26T17:48:22.000Z",
+      "summary": "Disabled people’s organisations have given a mixed response to the government’s review of personal independence payment (PIP), welcoming measures to improve the assessment process but warning that its conclusions could e",
+      "category": "PIP",
+      "ago": "1d ago"
+    },
+    {
+      "id": "CBMiowFBVV95cUxNOC1oalhPbFY5MUZJd0w3Z1pKb2l2S3pxYzhRSE9Ta0VubkRJMjVTTjQwdFJsMzlWdEhUdlZ4Y1UxWE9TelVtaXVVWUhKUDdDTkMxWXVubWtzM3NCVEp6LVJtbldENzd4YmxNTW9LaVJzalBMYmp2Q3BiSXlDa0s3UnhrcXkyVGY4TUh5cTJDZE16Z0FoTGZZZ19ZX01HUUJSTF9v",
+      "title": "DWP Christmas Bonus 2026: Who is eligible for the payment and when will it arrive? - The Independent",
+      "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNOC1oalhPbFY5MUZJd0w3Z1pKb2l2S3pxYzhRSE9Ta0VubkRJMjVTTjQwdFJsMzlWdEhUdlZ4Y1UxWE9TelVtaXVVWUhKUDdDTkMxWXVubWtzM3NCVEp6LVJtbldENzd4YmxNTW9LaVJzalBMYmp2Q3BiSXlDa0s3UnhrcXkyVGY4TUh5cTJDZE16Z0FoTGZZZ19ZX01HUUJSTF9v?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-26T12:13:00.000Z",
+      "summary": "DWP Christmas Bonus 2026: Who is eligible for the payment and when will it arrive?  The Independent",
+      "category": "DWP",
+      "ago": "1d ago"
+    },
+    {
+      "id": "CBMipwFBVV95cUxQR3k3QlJFWVZXQ1ZqakVBcFVLN0hkbjU4OTZLdHJ0Q3cxeXNycTFXRnJCVkcyTjdoMEViM19VanlGRlVraVhhV1hJczZZOVRjR2VMMDNzVHFXdl9HR2V0WHU1RGwtcVRSMjZjcTZHcF9XYlpfSkVERTFaMnBVY18xMHd1QTJBVDVrNTdXNVl6NnlGempmam9lTHpBbEYzMGVBQk5rdUlqSQ",
+      "title": "DWP staff take twice as much sick leave as private sector workers - The Telegraph",
+      "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQR3k3QlJFWVZXQ1ZqakVBcFVLN0hkbjU4OTZLdHJ0Q3cxeXNycTFXRnJCVkcyTjdoMEViM19VanlGRlVraVhhV1hJczZZOVRjR2VMMDNzVHFXdl9HR2V0WHU1RGwtcVRSMjZjcTZHcF9XYlpfSkVERTFaMnBVY18xMHd1QTJBVDVrNTdXNVl6NnlGempmam9lTHpBbEYzMGVBQk5rdUlqSQ?oc=5",
+      "source": "Google News",
+      "outlet": "Google News DWP Welfare",
+      "published": "2026-11-26T10:00:00.000Z",
+      "summary": "DWP staff take twice as much sick leave as private sector workers  The Telegraph",
+      "category": "DWP",
+      "ago": "1d ago"
+    },
     {
       "id": "CBMifkFVX3lxTE5DMnFlYXJNVmlvTWxGbGdmYU5VSGo0N0tDSHlILTNDZ3J0ZDNlWkJqQ0RHOHJnZmtfTVZDYnlWZGVYa1dhVHM4OEE1cjFSdlNuQ1RwTHY5UUwwOFJITXBOalZxODRlMl9tMFk3a05aV0hkREE5aV91VERuekJxUQ",
       "title": "The hidden extra cost of losing PIP benefits - The i Paper",
@@ -1054,117 +1156,7 @@
       "summary": "DWP reveals 4 rules that mean pensioners must give back £300  AOL.co.uk",
       "category": "DWP",
       "ago": "3d ago"
-    },
-    {
-      "id": "CBMi_wFBVV95cUxQSU0yQWJMbXJtd1VFWE93RDNyUWdyTlphNnNILTBzdnBIaUt0cWdscTlsV1ktQWhFZVdFYTJHMXFOMThjUzhVeFJWOHE4YjZVQWI3c3NMQmhWT0tWc09SUUZmWVBmdWh5UDd0T3hoaHp2MzRZeXJfRW4zNXpXZGhTNjlReW1WdGQ2VTc5eUdsYXVRTk13MjliY0ZWd2Y5aURzcWVUNU1VUl9FTUVTZEEtVzRWRktYcXkxOS04S0sxaDlJbzB0VkhJd0dnbDJONGVwcVh0VDNka0pjSENPaHB2Yl9pM2YwcUpYS18tRUxObmdEX2k4b0VUVXo1V2dwclk",
-      "title": "Universal Credit quarterly statistics, 29 April 2013 to 13 August 2026 - GOV.UK",
-      "link": "https://news.google.com/rss/articles/CBMi_wFBVV95cUxQSU0yQWJMbXJtd1VFWE93RDNyUWdyTlphNnNILTBzdnBIaUt0cWdscTlsV1ktQWhFZVdFYTJHMXFOMThjUzhVeFJWOHE4YjZVQWI3c3NMQmhWT0tWc09SUUZmWVBmdWh5UDd0T3hoaHp2MzRZeXJfRW4zNXpXZGhTNjlReW1WdGQ2VTc5eUdsYXVRTk13MjliY0ZWd2Y5aURzcWVUNU1VUl9FTUVTZEEtVzRWRktYcXkxOS04S0sxaDlJbzB0VkhJd0dnbDJONGVwcVh0VDNka0pjSENPaHB2Yl9pM2YwcUpYS18tRUxObmdEX2k4b0VUVXo1V2dwclk?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-11-17T10:16:58.000Z",
-      "summary": "Universal Credit quarterly statistics, 29 April 2013 to 13 August 2026  GOV.UK",
-      "category": "UC",
-      "ago": "0d ago"
-    },
-    {
-      "id": "CBMinwFBVV95cUxPTVB2aFgzNEhvMloxVng3c3diZWFRUXZMSFQ3YWRBTDN2R2Jmc3hVR2J4ZEdtYjhITE15VkZ4RDgxMjRqbXpQUXFSNl9neXNwbnYyajNrSklBSlJVUGlnNTR2RzlEek9zc0g0WGhmeGdjS3lJTGp6NTUtVlppTmw0RlFKdUtoN2Y0WjBXQnBYYURHTEZHYnZtQUEwVnV5YU0",
-      "title": "DWP State pensioners over 80 to get extra cash boost on top of £374 annual rise - East Anglian Daily Times",
-      "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPTVB2aFgzNEhvMloxVng3c3diZWFRUXZMSFQ3YWRBTDN2R2Jmc3hVR2J4ZEdtYjhITE15VkZ4RDgxMjRqbXpQUXFSNl9neXNwbnYyajNrSklBSlJVUGlnNTR2RzlEek9zc0g0WGhmeGdjS3lJTGp6NTUtVlppTmw0RlFKdUtoN2Y0WjBXQnBYYURHTEZHYnZtQUEwVnV5YU0?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-11-17T09:49:29.000Z",
-      "summary": "DWP State pensioners over 80 to get extra cash boost on top of £374 annual rise  East Anglian Daily Times",
-      "category": "DWP",
-      "ago": "3d ago"
-    },
-    {
-      "id": "CBMidkFVX3lxTE1fLVdRSzJqRXZIQ0JacWtHZklzRDdZZUZkQjJjdVVWLV9oN1pCaDFmaDlBMk1WV19NVWJmWTU3WGppdzVkX2VacERlR0dqNklFbVFSYlp1emZJRHM5ZnF2akNWV3dEWlFXeWZCM3lHMzFyYzVmZWc",
-      "title": "DWP confirms £1,086.36 state pension change - full list of new rates - AOL.co.uk",
-      "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE1fLVdRSzJqRXZIQ0JacWtHZklzRDdZZUZkQjJjdVVWLV9oN1pCaDFmaDlBMk1WV19NVWJmWTU3WGppdzVkX2VacERlR0dqNklFbVFSYlp1emZJRHM5ZnF2akNWV3dEWlFXeWZCM3lHMzFyYzVmZWc?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-11-17T09:30:04.000Z",
-      "summary": "DWP confirms £1,086.36 state pension change - full list of new rates  AOL.co.uk",
-      "category": "DWP",
-      "ago": "1d ago"
-    },
-    {
-      "id": "CBMikAFBVV95cUxQdk9VRFhDYkNwRlptYXNUWmNXMGpxT3V2N3RlWHNqTXIzbTROd0YzLTlURklMbTZqMmZzTlB0NVBFOVpqcVFxVnlFVjBDcUQxcWpiYWNZemQ4cTkzV1Rqd3VTcXNqYU5VbWNOMDdBLWNndmFUekYwREZoaVJpb1MzLWl2SWZuYXk0MGRGS1QtUU4",
-      "title": "Youth unemployment plan could cut welfare bill before election, says Milburn, but overall savings will take years – UK politics live - cedarnews.net",
-      "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQdk9VRFhDYkNwRlptYXNUWmNXMGpxT3V2N3RlWHNqTXIzbTROd0YzLTlURklMbTZqMmZzTlB0NVBFOVpqcVFxVnlFVjBDcUQxcWpiYWNZemQ4cTkzV1Rqd3VTcXNqYU5VbWNOMDdBLWNndmFUekYwREZoaVJpb1MzLWl2SWZuYXk0MGRGS1QtUU4?oc=5",
-      "source": "Google News",
-      "outlet": "Google News Welfare Bill",
-      "published": "2026-11-17T09:11:21.000Z",
-      "summary": "Youth unemployment plan could cut welfare bill before election, says Milburn, but overall savings will take years – UK politics live  cedarnews.net",
-      "category": "Budget",
-      "ago": "0d ago"
-    },
-    {
-      "id": "CBMioAFBVV95cUxPNW03LXBfX0lNVlhZOEZBRTZoa2tkZk5sUm1QNS1iN0ZraExOSnhXclViRVRmQmstcThvcDlIWThmdDZuWFV3QWhKYXpWb3VQWVB5RURpSGEwc0tKcDd5OFJtU1dXemZPQmNWbDMxODFrWXlXejNMWTFsZmJjS1JJMkJKUVptX1R6SVVwWkJEVmQ0bGF5OWZpbVhVZlB2Wjg1",
-      "title": "DWP state pensioners to get extra cash boost on top of £374 annual rise - EDP24",
-      "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPNW03LXBfX0lNVlhZOEZBRTZoa2tkZk5sUm1QNS1iN0ZraExOSnhXclViRVRmQmstcThvcDlIWThmdDZuWFV3QWhKYXpWb3VQWVB5RURpSGEwc0tKcDd5OFJtU1dXemZPQmNWbDMxODFrWXlXejNMWTFsZmJjS1JJMkJKUVptX1R6SVVwWkJEVmQ0bGF5OWZpbVhVZlB2Wjg1?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-11-17T09:00:00.000Z",
-      "summary": "DWP state pensioners to get extra cash boost on top of £374 annual rise  EDP24",
-      "category": "DWP",
-      "ago": "0d ago"
-    },
-    {
-      "id": "CBMi1gFBVV95cUxNTW1IblcxbnY1aXhMTWY2RjdHczFtelByU2RKYkkzZmZBbXVMMEljaXI2ZGxPNVdDNEZxZVpVTl9OTlZVVG5NY3M0cUpjQzNPQmlZQ2Y2TTJzQWprWkk3emhJdTVwS2hvOWNLaDB3WDJqYTB0Wk10YVptVWNRMFc1Zm9uR2F2VnpNUnEwaTFpbmgyaV9JZTdURnl5eS1pRHM2LUgxUTZpZUlMNmVHM0NXRGlVcUxVX0pFYmFUcHJtbHV3RTM2OVVYbFNvWjV4aUpCcXNFd2J3",
-      "title": "Andy Burnham kicking can down road on UK's ruinous benefits bill: Andrew Vine - Yorkshire Post",
-      "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNTW1IblcxbnY1aXhMTWY2RjdHczFtelByU2RKYkkzZmZBbXVMMEljaXI2ZGxPNVdDNEZxZVpVTl9OTlZVVG5NY3M0cUpjQzNPQmlZQ2Y2TTJzQWprWkk3emhJdTVwS2hvOWNLaDB3WDJqYTB0Wk10YVptVWNRMFc1Zm9uR2F2VnpNUnEwaTFpbmgyaV9JZTdURnl5eS1pRHM2LUgxUTZpZUlMNmVHM0NXRGlVcUxVX0pFYmFUcHJtbHV3RTM2OVVYbFNvWjV4aUpCcXNFd2J3?oc=5",
-      "source": "Google News",
-      "outlet": "Google News Welfare Bill",
-      "published": "2026-11-17T05:45:00.000Z",
-      "summary": "Andy Burnham kicking can down road on UK's ruinous benefits bill: Andrew Vine  Yorkshire Post",
-      "category": "Budget",
-      "ago": "0d ago"
-    },
-    {
-      "id": "CBMifEFVX3lxTFBsVkc3T3dpNVdIZ2RJY18yTG02cktaTlVsMEh3a1hSSnJRb1FOSHI2U2VnWklrbEJXTWdnSEM2Wlh2S0tvdFFBQmxULVQ5cW1IbUdaaVFGOFJBNDlMMGsyNFBWXy03dDVsZG5jNVlKNlNnMGVoZnV3Y0ptRG4",
-      "title": "My month on universal credit with disabled sons – there’s no money left over - The i Paper",
-      "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTFBsVkc3T3dpNVdIZ2RJY18yTG02cktaTlVsMEh3a1hSSnJRb1FOSHI2U2VnWklrbEJXTWdnSEM2Wlh2S0tvdFFBQmxULVQ5cW1IbUdaaVFGOFJBNDlMMGsyNFBWXy03dDVsZG5jNVlKNlNnMGVoZnV3Y0ptRG4?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-11-16T17:56:11.000Z",
-      "summary": "My month on universal credit with disabled sons – there’s no money left over  The i Paper",
-      "category": "UC",
-      "ago": "1d ago"
-    },
-    {
-      "id": "CBMi0AFBVV95cUxPeUhVZ09RMzlpVWw0b0JvM1E0Yi1MWlM3X3Bqclg2dTZzYzQ1RFFGSldJNThYeURWVDlsY051RjA5aEd0eHhMMFdJeUxGbHVQVTY5RkRneF91N1VSMzRnUlAtTWV1RjdTNmZ0cG01SUlvNm1sVUU0Szg5bXJCd29qYU1kcFZ4anJ4M2hTWC1jd3Jud1FNX3dZWGh2eUR6UTM4N1pjWlB3ekZETnJkeXc4YVU2Rk15eFRyeFVQa29sSjlrVEVTQzNWNWZraDlldUs5",
-      "title": "These include Personal Independence Payment (PIP) and the State Pension. - Facebook",
-      "link": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxPeUhVZ09RMzlpVWw0b0JvM1E0Yi1MWlM3X3Bqclg2dTZzYzQ1RFFGSldJNThYeURWVDlsY051RjA5aEd0eHhMMFdJeUxGbHVQVTY5RkRneF91N1VSMzRnUlAtTWV1RjdTNmZ0cG01SUlvNm1sVUU0Szg5bXJCd29qYU1kcFZ4anJ4M2hTWC1jd3Jud1FNX3dZWGh2eUR6UTM4N1pjWlB3ekZETnJkeXc4YVU2Rk15eFRyeFVQa29sSjlrVEVTQzNWNWZraDlldUs5?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-11-16T16:31:01.000Z",
-      "summary": "These include Personal Independence Payment (PIP) and the State Pension.  Facebook",
-      "category": "PIP",
-      "ago": "1d ago"
-    },
-    {
-      "id": "CBMitgFBVV95cUxNTlRqOFhacDNVa254SG04UmVTRmhJSDJNUnVhb01JMDVZTUFMR2Q2QXRRZWctakNKY0w4djRLdEJLYVF6WUhfLWhiaXFXRDIzenFjZUJIZVFaOXg2NHFEWjZTTFJMSUR4aDRlaGN4YXQzUDBpMmRzaVBocVE1TzZyZVR3Yl9WM3hxaHl2Wnh0UnpuU21HakFXcXhOY1RILUp1QlpzdGNYLVh0Sm9zNlcxc04yZmwyUQ",
-      "title": "Ministers brace for Labour civil war with left-wingers over slashing Britain’s ballooning benefits bill - The Sun",
-      "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNTlRqOFhacDNVa254SG04UmVTRmhJSDJNUnVhb01JMDVZTUFMR2Q2QXRRZWctakNKY0w4djRLdEJLYVF6WUhfLWhiaXFXRDIzenFjZUJIZVFaOXg2NHFEWjZTTFJMSUR4aDRlaGN4YXQzUDBpMmRzaVBocVE1TzZyZVR3Yl9WM3hxaHl2Wnh0UnpuU21HakFXcXhOY1RILUp1QlpzdGNYLVh0Sm9zNlcxc04yZmwyUQ?oc=5",
-      "source": "Google News",
-      "outlet": "Google News Welfare Bill",
-      "published": "2026-11-16T15:19:00.000Z",
-      "summary": "Ministers brace for Labour civil war with left-wingers over slashing Britain’s ballooning benefits bill  The Sun",
-      "category": "Budget",
-      "ago": "1d ago"
-    },
-    {
-      "id": "CBMivgFBVV95cUxPR2RVZGRGN3RneTNpZXBmUlFzdFNjbWVJVlZzUDFqSmhiRENMdjZFWjlhR2plaXVCSWwyZmYtS1hfeW9ZSlRucFZ2YWdmRjU1UExpOHlRNmNFd1A4OUVwa0t1Rkh3R3lqSFJDYlFiWmdibXlFY3NIOHUxNDhLUWVRNmU4MUV2YnRJMTVLbDNTNTNRWnoxM0xIb25fX3NXbTlFa0pkWkEwTWRtYXdUdFZ0QzZ2NmxORkI5R2JxMlhB",
-      "title": "Gratton wins thriller as Ireland pip England at Masters International Dublin - Athletics Weekly",
-      "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPR2RVZGRGN3RneTNpZXBmUlFzdFNjbWVJVlZzUDFqSmhiRENMdjZFWjlhR2plaXVCSWwyZmYtS1hfeW9ZSlRucFZ2YWdmRjU1UExpOHlRNmNFd1A4OUVwa0t1Rkh3R3lqSFJDYlFiWmdibXlFY3NIOHUxNDhLUWVRNmU4MUV2YnRJMTVLbDNTNTNRWnoxM0xIb25fX3NXbTlFa0pkWkEwTWRtYXdUdFZ0QzZ2NmxORkI5R2JxMlhB?oc=5",
-      "source": "Google News",
-      "outlet": "Google News DWP Welfare",
-      "published": "2026-11-16T13:18:43.000Z",
-      "summary": "Gratton wins thriller as Ireland pip England at Masters International Dublin  Athletics Weekly",
-      "category": "PIP",
-      "ago": "0d ago"
     }
   ],
-  "lastUpdated": "2026-11-26T17:36:57.341Z"
+  "lastUpdated": "2026-11-27T17:18:31.868Z"
 }
